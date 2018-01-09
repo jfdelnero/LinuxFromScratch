@@ -1,0 +1,2 @@
+LABEL=/         /       ext4    defaults    1   1
+proc		/proc	proc	defaults    0	0
