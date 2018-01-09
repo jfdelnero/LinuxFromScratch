@@ -30,6 +30,8 @@ else
 		export PATH="${PATH}:${CROSS_COMPILER_TOOLS}/bin"
 		export BUILDMACH=$MACHTYPE
 
+		export NBCORE=-j`nproc`
+
 		clear
 		echo "* $TARGET_NAME Environnement set ! *"
 

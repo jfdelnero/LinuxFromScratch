@@ -49,8 +49,8 @@ then
 				--host=$TGT_MACH \
 				MAKEINFO="${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER}/makeinfo" \
 				|| exit 1
-		make all || exit 1
-		make install || exit 1
+		make ${NBCORE} all     || exit 1
+		make ${NBCORE} install || exit 1
 
 		echo "" > ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE
 
@@ -89,8 +89,8 @@ then
 				CFLAGS=-DIOV_MAX=1024 \
 				--target=$TGT_MACH || exit 1
 
-		make all || exit 1
-		make install || exit 1
+		make ${NBCORE} all     || exit 1
+		make ${NBCORE} install || exit 1
 
 		echo "" > ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE
 

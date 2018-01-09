@@ -28,7 +28,7 @@ then
 		unpack ${CUR_PACKAGE} ""
 		cd ${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER} || exit 1
 
-		make CC=${TGT_MACH}-gcc || exit 1
+		make ${NBCORE} CC=${TGT_MACH}-gcc   || exit 1
 		cp vsftpd ${TARGET_ROOTFS}/usr/sbin || exit 1
 		cp vsftpd.conf ${TARGET_ROOTFS}/etc || exit 1
 
@@ -62,8 +62,8 @@ then
 				--host=$TGT_MACH \
 				--target=$TGT_MACH || exit 1
 
-		make  || exit 1
-		make install || exit 1
+		make ${NBCORE}         || exit 1
+		make ${NBCORE} install || exit 1
 
 		echo "" > ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE
 
@@ -95,8 +95,8 @@ then
 				--target=$TGT_MACH \
 				CFLAGS=-DMB_LEN_MAX=16 || exit 1
 
-		make LD=${TGT_MACH}-gcc  || exit 1
-		make DESTDIR=${TARGET_ROOTFS} STRIP_OPT= install || exit 1
+		make ${NBCORE} LD=${TGT_MACH}-gcc                          || exit 1
+		make ${NBCORE} DESTDIR=${TARGET_ROOTFS} STRIP_OPT= install || exit 1
 
 		echo "" > ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE
 

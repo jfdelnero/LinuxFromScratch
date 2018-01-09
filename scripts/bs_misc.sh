@@ -38,8 +38,8 @@ then
 				--target=$TGT_MACH \
 				|| exit 1
 
-		make || exit 1
-		make install || exit 1
+		make ${NBCORE}         || exit 1
+		make ${NBCORE} install || exit 1
 
 		echo "" > ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE
 
@@ -73,8 +73,8 @@ then
 		cat "Makefile" | sed s#-g\ root\ -o\ root##g > "Makefile_new" || exit 1
 		cp Makefile_new Makefile
 
-		make || exit 1
-		make install  || exit 1
+		make ${NBCORE}          || exit 1
+		make ${NBCORE} install  || exit 1
 
 		echo "" > ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE
 

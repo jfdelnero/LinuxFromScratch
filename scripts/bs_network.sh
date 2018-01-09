@@ -37,8 +37,8 @@ then
 				--host=$TGT_MACH \
 				--target=$TGT_MACH || exit 1
 
-		make  || exit 1
-		make install || exit 1
+		make ${NBCORE}         || exit 1
+		make ${NBCORE} install || exit 1
 
 		echo "" > ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE
 
@@ -73,8 +73,8 @@ then
 				--host=$TGT_MACH \
 				--target=$TGT_MACH || exit 1
 
-		make  || exit 1
-		make install || exit 1
+		make ${NBCORE}         || exit 1
+		make ${NBCORE} install || exit 1
 
 		echo "" > ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE
 
@@ -111,8 +111,8 @@ then
 				CFLAGS=-DPATH_MAX=4096 \
 				LDFLAGS="${TARGET_ROOTFS}/lib/libmnl.so  ${TARGET_ROOTFS}/lib/libnftnl.so"  || exit 1
 
-		make  || exit 1
-		make install || exit 1
+		make ${NBCORE}  || exit 1
+		make ${NBCORE} install || exit 1
 
 		echo "" > ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE
 
@@ -154,8 +154,8 @@ then
 				CFLAGS="-DMAX_PATH=4096 -DMB_LEN_MAX=16"\
 				--with-yielding-select=yes || exit 1
 
-		make  || exit 1
-		make install || exit 1
+		make ${NBCORE}         || exit 1
+		make ${NBCORE} install || exit 1
 
 		echo "" > ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE
 
@@ -191,8 +191,8 @@ then
 		export TARGET_DIR=${TARGET_ROOTFS}
 		export PREFIX=${TARGET_ROOTFS}
 
-		make CC=${LFS_TGT}-gcc || exit 1
-		make install CC=${LFS_TGT}-gcc || exit 1
+		make ${NBCORE} CC=${LFS_TGT}-gcc         || exit 1
+		make ${NBCORE} install CC=${LFS_TGT}-gcc || exit 1
 
 		echo "" > ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE
 
@@ -223,11 +223,11 @@ then
 				|| exit 1
 
 
-		make           || exit 1
-		make install   || exit 1
+		make ${NBCORE}           || exit 1
+		make ${NBCORE} install   || exit 1
 
 		cd include     || exit 1
-		make install   || exit 1
+		make ${NBCORE} install   || exit 1
 
 		echo "" > ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE
 
@@ -257,8 +257,8 @@ then
 				CFLAGS="-DNAME_MAX=255"\
 				|| exit 1
 
-		make           || exit 1
-		make install   || exit 1
+		make ${NBCORE}           || exit 1
+		make ${NBCORE} install   || exit 1
 
 		echo "" > ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE
 
@@ -284,7 +284,7 @@ then
 
 		export PKG_CONFIG_PATH=${TARGET_ROOTFS}/lib/pkgconfig
 
-		make CC=${TGT_MACH}-gcc                      || exit 1
+		make ${NBCORE} CC=${TGT_MACH}-gcc                      || exit 1
 		cp iw ${TARGET_ROOTFS}/sbin/                || exit 1
 
 		echo "" > ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE
@@ -317,8 +317,8 @@ then
 		export INCDIR=/include/
 		export BINDIR=/sbin/
 
-		make CC=${TGT_MACH}-gcc LDFLAGS+=-ldl || exit 1
-		make install DESTDIR=${TARGET_ROOTFS} || exit 1
+		make ${NBCORE} CC=${TGT_MACH}-gcc LDFLAGS+=-ldl || exit 1
+		make ${NBCORE} install DESTDIR=${TARGET_ROOTFS} || exit 1
 
 		echo "" > ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE
 
@@ -350,8 +350,8 @@ then
 		export INCDIR=/include/
 		export BINDIR=/sbin/
 
-		make CC=${TGT_MACH}-gcc LDFLAGS+=-ldl || exit 1
-		make install DESTDIR=${TARGET_ROOTFS} || exit 1
+		make ${NBCORE} CC=${TGT_MACH}-gcc LDFLAGS+=-ldl || exit 1
+		make ${NBCORE} install DESTDIR=${TARGET_ROOTFS} || exit 1
 
 		echo "" > ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE
 
@@ -375,8 +375,8 @@ then
 
 		cd ${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER} || exit 1
 
-		make CC=${TGT_MACH}-gcc                      || exit 1
-		make install PREFIX=${TARGET_ROOTFS}
+		make ${NBCORE} CC=${TGT_MACH}-gcc              || exit 1
+		make ${NBCORE} install PREFIX=${TARGET_ROOTFS}
 
 		echo "" > ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE
 

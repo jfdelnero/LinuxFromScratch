@@ -39,8 +39,8 @@ then
 				--enable-install-test-programs \
 				|| exit 1
 
-		make all || exit 1
-		make install || exit 1
+		make ${NBCORE} all     || exit 1
+		make ${NBCORE} install || exit 1
 
 		echo "" > ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE
 
@@ -99,8 +99,8 @@ then
 
 		#--with-platforms=wayland,drm,surfaceless \
 
-		make all || exit 1
-		make install || exit 1
+		make ${NBCORE} all     || exit 1
+		make ${NBCORE} install || exit 1
 
 		echo "" > ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE
 
@@ -164,8 +164,8 @@ then
 
 		#--with-platforms=wayland,drm,surfaceless \
 
-		make all || exit 1
-		make install || exit 1
+		make ${NBCORE} all     || exit 1
+		make ${NBCORE} install || exit 1
 
 		echo "" > ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE
 
@@ -196,8 +196,8 @@ then
 		cat "./config/Makefile.linux" | sed s#\-Wl\,##g > "./config/Makefile.linux_" || exit 1
 		cp ./config/Makefile.linux_ ./config/Makefile.linux  || exit 1
 
-		make STRIP=${TGT_MACH}-strip CC=${TGT_MACH}-gcc LD=${TGT_MACH}-ld AR=${TGT_MACH}-ar AS=${TGT_MACH}-as  SYSTEM=linux-osmesa || exit 1
-		make install STRIP=${TGT_MACH}-strip CC=${TGT_MACH}-gcc LD=${TGT_MACH}-ld AR=${TGT_MACH}-ar AS=${TGT_MACH}-as  SYSTEM=linux-osmesa || exit 1
+		make ${NBCORE} STRIP=${TGT_MACH}-strip CC=${TGT_MACH}-gcc LD=${TGT_MACH}-ld AR=${TGT_MACH}-ar AS=${TGT_MACH}-as  SYSTEM=linux-osmesa         || exit 1
+		make ${NBCORE} install STRIP=${TGT_MACH}-strip CC=${TGT_MACH}-gcc LD=${TGT_MACH}-ld AR=${TGT_MACH}-ar AS=${TGT_MACH}-as  SYSTEM=linux-osmesa || exit 1
 
 		echo "" > ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE
 
@@ -232,8 +232,8 @@ then
 			--host=${TGT_MACH} \
 			--enable-osmesa || exit 1
 
-		make || exit 1
-		make install || exit 1
+		make ${NBCORE}         || exit 1
+		make ${NBCORE} install || exit 1
 
 		echo "" > ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE
 
@@ -257,9 +257,9 @@ then
 
 		cd ${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER} || exit 1
 
-		make configure STRIP=${TGT_MACH}-strip CC=${TGT_MACH}-gcc LD=${TGT_MACH}-ld AR=${TGT_MACH}-ar AS=${TGT_MACH}-as  linux-osmesa || exit 1
-		make STRIP=${TGT_MACH}-strip CC=${TGT_MACH}-gcc LD=${TGT_MACH}-ld AR=${TGT_MACH}-ar AS=${TGT_MACH}-as  linux-osmesa || exit 1
-		make install STRIP=${TGT_MACH}-strip CC=${TGT_MACH}-gcc LD=${TGT_MACH}-ld AR=${TGT_MACH}-ar AS=${TGT_MACH}-as  linux-osmesa || exit 1
+		make ${NBCORE} configure STRIP=${TGT_MACH}-strip CC=${TGT_MACH}-gcc LD=${TGT_MACH}-ld AR=${TGT_MACH}-ar AS=${TGT_MACH}-as  linux-osmesa || exit 1
+		make ${NBCORE} STRIP=${TGT_MACH}-strip CC=${TGT_MACH}-gcc LD=${TGT_MACH}-ld AR=${TGT_MACH}-ar AS=${TGT_MACH}-as  linux-osmesa           || exit 1
+		make ${NBCORE} install STRIP=${TGT_MACH}-strip CC=${TGT_MACH}-gcc LD=${TGT_MACH}-ld AR=${TGT_MACH}-ar AS=${TGT_MACH}-as  linux-osmesa   || exit 1
 
 		echo "" > ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE
 
@@ -290,8 +290,8 @@ then
 				--host=$TGT_MACH \
 				--without-png || exit 1
 
-		make || exit 1
-		make install || exit 1
+		make ${NBCORE}         || exit 1
+		make ${NBCORE} install || exit 1
 
 		echo "" > ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE
 
@@ -331,8 +331,8 @@ then
 			--without-python \
 			--enable-libxml2 || exit 1
 
-		make || exit 1
-		make install || exit 1
+		make ${NBCORE}         || exit 1
+		make ${NBCORE} install || exit 1
 
 		echo "" > ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE
 
@@ -394,8 +394,8 @@ then
 					CFLAGS="-DMESA_EGL_NO_X11_HEADERS" \
 					 || exit 1
 
-		make || exit 1
-		make install || exit 1
+		make ${NBCORE}         || exit 1
+		make ${NBCORE} install || exit 1
 
 		echo "" > ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE
 
@@ -450,8 +450,8 @@ then
  				--disable-pulseaudio \
  				CFLAGS="-DPATH_MAX=4096 -DSDL_DIRECTFB_OPENGL" || exit 1
 
-		make || exit 1
-		make install || exit 1
+		make ${NBCORE}         || exit 1
+		make ${NBCORE} install || exit 1
 
 		echo "" > ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE
 
@@ -490,8 +490,8 @@ then
 				--with-freetype-prefix="${TARGET_ROOTFS}" \
 				CFLAGS=-DPATH_MAX=4096 || exit 1
 
-		make || exit 1
-		make install || exit 1
+		make ${NBCORE}         || exit 1
+		make ${NBCORE} install || exit 1
 
 		echo "" > ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE
 

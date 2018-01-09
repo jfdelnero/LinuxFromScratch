@@ -38,8 +38,8 @@ then
 
 		${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER}/configure --prefix="${TARGET_ROOTFS}" || exit 1
 
-		make  || exit 1
-		make install || exit 1
+		make ${NBCORE}         || exit 1
+		make ${NBCORE} install || exit 1
 
 		echo "" > ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE
 
@@ -67,8 +67,8 @@ then
 
 		${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER}/configure --prefix="${TARGET_ROOTFS}" --host=$TGT_MACH CC=${TGT_MACH}-gcc || exit 1
 
-		make all || exit 1
-		make install || exit 1
+		make ${NBCORE} all     || exit 1
+		make ${NBCORE} install || exit 1
 
 		echo "" > ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE
 
@@ -97,8 +97,8 @@ then
 
 		${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER}/configure --prefix="${TARGET_ROOTFS}" --host=$TGT_MACH CC=${TGT_MACH}-gcc --without-python || exit 1
 
-		make || exit 1
-		make install || exit 1
+		make ${NBCORE}         || exit 1
+		make ${NBCORE} install || exit 1
 
 		echo "" > ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE
 
@@ -136,8 +136,8 @@ then
 
 		${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER}/configure  --host=$TGT_MACH --prefix="${TARGET_ROOTFS}" || exit 1
 
-		make || exit 1
-		make install || exit 1
+		make ${NBCORE}         || exit 1
+		make ${NBCORE} install || exit 1
 
 		echo "" > ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE
 
@@ -169,8 +169,8 @@ then
 
 		${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER}/Configure ${SSL_ARCH} shared --prefix="${TARGET_ROOTFS}" || exit 1
 
-		make || exit 1
-		make install || exit 1
+		make ${NBCORE}         || exit 1
+		make ${NBCORE} install || exit 1
 
 		echo "" > ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE
 
@@ -200,8 +200,8 @@ then
 
 		${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER}/configure --host=$TGT_MACH --prefix="${TARGET_ROOTFS}" || exit 1
 
-		make  || exit 1
-		make install || exit 1
+		make ${NBCORE}         || exit 1
+		make ${NBCORE} install || exit 1
 
 		echo "" > ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE
 

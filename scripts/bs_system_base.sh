@@ -42,7 +42,7 @@ then
 				--disable-multilib \
 				|| exit 1
 
-		make all install || exit 1
+		make ${NBCORE} all install || exit 1
 
 
 		echo "" > ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE
@@ -84,12 +84,12 @@ then
 		cd ${BASE_DIR}/sources/${TARGET_NAME}/
 		cd ${BASE_DIR}/sources/${TARGET_NAME}/linux-kernel || exit 1
 
-		make ARCH=${KERNEL_ARCH} CROSS_COMPILE=${TGT_MACH}- mrproper || exit 1
-		make ARCH=${KERNEL_ARCH} CROSS_COMPILE=${TGT_MACH}- distclean || exit 1
+		make ${NBCORE} ARCH=${KERNEL_ARCH} CROSS_COMPILE=${TGT_MACH}- mrproper || exit 1
+		make ${NBCORE} ARCH=${KERNEL_ARCH} CROSS_COMPILE=${TGT_MACH}- distclean || exit 1
 
 		cp ${BASE_DIR}/configs/${TARGET_NAME}/kernel_config .config || exit 1
-		make ARCH=${KERNEL_ARCH} CROSS_COMPILE=${TGT_MACH}- headers_check || exit 1
-		make ARCH=${KERNEL_ARCH} CROSS_COMPILE=${TGT_MACH}- INSTALL_HDR_PATH="${TARGET_ROOTFS}" headers_install || exit 1
+		make ${NBCORE} ARCH=${KERNEL_ARCH} CROSS_COMPILE=${TGT_MACH}- headers_check || exit 1
+		make ${NBCORE} ARCH=${KERNEL_ARCH} CROSS_COMPILE=${TGT_MACH}- INSTALL_HDR_PATH="${TARGET_ROOTFS}" headers_install || exit 1
 
 		echo "" > ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE
 	) || exit 1
@@ -150,8 +150,8 @@ then
 		echo > ${TARGET_ROOTFS}/include/limits.h
 		ln -s ${TARGET_ROOTFS}/include ${TARGET_ROOTFS}/sys-include
 
-		make -j4 all-gcc || exit 1
-		make install-gcc|| exit 1
+		make ${NBCORE} all-gcc || exit 1
+		make ${NBCORE} install-gcc|| exit 1
 
 		rm ${TARGET_ROOTFS}/sys-include
 
@@ -195,9 +195,9 @@ then
 				libc_cv_forced_unwind=yes \
 				libc_cv_c_cleanup=yes || exit 1
 
-		make install_root=${TARGET_ROOTFS} install-bootstrap-headers=yes install-headers  || exit 1
-		make install_root=${TARGET_ROOTFS} -j4 csu/subdir_lib                             || exit 1
-		install csu/crt1.o csu/crti.o csu/crtn.o "${TARGET_ROOTFS}/lib"                   || exit 1
+		make ${NBCORE} install_root=${TARGET_ROOTFS} install-bootstrap-headers=yes install-headers  || exit 1
+		make ${NBCORE} install_root=${TARGET_ROOTFS} csu/subdir_lib                                 || exit 1
+		install csu/crt1.o csu/crti.o csu/crtn.o "${TARGET_ROOTFS}/lib"                             || exit 1
 
 		${TGT_MACH}-gcc -nostdlib -nostartfiles -shared -x c /dev/null -o "${TARGET_ROOTFS}/lib/libc.so"
 		touch ${TARGET_ROOTFS}/include/gnu/stubs.h
@@ -226,8 +226,8 @@ then
 
 		cd  ${BASE_DIR}/build/$TARGET_NAME/gcc || exit 1
 
-		make -j4 all-target-libgcc || exit 1
-		make install-target-libgcc || exit 1
+		make ${NBCORE} all-target-libgcc || exit 1
+		make ${NBCORE} install-target-libgcc || exit 1
 
 		echo "" > ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_LIB_DONE
 
@@ -253,8 +253,8 @@ then
 
 		cd  ${BASE_DIR}/build/$TARGET_NAME/glibc || exit 1
 
-		make install_root=${TARGET_ROOTFS} -j4       || exit 1
-		make install_root=${TARGET_ROOTFS} install   || exit 1
+		make ${NBCORE} install_root=${TARGET_ROOTFS}           || exit 1
+		make ${NBCORE} install_root=${TARGET_ROOTFS} install   || exit 1
 
 		echo "" > ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_LIBC_DONE
 
@@ -279,8 +279,8 @@ then
 
 		cd  ${BASE_DIR}/build/$TARGET_NAME/gcc || exit 1
 
-		make -j4 all   || exit 1
-		make install   || exit 1
+		make ${NBCORE} all   || exit 1
+		make ${NBCORE} install   || exit 1
 
 		#FIXME ! C++ libs not in the root fs ?
 		cp  -aR  ${CROSS_COMPILER_TOOLS}/${TGT_MACH}/lib64/*   ${TARGET_ROOTFS}/lib
@@ -305,10 +305,10 @@ then
 	(
 		cd ${BASE_DIR}/sources/${TARGET_NAME}/linux-kernel || exit 1
 
-		#make ARCH=${KERNEL_ARCH} CROSS_COMPILE=${TGT_MACH}- menuconfig
+		#make ${NBCORE} ARCH=${KERNEL_ARCH} CROSS_COMPILE=${TGT_MACH}- menuconfig
 
-		make ${KERNEL_IMAGE_TYPE} modules dtbs ARCH=${KERNEL_ARCH} CROSS_COMPILE=${TGT_MACH}- ${KERNEL_ADD_OPTIONS} || exit 1
-		make modules_install ARCH=${KERNEL_ARCH}  INSTALL_MOD_PATH=${TARGET_ROOTFS} || exit 1
+		make ${NBCORE} ${KERNEL_IMAGE_TYPE} modules dtbs ARCH=${KERNEL_ARCH} CROSS_COMPILE=${TGT_MACH}- ${KERNEL_ADD_OPTIONS} || exit 1
+		make ${NBCORE} modules_install ARCH=${KERNEL_ARCH}  INSTALL_MOD_PATH=${TARGET_ROOTFS} || exit 1
 		#make ARCH=${KERNEL_ARCH} INSTALL_PATH=${TARGET_ROOTFS}/boot install
 
 		if [ -f ${BASE_DIR}/configs/${TARGET_NAME}/kernel_post_process.sh ]
