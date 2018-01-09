@@ -44,7 +44,7 @@ cp -R ${BASE_DIR}/configs/${TARGET_NAME}/rootfs_cfg/usr/* ./usr/
 
 chmod +x ./etc/init.d/rcS
 chmod +x ./usr/share/udhcpc/*
-chmod go-rxw ./etc/ssh_host_rsa_key
+chmod go-rxw ./etc/ssh/ssh_host_*_key
 
 mkdir ramdisk
 mkdir mnt/tmp
