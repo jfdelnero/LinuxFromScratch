@@ -42,7 +42,7 @@ then
 				--disable-multilib \
 				|| exit 1
 
-		make ${NBCORE} all install || exit 1
+		make  all install || exit 1
 
 
 		echo "" > ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE
