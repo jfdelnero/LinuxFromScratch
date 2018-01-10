@@ -65,11 +65,13 @@ SRC_PACKAGE_VSFTPD=vsftpd-3.0.3.tar.gz
 #SRC_PACKAGE_CVS=cvs-1.11.23.tar.gz
 
 # Graphic Stack
+SRC_PACKAGE_LIBPNG=libpng-1.6.34.tar.xz
 SRC_PACKAGE_LIBDRM=libdrm-2.4.88.tar.gz
 SRC_PACKAGE_MESALIMA=mesa-lima-lima-17.3.zip #SRC_PACKAGE_MESA=mesa-17.3.1.tar.gz
 SRC_PACKAGE_GLEW=glew-2.1.0.tgz
 SRC_PACKAGE_GLU=glu-9.0.0.tar.gz
 #SRC_PACKAGE_GLUT=glut.tar.gz
+#SRC_PACKAGE_LIBEPOXY=1.4.3.tar.gz
 
 SRC_PACKAGE_FREETYPE=freetype-2.8.1.tar.bz2
 SRC_PACKAGE_FONTCONFIG=fontconfig-2.12.4.tar.bz2

@@ -15,6 +15,39 @@ echo "* Graphic stack *"
 echo "*****************"
 
 ####################################################################
+# LibPNG
+####################################################################
+
+CUR_PACKAGE=${SRC_PACKAGE_LIBPNG:-"UNDEF"}
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE ]
+	then
+	(
+
+		unpack ${CUR_PACKAGE} ""
+
+		cd ${BASE_DIR}/build/${TARGET_NAME} || exit 1
+		mkdir libpng
+		cd libpng || exit 1
+
+		${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER}/configure \
+				--prefix="${TARGET_ROOTFS}" \
+				--host=$TGT_MACH CC=${TGT_MACH}-gcc \
+				|| exit 1
+
+		make ${NBCORE} all     || exit 1
+		make ${NBCORE} install || exit 1
+
+		echo "" > ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE
+
+	) || exit 1
+	fi
+) || exit 1
+fi
+
+####################################################################
 # LibDRM
 ####################################################################
 
@@ -153,17 +186,63 @@ then
 					--enable-gles2 \
 					--enable-egl \
 					--enable-gbm \
-					--enable-gallium-osmesa \
 					--disable-glx \
 					--enable-dri \
 					--disable-dri3 \
 					--with-platforms=drm,surfaceless \
-					--with-dri-drivers=swrast \
-					--with-gallium-drivers=lima,swrast \
+					--with-dri-drivers= \
+					--with-gallium-drivers=lima \
+					--with-egl-platforms=drm \
 					--enable-debug \
-					CFLAGS="-DHAVE_PIPE_LOADER_DRI -DHAVE_PIPE_LOADER_KMS" || exit 1
+					--disable-xvmc \
+					--disable-vdpau \
+					|| exit 1
+
+#					--enable-gallium-osmesa \
+#					--with-dri-drivers=swrast \
+#					--with-gallium-drivers=lima,swrast \
 
 		#--with-platforms=wayland,drm,surfaceless \
+
+		make ${NBCORE} all     || exit 1
+		make ${NBCORE} install || exit 1
+
+		echo "" > ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE
+
+	) || exit 1
+	fi
+) || exit 1
+fi
+
+####################################################################
+# LibEpoxy
+####################################################################
+
+CUR_PACKAGE=${SRC_PACKAGE_LIBEPOXY:-"UNDEF"}
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE ]
+	then
+	(
+
+		unpack ${CUR_PACKAGE} ""
+
+		cd ${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER} || exit 1
+
+		export PKG_CONFIG_PATH=${TARGET_ROOTFS}/lib/pkgconfig
+
+		./autogen.sh
+
+		cd ${BASE_DIR}/build/${TARGET_NAME} || exit 1
+		mkdir libepoxy
+		cd libepoxy || exit 1
+
+		${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER}/configure \
+				--prefix="${TARGET_ROOTFS}" \
+				--host=$TGT_MACH CC=${TGT_MACH}-gcc \
+				--disable-glx \
+				|| exit 1
 
 		make ${NBCORE} all     || exit 1
 		make ${NBCORE} install || exit 1

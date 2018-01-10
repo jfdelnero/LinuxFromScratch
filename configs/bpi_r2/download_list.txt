@@ -67,6 +67,10 @@ https://www.kernel.org/pub/software/network/rfkill/rfkill-0.5.tar.gz
 #
 # Graphic Stack
 #
+ftp://ftp-osl.osuosl.org/pub/libpng/src/libpng16/libpng-1.6.34.tar.xz
+#
+https://github.com/anholt/libepoxy/archive/1.4.3.tar.gz
+#
 https://dri.freedesktop.org/libdrm/libdrm-2.4.88.tar.gz
 https://mesa.freedesktop.org/archive/mesa-17.3.1.tar.gz
 https://downloads.sourceforge.net/project/glew/glew/2.1.0/glew-2.1.0.tgz
