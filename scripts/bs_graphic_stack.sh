@@ -160,6 +160,7 @@ then
 					--with-platforms=drm,surfaceless \
 					--with-dri-drivers=swrast \
 					--with-gallium-drivers=lima,swrast \
+					--enable-debug \
 					CFLAGS="-DHAVE_PIPE_LOADER_DRI -DHAVE_PIPE_LOADER_KMS" || exit 1
 
 		#--with-platforms=wayland,drm,surfaceless \
