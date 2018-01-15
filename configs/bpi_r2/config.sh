@@ -7,7 +7,7 @@
 #
 
 export KERNEL_ARCH=arm
-export TGT_MACH=armv7a-linux-gnueabi
+export TGT_MACH=armv7a-hardfloat-linux-gnueabi
 export SSL_ARCH=linux-armv4
 export GCC_ADD_CONF=""
 
