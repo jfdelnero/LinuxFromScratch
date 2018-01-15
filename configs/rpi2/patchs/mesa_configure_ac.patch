@@ -1,0 +1,23 @@
+--- configure.ac	2017-12-08 14:49:11.000000000 +0100
++++ configure.ac_new	2017-12-08 14:49:11.000000000 +0100
+@@ -1695,7 +1695,7 @@
+ fi
+ 
+ PKG_CHECK_MODULES([WAYLAND_SCANNER], [wayland-scanner],
+-        WAYLAND_SCANNER=`$PKG_CONFIG --variable=wayland_scanner wayland-scanner`,
++        WAYLAND_SCANNER=$WAYLAND_SCANNER_PATH,
+         WAYLAND_SCANNER='')
+ if test "x$WAYLAND_SCANNER" = x; then
+     AC_PATH_PROG([WAYLAND_SCANNER], [wayland-scanner], [:])
+--- configure	2017-12-27 12:48:36.203210065 +0100
++++ configure_new.bash	2017-12-27 12:47:13.847213737 +0100
+@@ -24678,7 +24678,7 @@
+ 	WAYLAND_SCANNER_LIBS=$pkg_cv_WAYLAND_SCANNER_LIBS
+         { $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
+ $as_echo "yes" >&6; }
+-	WAYLAND_SCANNER=`$PKG_CONFIG --variable=wayland_scanner wayland-scanner`
++	WAYLAND_SCANNER=$WAYLAND_SCANNER_PATH # `$PKG_CONFIG --variable=wayland_scanner wayland-scanner`
+ fi
+ if test "x$WAYLAND_SCANNER" = x; then
+     # Extract the first word of "wayland-scanner", so it can be a program name with args.
+

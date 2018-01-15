@@ -1,0 +1,16 @@
+nogroup:x:65534:
+root:x:0:root
+bin:x:1:root,bin,daemon
+daemon:x:2:root,bin,daemon
+sys:x:3:root,bin,adm
+adm:x:4:root,adm,daemon
+tty:x:5:
+disk:x:6:root
+mem:x:8:
+ftp:x:9:
+sshd:x:10:
+mail:x:12:mail
+video:x:44:
+users:x:100:
+samba:x:515:
+
