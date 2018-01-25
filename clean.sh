@@ -6,6 +6,8 @@
 # Clean up...
 #
 
+source ${BASE_DIR}/configs/${TARGET_NAME}/config.sh || exit 1
+
 CROSS_BUILD_SIGN=${CROSS_BUILD_SIGN:-"UNDEF"}
 
 if [ $CROSS_BUILD_SIGN != "CROSS_ENV_SET" ]; then
@@ -19,4 +21,7 @@ exit 2
 
 fi
 
-rm -Rf build sources targets
+echo Cleanup target ${TARGET_NAME}
+
+rm -Rf build/${TARGET_NAME} sources/${TARGET_NAME} targets/${TARGET_NAME}
+
