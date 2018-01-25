@@ -18,10 +18,6 @@ else
 
 	if [ -d "${PWD}/configs/${TARGET_NAME}" ]; then
 
-		chmod +x ${BASE_DIR}/configs/${TARGET_NAME}/*.sh
-		chmod +x ${BASE_DIR}/scripts/*.sh
-		chmod +x ${BASE_DIR}/*.sh
-
 		export CROSS_BUILD_SIGN="CROSS_ENV_SET"
 
 		export TARGET_ROOTFS="${PWD}/targets/${TARGET_NAME}/root-fs"
@@ -41,6 +37,10 @@ else
 
 		ls *.sh
 		echo
+
+		chmod +x ${BASE_DIR}/configs/${TARGET_NAME}/*.sh
+		chmod +x ${BASE_DIR}/scripts/*.sh
+		chmod +x ${BASE_DIR}/*.sh
 
 		bash
 
