@@ -6,8 +6,6 @@
 # Clean up...
 #
 
-source ${BASE_DIR}/configs/${TARGET_NAME}/config.sh || exit 1
-
 CROSS_BUILD_SIGN=${CROSS_BUILD_SIGN:-"UNDEF"}
 
 if [ $CROSS_BUILD_SIGN != "CROSS_ENV_SET" ]; then
@@ -20,6 +18,8 @@ echo "*******************************"
 exit 2
 
 fi
+
+source ${BASE_DIR}/configs/${TARGET_NAME}/config.sh || exit 1
 
 echo Cleanup target ${TARGET_NAME}
 
