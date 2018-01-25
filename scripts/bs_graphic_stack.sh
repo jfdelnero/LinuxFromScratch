@@ -189,9 +189,10 @@ then
 					--disable-glx \
 					--enable-dri \
 					--disable-dri3 \
+					--enable-gallium-osmesa \
 					--with-platforms=drm,surfaceless \
-					--with-dri-drivers= \
-					--with-gallium-drivers=lima \
+					--with-dri-drivers=swrast \
+					--with-gallium-drivers=lima,swrast \
 					--with-egl-platforms=drm \
 					--enable-debug \
 					--disable-xvmc \
