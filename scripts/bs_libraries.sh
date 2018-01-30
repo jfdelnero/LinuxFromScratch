@@ -165,12 +165,12 @@ then
 		export AS=${TGT_MACH}-as
 		export AR=${TGT_MACH}-ar
 
-		export CFLAGS=-fPIC
+		export PKG_CONFIG_PATH=${TARGET_ROOTFS}/lib/pkgconfig
 
 		${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER}/Configure ${SSL_ARCH} shared --prefix="${TARGET_ROOTFS}" || exit 1
 
-		make ${NBCORE}         || exit 1
-		make ${NBCORE} install || exit 1
+		make || exit 1
+		make install || exit 1
 
 		echo "" > ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE
 
