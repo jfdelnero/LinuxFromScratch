@@ -21,7 +21,7 @@ else
 		export CROSS_BUILD_SIGN="CROSS_ENV_SET"
 
 		export TARGET_ROOTFS="${PWD}/targets/${TARGET_NAME}/root-fs"
-		export CROSS_COMPILER_TOOLS="${TARGET_ROOTFS}/cross-tools"
+		export CROSS_COMPILER_TOOLS="${PWD}/targets/${TARGET_NAME}/cross-tools"
 
 		export BASE_DIR="${PWD}"
 

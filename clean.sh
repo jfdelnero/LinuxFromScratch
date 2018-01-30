@@ -19,4 +19,9 @@ exit 2
 
 fi
 
-rm -Rf build sources targets
+source ${BASE_DIR}/configs/${TARGET_NAME}/config.sh || exit 1
+
+echo Cleanup target ${TARGET_NAME}
+
+rm -Rf build/${TARGET_NAME} sources/${TARGET_NAME} targets/${TARGET_NAME}
+
