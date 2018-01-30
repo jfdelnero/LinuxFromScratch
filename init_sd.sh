@@ -25,15 +25,14 @@ echo $1
 
 gcc scripts/fix_bin_paths.c -o scripts/fix_bin_paths
 
-sudo rm -Rf sd_mirror
+rm -Rf ${BASE_DIR}/targets/${TARGET_NAME}/fs_mirror
 
-mkdir sd_mirror
+mkdir ${BASE_DIR}/targets/${TARGET_NAME}/fs_mirror
 
-cd sd_mirror/
-rm -Rf *
+cd ${BASE_DIR}/targets/${TARGET_NAME}/fs_mirror/
 cp -av ${TARGET_ROOTFS}/* .
 
-find . -type f -exec ../scripts/fix_bin_paths {} ${TARGET_ROOTFS} \;
+find . -type f -exec ${BASE_DIR}/scripts/fix_bin_paths {} ${TARGET_ROOTFS} \;
 
 chmod +x "./lib/libc.so" || exit 1
 chmod +x "./lib/libpthread.so" || exit 1
@@ -86,7 +85,7 @@ sudo mount $1 mount_point || exit 1
 
 cd mount_point
 
-sudo cp -av ../sd_mirror/* .
+sudo cp -av ../fs_mirror/* .
 
 sudo chown -R root *
 sudo chgrp -R root *
