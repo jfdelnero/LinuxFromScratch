@@ -25,11 +25,13 @@ echo $1
 
 gcc scripts/fix_bin_paths.c -o scripts/fix_bin_paths
 
-rm -Rf ${BASE_DIR}/targets/${TARGET_NAME}/fs_mirror
+export TARGET_ROOTFS_MIRROR=${BASE_DIR}/targets/${TARGET_NAME}/fs_mirror
 
-mkdir ${BASE_DIR}/targets/${TARGET_NAME}/fs_mirror
+rm -Rf ${TARGET_ROOTFS_MIRROR}
 
-cd ${BASE_DIR}/targets/${TARGET_NAME}/fs_mirror/
+mkdir  ${TARGET_ROOTFS_MIRROR}
+cd     ${TARGET_ROOTFS_MIRROR}
+
 cp -av ${TARGET_ROOTFS}/* .
 
 find . -type f -exec ${BASE_DIR}/scripts/fix_bin_paths {} ${TARGET_ROOTFS} \;
@@ -85,7 +87,7 @@ sudo mount $1 mount_point || exit 1
 
 cd mount_point
 
-sudo cp -av ../fs_mirror/* .
+sudo cp -av ${TARGET_ROOTFS_MIRROR}/* .
 
 sudo chown -R root *
 sudo chgrp -R root *
