@@ -25,7 +25,7 @@ echo $1
 
 gcc scripts/fix_bin_paths.c -o scripts/fix_bin_paths
 
-rm -R sd_mirror
+sudo rm -Rf sd_mirror
 
 mkdir sd_mirror
 
@@ -76,20 +76,22 @@ fi
 # Copy to SD
 cd ..
 
-umount $1
+sudo umount $1
 
-mkfs.ext4 $1
+sudo mkfs.ext4 $1
 
 mkdir mount_point
 
-mount $1 mount_point || exit 1
+sudo mount $1 mount_point || exit 1
 
 cd mount_point
 
-cp -av ../sd_mirror/* .
+sudo cp -av ../sd_mirror/* .
 
+sudo chown -R root *
+sudo chgrp -R root *
 cd ..
 
-umount $1
+sudo umount $1
 
 echo done...
