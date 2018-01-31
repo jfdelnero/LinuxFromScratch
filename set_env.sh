@@ -18,14 +18,14 @@ else
 
 	if [ -d "${PWD}/configs/${TARGET_NAME}" ]; then
 
+		export BASE_DIR="${PWD}"
+
 		source ${BASE_DIR}/configs/${TARGET_NAME}/config.sh
 
 		export CROSS_BUILD_SIGN="CROSS_ENV_SET"
 
 		export TARGET_ROOTFS="${PWD}/targets/${TARGET_NAME}/root-fs"
 		export CROSS_COMPILER_TOOLS="${PWD}/targets/${TARGET_NAME}/cross-tools"
-
-		export BASE_DIR="${PWD}"
 
 		export PATH="${CROSS_COMPILER_TOOLS}/bin:${CROSS_COMPILER_TOOLS}/${TGT_MACH}/bin:${PATH}"
 		export BUILDMACH=$MACHTYPE
