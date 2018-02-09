@@ -27,7 +27,7 @@ else
 		export TARGET_ROOTFS="${PWD}/targets/${TARGET_NAME}/root-fs"
 		export CROSS_COMPILER_TOOLS="${PWD}/targets/${TARGET_NAME}/cross-tools"
 
-		export PATH="${CROSS_COMPILER_TOOLS}/bin:${CROSS_COMPILER_TOOLS}/${TGT_MACH}/bin:${PATH}"
+		export PATH="${CROSS_COMPILER_TOOLS}/bin:${PATH}"
 		export BUILDMACH=$MACHTYPE
 
 		export NBCORE=-j`nproc`
