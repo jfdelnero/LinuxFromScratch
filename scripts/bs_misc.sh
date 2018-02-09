@@ -108,3 +108,44 @@ then
 ) || exit 1
 fi
 
+####################################################################
+# PYTHON
+####################################################################
+
+CUR_PACKAGE=${SRC_PACKAGE_PYTHON:-"UNDEF"}
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE ]
+	then
+	(
+		unpack ${CUR_PACKAGE} ""
+
+		cd ${BASE_DIR}/build/${TARGET_NAME} || exit 1
+
+		mkdir python
+		cd python || exit 1
+
+		echo ac_cv_file__dev_ptmx=no > ./config.site
+		echo ac_cv_file__dev_ptc=no >> ./config.site
+		export CONFIG_SITE=config.site
+
+		${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER}/configure \
+				--prefix= \
+				--build=$MACHTYPE \
+				--host=$TGT_MACH \
+				--target=$TGT_MACH \
+				--disable-ipv6 \
+				--enable-shared \
+				|| exit 1
+
+		make ${NBCORE} || exit 1
+		make ${NBCORE} altinstall DESTDIR=${TARGET_ROOTFS} || exit 1
+
+		echo "" > ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE
+
+	) || exit 1
+	fi
+) || exit 1
+fi
+
