@@ -44,3 +44,45 @@ then
 ) || exit 1
 fi
 
+####################################################################
+# Util Linux
+####################################################################
+
+CUR_PACKAGE=${SRC_PACKAGE_UTILLINUX:-"UNDEF"}
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE ]
+	then
+	(
+		unpack ${CUR_PACKAGE} ""
+
+		cd ${BASE_DIR}/build/$TARGET_NAME
+		mkdir util-linux
+		cd util-linux || exit 1
+
+		#export CC=${TGT_MACH}-gcc
+		#export LD=${TGT_MACH}-ld
+		#export AS=${TGT_MACH}-as
+		#export AR=${TGT_MACH}-ar
+		export INSTALLDIR=${TARGET_ROOTFS}
+
+		${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER}/configure --prefix="${TARGET_ROOTFS}" --host=$TGT_MACH \
+						--disable-all-programs \
+						--enable-mount \
+						--enable-libmount \
+						--enable-libblkid \
+						--with-bashcompletiondir=${TARGET_ROOTFS}/usr/share/bash-completion/completions/ \
+						--disable-makeinstall-chown \
+						--disable-makeinstall-setuid \
+						|| exit 1
+
+		make ${NBCORE}         || exit 1
+		make ${NBCORE} install || exit 1
+
+		echo "" > ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE
+
+	) || exit 1
+	fi
+) || exit 1
+fi
