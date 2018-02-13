@@ -61,12 +61,6 @@ then
 		mkdir util-linux
 		cd util-linux || exit 1
 
-		#export CC=${TGT_MACH}-gcc
-		#export LD=${TGT_MACH}-ld
-		#export AS=${TGT_MACH}-as
-		#export AR=${TGT_MACH}-ar
-		export INSTALLDIR=${TARGET_ROOTFS}
-
 		${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER}/configure --prefix="${TARGET_ROOTFS}" --host=$TGT_MACH \
 						--disable-all-programs \
 						--enable-mount \
