@@ -77,6 +77,34 @@ then
 ) || exit 1
 fi
 
+####################################################################
+# NCURSES
+####################################################################
+
+CUR_PACKAGE=${SRC_PACKAGE_LIBNCURSES:-"UNDEF"}
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE ]
+	then
+	(
+		unpack ${CUR_PACKAGE} ""
+
+		cd ${BASE_DIR}/build/$TARGET_NAME || exit 1
+		mkdir ncurses
+		cd ncurses || exit 1
+
+		${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER}/configure --prefix="${TARGET_ROOTFS}" --host=$TGT_MACH CC=${TGT_MACH}-gcc --disable-stripping STRIPPROG=${TGT_MACH}-strip --with-curses-h || exit 1
+
+		make ${NBCORE} all     || exit 1
+		make ${NBCORE} install || exit 1
+
+		echo "" > ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE
+
+	) || exit 1
+	fi
+) || exit 1
+fi
 
 ####################################################################
 # LIBXML
