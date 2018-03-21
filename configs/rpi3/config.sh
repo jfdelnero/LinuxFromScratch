@@ -46,6 +46,8 @@ SRC_PACKAGE_LIBNCURSES=ncurses-6.1.tar.gz
 # Debug support
 SRC_PACKAGE_GDB=gdb-8.0.1.tar.gz
 SRC_PACKAGE_STRACE=strace-4.20.tar.xz
+#SRC_PACKAGE_LTRACE=ltrace-0.7.3.tar.gz
+SRC_PACKAGE_VALGRIND=valgrind-3.13.0.tar.bz2
 
 # Network support
 SRC_PACKAGE_LIBMNL=libmnl-1.0.4.tar.bz2
