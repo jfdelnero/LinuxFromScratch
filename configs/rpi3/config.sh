@@ -39,6 +39,10 @@ SRC_PACKAGE_XMLEXPAT=expat-2.2.5.tar.bz2
 SRC_PACKAGE_ZLIB=zlib-1.2.11.tar.gz
 SRC_PACKAGE_LIBEVENT=libevent-2.1.8-stable.tar.gz
 
+SRC_PACKAGE_LIBAIO=libaio_0.3.110.tar.gz
+
+SRC_PACKAGE_LIBNCURSES=ncurses-6.1.tar.gz
+
 # Debug support
 SRC_PACKAGE_GDB=gdb-8.0.1.tar.gz
 SRC_PACKAGE_STRACE=strace-4.20.tar.xz
@@ -76,3 +80,7 @@ SRC_PACKAGE_FONTCONFIG=fontconfig-2.12.4.tar.bz2
 SRC_PACKAGE_DIRECTFB=DirectFB-1.7.7.tar.gz
 #SRC_PACKAGE_SDL=SDL2-2.0.7.tar.gz
 #SRC_PACKAGE_SDL_TTF=SDL2_ttf-2.0.14.tar.gz
+
+SRC_PACKAGE_PYTHON=Python-3.6.4.tgz
+SRC_PACKAGE_NANOEDITOR=nano-2.9.4.tar.gz
+

@@ -23,6 +23,7 @@ http://busybox.net/downloads/busybox-1.27.2.tar.bz2
 http://zlib.net/zlib-1.2.11.tar.gz
 https://downloads.sourceforge.net/project/expat/expat/2.2.5/expat-2.2.5.tar.bz2
 http://xmlsoft.org/sources/libxml2-2.9.7.tar.gz
+https://ftp.gnu.org/gnu/ncurses/ncurses-6.1.tar.gz
 #
 # Debug
 #
@@ -77,3 +78,8 @@ https://www.freedesktop.org/software/fontconfig/release/fontconfig-2.12.4.tar.bz
 http://sources.buildroot.net/DirectFB-1.7.7.tar.gz
 #https://www.libsdl.org/release/SDL2-2.0.3.tar.gz
 #
+# Misc
+#
+https://www.python.org/ftp/python/3.6.4/Python-3.6.4.tgz
+https://www.nano-editor.org/dist/v2.9/nano-2.9.4.tar.gz
+
