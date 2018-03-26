@@ -58,8 +58,9 @@ then
 	if [ ! -f ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE ]
 	then
 	(
-
 		unpack ${CUR_PACKAGE} ""
+
+		export PKG_CONFIG_PATH=${TARGET_ROOTFS}/lib/pkgconfig
 
 		cd ${BASE_DIR}/build/${TARGET_NAME} || exit 1
 		mkdir libdrm
@@ -69,11 +70,140 @@ then
 				--prefix="${TARGET_ROOTFS}" \
 				--host=$TGT_MACH CC=${TGT_MACH}-gcc \
 				--enable-vc4 \
+				--enable-radeon \
+				--enable-amdgpu \
+				--enable-nouveau \
+				--enable-libkms \
+				--enable-tegra-experimental-api \
 				--enable-install-test-programs \
 				|| exit 1
 
 		make ${NBCORE} all     || exit 1
 		make ${NBCORE} install || exit 1
+
+		echo "" > ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE
+
+	) || exit 1
+	fi
+) || exit 1
+fi
+
+####################################################################
+# Wayland
+####################################################################
+
+CUR_PACKAGE=${SRC_PACKAGE_WAYLAND:-"UNDEF"}
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE ]
+	then
+	(
+		unpack ${CUR_PACKAGE} ""
+
+		cd ${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER} || exit 1
+
+		cat "Makefile.in" |  sed s#\@USE_HOST_SCANNER_TRUE\@wayland_scanner\ =\ wayland-scanner#\@USE_HOST_SCANNER_TRUE\@wayland_scanner\ =\ \'\$\(top_builddir\)/..\\/wayland_scanner/wayland-scanner\'#g > "Makefile_new2" || exit 1
+		cp Makefile_new2 Makefile.in
+
+
+		cd ${BASE_DIR}/build/${TARGET_NAME} || exit 1
+
+		# wayland_scanner build
+		mkdir wayland_scanner
+		cd wayland_scanner || exit 1
+		${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER}/configure --disable-static -disable-documentation || exit 1
+		make || exit 1
+
+		export WAYLAND_SCANNER_PATH=${BASE_DIR}/build/${TARGET_NAME}/wayland_scanner/wayland-scanner
+
+		cd ..
+
+		export PKG_CONFIG_PATH=${TARGET_ROOTFS}/lib/pkgconfig
+
+		mkdir wayland_target
+		cd wayland_target || exit 1
+
+		${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER}/configure --prefix="${TARGET_ROOTFS}" --with-host-scanner=yes --disable-static -disable-documentation --host=$TGT_MACH || exit 1
+
+		make || exit 1
+		make install || exit 1
+
+		echo "" > ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE
+
+	) || exit 1
+	fi
+) || exit 1
+fi
+
+####################################################################
+# Wayland Protocols
+####################################################################
+
+CUR_PACKAGE=${SRC_PACKAGE_WAYLANDPROTOCOLS:-"UNDEF"}
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE ]
+	then
+	(
+		unpack ${CUR_PACKAGE} ""
+
+		cd ${BASE_DIR}/build/${TARGET_NAME} || exit 1
+
+		mkdir wayland_protocols
+		cd wayland_protocols || exit 1
+
+		export PKG_CONFIG_PATH=${TARGET_ROOTFS}/lib/pkgconfig
+
+		export WAYLAND_SCANNER_PATH=${BASE_DIR}/build/${TARGET_NAME}/wayland_scanner/wayland-scanner
+
+		${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER}/configure --prefix="${TARGET_ROOTFS}" --host=$TGT_MACH || exit 1
+
+		make || exit 1
+		make install || exit 1
+
+		mv  ${TARGET_ROOTFS}/share/pkgconfig/wayland-protocols.pc ${TARGET_ROOTFS}/lib/pkgconfig/wayland-protocols.pc  || exit 1
+
+		echo "" > ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE
+
+	) || exit 1
+	fi
+) || exit 1
+fi
+
+####################################################################
+# Weston (Wayland)
+####################################################################
+
+CUR_PACKAGE=${SRC_PACKAGE_WAYLANDWESTON:-"UNDEF"}
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE ]
+	then
+	(
+		unpack ${CUR_PACKAGE} ""
+
+		cd ${BASE_DIR}/build/${TARGET_NAME} || exit 1
+
+		mkdir wayland_weston
+		cd wayland_weston || exit 1
+
+		export PKG_CONFIG_PATH=${TARGET_ROOTFS}/lib/pkgconfig
+
+		export WAYLAND_SCANNER_PATH=${BASE_DIR}/build/${TARGET_NAME}/wayland_scanner/wayland-scanner
+
+		${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER}/configure --prefix="${TARGET_ROOTFS}" --host=$TGT_MACH \
+				--disable-x11-compositor \
+				--disable-xwayland \
+				--disable-setuid-install \
+				--disable-systemd-login \
+				--disable-weston-launch \
+				--disable-devdocs  || exit 1
+
+		make || exit 1
+		make install || exit 1
 
 		echo "" > ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE
 
@@ -96,6 +226,10 @@ then
 		unpack ${CUR_PACKAGE} ""
 
 		export PKG_CONFIG_PATH=${TARGET_ROOTFS}/lib/pkgconfig
+
+		export WAYLAND_SCANNER_PATH=${BASE_DIR}/build/${TARGET_NAME}/wayland_scanner/wayland-scanner
+
+		[[ -z "${SRC_PACKAGE_WAYLAND+x}" ]] && PLATEFORM_LIST="drm,surfaceless" || PLATEFORM_LIST="wayland,drm,surfaceless"
 
 		cd ${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER} || exit 1
 
@@ -123,14 +257,12 @@ then
 					--enable-gbm \
 					--enable-gallium-osmesa \
 					--disable-glx \
-					--enable-dri \
 					--disable-dri3 \
-					--with-platforms=drm,surfaceless \
+					--enable-dri \
+					--with-platforms=${PLATEFORM_LIST} \
 					--with-dri-drivers=swrast \
 					--with-gallium-drivers=vc4,swrast \
 					CFLAGS="-DHAVE_PIPE_LOADER_DRI -DHAVE_PIPE_LOADER_KMS" || exit 1
-
-		#--with-platforms=wayland,drm,surfaceless \
 
 		make ${NBCORE} all     || exit 1
 		make ${NBCORE} install || exit 1
@@ -456,7 +588,9 @@ then
 					--enable-mesa \
 					--enable-fbdev \
 					--enable-idirectfbgl-egl \
-					--disable-egl \
+					--enable-egl \
+					--enable-drmkms \
+					--enable-sdl \
 					--enable-egl-united  \
 					--disable-vnc \
 					--disable-osx \
@@ -498,6 +632,8 @@ then
 	(
 		unpack ${CUR_PACKAGE} ""
 
+		export PKG_CONFIG_PATH=${TARGET_ROOTFS}/lib/pkgconfig
+
 		cd ${BASE_DIR}/build/${TARGET_NAME} || exit 1
 		mkdir sdl2
 		cd sdl2 || exit 1
@@ -518,7 +654,6 @@ then
  				--disable-esd \
  				--disable-video-mir \
  				--enable-video-wayland \
- 				--disable-video-opengl \
  				--enable-video-rpi \
  				--enable-video-opengl \
  				--enable-video-opengles \
@@ -526,6 +661,7 @@ then
  				--enable-video-opengles2 \
  				--enable-video-dummy \
  				--enable-video-directfb \
+ 				--enable-video-kmsdrm \
  				--disable-haptic \
  				--disable-directfb-shared \
  				--disable-pulseaudio \
@@ -554,6 +690,8 @@ then
 	(
 		unpack ${CUR_PACKAGE} ""
 
+		export PKG_CONFIG_PATH=${TARGET_ROOTFS}/lib/pkgconfig
+
 		cd ${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER} || exit 1
 
 		cat "configure" | sed s#SDL_opengl#SDL_opengll#g > "configure_n" || exit 1
@@ -569,7 +707,7 @@ then
 				--disable-sdltest \
 				--with-sdl-prefix="${TARGET_ROOTFS}" \
 				--with-freetype-prefix="${TARGET_ROOTFS}" \
-				CFLAGS=-DPATH_MAX=4096 || exit 1
+				CFLAGS="-DPATH_MAX=4096" || exit 1
 
 		make ${NBCORE}         || exit 1
 		make ${NBCORE} install || exit 1
