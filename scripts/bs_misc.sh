@@ -281,3 +281,36 @@ then
 ) || exit 1
 fi
 
+####################################################################
+# Mame
+####################################################################
+
+CUR_PACKAGE=${SRC_PACKAGE_MAME:-"UNDEF"}
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE ]
+	then
+	(
+		unpack ${CUR_PACKAGE} ""
+
+		export PKG_CONFIG_PATH=${TARGET_ROOTFS}/lib/pkgconfig
+
+		cd ${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER} || exit 1
+
+		# Mame hack :
+		export MARVELL_SDK_PATH="${CROSS_COMPILER_TOOLS}"
+		export MARVELL_ROOTFS="${TARGET_ROOTFS}"
+
+		make steamlink REGENIE=1 SOURCES=src/mame/drivers/pacman.cpp -j3  NO_USE_MIDI=1 NO_X11=1 || exit 1
+
+		mkdir ${TARGET_ROOTFS}/mame
+		cp mame ${TARGET_ROOTFS}/mame || exit 1
+
+		echo "" > ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE
+
+	) || exit 1
+	fi
+) || exit 1
+fi
+
