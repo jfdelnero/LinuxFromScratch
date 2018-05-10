@@ -19,6 +19,7 @@ echo "*********************"
 ####################################################################
 
 CUR_PACKAGE=${SRC_PACKAGE_SDPARM:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
 if [ "$CUR_PACKAGE" != "UNDEF" ]
 then
 (
@@ -53,6 +54,7 @@ fi
 ####################################################################
 
 CUR_PACKAGE=${SRC_PACKAGE_HDIDLE:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
 if [ "$CUR_PACKAGE" != "UNDEF" ]
 then
 (
@@ -88,6 +90,7 @@ fi
 ####################################################################
 
 CUR_PACKAGE=${SRC_PACKAGE_PCIUTILS:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
 if [ "$CUR_PACKAGE" != "UNDEF" ]
 then
 (
@@ -113,6 +116,7 @@ fi
 ####################################################################
 
 CUR_PACKAGE=${SRC_PACKAGE_PYTHON:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
 if [ "$CUR_PACKAGE" != "UNDEF" ]
 then
 (
@@ -154,6 +158,7 @@ fi
 ####################################################################
 
 CUR_PACKAGE=${SRC_PACKAGE_LIBAIO:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
 if [ "$CUR_PACKAGE" != "UNDEF" ]
 then
 (
@@ -184,6 +189,7 @@ fi
 ####################################################################
 
 CUR_PACKAGE=${SRC_PACKAGE_LIBUSB:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
 if [ "$CUR_PACKAGE" != "UNDEF" ]
 then
 (
@@ -218,6 +224,7 @@ fi
 ####################################################################
 
 CUR_PACKAGE=${SRC_PACKAGE_LIBUSBGADGET:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
 if [ "$CUR_PACKAGE" != "UNDEF" ]
 then
 (
@@ -252,6 +259,7 @@ fi
 ####################################################################
 
 CUR_PACKAGE=${SRC_PACKAGE_NANOEDITOR:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
 if [ "$CUR_PACKAGE" != "UNDEF" ]
 then
 (
@@ -286,6 +294,7 @@ fi
 ####################################################################
 
 CUR_PACKAGE=${SRC_PACKAGE_MAME:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
 if [ "$CUR_PACKAGE" != "UNDEF" ]
 then
 (

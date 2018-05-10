@@ -19,6 +19,7 @@ echo "****************"
 ####################################################################
 
 CUR_PACKAGE=${SRC_PACKAGE_VSFTPD:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
 if [ "$CUR_PACKAGE" != "UNDEF" ]
 then
 (
@@ -27,6 +28,9 @@ then
 	(
 		unpack ${CUR_PACKAGE} ""
 		cd ${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER} || exit 1
+
+		cat "vsf_findlibs.sh" |  sed s#\ /lib/#\ ${TARGET_ROOTFS}/lib/#g | sed s#\ /lib64/#\ ${TARGET_ROOTFS}/lib64/#g > "vsf_findlibs_sh.txt" || exit 1
+		cp vsf_findlibs_sh.txt vsf_findlibs.sh
 
 		make ${NBCORE} CC=${TGT_MACH}-gcc   || exit 1
 		cp vsftpd ${TARGET_ROOTFS}/usr/sbin || exit 1
@@ -44,6 +48,7 @@ fi
 ####################################################################
 
 CUR_PACKAGE=${SRC_PACKAGE_CVS:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
 if [ "$CUR_PACKAGE" != "UNDEF" ]
 then
 (
@@ -76,6 +81,7 @@ fi
 # OpenSSH
 ####################################################################
 CUR_PACKAGE=${SRC_PACKAGE_OPENSSH:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
 if [ "$CUR_PACKAGE" != "UNDEF" ]
 then
 (

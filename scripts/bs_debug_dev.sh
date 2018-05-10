@@ -19,6 +19,7 @@ echo "********************"
 ####################################################################
 
 CUR_PACKAGE=${SRC_PACKAGE_GDB:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
 if [ "$CUR_PACKAGE" != "UNDEF" ]
 then
 (
@@ -64,6 +65,7 @@ fi
 ####################################################################
 
 CUR_PACKAGE=${SRC_PACKAGE_STRACE:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
 if [ "$CUR_PACKAGE" != "UNDEF" ]
 then
 (
@@ -104,6 +106,7 @@ fi
 ####################################################################
 
 CUR_PACKAGE=${SRC_PACKAGE_LTRACE:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
 if [ "$CUR_PACKAGE" != "UNDEF" ]
 then
 (
@@ -144,6 +147,7 @@ fi
 ####################################################################
 
 CUR_PACKAGE=${SRC_PACKAGE_VALGRIND:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
 if [ "$CUR_PACKAGE" != "UNDEF" ]
 then
 (

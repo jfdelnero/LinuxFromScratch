@@ -19,6 +19,7 @@ echo "****************"
 ####################################################################
 
 CUR_PACKAGE=${SRC_PACKAGE_ZLIB:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
 if [ "$CUR_PACKAGE" != "UNDEF" ]
 then
 (
@@ -53,6 +54,7 @@ fi
 ####################################################################
 
 CUR_PACKAGE=${SRC_PACKAGE_XMLEXPAT:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
 if [ "$CUR_PACKAGE" != "UNDEF" ]
 then
 (
@@ -82,6 +84,7 @@ fi
 ####################################################################
 
 CUR_PACKAGE=${SRC_PACKAGE_LIBNCURSES:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
 if [ "$CUR_PACKAGE" != "UNDEF" ]
 then
 (
@@ -111,6 +114,7 @@ fi
 ####################################################################
 
 CUR_PACKAGE=${SRC_PACKAGE_LIBXML2:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
 if [ "$CUR_PACKAGE" != "UNDEF" ]
 then
 (
@@ -140,6 +144,7 @@ fi
 ####################################################################
 
 CUR_PACKAGE=${SRC_PACKAGE_LIBFFI:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
 if [ "$CUR_PACKAGE" != "UNDEF" ]
 then
 (
@@ -178,6 +183,7 @@ fi
 # OpenSSL
 ####################################################################
 CUR_PACKAGE=${SRC_PACKAGE_OPENSSL:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
 if [ "$CUR_PACKAGE" != "UNDEF" ]
 then
 (
@@ -212,6 +218,7 @@ fi
 ####################################################################
 
 CUR_PACKAGE=${SRC_PACKAGE_LIBEVENT:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
 if [ "$CUR_PACKAGE" != "UNDEF" ]
 then
 (

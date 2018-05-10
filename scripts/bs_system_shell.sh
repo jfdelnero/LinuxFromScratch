@@ -18,6 +18,7 @@ echo "*********************************"
 # Busybox
 ####################################################################
 CUR_PACKAGE=${SRC_PACKAGE_BUSYBOX:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
 if [ "$CUR_PACKAGE" != "UNDEF" ]
 then
 (
@@ -49,6 +50,7 @@ fi
 ####################################################################
 
 CUR_PACKAGE=${SRC_PACKAGE_UTILLINUX:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
 if [ "$CUR_PACKAGE" != "UNDEF" ]
 then
 (
