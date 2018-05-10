@@ -32,6 +32,9 @@ then
 		cat "vsf_findlibs.sh" |  sed s#\ /lib/#\ ${TARGET_ROOTFS}/lib/#g | sed s#\ /lib64/#\ ${TARGET_ROOTFS}/lib64/#g > "vsf_findlibs_sh.txt" || exit 1
 		cp vsf_findlibs_sh.txt vsf_findlibs.sh
 
+		cat "vsf_findlibs.sh" |  sed s#echo\ \"/lib/libpam.so.0\"#echo\ \"-lpam\"#g > "vsf_findlibs_sh.txt" || exit 1
+		cp vsf_findlibs_sh.txt vsf_findlibs.sh
+
 		make ${NBCORE} CC=${TGT_MACH}-gcc   || exit 1
 		cp vsftpd ${TARGET_ROOTFS}/usr/sbin || exit 1
 		cp vsftpd.conf ${TARGET_ROOTFS}/etc || exit 1
