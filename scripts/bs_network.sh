@@ -19,6 +19,7 @@ echo "***********"
 ####################################################################
 
 CUR_PACKAGE=${SRC_PACKAGE_LIBMNL:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
 if [ "$CUR_PACKAGE" != "UNDEF" ]
 then
 (
@@ -52,6 +53,7 @@ fi
 ####################################################################
 
 CUR_PACKAGE=${SRC_PACKAGE_LIBNFTNL:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
 if [ "$CUR_PACKAGE" != "UNDEF" ]
 then
 (
@@ -88,6 +90,7 @@ fi
 ####################################################################
 
 CUR_PACKAGE=${SRC_PACKAGE_IPTABLES:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
 if [ "$CUR_PACKAGE" != "UNDEF" ]
 then
 (
@@ -126,6 +129,7 @@ fi
 ####################################################################
 
 CUR_PACKAGE=${SRC_PACKAGE_NTP:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
 if [ "$CUR_PACKAGE" != "UNDEF" ]
 then
 (
@@ -165,6 +169,59 @@ then
 fi
 
 ####################################################################
+# dhcp server
+####################################################################
+CUR_PACKAGE=${SRC_PACKAGE_DHCPSERVER:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE ]
+	then
+	(
+		unpack ${CUR_PACKAGE} ""
+
+		cd ${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER} || exit 1
+
+		export CROSS=${TGT_MACH}
+		export CC=${TGT_MACH}-gcc
+		export LD=${TGT_MACH}-ld
+		export AS=${TGT_MACH}-as
+		export AR=${TGT_MACH}-ar
+		export TARGET_DIR=${TARGET_ROOTFS}
+		export PREFIX=${TARGET_ROOTFS}
+
+		patch -p1 < ${BASE_DIR}/download/${TARGET_NAME}/dhcp-4.3.0b1.bind_arm-linux-gnueabi.patch || exit 1
+
+		cd bind || exit 1
+
+		tar -xzf bind.tar.gz || exit 1
+		cd bind-9.9.5rc1 || exit 1
+		patch -p1 < ${BASE_DIR}/download/${TARGET_NAME}/bind-9.9.5rc1.gen_crosscompile.patch || exit 1
+		cd ../..
+
+		cat "configure" | sed s#-Werror##g > "configure_new" || exit 1
+		cp configure_new configure
+
+		${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER}/configure \
+				--prefix= \
+				--build=$MACHTYPE \
+				--host=$TGT_MACH \
+				ac_cv_file__dev_random=yes || exit 1
+
+		make ${NBCORE}         || exit 1
+		make ${NBCORE} install DESTDIR=${TARGET_ROOTFS} || exit 1
+
+		touch ${TARGET_ROOTFS}/var/db/dhcpd.leases
+
+		echo "" > ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE
+
+	) || exit 1
+	fi
+) || exit 1
+fi
+
+####################################################################
 #              ----------- Wifi Stack -----------
 ####################################################################
 
@@ -173,6 +230,7 @@ fi
 ####################################################################
 
 CUR_PACKAGE=${SRC_PACKAGE_WIRELESSTOOLS:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
 if [ "$CUR_PACKAGE" != "UNDEF" ]
 then
 (
@@ -206,6 +264,7 @@ fi
 ####################################################################
 
 CUR_PACKAGE=${SRC_PACKAGE_LIBNL3:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
 if [ "$CUR_PACKAGE" != "UNDEF" ]
 then
 (
@@ -241,6 +300,7 @@ fi
 ####################################################################
 
 CUR_PACKAGE=${SRC_PACKAGE_LIBNL1:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
 if [ "$CUR_PACKAGE" != "UNDEF" ]
 then
 (
@@ -272,6 +332,7 @@ fi
 ####################################################################
 
 CUR_PACKAGE=${SRC_PACKAGE_IW:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
 if [ "$CUR_PACKAGE" != "UNDEF" ]
 then
 (
@@ -299,6 +360,7 @@ fi
 ####################################################################
 
 CUR_PACKAGE=${SRC_PACKAGE_WPASUPPLICANT:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
 if [ "$CUR_PACKAGE" != "UNDEF" ]
 then
 (
@@ -332,6 +394,7 @@ fi
 ####################################################################
 
 CUR_PACKAGE=${SRC_PACKAGE_HOSTAPD:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
 if [ "$CUR_PACKAGE" != "UNDEF" ]
 then
 (
@@ -365,6 +428,7 @@ fi
 ####################################################################
 
 CUR_PACKAGE=${SRC_PACKAGE_RFKILL:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
 if [ "$CUR_PACKAGE" != "UNDEF" ]
 then
 (
@@ -384,3 +448,4 @@ then
 	fi
 ) || exit 1
 fi
+
