@@ -19,6 +19,7 @@ echo "*****************"
 ####################################################################
 
 CUR_PACKAGE=${SRC_PACKAGE_LIBPNG:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
 if [ "$CUR_PACKAGE" != "UNDEF" ]
 then
 (
@@ -52,6 +53,7 @@ fi
 ####################################################################
 
 CUR_PACKAGE=${SRC_PACKAGE_LIBDRM:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
 if [ "$CUR_PACKAGE" != "UNDEF" ]
 then
 (
@@ -93,6 +95,7 @@ fi
 ####################################################################
 
 CUR_PACKAGE=${SRC_PACKAGE_WAYLAND:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
 if [ "$CUR_PACKAGE" != "UNDEF" ]
 then
 (
@@ -141,6 +144,7 @@ fi
 ####################################################################
 
 CUR_PACKAGE=${SRC_PACKAGE_WAYLANDPROTOCOLS:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
 if [ "$CUR_PACKAGE" != "UNDEF" ]
 then
 (
@@ -173,50 +177,11 @@ then
 fi
 
 ####################################################################
-# Weston (Wayland)
-####################################################################
-
-CUR_PACKAGE=${SRC_PACKAGE_WAYLANDWESTON:-"UNDEF"}
-if [ "$CUR_PACKAGE" != "UNDEF" ]
-then
-(
-	if [ ! -f ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE ]
-	then
-	(
-		unpack ${CUR_PACKAGE} ""
-
-		cd ${BASE_DIR}/build/${TARGET_NAME} || exit 1
-
-		mkdir wayland_weston
-		cd wayland_weston || exit 1
-
-		export PKG_CONFIG_PATH=${TARGET_ROOTFS}/lib/pkgconfig
-
-		export WAYLAND_SCANNER_PATH=${BASE_DIR}/build/${TARGET_NAME}/wayland_scanner/wayland-scanner
-
-		${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER}/configure --prefix="${TARGET_ROOTFS}" --host=$TGT_MACH \
-				--disable-x11-compositor \
-				--disable-xwayland \
-				--disable-setuid-install \
-				--disable-systemd-login \
-				--disable-weston-launch \
-				--disable-devdocs  || exit 1
-
-		make || exit 1
-		make install || exit 1
-
-		echo "" > ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE
-
-	) || exit 1
-	fi
-) || exit 1
-fi
-
-####################################################################
 # Mesa
 ####################################################################
 
 CUR_PACKAGE=${SRC_PACKAGE_MESA:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
 if [ "$CUR_PACKAGE" != "UNDEF" ]
 then
 (
@@ -279,6 +244,7 @@ fi
 ####################################################################
 
 CUR_PACKAGE=${SRC_PACKAGE_MESALIMA:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
 if [ "$CUR_PACKAGE" != "UNDEF" ]
 then
 (
@@ -348,10 +314,81 @@ then
 fi
 
 ####################################################################
+# xkbcommon
+####################################################################
+
+CUR_PACKAGE=${SRC_PACKAGE_LIBXKBCOMMON:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE ]
+	then
+	(
+		unpack ${CUR_PACKAGE} ""
+
+		cd ${BASE_DIR}/build/${TARGET_NAME} || exit 1
+
+		mkdir xkbcommon
+		cd xkbcommon || exit 1
+
+		export PKG_CONFIG_PATH=${TARGET_ROOTFS}/lib/pkgconfig
+		export wayland_scanner=${BASE_DIR}/build/${TARGET_NAME}/wayland_scanner/wayland-scanner
+
+		${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER}/configure --prefix="${TARGET_ROOTFS}" --host=$TGT_MACH --disable-x11 || exit 1
+
+		cat Makefile | sed s#wayland_scanner\ \=#wayland_scanner\ \=${wayland_scanner}\##g > "Makefile_tmp" || exit 1
+		cp Makefile_tmp Makefile
+
+		make || exit 1
+		make install || exit 1
+
+		echo "" > ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE
+
+	) || exit 1
+	fi
+) || exit 1
+fi
+
+####################################################################
+# pixman
+####################################################################
+
+CUR_PACKAGE=${SRC_PACKAGE_PIXMAN:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE ]
+	then
+	(
+		unpack ${CUR_PACKAGE} ""
+
+		cd ${BASE_DIR}/build/${TARGET_NAME} || exit 1
+
+		mkdir pixman
+		cd pixman || exit 1
+
+		export PKG_CONFIG_PATH=${TARGET_ROOTFS}/lib/pkgconfig
+
+		${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER}/configure --prefix="${TARGET_ROOTFS}" --host=$TGT_MACH || exit 1
+
+		make || exit 1
+		make install || exit 1
+
+		echo "" > ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE
+
+	) || exit 1
+	fi
+) || exit 1
+fi
+
+####################################################################
 # LibEpoxy
 ####################################################################
 
 CUR_PACKAGE=${SRC_PACKAGE_LIBEPOXY:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
 if [ "$CUR_PACKAGE" != "UNDEF" ]
 then
 (
@@ -392,6 +429,7 @@ fi
 ####################################################################
 
 CUR_PACKAGE=${SRC_PACKAGE_GLEW:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
 if [ "$CUR_PACKAGE" != "UNDEF" ]
 then
 (
@@ -424,6 +462,7 @@ fi
 ####################################################################
 
 CUR_PACKAGE=${SRC_PACKAGE_GLU:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
 if [ "$CUR_PACKAGE" != "UNDEF" ]
 then
 (
@@ -460,6 +499,7 @@ fi
 ####################################################################
 
 CUR_PACKAGE=${SRC_PACKAGE_GLUT:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
 if [ "$CUR_PACKAGE" != "UNDEF" ]
 then
 (
@@ -486,6 +526,7 @@ fi
 ####################################################################
 
 CUR_PACKAGE=${SRC_PACKAGE_FREETYPE:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
 if [ "$CUR_PACKAGE" != "UNDEF" ]
 then
 (
@@ -518,6 +559,7 @@ fi
 ####################################################################
 
 CUR_PACKAGE=${SRC_PACKAGE_FONTCONFIG:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
 if [ "$CUR_PACKAGE" != "UNDEF" ]
 then
 (
@@ -559,6 +601,7 @@ fi
 ####################################################################
 
 CUR_PACKAGE=${SRC_PACKAGE_DIRECTFB:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
 if [ "$CUR_PACKAGE" != "UNDEF" ]
 then
 (
@@ -624,6 +667,7 @@ fi
 ####################################################################
 
 CUR_PACKAGE=${SRC_PACKAGE_SDL:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
 if [ "$CUR_PACKAGE" != "UNDEF" ]
 then
 (
@@ -682,6 +726,7 @@ fi
 ####################################################################
 
 CUR_PACKAGE=${SRC_PACKAGE_SDL_TTF:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
 if [ "$CUR_PACKAGE" != "UNDEF" ]
 then
 (
@@ -711,6 +756,95 @@ then
 
 		make ${NBCORE}         || exit 1
 		make ${NBCORE} install || exit 1
+
+		echo "" > ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE
+
+	) || exit 1
+	fi
+) || exit 1
+fi
+
+####################################################################
+# CAIRO
+####################################################################
+
+CUR_PACKAGE=${SRC_PACKAGE_CAIRO:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE ]
+	then
+	(
+		unpack ${CUR_PACKAGE} ""
+
+		export PKG_CONFIG_PATH=${TARGET_ROOTFS}/lib/pkgconfig
+
+		cd ${BASE_DIR}/build/${TARGET_NAME} || exit 1
+		mkdir cairo
+		cd cairo || exit 1
+
+		${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER}/configure \
+				--prefix="${TARGET_ROOTFS}" \
+				--host=$TGT_MACH \
+				--with-x=no \
+				--enable-xlib=no \
+				--enable-xlib-xrender=no \
+				--enable-glesv2=yes \
+				--enable-directfb=yes \
+				|| exit 1
+
+		make ${NBCORE} all     || exit 1
+		make ${NBCORE} install || exit 1
+
+		echo "" > ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE
+
+	) || exit 1
+	fi
+) || exit 1
+fi
+
+####################################################################
+# Weston (Wayland)
+####################################################################
+
+CUR_PACKAGE=${SRC_PACKAGE_WAYLANDWESTON:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE ]
+	then
+	(
+		unpack ${CUR_PACKAGE} ""
+
+		cd ${BASE_DIR}/build/${TARGET_NAME} || exit 1
+
+		mkdir wayland_weston
+		cd wayland_weston || exit 1
+
+		export PKG_CONFIG_PATH=${TARGET_ROOTFS}/lib/pkgconfig
+
+		export WAYLAND_SCANNER_PATH=${BASE_DIR}/build/${TARGET_NAME}/wayland_scanner/wayland-scanner
+		export wayland_scanner=${BASE_DIR}/build/${TARGET_NAME}/wayland_scanner/wayland-scanner
+
+		${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER}/configure --prefix=${TARGET_ROOTFS} --host=$TGT_MACH \
+				--disable-x11-compositor \
+				--disable-xwayland \
+				--disable-setuid-install \
+				--disable-systemd-login \
+				--enable-weston-launch \
+				--disable-devdocs \
+				--disable-silent-rules || exit 1
+
+#				--libdir=${TARGET_ROOTFS}/lib \
+#				--includedir=${TARGET_ROOTFS}/include \
+#				--sysconfdir=/etc \
+#				--localstatedir=/var \
+
+		make || exit 1
+		make install || exit 1
+		#make install DESTDIR=${TARGET_ROOTFS} || exit 1
 
 		echo "" > ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE
 
