@@ -140,11 +140,9 @@ then
 
 		cd ${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER} || exit 1
 
-		cat "config.sub" | sed s#xscale#armv7a#g > "config_new.sub" || exit 1
-		cp config_new.sub config.sub
+		sed -i s#xscale#armv7a#g config.sub || exit 1
 
-		cat "./sntp/libevent/build-aux/config.sub" | sed s#xscale#armv7a#g > "./sntp/libevent/build-aux/config_new.sub" || exit 1
-		cp ./sntp/libevent/build-aux/config_new.sub ./sntp/libevent/build-aux/config.sub
+		sed -i s#xscale#armv7a#g ./sntp/libevent/build-aux/config.sub || exit 1
 
 		cd ${BASE_DIR}/build/${TARGET_NAME} || exit 1
 		mkdir ntp
@@ -200,8 +198,7 @@ then
 		patch -p1 < ${BASE_DIR}/download/${TARGET_NAME}/bind-9.9.5rc1.gen_crosscompile.patch || exit 1
 		cd ../..
 
-		cat "configure" | sed s#-Werror##g > "configure_new" || exit 1
-		cp configure_new configure
+		sed -i s#-Werror##g configure || exit 1
 
 		${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER}/configure \
 				--prefix= \

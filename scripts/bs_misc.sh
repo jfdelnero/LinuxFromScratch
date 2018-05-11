@@ -72,8 +72,7 @@ then
 		export AR=${TGT_MACH}-ar
 		export TARGET_DIR=${TARGET_ROOTFS}
 
-		cat "Makefile" | sed s#-g\ root\ -o\ root##g > "Makefile_new" || exit 1
-		cp Makefile_new Makefile
+		sed -i s#-g\ root\ -o\ root##g Makefile || exit 1
 
 		make ${NBCORE}          || exit 1
 		make ${NBCORE} install  || exit 1

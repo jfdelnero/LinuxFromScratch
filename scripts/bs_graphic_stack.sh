@@ -106,9 +106,7 @@ then
 
 		cd ${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER} || exit 1
 
-		cat "Makefile.in" |  sed s#\@USE_HOST_SCANNER_TRUE\@wayland_scanner\ =\ wayland-scanner#\@USE_HOST_SCANNER_TRUE\@wayland_scanner\ =\ \'\$\(top_builddir\)/..\\/wayland_scanner/wayland-scanner\'#g > "Makefile_new2" || exit 1
-		cp Makefile_new2 Makefile.in
-
+		sed -i s#\@USE_HOST_SCANNER_TRUE\@wayland_scanner\ =\ wayland-scanner#\@USE_HOST_SCANNER_TRUE\@wayland_scanner\ =\ \'\$\(top_builddir\)/..\\/wayland_scanner/wayland-scanner\'#g Makefile.in || exit 1
 
 		cd ${BASE_DIR}/build/${TARGET_NAME} || exit 1
 
@@ -337,8 +335,7 @@ then
 
 		${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER}/configure --prefix="${TARGET_ROOTFS}" --host=$TGT_MACH --disable-x11 || exit 1
 
-		cat Makefile | sed s#wayland_scanner\ \=#wayland_scanner\ \=${wayland_scanner}\##g > "Makefile_tmp" || exit 1
-		cp Makefile_tmp Makefile
+		sed -i s#wayland_scanner\ \=#wayland_scanner\ \=${wayland_scanner}\##g Makefile || exit 1
 
 		make || exit 1
 		make install || exit 1
@@ -444,8 +441,7 @@ then
 
 		cd ${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER} || exit 1
 
-		cat "./config/Makefile.linux" | sed s#\-Wl\,##g > "./config/Makefile.linux_" || exit 1
-		cp ./config/Makefile.linux_ ./config/Makefile.linux  || exit 1
+		sed -i s#\-Wl\,##g ./config/Makefile.linux || exit 1
 
 		make ${NBCORE} STRIP=${TGT_MACH}-strip CC=${TGT_MACH}-gcc LD=${TGT_MACH}-ld AR=${TGT_MACH}-ar AS=${TGT_MACH}-as  SYSTEM=linux-osmesa         || exit 1
 		make ${NBCORE} install STRIP=${TGT_MACH}-strip CC=${TGT_MACH}-gcc LD=${TGT_MACH}-ld AR=${TGT_MACH}-ar AS=${TGT_MACH}-as  SYSTEM=linux-osmesa || exit 1
@@ -612,8 +608,7 @@ then
 
 		cd ${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER} || exit 1
 
-		cat "./systems/egl/egl_system.c" | sed s#define\ RASPBERRY_PI#undef\ RASPBERRY_PI#g > "./systems/egl/egl_system.patched" || exit 1
-		cp ./systems/egl/egl_system.patched ./systems/egl/egl_system.c
+		sed -i s#define\ RASPBERRY_PI#undef\ RASPBERRY_PI#g ./systems/egl/egl_system.c || exit 1
 
 		cd ./systems/mesa || exit 1
 		patch -Z < ${BASE_DIR}/configs/${TARGET_NAME}/patchs/mesa_surface_pool.patch  || exit 1
@@ -739,8 +734,7 @@ then
 
 		cd ${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER} || exit 1
 
-		cat "configure" | sed s#SDL_opengl#SDL_opengll#g > "configure_n" || exit 1
-		cp "configure_n" "configure"
+		sed -i s#SDL_opengl#SDL_opengll#g configure || exit 1
 
 		cd ${BASE_DIR}/build/${TARGET_NAME} || exit 1
 		mkdir sdl2ttf

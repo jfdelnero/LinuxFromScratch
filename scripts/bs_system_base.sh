@@ -333,7 +333,7 @@ then
 
 		make ${NBCORE} ${KERNEL_IMAGE_TYPE} modules dtbs ARCH=${KERNEL_ARCH} CROSS_COMPILE=${TGT_MACH}- ${KERNEL_ADD_OPTIONS} || exit 1
 		make ${NBCORE} modules_install ARCH=${KERNEL_ARCH}  INSTALL_MOD_PATH=${TARGET_ROOTFS} || exit 1
-		make ${NBCORE} firmwares_install ARCH=${KERNEL_ARCH}  INSTALL_MOD_PATH=${TARGET_ROOTFS} || exit 1
+		#make ${NBCORE} firmwares_install ARCH=${KERNEL_ARCH}  INSTALL_MOD_PATH=${TARGET_ROOTFS} || exit 1
 
 		#make ARCH=${KERNEL_ARCH} INSTALL_PATH=${TARGET_ROOTFS}/boot install
 
@@ -374,8 +374,8 @@ then
 
 		cd ${BASE_DIR}/sources/${TARGET_NAME}/${CUR_SRC_MAIN_FOLDER}
 
-		cat config-aux/config.sub |  sed s#be64#aarch64#g > config-aux/config_sub.new || exit 1
-		cp config-aux/config_sub.new config-aux/config.sub
+		# aarch64 support...
+		sed -i s#be64#aarch64#g config-aux/config.sub || exit 1
 
 		cd ${BASE_DIR}/build/$TARGET_NAME || exit 1
 		mkdir -pv libmtdev || exit 1
@@ -499,7 +499,12 @@ then
 
 		cd ${BASE_DIR}/sources/${TARGET_NAME}/${CUR_SRC_MAIN_FOLDER} || exit 1
 
+#		export DESTDIR=${TARGET_ROOTFS}
+		export PKGCONFIGDIR=/lib/pkgconfig
+		export lib=lib
+
 		make prefix="${TARGET_ROOTFS}" BUILD_CC=gcc CC=${TGT_MACH}-gcc AR=${TGT_MACH}-ar RANLIB=${TGT_MACH}-ranlib || exit 1
+
 		make install prefix="${TARGET_ROOTFS}" BUILD_CC=gcc  CC=${TGT_MACH}-gcc AR=${TGT_MACH}-ar RANLIB=${TGT_MACH}-ranlib
 
 		echo "" > ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE
