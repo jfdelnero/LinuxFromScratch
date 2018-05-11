@@ -86,6 +86,7 @@ SRC_PACKAGE_OPENSSL="ftp://ftp.openssl.org/source/openssl-1.0.2n.tar.gz"
 SRC_PACKAGE_OPENSSH="http://ftp.fr.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-7.3p1.tar.gz"
 SRC_PACKAGE_NTP="http://www.eecis.udel.edu/~ntp/ntp_spool/ntp4/ntp-4.2/ntp-4.2.8p10.tar.gz"
 SRC_PACKAGE_VSFTPD="https://security.appspot.com/downloads/vsftpd-3.0.3.tar.gz"
+SRC_PACKAGE_LIGHTTPD="https://download.lighttpd.net/lighttpd/releases-1.4.x/lighttpd-1.4.49.tar.gz"
 #SRC_PACKAGE_CVS=cvs-1.11.23.tar.gz
 
 #
@@ -125,7 +126,7 @@ SRC_PACKAGE_LIBEVDEV="https://www.freedesktop.org/software/libevdev/libevdev-1.5
 SRC_PACKAGE_ATTR="https://download-mirror.savannah.gnu.org/releases/attr/attr-2.4.47.src.tar.gz"
 SRC_PACKAGE_LIBCAP="https://ftp.osuosl.org/pub/blfs/conglomeration/libcap/libcap-2.25.tar.xz"
 SRC_PACKAGE_UTILLINUX="http://ftp.free.fr/mirrors/ftp.kernel.org/linux/utils/util-linux/v2.31/util-linux-2.31.tar.xz"
-SRC_PACKAGE_SYSTEMD="https://www.freedesktop.org/software/systemd/systemd-221.tar.xz"
+#SRC_PACKAGE_SYSTEMD="https://www.freedesktop.org/software/systemd/systemd-221.tar.xz"
 
 SRC_PACKAGE_EUDEV="https://dev.gentoo.org/~blueness/eudev/eudev-3.2.5.tar.gz"
 SRC_PACKAGE_LIBINPUT="https://www.freedesktop.org/software/libinput/libinput-1.8.4.tar.xz"
@@ -133,7 +134,7 @@ SRC_PACKAGE_LIBXKBCOMMON="https://xkbcommon.org/download/libxkbcommon-0.8.0.tar.
 SRC_PACKAGE_PIXMAN="https://cairographics.org/releases/pixman-0.34.0.tar.gz"
 SRC_PACKAGE_CAIRO="https://www.cairographics.org/releases/cairo-1.14.12.tar.xz"
 SRC_PACKAGE_LIBPAM="http://www.linux-pam.org/library/Linux-PAM-1.3.0.tar.gz"
-SRC_PACKAGE_DBUS="https://dbus.freedesktop.org/releases/dbus/dbus-1.13.4.tar.gz"
+#SRC_PACKAGE_DBUS="https://dbus.freedesktop.org/releases/dbus/dbus-1.13.4.tar.gz"
 
 SRC_PACKAGE_WAYLAND="https://wayland.freedesktop.org/releases/wayland-1.14.92.tar.xz"
 SRC_PACKAGE_WAYLANDPROTOCOLS="https://wayland.freedesktop.org/releases/wayland-protocols-1.13.tar.xz"

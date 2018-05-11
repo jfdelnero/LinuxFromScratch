@@ -45,6 +45,42 @@ then
 fi
 
 ####################################################################
+# Lighttpd
+####################################################################
+
+CUR_PACKAGE=${SRC_PACKAGE_LIGHTTPD:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE ]
+	then
+	(
+		unpack ${CUR_PACKAGE} ""
+
+		cd ${BASE_DIR}/build/$TARGET_NAME
+		mkdir lighttpd
+		cd lighttpd || exit 1
+
+		${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER}/configure \
+				--prefix="${TARGET_ROOTFS}" \
+				--build=$MACHTYPE \
+				--host=$TGT_MACH \
+				--target=$TGT_MACH \
+				--without-pcre \
+				--without-bzip2 || exit 1
+
+		make ${NBCORE}         || exit 1
+		make ${NBCORE} install || exit 1
+
+		echo "" > ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE
+
+	) || exit 1
+	fi
+) || exit 1
+fi
+
+####################################################################
 # CVS
 ####################################################################
 
