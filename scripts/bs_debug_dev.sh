@@ -160,6 +160,9 @@ then
 		mkdir valgrind
 		cd valgrind || exit 1
 
+		# ArmV6 support.
+		sed -i 's/armv7\*)/armv[67]\*)/g' ${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER}/configure
+
 		${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER}/configure \
 				--prefix="${TARGET_ROOTFS}" \
 				--build=$MACHTYPE \
