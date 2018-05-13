@@ -1,0 +1,29 @@
+# configure bootargs
+setenv bootargs 'root=/dev/mmcblk0p1 rootfstype=ext4 rootwait rw console=ttyS0,115200n8'
+
+# configure addresses
+kerneladdr=0x2000000
+fdtaddr=0x5F00000
+ramdiskaddr=0x6000000
+setenv fdt_high 0x07a12000
+
+# load DTB
+echo "Loading dtb/armada-388-clearfog.dtb"
+ext4load mmc 0:1 ${fdtaddr} /boot/dtb/armada-388-clearfog.dtb
+
+# load Kernel
+echo "Loading zImage ..."
+ext4load mmc 0:1 ${kerneladdr} /boot/zImage
+
+# load Ramdisk
+#echo "Loading initrd ..."
+#ext4load mmc 0:1 ${ramdiskaddr} /boot/initrd
+#ramdisksize=0x
+
+# Sleep a while so the MMC driver can settle down
+echo "Sleeping 2 seconds ..."
+sleep 2
+
+# boot
+echo "Booting ..."
+bootz ${kerneladdr} ${fdtaddr}
