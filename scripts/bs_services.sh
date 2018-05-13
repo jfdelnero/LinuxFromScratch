@@ -29,9 +29,8 @@ then
 		unpack ${CUR_PACKAGE} ""
 		cd ${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER} || exit 1
 
-		sed -i s#\ /lib/#\ ${TARGET_ROOTFS}/lib/#g vsf_findlibs.sh || exit 1
-		sed -i s#\ /lib64/#\ ${TARGET_ROOTFS}/lib64/#g vsf_findlibs.sh || exit 1
-		sed -i s#echo\ \"/lib/libpam.so.0\"#echo\ \"-lpam\"#g vsf_findlibs.sh || exit 1
+		sed -i s#locate_library\ #locate_library\ ${TARGET_ROOTFS}/#g vsf_findlibs.sh || exit 1
+		sed -i s#echo\ \"/lib#echo\ \"${TARGET_ROOTFS}/lib#g vsf_findlibs.sh || exit 1
 
 		make ${NBCORE} CC=${TGT_MACH}-gcc   || exit 1
 		cp vsftpd ${TARGET_ROOTFS}/usr/sbin || exit 1
