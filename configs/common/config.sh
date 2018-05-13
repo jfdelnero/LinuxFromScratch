@@ -55,7 +55,7 @@ then
 SRC_PACKAGE_LIBMNL="http://netfilter.org/projects/libmnl/files/libmnl-1.0.4.tar.bz2"
 SRC_PACKAGE_LIBNFTNL="https://www.netfilter.org/projects/libnftnl/files/libnftnl-1.0.9.tar.bz2"
 SRC_PACKAGE_IPTABLES="https://www.netfilter.org/projects/iptables/files/iptables-1.6.1.tar.bz2"
-SRC_PACKAGE_DHCPSERVER="ftp://ftp.isc.org/isc/dhcp/4.3.0b1/dhcp-4.3.0b1.tar.gz"
+SRC_PACKAGE_DHCPSERVER="ftp://ftp.isc.org/isc/dhcp/4.4.1/dhcp-4.4.1.tar.gz"
 SRC_PACKAGE_DHCPSERVER_PATCH_001="http://wiki.beyondlogic.org/patches/dhcp-4.3.0b1.bind_arm-linux-gnueabi.patch"
 SRC_PACKAGE_DHCPSERVER_PATCH_002="http://wiki.beyondlogic.org/patches/bind-9.9.5rc1.gen_crosscompile.patch"
 
@@ -126,7 +126,7 @@ SRC_PACKAGE_LIBEVDEV="https://www.freedesktop.org/software/libevdev/libevdev-1.5
 SRC_PACKAGE_ATTR="https://download-mirror.savannah.gnu.org/releases/attr/attr-2.4.47.src.tar.gz"
 SRC_PACKAGE_LIBCAP="https://ftp.osuosl.org/pub/blfs/conglomeration/libcap/libcap-2.25.tar.xz"
 SRC_PACKAGE_UTILLINUX="http://ftp.free.fr/mirrors/ftp.kernel.org/linux/utils/util-linux/v2.31/util-linux-2.31.tar.xz"
-#SRC_PACKAGE_SYSTEMD="https://www.freedesktop.org/software/systemd/systemd-221.tar.xz"
+SRC_PACKAGE_SYSTEMD="https://www.freedesktop.org/software/systemd/systemd-221.tar.xz"
 
 SRC_PACKAGE_EUDEV="https://dev.gentoo.org/~blueness/eudev/eudev-3.2.5.tar.gz"
 SRC_PACKAGE_LIBINPUT="https://www.freedesktop.org/software/libinput/libinput-1.8.4.tar.xz"
@@ -134,7 +134,7 @@ SRC_PACKAGE_LIBXKBCOMMON="https://xkbcommon.org/download/libxkbcommon-0.8.0.tar.
 SRC_PACKAGE_PIXMAN="https://cairographics.org/releases/pixman-0.34.0.tar.gz"
 SRC_PACKAGE_CAIRO="https://www.cairographics.org/releases/cairo-1.14.12.tar.xz"
 SRC_PACKAGE_LIBPAM="http://www.linux-pam.org/library/Linux-PAM-1.3.0.tar.gz"
-#SRC_PACKAGE_DBUS="https://dbus.freedesktop.org/releases/dbus/dbus-1.13.4.tar.gz"
+SRC_PACKAGE_DBUS="https://dbus.freedesktop.org/releases/dbus/dbus-1.13.4.tar.gz"
 
 SRC_PACKAGE_WAYLAND="https://wayland.freedesktop.org/releases/wayland-1.14.92.tar.xz"
 SRC_PACKAGE_WAYLANDPROTOCOLS="https://wayland.freedesktop.org/releases/wayland-protocols-1.13.tar.xz"
