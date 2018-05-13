@@ -11,8 +11,8 @@ echo /sbin/mdev > /proc/sys/kernel/hotplug
 /bin/mount -a
 
 mount -t tmpfs -o size=700m none /root
-chmod go+rw /dev/null         
-chmod go+r /dev/random        
+chmod go+rw /dev/null
+chmod go+r /dev/random
 chmod go+r /dev/urandom
 chmod ugo+rw /dev/tty
 
@@ -65,9 +65,9 @@ chmod g+wr  /dev/dri/renderD128
 
 mkdir /dev/pts
 mount devpts /dev/pts -t devpts
-chmod go+rw /dev/null                                                         
-chmod go+r /dev/random                                                        
-chmod go+r /dev/urandom                                                       
+chmod go+rw /dev/null
+chmod go+r /dev/random
+chmod go+r /dev/urandom
 chmod ugo+rw /dev/tty
 
 mount -t ext2 /dev/ram2 /mnt
@@ -102,7 +102,11 @@ klogd
 syslogd
 #crond
 #crontab /etc/crontab
-httpd -h /home/www
+#httpd -h /home/www
+
+lighttpd -f /etc/lighttpd/lighttpd.conf
+
 vsftpd &
 #wpa_supplicant -B -i wlan0 -c /etc/wpa_supplicant.conf
 hostapd -d /etc/hostapd.conf &
+/sbin/dhcpd -cf /etc/dhcpd.conf

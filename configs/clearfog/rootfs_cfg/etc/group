@@ -9,6 +9,7 @@ disk:x:6:root
 mem:x:8:
 ftp:x:9:
 sshd:x:10:
+www:x:11
 mail:x:12:mail
 video:x:44:
 users:x:100:

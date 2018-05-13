@@ -13,6 +13,7 @@ export GCC_ADD_CONF=""
 
 export KERNEL_IMAGE_TYPE="Image"
 
+export DEBUG_SUPPORT="1"
 export NETWORK_SUPPORT="1"
 export WIRELESS_SUPPORT="1"
 
