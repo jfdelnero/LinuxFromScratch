@@ -140,10 +140,6 @@ then
 
 		cd ${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER} || exit 1
 
-		sed -i s#xscale#armv7a#g config.sub || exit 1
-
-		sed -i s#xscale#armv7a#g ./sntp/libevent/build-aux/config.sub || exit 1
-
 		cd ${BASE_DIR}/build/${TARGET_NAME} || exit 1
 		mkdir ntp
 		cd ntp || exit 1
@@ -189,25 +185,21 @@ then
 		export TARGET_DIR=${TARGET_ROOTFS}
 		export PREFIX=${TARGET_ROOTFS}
 
-		patch -p1 < ${BASE_DIR}/download/${TARGET_NAME}/dhcp-4.3.0b1.bind_arm-linux-gnueabi.patch || exit 1
-
-		cd bind || exit 1
-
-		tar -xzf bind.tar.gz || exit 1
-		cd bind-9.9.5rc1 || exit 1
-		patch -p1 < ${BASE_DIR}/download/${TARGET_NAME}/bind-9.9.5rc1.gen_crosscompile.patch || exit 1
-		cd ../..
-
-		sed -i s#-Werror##g configure || exit 1
-
 		${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER}/configure \
 				--prefix= \
-				--build=$MACHTYPE \
+				--sysconfdir=${TARGET_ROOTFS}/etc/dhcp \
+				--localstatedir=/var \
+				--with-srv-lease-file=/var/db/dhcpd.leases \
+				--with-srv6-lease-file=/var/db/dhcpd6.leases \
+				--with-cli-lease-file=/var/db/dhclient.leases \
+				--with-cli6-lease-file=/var/db/dhclient6.leases \
 				--host=$TGT_MACH \
-				ac_cv_file__dev_random=yes || exit 1
+				--cache-file=config.cache \
+				BUILD_CC=gcc \
+				--with-randomdev=no || exit 1
 
-		make ${NBCORE}         || exit 1
-		make ${NBCORE} install DESTDIR=${TARGET_ROOTFS} || exit 1
+		make -j1         || exit 1
+		make -j1 install DESTDIR=${TARGET_ROOTFS} || exit 1
 
 		touch ${TARGET_ROOTFS}/var/db/dhcpd.leases
 
