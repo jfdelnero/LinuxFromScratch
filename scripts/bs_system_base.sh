@@ -566,12 +566,15 @@ then
 		export PKG_CONFIG_PATH=${TARGET_ROOTFS}/lib/pkgconfig
 
 		cd ${BASE_DIR}/build/$TARGET_NAME || exit 1
-		mkdir -pv libpam || exit 1
-		cd libpam || exit 1
+		mkdir -pv dbus || exit 1
+		cd dbus || exit 1
 
 		${BASE_DIR}/sources/${TARGET_NAME}/${CUR_SRC_MAIN_FOLDER}/configure \
 				--prefix="${TARGET_ROOTFS}" \
 				--host=$TGT_MACH \
+				--disable-xml-docs \
+				--disable-doxygen-docs \
+				--disable-ducktype-docs \
 				|| exit 1
 
 		make ${NBCORE}  || exit 1
