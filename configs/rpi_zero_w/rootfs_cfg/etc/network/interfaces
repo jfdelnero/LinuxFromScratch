@@ -1,0 +1,2 @@
+iface eth0 inet manual
+   pre-up /sbin/udhcpc -R -b -p /var/run/udhcpc.eth0.pid -i eth0

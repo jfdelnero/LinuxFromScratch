@@ -1,0 +1,69 @@
+--- mesa_surface_pool.c	2013-12-19 01:16:24.000000000 +0100
++++ mesa_surface_pool_patch.c	2017-12-28 22:51:45.004498000 +0100
+@@ -46,6 +46,11 @@
+ 
+ #include "mesa_system.h"
+ 
++PFNGLEGLIMAGETARGETRENDERBUFFERSTORAGEOESPROC glEGLImageTargetRenderbufferStorageOES;
++PFNGLEGLIMAGETARGETTEXTURE2DOESPROC glEGLImageTargetTexture2DOES;
++PFNEGLCREATEIMAGEKHRPROC eglCreateImageKHR;
++PFNEGLDESTROYIMAGEKHRPROC eglDestroyImageKHR;
++
+ D_DEBUG_DOMAIN( Mesa_Surfaces, "Mesa/Surfaces", "Mesa Framebuffer Surface Pool" );
+ D_DEBUG_DOMAIN( Mesa_SurfLock, "Mesa/SurfLock", "Mesa Framebuffer Surface Pool Locks" );
+ 
+@@ -153,6 +158,11 @@
+      D_MAGIC_SET( data, MesaPoolData );
+      D_MAGIC_SET( local, MesaPoolLocalData );
+ 
++     glEGLImageTargetRenderbufferStorageOES = NULL;
++     glEGLImageTargetTexture2DOES = NULL;
++     eglCreateImageKHR = NULL;
++     eglDestroyImageKHR = NULL;
++
+      return DFB_OK;
+ }
+ 
+@@ -281,6 +291,18 @@
+      D_MAGIC_ASSERT( local, MesaPoolLocalData );
+      D_MAGIC_ASSERT( buffer, CoreSurfaceBuffer );
+ 
++     eglCreateImageKHR = (PFNEGLCREATEIMAGEKHRPROC) eglGetProcAddress("eglCreateImageKHR");
++     eglDestroyImageKHR = (PFNEGLDESTROYIMAGEKHRPROC) eglGetProcAddress("eglDestroyImageKHR");
++     glEGLImageTargetRenderbufferStorageOES = (PFNGLEGLIMAGETARGETRENDERBUFFERSTORAGEOESPROC) eglGetProcAddress("glEGLImageTargetRenderbufferStorageOES");
++     glEGLImageTargetTexture2DOES = (PFNGLEGLIMAGETARGETTEXTURE2DOESPROC) eglGetProcAddress("glEGLImageTargetTexture2DOES");
++
++     if( !eglCreateImageKHR || !eglDestroyImageKHR || !glEGLImageTargetRenderbufferStorageOES || !glEGLImageTargetTexture2DOES )
++     {
++          D_ERROR( "Missing entry point !\n" );
++          return DFB_FAILURE;
++     }
++
++	 
+      mesa = local->mesa;
+      D_ASSERT( mesa != NULL );
+ 
+@@ -397,7 +419,10 @@
+      D_MAGIC_ASSERT( alloc, MesaAllocationData );
+ 
+      drmModeRmFB( local->mesa->fd,  alloc->fb_id );
+-     eglDestroyImageKHR( local->mesa->dpy, alloc->image );
++
++	 if(eglDestroyImageKHR)
++		eglDestroyImageKHR( local->mesa->dpy, alloc->image );
++
+      gbm_bo_destroy( alloc->bo );
+ 
+      D_MAGIC_CLEAR( alloc );
+--- mesa_system.h	2013-12-19 01:16:24.000000000 +0100
++++ mesa_system_new.h	2017-12-29 20:56:35.837374022 +0100
+@@ -34,8 +34,6 @@
+ #define __MESA_MESA_H__
+ 
+ 
+-#define EGL_EGLEXT_PROTOTYPES
+-#define GL_GLEXT_PROTOTYPES
+ 
+ #include <gbm.h>
+ 
+
