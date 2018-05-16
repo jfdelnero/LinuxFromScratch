@@ -665,6 +665,7 @@ then
 			--disable-wall       \
 			--disable-write      \
 			--disable-chsh-only-listed \
+			--disable-eject \
 			--with-bashcompletiondir=${TARGET_ROOTFS}/usr/share/bash-completion/completions/  || exit 1
 
 		make ${NBCORE}  || exit 1
