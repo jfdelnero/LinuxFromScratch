@@ -1,14 +1,14 @@
 --- configure.ac	2017-12-08 14:49:11.000000000 +0100
 +++ configure.ac_new	2017-12-08 14:49:11.000000000 +0100
-@@ -1695,7 +1695,7 @@
- fi
+@@ -1797,7 +1797,7 @@
+         WAYLAND_PROTOCOLS_DATADIR=`$PKG_CONFIG --variable=pkgdatadir wayland-protocols`
  
- PKG_CHECK_MODULES([WAYLAND_SCANNER], [wayland-scanner],
--        WAYLAND_SCANNER=`$PKG_CONFIG --variable=wayland_scanner wayland-scanner`,
-+        WAYLAND_SCANNER=$WAYLAND_SCANNER_PATH,
-         WAYLAND_SCANNER='')
- if test "x$WAYLAND_SCANNER" = x; then
-     AC_PATH_PROG([WAYLAND_SCANNER], [wayland-scanner], [:])
+         PKG_CHECK_MODULES([WAYLAND_SCANNER], [wayland-scanner],
+-                          WAYLAND_SCANNER=`$PKG_CONFIG --variable=wayland_scanner wayland-scanner`,
++                          WAYLAND_SCANNER=$WAYLAND_SCANNER_PATH,
+                           WAYLAND_SCANNER='')
+         if test "x$WAYLAND_SCANNER" = x; then
+             AC_PATH_PROG([WAYLAND_SCANNER], [wayland-scanner], [:])
 --- configure	2017-12-27 12:48:36.203210065 +0100
 +++ configure_new.bash	2017-12-27 12:47:13.847213737 +0100
 @@ -24678,7 +24678,7 @@

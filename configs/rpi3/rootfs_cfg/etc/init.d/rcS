@@ -84,6 +84,10 @@ chmod oug-w /home
 
 PATH=/usr/bin:/bin:/sbin:/usr/sbin
 export LD_LIBRARY_PATH=/lib:/lib64:/usr/lib
+
+export PYTHONPATH=/usr/lib/python3.6:/usr/lib/python3.6/site-packages:/lib/python3.6/
+export PYTHONHOME=/
+
 #hd-idle -a sda -i 720
 
 ifconfig eth0 up
