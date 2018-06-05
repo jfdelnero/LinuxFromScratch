@@ -302,7 +302,7 @@ then
 	(
 		unpack ${CUR_PACKAGE} ""
 
-		export PKG_CONFIG_PATH=${TARGET_ROOTFS}/lib/pkgconfig
+		export PKG_CONFIG_LIBDIR=${TARGET_ROOTFS}/lib/pkgconfig
 
 		cd ${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER} || exit 1
 

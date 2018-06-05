@@ -370,7 +370,7 @@ then
 
 		unpack ${CUR_PACKAGE} ""
 		CUR_SRC_MAIN_FOLDER=$TMP_ARCHIVE_FOLDER
-		export PKG_CONFIG_PATH=${TARGET_ROOTFS}/lib/pkgconfig
+		export PKG_CONFIG_LIBDIR=${TARGET_ROOTFS}/lib/pkgconfig
 
 		cd ${BASE_DIR}/sources/${TARGET_NAME}/${CUR_SRC_MAIN_FOLDER}
 
@@ -415,7 +415,7 @@ then
 		unpack ${CUR_PACKAGE} ""
 		CUR_SRC_MAIN_FOLDER=$TMP_ARCHIVE_FOLDER
 
-		export PKG_CONFIG_PATH=${TARGET_ROOTFS}/lib/pkgconfig
+		export PKG_CONFIG_LIBDIR=${TARGET_ROOTFS}/lib/pkgconfig
 
 		cd ${BASE_DIR}/build/$TARGET_NAME || exit 1
 		mkdir -pv libevdev || exit 1
@@ -454,7 +454,7 @@ then
 
 		unpack ${CUR_PACKAGE} ""
 		CUR_SRC_MAIN_FOLDER=$TMP_ARCHIVE_FOLDER
-		export PKG_CONFIG_PATH=${TARGET_ROOTFS}/lib/pkgconfig
+		export PKG_CONFIG_LIBDIR=${TARGET_ROOTFS}/lib/pkgconfig
 
 		cd ${BASE_DIR}/sources/${TARGET_NAME}/${CUR_SRC_MAIN_FOLDER} || exit 1
 
@@ -492,7 +492,7 @@ then
 		export CC=${TGT_MACH}-gcc
 		export AR=${TGT_MACH}-ar
 		export RANLIB=${TGT_MACH}-ranlib
-		export PKG_CONFIG_PATH=${TARGET_ROOTFS}/lib/pkgconfig
+		export PKG_CONFIG_LIBDIR=${TARGET_ROOTFS}/lib/pkgconfig
 
 		unpack ${CUR_PACKAGE} ""
 		CUR_SRC_MAIN_FOLDER=$TMP_ARCHIVE_FOLDER
@@ -563,7 +563,7 @@ then
 		unpack ${CUR_PACKAGE} ""
 		CUR_SRC_MAIN_FOLDER=$TMP_ARCHIVE_FOLDER
 
-		export PKG_CONFIG_PATH=${TARGET_ROOTFS}/lib/pkgconfig
+		export PKG_CONFIG_LIBDIR=${TARGET_ROOTFS}/lib/pkgconfig
 
 		cd ${BASE_DIR}/build/$TARGET_NAME || exit 1
 		mkdir -pv dbus || exit 1
@@ -605,7 +605,7 @@ then
 
 		unpack ${CUR_PACKAGE} ""
 		CUR_SRC_MAIN_FOLDER=$TMP_ARCHIVE_FOLDER
-		export PKG_CONFIG_PATH=${TARGET_ROOTFS}/lib/pkgconfig
+		export PKG_CONFIG_LIBDIR=${TARGET_ROOTFS}/lib/pkgconfig
 
 		mkdir ${TARGET_ROOTFS}/usr/share
 		mkdir ${TARGET_ROOTFS}/usr/share/bash-completion
@@ -697,7 +697,7 @@ then
 
 		unpack ${CUR_PACKAGE} ""
 		CUR_SRC_MAIN_FOLDER=$TMP_ARCHIVE_FOLDER
-		export PKG_CONFIG_PATH=${TARGET_ROOTFS}/lib/pkgconfig
+		export PKG_CONFIG_LIBDIR=${TARGET_ROOTFS}/lib/pkgconfig
 
 		cd ${BASE_DIR}/build/$TARGET_NAME || exit 1
 		mkdir -pv eudev || exit 1
@@ -735,7 +735,7 @@ then
 		unpack ${CUR_PACKAGE} ""
 		CUR_SRC_MAIN_FOLDER=$TMP_ARCHIVE_FOLDER
 
-		export PKG_CONFIG_PATH=${TARGET_ROOTFS}/lib/pkgconfig
+		export PKG_CONFIG_LIBDIR=${TARGET_ROOTFS}/lib/pkgconfig
 
 		cd ${BASE_DIR}/build/$TARGET_NAME || exit 1
 		mkdir -pv libpam || exit 1
@@ -779,13 +779,13 @@ then
 
 		unpack ${CUR_PACKAGE} ""
 		CUR_SRC_MAIN_FOLDER=$TMP_ARCHIVE_FOLDER
-		export PKG_CONFIG_PATH=${TARGET_ROOTFS}/lib/pkgconfig
+		export PKG_CONFIG_LIBDIR=${TARGET_ROOTFS}/lib/pkgconfig
 
 		cd ${BASE_DIR}/build/$TARGET_NAME || exit 1
 		mkdir -pv systemd || exit 1
 		cd systemd || exit 1
 
-		${BASE_DIR}/sources/${TARGET_NAME}/${CUR_SRC_MAIN_FOLDER}/configure --prefix= --host=$TGT_MACH \
+		${BASE_DIR}/sources/${TARGET_NAME}/${CUR_SRC_MAIN_FOLDER}/configure --prefix="${TARGET_ROOTFS}" --host=$TGT_MACH \
 				--disable-python-devel \
 				--enable-dbus \
 				--disable-utmp \
@@ -848,11 +848,14 @@ then
 				--enable-split-usr \
 				--disable-tests \
 				--without-python \
+				--with-bashcompletiondir="${TARGET_ROOTFS}/share/bash-completions/completions" \
+				--with-rootprefix="${TARGET_ROOTFS}" \
+				--with-sysvinit-path="${TARGET_ROOTFS}"/etc/init.d \
+				--with-sysvrcnd-path="${TARGET_ROOTFS}"/etc \
 				PKG_CONFIG_PATH=${TARGET_ROOTFS}/lib/pkgconfig \
 				ac_cv_func_malloc_0_nonnull=yes ac_cv_func_realloc_0_nonnull=yes || exit 1
 
-		make ${NBCORE} src/libudev || exit 1
-		make ${NBCORE} install DESTDIR=${TARGET_ROOTFS}  src/libudev  || exit 1
+		make ${NBCORE} install || exit 1
 
 		echo "" > ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE
 
@@ -880,7 +883,7 @@ then
 		unpack ${CUR_PACKAGE} ""
 		CUR_SRC_MAIN_FOLDER=$TMP_ARCHIVE_FOLDER
 
-		export PKG_CONFIG_PATH=${TARGET_ROOTFS}/lib/pkgconfig
+		export PKG_CONFIG_LIBDIR=${TARGET_ROOTFS}/lib/pkgconfig
 
 		cd ${BASE_DIR}/build/$TARGET_NAME || exit 1
 		mkdir -pv libinput || exit 1

@@ -199,7 +199,7 @@ then
 		export AS=${TGT_MACH}-as
 		export AR=${TGT_MACH}-ar
 
-		export PKG_CONFIG_PATH=${TARGET_ROOTFS}/lib/pkgconfig
+		export PKG_CONFIG_LIBDIR=${TARGET_ROOTFS}/lib/pkgconfig
 
 		${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER}/Configure ${SSL_ARCH} shared --prefix="${TARGET_ROOTFS}" || exit 1
 
@@ -231,7 +231,7 @@ then
 		mkdir libevent
 		cd libevent || exit 1
 
-		export PKG_CONFIG_PATH=${TARGET_ROOTFS}/lib/pkgconfig
+		export PKG_CONFIG_LIBDIR=${TARGET_ROOTFS}/lib/pkgconfig
 
 		${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER}/configure --host=$TGT_MACH --prefix="${TARGET_ROOTFS}" || exit 1
 

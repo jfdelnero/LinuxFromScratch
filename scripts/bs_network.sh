@@ -103,7 +103,7 @@ then
 		mkdir iptables
 		cd iptables || exit 1
 
-		export PKG_CONFIG_PATH=${TARGET_ROOTFS}/lib/pkgconfig
+		export PKG_CONFIG_LIBDIR=${TARGET_ROOTFS}/lib/pkgconfig
 
 		${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER}/configure \
 				--prefix="${TARGET_ROOTFS}" \
@@ -332,7 +332,7 @@ then
 
 		cd ${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER} || exit 1
 
-		export PKG_CONFIG_PATH=${TARGET_ROOTFS}/lib/pkgconfig
+		export PKG_CONFIG_LIBDIR=${TARGET_ROOTFS}/lib/pkgconfig
 
 		make ${NBCORE} CC=${TGT_MACH}-gcc                      || exit 1
 		cp iw ${TARGET_ROOTFS}/sbin/                || exit 1

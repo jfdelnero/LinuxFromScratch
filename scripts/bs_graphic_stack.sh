@@ -62,7 +62,7 @@ then
 	(
 		unpack ${CUR_PACKAGE} ""
 
-		export PKG_CONFIG_PATH=${TARGET_ROOTFS}/lib/pkgconfig
+		export PKG_CONFIG_LIBDIR=${TARGET_ROOTFS}/lib/pkgconfig
 
 		cd ${BASE_DIR}/build/${TARGET_NAME} || exit 1
 		mkdir libdrm
@@ -120,7 +120,7 @@ then
 
 		cd ..
 
-		export PKG_CONFIG_PATH=${TARGET_ROOTFS}/lib/pkgconfig
+		export PKG_CONFIG_LIBDIR=${TARGET_ROOTFS}/lib/pkgconfig
 
 		mkdir wayland_target
 		cd wayland_target || exit 1
@@ -156,7 +156,7 @@ then
 		mkdir wayland_protocols
 		cd wayland_protocols || exit 1
 
-		export PKG_CONFIG_PATH=${TARGET_ROOTFS}/lib/pkgconfig
+		export PKG_CONFIG_LIBDIR=${TARGET_ROOTFS}/lib/pkgconfig
 
 		export WAYLAND_SCANNER_PATH=${BASE_DIR}/build/${TARGET_NAME}/wayland_scanner/wayland-scanner
 
@@ -188,7 +188,7 @@ then
 	(
 		unpack ${CUR_PACKAGE} ""
 
-		export PKG_CONFIG_PATH=${TARGET_ROOTFS}/lib/pkgconfig
+		export PKG_CONFIG_LIBDIR=${TARGET_ROOTFS}/lib/pkgconfig
 
 		export WAYLAND_SCANNER_PATH=${BASE_DIR}/build/${TARGET_NAME}/wayland_scanner/wayland-scanner
 
@@ -254,7 +254,7 @@ then
 
 		unzip  ${BASE_DIR}/download/${TARGET_NAME}/${CUR_PACKAGE} -d ${BASE_DIR}/sources/${TARGET_NAME}/
 
-		export PKG_CONFIG_PATH=${TARGET_ROOTFS}/lib/pkgconfig
+		export PKG_CONFIG_LIBDIR=${TARGET_ROOTFS}/lib/pkgconfig
 
 		cd ${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER} || exit 1
 
@@ -330,7 +330,7 @@ then
 		mkdir xkbcommon
 		cd xkbcommon || exit 1
 
-		export PKG_CONFIG_PATH=${TARGET_ROOTFS}/lib/pkgconfig
+		export PKG_CONFIG_LIBDIR=${TARGET_ROOTFS}/lib/pkgconfig
 		export wayland_scanner=${BASE_DIR}/build/${TARGET_NAME}/wayland_scanner/wayland-scanner
 
 		${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER}/configure --prefix="${TARGET_ROOTFS}" --host=$TGT_MACH --disable-x11 || exit 1
@@ -366,7 +366,7 @@ then
 		mkdir pixman
 		cd pixman || exit 1
 
-		export PKG_CONFIG_PATH=${TARGET_ROOTFS}/lib/pkgconfig
+		export PKG_CONFIG_LIBDIR=${TARGET_ROOTFS}/lib/pkgconfig
 
 		${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER}/configure --prefix="${TARGET_ROOTFS}" --host=$TGT_MACH || exit 1
 
@@ -397,7 +397,7 @@ then
 
 		cd ${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER} || exit 1
 
-		export PKG_CONFIG_PATH=${TARGET_ROOTFS}/lib/pkgconfig
+		export PKG_CONFIG_LIBDIR=${TARGET_ROOTFS}/lib/pkgconfig
 
 		./autogen.sh
 
@@ -435,7 +435,7 @@ then
 	(
 		unpack ${CUR_PACKAGE} ""
 
-		export PKG_CONFIG_PATH=${TARGET_ROOTFS}/lib/pkgconfig
+		export PKG_CONFIG_LIBDIR=${TARGET_ROOTFS}/lib/pkgconfig
 		export GLEW_PREFIX=${TARGET_ROOTFS}/
 		export GLEW_DEST=${TARGET_ROOTFS}/
 
@@ -471,7 +471,7 @@ then
 		mkdir glu
 		cd glu || exit 1
 
-		export PKG_CONFIG_PATH=${TARGET_ROOTFS}/lib/pkgconfig
+		export PKG_CONFIG_LIBDIR=${TARGET_ROOTFS}/lib/pkgconfig
 
 		sed -i.bak 's/armv\[345\]\[lb\]/armv\[34567\]\[lba\]/g' ${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER}/config.sub
 
@@ -564,7 +564,7 @@ then
 	(
 		unpack ${CUR_PACKAGE} ""
 
-		export PKG_CONFIG_PATH=${TARGET_ROOTFS}/lib/pkgconfig
+		export PKG_CONFIG_LIBDIR=${TARGET_ROOTFS}/lib/pkgconfig
 
 		cd ${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER} || exit 1
 
@@ -671,7 +671,7 @@ then
 	(
 		unpack ${CUR_PACKAGE} ""
 
-		export PKG_CONFIG_PATH=${TARGET_ROOTFS}/lib/pkgconfig
+		export PKG_CONFIG_LIBDIR=${TARGET_ROOTFS}/lib/pkgconfig
 
 		cd ${BASE_DIR}/build/${TARGET_NAME} || exit 1
 		mkdir sdl2
@@ -730,7 +730,7 @@ then
 	(
 		unpack ${CUR_PACKAGE} ""
 
-		export PKG_CONFIG_PATH=${TARGET_ROOTFS}/lib/pkgconfig
+		export PKG_CONFIG_LIBDIR=${TARGET_ROOTFS}/lib/pkgconfig
 
 		cd ${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER} || exit 1
 
@@ -772,7 +772,7 @@ then
 	(
 		unpack ${CUR_PACKAGE} ""
 
-		export PKG_CONFIG_PATH=${TARGET_ROOTFS}/lib/pkgconfig
+		export PKG_CONFIG_LIBDIR=${TARGET_ROOTFS}/lib/pkgconfig
 
 		cd ${BASE_DIR}/build/${TARGET_NAME} || exit 1
 		mkdir cairo
@@ -817,7 +817,7 @@ then
 		mkdir wayland_weston
 		cd wayland_weston || exit 1
 
-		export PKG_CONFIG_PATH=${TARGET_ROOTFS}/lib/pkgconfig
+		export PKG_CONFIG_LIBDIR=${TARGET_ROOTFS}/lib/pkgconfig
 
 		export WAYLAND_SCANNER_PATH=${BASE_DIR}/build/${TARGET_NAME}/wayland_scanner/wayland-scanner
 		export wayland_scanner=${BASE_DIR}/build/${TARGET_NAME}/wayland_scanner/wayland-scanner
@@ -829,12 +829,13 @@ then
 				--disable-systemd-login \
 				--enable-weston-launch \
 				--disable-devdocs \
+				WESTON_NATIVE_BACKEND="drm-backend.so" \
+				--includedir=${TARGET_ROOTFS}/include \
+				--sysconfdir=/etc \
+				--localstatedir=/var \
+				lt_sysroot=${TARGET_ROOTFS}/lib \
+				--libdir=${TARGET_ROOTFS}/lib \
 				--disable-silent-rules || exit 1
-
-#				--libdir=${TARGET_ROOTFS}/lib \
-#				--includedir=${TARGET_ROOTFS}/include \
-#				--sysconfdir=/etc \
-#				--localstatedir=/var \
 
 		make || exit 1
 		make install || exit 1
