@@ -97,8 +97,8 @@ if [ "$CUR_PART" != "UNDEF" ]
 then
 
 SRC_PACKAGE_LIBPNG="ftp://ftp-osl.osuosl.org/pub/libpng/src/libpng16/libpng-1.6.34.tar.xz"
-SRC_PACKAGE_LIBDRM="https://dri.freedesktop.org/libdrm/libdrm-2.4.91.tar.gz"
-SRC_PACKAGE_MESA="https://mesa.freedesktop.org/archive/mesa-17.3.7.tar.gz"
+SRC_PACKAGE_LIBDRM="https://dri.freedesktop.org/libdrm/libdrm-2.4.92.tar.gz"
+SRC_PACKAGE_MESA="https://mesa.freedesktop.org/archive/mesa-18.1.1.tar.xz"
 SRC_PACKAGE_GLEW="https://downloads.sourceforge.net/project/glew/glew/2.1.0/glew-2.1.0.tgz"
 SRC_PACKAGE_GLU="ftp://ftp.freedesktop.org/pub/mesa/glu/glu-9.0.0.tar.gz"
 #SRC_PACKAGE_GLUT=glut.tar.gz
@@ -136,9 +136,9 @@ SRC_PACKAGE_CAIRO="https://www.cairographics.org/releases/cairo-1.14.12.tar.xz"
 SRC_PACKAGE_LIBPAM="http://www.linux-pam.org/library/Linux-PAM-1.3.0.tar.gz"
 SRC_PACKAGE_DBUS="https://dbus.freedesktop.org/releases/dbus/dbus-1.13.4.tar.gz"
 
-SRC_PACKAGE_WAYLAND="https://wayland.freedesktop.org/releases/wayland-1.14.92.tar.xz"
-SRC_PACKAGE_WAYLANDPROTOCOLS="https://wayland.freedesktop.org/releases/wayland-protocols-1.13.tar.xz"
-SRC_PACKAGE_WAYLANDWESTON="https://wayland.freedesktop.org/releases/weston-3.0.92.tar.xz"
+SRC_PACKAGE_WAYLAND="https://wayland.freedesktop.org/releases/wayland-1.15.0.tar.xz"
+SRC_PACKAGE_WAYLANDPROTOCOLS="https://wayland.freedesktop.org/releases/wayland-protocols-1.14.tar.xz"
+SRC_PACKAGE_WAYLANDWESTON="https://wayland.freedesktop.org/releases/weston-4.0.0.tar.xz"
 
 fi
 
