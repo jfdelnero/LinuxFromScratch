@@ -11,8 +11,8 @@ echo /sbin/mdev > /proc/sys/kernel/hotplug
 /bin/mount -a
 
 mount -t tmpfs -o size=700m none /root
-chmod go+rw /dev/null         
-chmod go+r /dev/random        
+chmod go+rw /dev/null
+chmod go+r /dev/random
 chmod go+r /dev/urandom
 chmod ugo+rw /dev/tty
 
@@ -65,9 +65,9 @@ chmod g+wr  /dev/dri/renderD128
 
 mkdir /dev/pts
 mount devpts /dev/pts -t devpts
-chmod go+rw /dev/null                                                         
-chmod go+r /dev/random                                                        
-chmod go+r /dev/urandom                                                       
+chmod go+rw /dev/null
+chmod go+r /dev/random
+chmod go+r /dev/urandom
 chmod ugo+rw /dev/tty
 
 mount -t ext2 /dev/ram2 /mnt
@@ -82,6 +82,13 @@ mount -t ext2 /dev/ram3 /home
 chmod -R 777 /home
 chmod oug-w /home
 
+mount -t ext2 /dev/ram4 /mnt
+cp -aR /home/* /mnt
+umount /mnt
+mount -t ext2 /dev/ram4 /run
+chmod -R 777 /run
+chmod oug-w /run
+
 PATH=/usr/bin:/bin:/sbin:/usr/sbin
 export LD_LIBRARY_PATH=/lib:/lib64:/usr/lib
 
@@ -89,6 +96,8 @@ export PYTHONPATH=/usr/lib/python3.6:/usr/lib/python3.6/site-packages:/lib/pytho
 export PYTHONHOME=/
 
 #hd-idle -a sda -i 720
+
+udevd&
 
 ifconfig eth0 up
 udhcpc &
@@ -106,7 +115,9 @@ klogd
 syslogd
 #crond
 #crontab /etc/crontab
+
 httpd -h /home/www
 vsftpd &
+
 #wpa_supplicant -B -i wlan0 -c /etc/wpa_supplicant.conf
 hostapd -d /etc/hostapd.conf &
