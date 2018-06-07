@@ -25,3 +25,5 @@ source ${BASE_DIR}/configs/common/config.sh || exit 1
 
 SRC_PACKAGE_KERNEL="https://github.com/raspberrypi/linux/archive/raspberrypi-kernel_1.20180417-1.tar.gz"
 
+SRC_PACKAGE_DIRECTFB=
+
