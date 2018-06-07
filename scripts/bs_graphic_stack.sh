@@ -785,7 +785,7 @@ then
 				--enable-xlib=no \
 				--enable-xlib-xrender=no \
 				--enable-glesv2=yes \
-				--enable-directfb=yes \
+				--enable-directfb=no \
 				|| exit 1
 
 		make ${NBCORE} all     || exit 1
