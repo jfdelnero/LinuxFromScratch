@@ -829,6 +829,10 @@ then
 				--disable-systemd-login \
 				--enable-weston-launch \
 				--disable-devdocs \
+				--enable-simple-clients \
+				--enable-simple-dmabuf-drm-client \
+				--enable-simple-egl-clients \
+				--enable-demo-clients-install \
 				WESTON_NATIVE_BACKEND="drm-backend.so" \
 				--includedir=${TARGET_ROOTFS}/include \
 				--sysconfdir=/etc \
