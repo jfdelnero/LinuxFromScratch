@@ -64,7 +64,7 @@ find ./sbin  -type f -exec ${TGT_MACH}-strip --strip-debug --strip-unneeded {} \
 find ./usr   -type f -exec ${TGT_MACH}-strip --strip-debug --strip-unneeded {} \;
 
 # Fix buggy path...
-gcc scripts/fix_bin_paths.c -o scripts/fix_bin_paths
+gcc ${BASE_DIR}/scripts/fix_bin_paths.c -o ${BASE_DIR}/scripts/fix_bin_paths
 
 find ./ -type f -exec ${BASE_DIR}/scripts/fix_bin_paths {} ${TARGET_ROOTFS} \;
 
