@@ -89,8 +89,10 @@ then
 
 		make ${NBCORE} ARCH=${KERNEL_ARCH} CROSS_COMPILE=${TGT_MACH}- mrproper || exit 1
 		make ${NBCORE} ARCH=${KERNEL_ARCH} CROSS_COMPILE=${TGT_MACH}- distclean || exit 1
+		make ${NBCORE} ARCH=${KERNEL_ARCH} CROSS_COMPILE=${TGT_MACH}- clean || exit 1
 
 		cp ${BASE_DIR}/configs/${TARGET_NAME}/kernel_config .config || exit 1
+		make ${NBCORE} ARCH=${KERNEL_ARCH} CROSS_COMPILE=${TGT_MACH}- oldconfig || exit 1
 		make ${NBCORE} ARCH=${KERNEL_ARCH} CROSS_COMPILE=${TGT_MACH}- headers_check || exit 1
 		make ${NBCORE} ARCH=${KERNEL_ARCH} CROSS_COMPILE=${TGT_MACH}- INSTALL_HDR_PATH="${TARGET_ROOTFS}" headers_install || exit 1
 
@@ -330,6 +332,11 @@ then
 
 		#make ${NBCORE} ARCH=${KERNEL_ARCH} CROSS_COMPILE=${TGT_MACH}- mt7623n_evb_fwu_defconfig
 		#make ${NBCORE} ARCH=${KERNEL_ARCH} CROSS_COMPILE=${TGT_MACH}- menuconfig
+
+		make ${NBCORE} ARCH=${KERNEL_ARCH} CROSS_COMPILE=${TGT_MACH}- clean || exit 1
+
+		cp ${BASE_DIR}/configs/${TARGET_NAME}/kernel_config .config || exit 1
+		make ${NBCORE} ARCH=${KERNEL_ARCH} CROSS_COMPILE=${TGT_MACH}- oldconfig || exit 1
 
 		make ${NBCORE} ${KERNEL_IMAGE_TYPE} modules dtbs ARCH=${KERNEL_ARCH} CROSS_COMPILE=${TGT_MACH}- ${KERNEL_ADD_OPTIONS} || exit 1
 		make ${NBCORE} modules_install ARCH=${KERNEL_ARCH}  INSTALL_MOD_PATH=${TARGET_ROOTFS} || exit 1
