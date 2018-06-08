@@ -19,6 +19,8 @@ exit 2
 
 fi
 
+source ${BASE_DIR}/configs/common/config.sh || exit 1
+
 source ${BASE_DIR}/configs/${TARGET_NAME}/config.sh || exit 1
 
 stage_download="yes"
@@ -29,9 +31,7 @@ stage_services="yes"
 stage_debugdev="yes"
 stage_graphicstack="yes"
 stage_network="yes"
-stage_stripbin="yes"
 stage_miscellaneous="yes"
-stage_test="no"
 
 mkdir -p ${BASE_DIR}/download             || exit 1
 mkdir -p ${BASE_DIR}/build                || exit 1
@@ -136,41 +136,6 @@ then
 (
 	./scripts/bs_debug_dev.sh
 ) || exit 1
-fi
-
-
-if [ $stage_test = "yes" ]
-then
-(
-	echo test
-) || exit 1
-fi
-
-####################################################################
-# Final Stage... Strip all debug infos...
-####################################################################
-
-if [ $stage_stripbin = "yes" ]
-then
-(
-	find ${TARGET_ROOTFS} -type f -print0  -print | xargs -0 ${TGT_MACH}-strip --strip-debug --strip-unneeded
-	${TGT_MACH}-strip --strip-debug --strip-unneeded  ${TARGET_ROOTFS}/bin/*
-	${TGT_MACH}-strip --strip-debug --strip-unneeded  ${TARGET_ROOTFS}/sbin/*
-	${TGT_MACH}-strip --strip-debug --strip-unneeded  ${TARGET_ROOTFS}/usr/bin/*
-	${TGT_MACH}-strip --strip-debug --strip-unneeded  ${TARGET_ROOTFS}/usr/sbin/*
-	${TGT_MACH}-strip --strip-debug --strip-unneeded  ${TARGET_ROOTFS}/usr/lib/*
-	${TGT_MACH}-strip --strip-debug --strip-unneeded  ${TARGET_ROOTFS}/usr/libexec/*
-	${TGT_MACH}-strip --strip-debug --strip-unneeded  ${TARGET_ROOTFS}/lib/*
-	${TGT_MACH}-strip --strip-debug --strip-unneeded  ${TARGET_ROOTFS}/lib/xtables/*
-	${TGT_MACH}-strip --strip-debug --strip-unneeded  ${TARGET_ROOTFS}/lib/gconv/*
-	${TGT_MACH}-strip --strip-debug --strip-unneeded  ${TARGET_ROOTFS}/bin/smbclient/*
-	rm ${TARGET_ROOTFS}/bin/smbclient/*.old
-	${TGT_MACH}-strip --strip-debug --strip-unneeded  ${TARGET_ROOTFS}/bin/smbd/*
-	rm ${TARGET_ROOTFS}/bin/smbd/*.old
-	${TGT_MACH}-strip --strip-debug --strip-unneeded  ${TARGET_ROOTFS}/usr/local/samba/bin/*
-	${TGT_MACH}-strip --strip-debug --strip-unneeded  ${TARGET_ROOTFS}/usr/local/samba/lib/*
-	${TGT_MACH}-strip --strip-debug --strip-unneeded  ${TARGET_ROOTFS}/usr/local/samba/sbin/*
-)
 fi
 
 (
