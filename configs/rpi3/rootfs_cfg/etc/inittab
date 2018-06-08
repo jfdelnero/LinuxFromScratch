@@ -10,6 +10,4 @@ tty4::respawn:/sbin/getty 38400 tty4
 tty5::respawn:/sbin/getty 38400 tty5
 tty6::respawn:/sbin/getty 38400 tty6
 tty7::respawn:/sbin/getty 38400 tty7
-tty8::respawn:/sbin/getty 38400 tty8
-tty9::respawn:/sbin/getty 38400 tty9
 

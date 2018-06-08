@@ -1,6 +1,9 @@
 #! /bin/sh
 
-/bin/mount -o remount,ro /dev/root /
+PATH=/usr/bin:/bin:/sbin:/usr/sbin
+LD_LIBRARY_PATH=/lib:/lib64:/usr/lib
+
+mount -o remount,ro /dev/root /
 mount -t proc none /proc
 mount -t sysfs none /sys
 
@@ -8,7 +11,7 @@ echo /sbin/mdev > /proc/sys/kernel/hotplug
 
 /sbin/mdev -s
 
-/bin/mount -a
+mount -a
 
 mount -t tmpfs -o size=700m none /root
 chmod go+rw /dev/null
@@ -24,7 +27,7 @@ mkfs.ext2 /dev/ram4  >/dev/null
 mkfs.ext2 /dev/ram5  >/dev/null
 mkfs.ext2 /dev/ram6  >/dev/null
 
-/bin/mount -t ext2 dev/ram0 /var
+mount -t ext2 dev/ram0 /var
 mkdir /var/log
 mkdir /var/db
 touch /var/db/dhcpd.leases
@@ -43,7 +46,7 @@ mkdir /var/spool/cron
 mkdir /var/spool/cron/crontabs 
 mkdir /var/state
 
-/bin/mount -t ext2 /dev/ram1 /tmp
+mount -t ext2 /dev/ram1 /tmp
 chmod 777 /tmp
 
 mount -t ext2 /dev/ram5 /mnt
@@ -82,22 +85,13 @@ mount -t ext2 /dev/ram3 /home
 chmod -R 777 /home
 chmod oug-w /home
 
-mount -t ext2 /dev/ram4 /mnt
-cp -aR /home/* /mnt
-umount /mnt
 mount -t ext2 /dev/ram4 /run
 chmod -R 777 /run
 chmod oug-w /run
 
-PATH=/usr/bin:/bin:/sbin:/usr/sbin
-export LD_LIBRARY_PATH=/lib:/lib64:/usr/lib
-
-export PYTHONPATH=/usr/lib/python3.6:/usr/lib/python3.6/site-packages:/lib/python3.6/
-export PYTHONHOME=/
+udevd&
 
 #hd-idle -a sda -i 720
-
-udevd&
 
 ifconfig eth0 up
 udhcpc &
@@ -111,8 +105,10 @@ ifconfig lo 127.0.0.1 up
 
 #/sbin/dhcpd -cf /etc/dhcpd.conf
 #ntpdate  ntp.univ-lyon1.fr canon.inria.fr ntp1.tuxfamily.net
+
 klogd
 syslogd
+
 #crond
 #crontab /etc/crontab
 
@@ -120,4 +116,5 @@ httpd -h /home/www
 vsftpd &
 
 #wpa_supplicant -B -i wlan0 -c /etc/wpa_supplicant.conf
-hostapd -d /etc/hostapd.conf &
+#hostapd -d /etc/hostapd.conf &
+
