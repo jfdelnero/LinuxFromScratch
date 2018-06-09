@@ -3,4 +3,4 @@
 PATH=/bin:/sbin:/usr/bin:/usr/sbin
 export PATH
 
-for i in `ls -v ../rcS.d/S*.sh`; do sh $i; done;
+for i in `ls -v /etc/rcS.d/S*.sh`; do sh $i; done;

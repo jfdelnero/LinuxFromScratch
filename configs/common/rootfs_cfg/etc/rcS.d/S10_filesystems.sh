@@ -37,7 +37,7 @@ mkdir /var/state
 # /dev
 #######################################
 
-mount -t tmpfs -o size=64m  none /mnt
+mount -t tmpfs -o size=64m  tmpfs /mnt
 cp -aR /dev/* /mnt
 mount --move /mnt /dev
 
@@ -63,15 +63,21 @@ chmod ugo+rw /dev/tty
 #######################################
 
 #######
-# home
-mount -t tmpfs -o size=64m  none /mnt
+# /home
+mount -t tmpfs -o size=64m  tmpfs /mnt
 cp -aR /home/* /mnt
 mount --move /mnt /home
 
 #######
-# run
-mount -t tmpfs -o size=64m  none /mnt
+# /run
+mount -t tmpfs -o size=64m  tmpfs /mnt
 cp -aR /run/* /mnt
 mount --move /mnt /run
+
+#######
+# /etc
+mount -t tmpfs -o size=64m  tmpfs /etc
+cp -aR /etc/* /mnt
+mount --move /mnt /etc
 
 mount -a
