@@ -1,8 +1,0 @@
-system=fbdev
-mode=1920x1080
-depth=32
-pixelformat=RGB32
-wm=default
-hardware
-nosoftware
-
