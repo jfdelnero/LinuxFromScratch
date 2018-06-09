@@ -1,5 +1,7 @@
 #! /bin/sh
 
+echo Starting Network...
+
 ifconfig lo 127.0.0.1 up
 ifconfig eth0 up
 

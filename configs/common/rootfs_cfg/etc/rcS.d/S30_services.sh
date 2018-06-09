@@ -1,5 +1,7 @@
 #! /bin/sh
 
+echo Starting Network Services...
+
 inetd
 /sbin/sshd
 #smbd

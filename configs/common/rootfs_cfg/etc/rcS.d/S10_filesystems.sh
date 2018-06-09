@@ -37,15 +37,19 @@ mkdir /var/state
 # /dev
 #######################################
 
-mount -t tmpfs -o size=64m  tmpfs /mnt
-cp -aR /dev/* /mnt
-mount --move /mnt /dev
+# Done by devtmpfs...
+#mount -t tmpfs -o size=64m  tmpfs /mnt
+#cp -aR /dev/* /mnt
+#mount --move /mnt /dev
 
 # video / drm device
-mkdir       /dev/dri
-mknod       /dev/dri/card0 c 226 0
-mknod       /dev/dri/controlD64 c 226 64
-mknod       /dev/dri/renderD128 c 226 128
+if [ ! -f "/dev/dri/card0" ]
+then
+	mkdir       /dev/dri
+	mknod       /dev/dri/card0 c 226 0
+	mknod       /dev/dri/controlD64 c 226 64
+	mknod       /dev/dri/renderD128 c 226 128
+fi
 chgrp video /dev/dri/card0
 chgrp video /dev/dri/controlD64
 chgrp video /dev/dri/renderD128
@@ -71,12 +75,12 @@ mount --move /mnt /home
 #######
 # /run
 mount -t tmpfs -o size=64m  tmpfs /mnt
-cp -aR /run/* /mnt
+cp -aR /run/* /mnt 2> /dev/null
 mount --move /mnt /run
 
 #######
 # /etc
-mount -t tmpfs -o size=64m  tmpfs /etc
+mount -t tmpfs -o size=64m  tmpfs /mnt
 cp -aR /etc/* /mnt
 mount --move /mnt /etc
 
