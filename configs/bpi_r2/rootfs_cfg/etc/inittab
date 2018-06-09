@@ -1,6 +1,0 @@
-::sysinit:/etc/init.d/rcS
-::respawn:-/bin/sh
-
-::ctrlaltdel:/sbin/reboot
-
-
