@@ -1,1 +1,0 @@
-0 * * * * ntpdate  ntp.univ-lyon1.fr canon.inria.fr ntp1.tuxfamily.net 
