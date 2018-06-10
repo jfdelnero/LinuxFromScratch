@@ -85,6 +85,7 @@ chmod +x ./etc/init.d/rcS.d/*
 chmod +x ./usr/share/udhcpc/*
 chmod go-rxw ./etc/ssh/ssh_host_*
 
+mkdir home/anonymous
 mkdir ramdisk
 mkdir mnt/tmp
 mkdir usr/share/empty
@@ -124,6 +125,9 @@ if [ ! -f $1 ]; then
 
     sudo chown -R root *
     sudo chgrp -R root *
+
+    chmod ugo-w home
+
     cd ..
 
     sudo umount $1
