@@ -93,11 +93,19 @@ then
 	(
 		unpack ${CUR_PACKAGE} ""
 
+		export PKG_CONFIG_LIBDIR=${TARGET_ROOTFS}/lib/pkgconfig
+
 		cd ${BASE_DIR}/build/$TARGET_NAME || exit 1
 		mkdir ncurses
 		cd ncurses || exit 1
 
-		${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER}/configure --prefix="${TARGET_ROOTFS}" --host=$TGT_MACH CC=${TGT_MACH}-gcc --disable-stripping STRIPPROG=${TGT_MACH}-strip --with-curses-h || exit 1
+		${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER}/configure \
+				--prefix="${TARGET_ROOTFS}" \
+				--host=$TGT_MACH CC=${TGT_MACH}-gcc \
+				--disable-stripping STRIPPROG=${TGT_MACH}-strip \
+				--with-curses-h \
+				--enable-pc-files \
+				--with-pkg-config-libdir=${TARGET_ROOTFS}/lib/pkgconfig || exit 1
 
 		make ${NBCORE} all     || exit 1
 		make ${NBCORE} install || exit 1
