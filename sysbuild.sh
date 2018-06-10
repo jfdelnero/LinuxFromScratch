@@ -30,6 +30,7 @@ stage_sysshell="yes"
 stage_services="yes"
 stage_debugdev="yes"
 stage_graphicstack="yes"
+stage_audiostack="yes"
 stage_network="yes"
 stage_miscellaneous="yes"
 
@@ -105,6 +106,16 @@ if [ $stage_network = "yes" ];
 then
 (
 	./scripts/bs_network.sh
+) || exit 1
+fi
+
+####################################################################
+# Audio stack
+####################################################################
+if [ $stage_audiostack = "yes" ];
+then
+(
+	./scripts/bs_audio_stack.sh
 ) || exit 1
 fi
 
