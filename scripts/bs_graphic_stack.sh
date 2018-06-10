@@ -677,6 +677,9 @@ then
 		mkdir sdl2
 		cd sdl2 || exit 1
 
+		# Point to the host wayland scanner !
+		sed -i s#WAYLAND_SCANNER\=#WAYLAND_SCANNER\=${BASE_DIR}/build/${TARGET_NAME}/wayland_scanner/wayland-scanner\ \\##g ${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER}/configure || exit 1
+
 		${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER}/configure \
 				--prefix="${TARGET_ROOTFS}" \
 				--host=$TGT_MACH \
@@ -704,10 +707,29 @@ then
  				--disable-haptic \
  				--disable-directfb-shared \
  				--disable-pulseaudio \
- 				CFLAGS="-DPATH_MAX=4096 -DSDL_DIRECTFB_OPENGL" || exit 1
+ 				CFLAGS="-DPATH_MAX=4096 -DMESA_EGL_NO_X11_HEADERS" || exit 1
 
 		make ${NBCORE}         || exit 1
 		make ${NBCORE} install || exit 1
+
+	#	SDL Test programs
+		cd ${BASE_DIR}/build/${TARGET_NAME} || exit 1
+		mkdir sdl2_tests
+		cd sdl2_tests || exit 1
+
+		# disable testshader...
+		sed -i s#testshader\$\(EXE\)\ #\ #g ${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER}/test/Makefile.in || exit 1
+
+		${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER}/test/configure \
+				--prefix="${TARGET_ROOTFS}" \
+				--host=$TGT_MACH \
+				--disable-testshader \
+				CFLAGS="-DPATH_MAX=4096" || exit 1
+
+		make ${NBCORE}         || exit 1
+
+		mkdir ${TARGET_ROOTFS}/sdltests
+		cp *  ${TARGET_ROOTFS}/sdltests 
 
 		echo "" > ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE
 
