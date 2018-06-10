@@ -111,6 +111,17 @@ SRC_PACKAGE_SDL_TTF="https://www.libsdl.org/projects/SDL_ttf/release/SDL2_ttf-2.
 
 fi
 
+#
+# Audio Stack
+#
+CUR_PART=${AUDIO_SUPPORT:-"UNDEF"}
+if [ "$CUR_PART" != "UNDEF" ]
+then
+
+SRC_PACKAGE_ALSALIB="ftp://ftp.alsa-project.org/pub/lib/alsa-lib-1.1.6.tar.bz2"
+SRC_PACKAGE_ALSAUTILS="ftp://ftp.alsa-project.org/pub/utils/alsa-utils-1.1.6.tar.bz2"
+
+fi
 
 #
 # Wayland
