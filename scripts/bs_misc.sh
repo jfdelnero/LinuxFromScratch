@@ -278,7 +278,7 @@ then
 				--target=$TGT_MACH \
 				|| exit 1
 
-		make ${NBCORE} CFLAGS="-I/${TARGET_ROOTFS}/include/ncurses" CPPFLAGS="-I${TARGET_ROOTFS}/include/ncurses"       || exit 1
+		make ${NBCORE} CFLAGS="-I/${TARGET_ROOTFS}/include/ncurses" CPPFLAGS="-I${TARGET_ROOTFS}/include/ncurses" || exit 1
 		make ${NBCORE} install || exit 1
 
 		echo "" > ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE
@@ -306,9 +306,57 @@ then
 
 		cd ${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER} || exit 1
 
-		# Mame hack :
+		########################################################################################################################
+		# Mame hack/patch :
+		sed -i s#\$\(MARVELL_SDK_PATH\)/toolchain/bin/armv7a-cros-linux-gnueabi-#${TGT_MACH}-#g ./scripts/toolchain.lua || exit 1
+		sed -i s#\$\(MARVELL_SDK_PATH\)/toolchain/bin/armv7a-cros-linux-gnueabi-#${TGT_MACH}-#g ./3rdparty/bx/scripts/toolchain.lua || exit 1
+
+		#sed -i s#\"__STEAMLINK__\=1\"#--\"__STEAMLINK__\=1\"#g ./scripts/toolchain.lua || exit 1
+		#sed -i s#\"__STEAMLINK__\=1\"#--\"__STEAMLINK__\=1\"#g ./3rdparty/bx/scripts/toolchain.lua || exit 1
+
+		sed -i s#\"__STEAMLINK__\=1\"#\"PTR64\=1\",\"MESA_EGL_NO_X11_HEADERS\=1\"#g ./scripts/toolchain.lua || exit 1
+		sed -i s#\"__STEAMLINK__\=1\"#\"PTR64\=1\",\"MESA_EGL_NO_X11_HEADERS\=1\"#g ./3rdparty/bx/scripts/toolchain.lua || exit 1
+		
+		sed -i s#-mfloat-abi\=hard##g ./scripts/toolchain.lua || exit 1
+		sed -i s#-mfloat-abi\=hard##g ./3rdparty/bx/scripts/toolchain.lua || exit 1
+
+		sed -i s#-marm##g ./scripts/toolchain.lua || exit 1
+		sed -i s#-marm##g ./3rdparty/bx/scripts/toolchain.lua || exit 1
+
+		sed -i s#-static-libstdc++##g ./scripts/toolchain.lua || exit 1
+		sed -i s#-static-libstdc++##g ./3rdparty/bx/scripts/toolchain.lua || exit 1
+
+		sed -i s#-static-libstdc##g ./scripts/toolchain.lua || exit 1
+		sed -i s#-static-libstdc##g ./3rdparty/bx/scripts/toolchain.lua || exit 1
+
+		sed -i s#-static-libgcc##g ./scripts/toolchain.lua || exit 1
+		sed -i s#-static-libgcc##g ./3rdparty/bx/scripts/toolchain.lua || exit 1
+
+		sed -i s#--sysroot=\$\(MARVELL_SDK_PATH\)/rootfs##g ./scripts/toolchain.lua || exit 1
+		sed -i s#--sysroot=\$\(MARVELL_SDK_PATH\)/rootfs##g ./3rdparty/bx/scripts/toolchain.lua || exit 1
+
+		sed -i s#BX_PLATFORM_LINUX#BX_PLATFORM__STEAMLINK#g ./3rdparty/bgfx/src/config.h || exit 1
+		sed -i s#BX_PLATFORM_STEAMLINK#BX_PLATFORM_LINUX#g ./3rdparty/bgfx/src/config.h || exit 1
+		sed -i s#BX_PLATFORM__STEAMLINK#BX_PLATFORM_STEAMLINK#g ./3rdparty/bgfx/src/config.h || exit 1
+
+		sed -i s#\"X11\"#--\"X11\"#g ./3rdparty/bgfx/scripts/genie.lua || exit 1
+#		sed -i s#\"EGL\"#--\"EGL\"#g ./3rdparty/bgfx/scripts/genie.lua || exit 1
+#		sed -i s#\"EGL\"#--\"EGL\"#g ./scripts/genie.lua || exit 1
+		sed -i s#\"EGL\"#\"asound\"#g ./3rdparty/bgfx/scripts/genie.lua || exit 1
+		sed -i s#\"EGL\"#\"asound\"#g ./scripts/genie.lua || exit 1
+
+		sed -i s#\"EGL_API_FB\"#--\"EGL_API_FB\"#g ./scripts/genie.lua || exit 1
+
+		sed -i s#\"EGL_API_FB\"#--\"EGL_API_FB\"#g ./src/osd/modules/render/drawbgfx.cpp
+
+		sed -i s#BX_PLATFORM_LINUX#BX_PLATFORM_STEAMLINK#g     ./src/osd/modules/render/drawbgfx.cpp || exit 1
+		sed -i s#BX_PLATFORM_EMSCRIPTEN#BX_PLATFORM_LINUX#g      ./src/osd/modules/render/drawbgfx.cpp || exit 1
+		#sed -i s#BX_PLATFORM__STEAMLINK#BX_PLATFORM_STEAMLINK#g ./src/osd/modules/render/drawbgfx.cpp || exit 1
+
 		export MARVELL_SDK_PATH="${CROSS_COMPILER_TOOLS}"
 		export MARVELL_ROOTFS="${TARGET_ROOTFS}"
+
+		########################################################################################################################
 
 		make steamlink REGENIE=1 SOURCES=src/mame/drivers/pacman.cpp -j3  NO_USE_MIDI=1 NO_X11=1 || exit 1
 
