@@ -93,8 +93,6 @@ then
 	(
 		unpack ${CUR_PACKAGE} ""
 
-		export PKG_CONFIG_LIBDIR=${TARGET_ROOTFS}/lib/pkgconfig
-
 		cd ${BASE_DIR}/build/$TARGET_NAME || exit 1
 		mkdir ncurses
 		cd ncurses || exit 1
@@ -207,8 +205,6 @@ then
 		export AS=${TGT_MACH}-as
 		export AR=${TGT_MACH}-ar
 
-		export PKG_CONFIG_LIBDIR=${TARGET_ROOTFS}/lib/pkgconfig
-
 		${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER}/Configure ${SSL_ARCH} shared --prefix="${TARGET_ROOTFS}" || exit 1
 
 		make || exit 1
@@ -239,7 +235,6 @@ then
 		mkdir libevent
 		cd libevent || exit 1
 
-		export PKG_CONFIG_LIBDIR=${TARGET_ROOTFS}/lib/pkgconfig
 
 		${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER}/configure --host=$TGT_MACH --prefix="${TARGET_ROOTFS}" || exit 1
 

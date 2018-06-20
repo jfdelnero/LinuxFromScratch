@@ -28,8 +28,6 @@ then
 	(
 		unpack ${CUR_PACKAGE} ""
 
-		export PKG_CONFIG_LIBDIR=${TARGET_ROOTFS}/lib/pkgconfig
-
 		cd ${BASE_DIR}/build/${TARGET_NAME} || exit 1
 		mkdir libalsa
 		cd libalsa || exit 1
@@ -64,8 +62,6 @@ then
 	then
 	(
 		unpack ${CUR_PACKAGE} ""
-
-		export PKG_CONFIG_LIBDIR=${TARGET_ROOTFS}/lib/pkgconfig
 
 		cd ${BASE_DIR}/build/${TARGET_NAME} || exit 1
 		mkdir utilsalsa

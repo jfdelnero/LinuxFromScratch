@@ -33,6 +33,8 @@ then
 
 		unpack ${CUR_PACKAGE} ""
 
+		unset PKG_CONFIG_LIBDIR
+
 		cd ${BASE_DIR}/build/$TARGET_NAME || exit 1
 		mkdir -pv binutils
 		cd binutils || exit 1
@@ -119,6 +121,9 @@ then
 		echo "**************"
 
 		unpack ${CUR_PACKAGE} ""
+
+		unset PKG_CONFIG_LIBDIR
+
 		CUR_SRC_MAIN_FOLDER=$TMP_ARCHIVE_FOLDER
 
 		cd ${BASE_DIR}/sources/${TARGET_NAME}/${CUR_SRC_MAIN_FOLDER}   || exit 1
@@ -377,7 +382,6 @@ then
 
 		unpack ${CUR_PACKAGE} ""
 		CUR_SRC_MAIN_FOLDER=$TMP_ARCHIVE_FOLDER
-		export PKG_CONFIG_LIBDIR=${TARGET_ROOTFS}/lib/pkgconfig
 
 		cd ${BASE_DIR}/sources/${TARGET_NAME}/${CUR_SRC_MAIN_FOLDER}
 
@@ -422,8 +426,6 @@ then
 		unpack ${CUR_PACKAGE} ""
 		CUR_SRC_MAIN_FOLDER=$TMP_ARCHIVE_FOLDER
 
-		export PKG_CONFIG_LIBDIR=${TARGET_ROOTFS}/lib/pkgconfig
-
 		cd ${BASE_DIR}/build/$TARGET_NAME || exit 1
 		mkdir -pv libevdev || exit 1
 		cd libevdev || exit 1
@@ -461,7 +463,6 @@ then
 
 		unpack ${CUR_PACKAGE} ""
 		CUR_SRC_MAIN_FOLDER=$TMP_ARCHIVE_FOLDER
-		export PKG_CONFIG_LIBDIR=${TARGET_ROOTFS}/lib/pkgconfig
 
 		cd ${BASE_DIR}/sources/${TARGET_NAME}/${CUR_SRC_MAIN_FOLDER} || exit 1
 
@@ -499,7 +500,6 @@ then
 		export CC=${TGT_MACH}-gcc
 		export AR=${TGT_MACH}-ar
 		export RANLIB=${TGT_MACH}-ranlib
-		export PKG_CONFIG_LIBDIR=${TARGET_ROOTFS}/lib/pkgconfig
 
 		unpack ${CUR_PACKAGE} ""
 		CUR_SRC_MAIN_FOLDER=$TMP_ARCHIVE_FOLDER
@@ -570,8 +570,6 @@ then
 		unpack ${CUR_PACKAGE} ""
 		CUR_SRC_MAIN_FOLDER=$TMP_ARCHIVE_FOLDER
 
-		export PKG_CONFIG_LIBDIR=${TARGET_ROOTFS}/lib/pkgconfig
-
 		cd ${BASE_DIR}/build/$TARGET_NAME || exit 1
 		mkdir -pv dbus || exit 1
 		cd dbus || exit 1
@@ -612,7 +610,6 @@ then
 
 		unpack ${CUR_PACKAGE} ""
 		CUR_SRC_MAIN_FOLDER=$TMP_ARCHIVE_FOLDER
-		export PKG_CONFIG_LIBDIR=${TARGET_ROOTFS}/lib/pkgconfig
 
 		mkdir ${TARGET_ROOTFS}/usr/share
 		mkdir ${TARGET_ROOTFS}/usr/share/bash-completion
@@ -704,7 +701,6 @@ then
 
 		unpack ${CUR_PACKAGE} ""
 		CUR_SRC_MAIN_FOLDER=$TMP_ARCHIVE_FOLDER
-		export PKG_CONFIG_LIBDIR=${TARGET_ROOTFS}/lib/pkgconfig
 
 		cd ${BASE_DIR}/build/$TARGET_NAME || exit 1
 		mkdir -pv eudev || exit 1
@@ -741,8 +737,6 @@ then
 
 		unpack ${CUR_PACKAGE} ""
 		CUR_SRC_MAIN_FOLDER=$TMP_ARCHIVE_FOLDER
-
-		export PKG_CONFIG_LIBDIR=${TARGET_ROOTFS}/lib/pkgconfig
 
 		cd ${BASE_DIR}/build/$TARGET_NAME || exit 1
 		mkdir -pv libpam || exit 1
@@ -786,7 +780,6 @@ then
 
 		unpack ${CUR_PACKAGE} ""
 		CUR_SRC_MAIN_FOLDER=$TMP_ARCHIVE_FOLDER
-		export PKG_CONFIG_LIBDIR=${TARGET_ROOTFS}/lib/pkgconfig
 
 		cd ${BASE_DIR}/build/$TARGET_NAME || exit 1
 		mkdir -pv systemd || exit 1
@@ -889,8 +882,6 @@ then
 
 		unpack ${CUR_PACKAGE} ""
 		CUR_SRC_MAIN_FOLDER=$TMP_ARCHIVE_FOLDER
-
-		export PKG_CONFIG_LIBDIR=${TARGET_ROOTFS}/lib/pkgconfig
 
 		cd ${BASE_DIR}/build/$TARGET_NAME || exit 1
 		mkdir -pv libinput || exit 1

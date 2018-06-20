@@ -32,6 +32,8 @@ else
 
 		export NBCORE=-j`nproc`
 
+		export PKG_CONFIG_LIBDIR=${TARGET_ROOTFS}/lib/pkgconfig
+
 		clear
 		echo "* $TARGET_NAME Environnement set ! *"
 

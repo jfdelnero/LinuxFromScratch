@@ -62,8 +62,6 @@ then
 	(
 		unpack ${CUR_PACKAGE} ""
 
-		export PKG_CONFIG_LIBDIR=${TARGET_ROOTFS}/lib/pkgconfig
-
 		cd ${BASE_DIR}/build/${TARGET_NAME} || exit 1
 		mkdir libdrm
 		cd libdrm || exit 1
@@ -105,6 +103,8 @@ then
 		unpack ${CUR_PACKAGE} ""
 
 		cd ${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER} || exit 1
+
+		unset PKG_CONFIG_LIBDIR
 
 		sed -i s#\@USE_HOST_SCANNER_TRUE\@wayland_scanner\ =\ wayland-scanner#\@USE_HOST_SCANNER_TRUE\@wayland_scanner\ =\ \'\$\(top_builddir\)/..\\/wayland_scanner/wayland-scanner\'#g Makefile.in || exit 1
 
@@ -156,8 +156,6 @@ then
 		mkdir wayland_protocols
 		cd wayland_protocols || exit 1
 
-		export PKG_CONFIG_LIBDIR=${TARGET_ROOTFS}/lib/pkgconfig
-
 		export WAYLAND_SCANNER_PATH=${BASE_DIR}/build/${TARGET_NAME}/wayland_scanner/wayland-scanner
 
 		${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER}/configure --prefix="${TARGET_ROOTFS}" --host=$TGT_MACH || exit 1
@@ -187,8 +185,6 @@ then
 	then
 	(
 		unpack ${CUR_PACKAGE} ""
-
-		export PKG_CONFIG_LIBDIR=${TARGET_ROOTFS}/lib/pkgconfig
 
 		export WAYLAND_SCANNER_PATH=${BASE_DIR}/build/${TARGET_NAME}/wayland_scanner/wayland-scanner
 
@@ -253,8 +249,6 @@ then
 		export TMP_ARCHIVE_FOLDER="mesa-lima-lima-17.3"
 
 		unzip  ${BASE_DIR}/download/${TARGET_NAME}/${CUR_PACKAGE} -d ${BASE_DIR}/sources/${TARGET_NAME}/
-
-		export PKG_CONFIG_LIBDIR=${TARGET_ROOTFS}/lib/pkgconfig
 
 		cd ${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER} || exit 1
 
@@ -330,7 +324,6 @@ then
 		mkdir xkbcommon
 		cd xkbcommon || exit 1
 
-		export PKG_CONFIG_LIBDIR=${TARGET_ROOTFS}/lib/pkgconfig
 		export wayland_scanner=${BASE_DIR}/build/${TARGET_NAME}/wayland_scanner/wayland-scanner
 
 		${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER}/configure --prefix="${TARGET_ROOTFS}" --host=$TGT_MACH --disable-x11 || exit 1
@@ -366,8 +359,6 @@ then
 		mkdir pixman
 		cd pixman || exit 1
 
-		export PKG_CONFIG_LIBDIR=${TARGET_ROOTFS}/lib/pkgconfig
-
 		${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER}/configure --prefix="${TARGET_ROOTFS}" --host=$TGT_MACH || exit 1
 
 		make || exit 1
@@ -396,8 +387,6 @@ then
 		unpack ${CUR_PACKAGE} ""
 
 		cd ${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER} || exit 1
-
-		export PKG_CONFIG_LIBDIR=${TARGET_ROOTFS}/lib/pkgconfig
 
 		./autogen.sh
 
@@ -435,7 +424,6 @@ then
 	(
 		unpack ${CUR_PACKAGE} ""
 
-		export PKG_CONFIG_LIBDIR=${TARGET_ROOTFS}/lib/pkgconfig
 		export GLEW_PREFIX=${TARGET_ROOTFS}/
 		export GLEW_DEST=${TARGET_ROOTFS}/
 
@@ -471,8 +459,6 @@ then
 		mkdir glu
 		cd glu || exit 1
 
-		export PKG_CONFIG_LIBDIR=${TARGET_ROOTFS}/lib/pkgconfig
-
 		sed -i.bak 's/armv\[345\]\[lb\]/armv\[34567\]\[lba\]/g' ${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER}/config.sub
 
 		${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER}/configure \
@@ -504,8 +490,6 @@ then
 	(
 		unpack ${CUR_PACKAGE} ""
 
-		export PKG_CONFIG_LIBDIR=${TARGET_ROOTFS}/lib/pkgconfig
-
 		cd ${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER} || exit 1
 
 		make ${NBCORE} configure STRIP=${TGT_MACH}-strip CC=${TGT_MACH}-gcc LD=${TGT_MACH}-ld AR=${TGT_MACH}-ar AS=${TGT_MACH}-as  linux-osmesa || exit 1
@@ -532,8 +516,6 @@ then
 	then
 	(
 		unpack ${CUR_PACKAGE} ""
-
-		export PKG_CONFIG_LIBDIR=${TARGET_ROOTFS}/lib/pkgconfig
 
 		cd ${BASE_DIR}/build/${TARGET_NAME} || exit 1
 		mkdir freetype
@@ -568,8 +550,6 @@ then
 	then
 	(
 		unpack ${CUR_PACKAGE} ""
-
-		export PKG_CONFIG_LIBDIR=${TARGET_ROOTFS}/lib/pkgconfig
 
 		cd ${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER} || exit 1
 
@@ -677,8 +657,6 @@ then
 	(
 		unpack ${CUR_PACKAGE} ""
 
-		export PKG_CONFIG_LIBDIR=${TARGET_ROOTFS}/lib/pkgconfig
-
 		cd ${BASE_DIR}/build/${TARGET_NAME} || exit 1
 		mkdir sdl2
 		cd sdl2 || exit 1
@@ -758,8 +736,6 @@ then
 	(
 		unpack ${CUR_PACKAGE} ""
 
-		export PKG_CONFIG_LIBDIR=${TARGET_ROOTFS}/lib/pkgconfig
-
 		cd ${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER} || exit 1
 
 		sed -i s#SDL_opengl#SDL_opengll#g configure || exit 1
@@ -799,8 +775,6 @@ then
 	then
 	(
 		unpack ${CUR_PACKAGE} ""
-
-		export PKG_CONFIG_LIBDIR=${TARGET_ROOTFS}/lib/pkgconfig
 
 		cd ${BASE_DIR}/build/${TARGET_NAME} || exit 1
 		mkdir cairo
@@ -844,8 +818,6 @@ then
 
 		mkdir wayland_weston
 		cd wayland_weston || exit 1
-
-		export PKG_CONFIG_LIBDIR=${TARGET_ROOTFS}/lib/pkgconfig
 
 		export WAYLAND_SCANNER_PATH=${BASE_DIR}/build/${TARGET_NAME}/wayland_scanner/wayland-scanner
 		export wayland_scanner=${BASE_DIR}/build/${TARGET_NAME}/wayland_scanner/wayland-scanner
