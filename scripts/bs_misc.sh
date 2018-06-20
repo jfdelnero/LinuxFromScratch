@@ -6,9 +6,9 @@
 # Miscellaneous stuffs
 #
 
-source ${BASE_DIR}/scripts/unpack.sh || exit 1
+source ${SCRIPTS_HOME}/unpack.sh || exit 1
 
-source ${BASE_DIR}/configs/${TARGET_NAME}/config.sh || exit 1
+source ${TARGET_CONFIG}/config.sh || exit 1
 
 echo "*********************"
 echo "*   Miscellaneous   *"
@@ -23,16 +23,16 @@ CUR_PACKAGE="${CUR_PACKAGE##*/}"
 if [ "$CUR_PACKAGE" != "UNDEF" ]
 then
 (
-	if [ ! -f ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE ]
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
 	then
 	(
 		unpack ${CUR_PACKAGE} ""
 
-		cd ${BASE_DIR}/build/${TARGET_NAME} || exit 1
+		cd ${TARGET_BUILD} || exit 1
 		mkdir sdparm
 		cd sdparm || exit 1
 
-		${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER}/configure \
+		${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure \
 				--prefix="${TARGET_ROOTFS}" \
 				--build=$MACHTYPE \
 				--host=$TGT_MACH \
@@ -42,7 +42,7 @@ then
 		make ${NBCORE}         || exit 1
 		make ${NBCORE} install || exit 1
 
-		echo "" > ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
 
 	) || exit 1
 	fi
@@ -58,12 +58,12 @@ CUR_PACKAGE="${CUR_PACKAGE##*/}"
 if [ "$CUR_PACKAGE" != "UNDEF" ]
 then
 (
-	if [ ! -f ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE ]
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
 	then
 	(
 		unpack ${CUR_PACKAGE} ""
 
-		cd ${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER} || exit 1
+		cd ${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER} || exit 1
 
 		export CROSS=${TGT_MACH}
 		export CC=${TGT_MACH}-gcc
@@ -77,7 +77,7 @@ then
 		make ${NBCORE}          || exit 1
 		make ${NBCORE} install  || exit 1
 
-		echo "" > ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
 
 	) || exit 1
 	fi
@@ -93,17 +93,17 @@ CUR_PACKAGE="${CUR_PACKAGE##*/}"
 if [ "$CUR_PACKAGE" != "UNDEF" ]
 then
 (
-	if [ ! -f ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE ]
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
 	then
 	(
 		unpack ${CUR_PACKAGE} ""
 
-		cd ${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER} || exit 1
+		cd ${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER} || exit 1
 
 		make ${NBCORE} CROSS_COMPILE=${TGT_MACH}- PREFIX=${TARGET_ROOTFS} HOST=${TARGET_ROOTFS} || exit 1
 		make ${NBCORE} CROSS_COMPILE=${TGT_MACH}- PREFIX=${TARGET_ROOTFS} HOST=${TARGET_ROOTFS} STRIP="-s --strip-program=${TGT_MACH}-strip"  install  || exit 1
 
-		echo "" > ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
 
 	) || exit 1
 	fi
@@ -119,12 +119,12 @@ CUR_PACKAGE="${CUR_PACKAGE##*/}"
 if [ "$CUR_PACKAGE" != "UNDEF" ]
 then
 (
-	if [ ! -f ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE ]
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
 	then
 	(
 		unpack ${CUR_PACKAGE} ""
 
-		cd ${BASE_DIR}/build/${TARGET_NAME} || exit 1
+		cd ${TARGET_BUILD} || exit 1
 
 		mkdir python
 		cd python || exit 1
@@ -133,7 +133,7 @@ then
 		echo ac_cv_file__dev_ptc=no >> ./config.site
 		export CONFIG_SITE=config.site
 
-		${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER}/configure \
+		${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure \
 				--prefix= \
 				--build=$MACHTYPE \
 				--host=$TGT_MACH \
@@ -145,7 +145,7 @@ then
 		make ${NBCORE} || exit 1
 		make ${NBCORE} altinstall DESTDIR=${TARGET_ROOTFS} || exit 1
 
-		echo "" > ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
 
 	) || exit 1
 	fi
@@ -161,12 +161,12 @@ CUR_PACKAGE="${CUR_PACKAGE##*/}"
 if [ "$CUR_PACKAGE" != "UNDEF" ]
 then
 (
-	if [ ! -f ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE ]
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
 	then
 	(
 		unpack ${CUR_PACKAGE} ""
 
-		cd ${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER} || exit 1
+		cd ${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER} || exit 1
 
 		export CC=${TGT_MACH}-gcc
 		export LD=${TGT_MACH}-ld
@@ -176,7 +176,7 @@ then
 		make ${NBCORE} prefix=${TARGET_ROOTFS} || exit 1
 		make ${NBCORE} prefix=${TARGET_ROOTFS} install  || exit 1
 
-		echo "" > ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
 
 	) || exit 1
 	fi
@@ -192,16 +192,16 @@ CUR_PACKAGE="${CUR_PACKAGE##*/}"
 if [ "$CUR_PACKAGE" != "UNDEF" ]
 then
 (
-	if [ ! -f ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE ]
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
 	then
 	(
 		unpack ${CUR_PACKAGE} ""
 
-		cd ${BASE_DIR}/build/${TARGET_NAME} || exit 1
+		cd ${TARGET_BUILD} || exit 1
 		mkdir libusb
 		cd libusb || exit 1
 
-		${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER}/configure \
+		${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure \
 				--prefix="${TARGET_ROOTFS}" \
 				--build=$MACHTYPE \
 				--host=$TGT_MACH \
@@ -211,7 +211,7 @@ then
 		make ${NBCORE}         || exit 1
 		make ${NBCORE} install || exit 1
 
-		echo "" > ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
 
 	) || exit 1
 	fi
@@ -227,16 +227,16 @@ CUR_PACKAGE="${CUR_PACKAGE##*/}"
 if [ "$CUR_PACKAGE" != "UNDEF" ]
 then
 (
-	if [ ! -f ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE ]
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
 	then
 	(
 		unpack ${CUR_PACKAGE} ""
 
-		cd ${BASE_DIR}/build/${TARGET_NAME} || exit 1
+		cd ${TARGET_BUILD} || exit 1
 		mkdir libusbgadget
 		cd libusbgadget || exit 1
 
-		${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER}/configure \
+		${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure \
 				--prefix="${TARGET_ROOTFS}" \
 				--build=$MACHTYPE \
 				--host=$TGT_MACH \
@@ -246,7 +246,7 @@ then
 		make ${NBCORE}         || exit 1
 		make ${NBCORE} install || exit 1
 
-		echo "" > ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
 
 	) || exit 1
 	fi
@@ -262,16 +262,16 @@ CUR_PACKAGE="${CUR_PACKAGE##*/}"
 if [ "$CUR_PACKAGE" != "UNDEF" ]
 then
 (
-	if [ ! -f ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE ]
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
 	then
 	(
 		unpack ${CUR_PACKAGE} ""
 
-		cd ${BASE_DIR}/build/${TARGET_NAME} || exit 1
+		cd ${TARGET_BUILD} || exit 1
 		mkdir nano
 		cd nano || exit 1
 
-		${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER}/configure \
+		${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure \
 				--prefix="${TARGET_ROOTFS}" \
 				--build=$MACHTYPE \
 				--host=$TGT_MACH \
@@ -281,7 +281,7 @@ then
 		make ${NBCORE} CFLAGS="-I/${TARGET_ROOTFS}/include/ncurses" CPPFLAGS="-I${TARGET_ROOTFS}/include/ncurses" || exit 1
 		make ${NBCORE} install || exit 1
 
-		echo "" > ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
 
 	) || exit 1
 	fi
@@ -297,12 +297,12 @@ CUR_PACKAGE="${CUR_PACKAGE##*/}"
 if [ "$CUR_PACKAGE" != "UNDEF" ]
 then
 (
-	if [ ! -f ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE ]
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
 	then
 	(
 		unpack ${CUR_PACKAGE} ""
 
-		cd ${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER} || exit 1
+		cd ${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER} || exit 1
 
 		########################################################################################################################
 		# Mame hack/patch :
@@ -351,7 +351,7 @@ then
 		sed -i s#BX_PLATFORM_EMSCRIPTEN#BX_PLATFORM_LINUX#g      ./src/osd/modules/render/drawbgfx.cpp || exit 1
 		#sed -i s#BX_PLATFORM__STEAMLINK#BX_PLATFORM_STEAMLINK#g ./src/osd/modules/render/drawbgfx.cpp || exit 1
 
-		export MARVELL_SDK_PATH="${CROSS_COMPILER_TOOLS}"
+		export MARVELL_SDK_PATH="${TARGET_CROSS_TOOLS}"
 		export MARVELL_ROOTFS="${TARGET_ROOTFS}"
 
 		########################################################################################################################
@@ -361,7 +361,7 @@ then
 		mkdir ${TARGET_ROOTFS}/mame
 		cp mame ${TARGET_ROOTFS}/mame || exit 1
 
-		echo "" > ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
 
 	) || exit 1
 	fi
@@ -378,12 +378,12 @@ CUR_PACKAGE="${CUR_PACKAGE##*/}"
 if [ "$CUR_PACKAGE" != "UNDEF" ]
 then
 (
-	if [ ! -f ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE ]
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
 	then
 	(
 		unpack ${CUR_PACKAGE} ""
 
-		cd ${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER} || exit 1
+		cd ${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER} || exit 1
 
 		export CC=${TGT_MACH}-gcc
 		export LD=${TGT_MACH}-ld
@@ -394,7 +394,7 @@ then
 			CC="${TGT_MACH}-gcc" USE_SVN=0 USE_CURL=0 USE_OPENAL=0 \
 			CFLAGS="-DVCMODS_MISC -DVCMODS_OPENGLES -DVCMODS_DEPTH -DVCMODS_REPLACETRIG $INCLUDES -lSDL -lvchostif -lvcfiled_check -lbcm_host -lkhrn_static -lvchiq_arm -lopenmaxil -lEGL -lGLESv2 -lvcos -lrt" || exit 1
 
-		echo "" > ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
 
 	) || exit 1
 	fi

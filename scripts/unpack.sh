@@ -8,6 +8,6 @@
 
 function unpack {
 	echo "Unpacking $1 ..."
-	export TMP_ARCHIVE_FOLDER=`tar tf ${BASE_DIR}/download/${TARGET_NAME}/$1 | sed -e 's@/.*@@' | uniq`
-	tar xvf ${BASE_DIR}/download/${TARGET_NAME}/$1 --directory=${BASE_DIR}/sources/${TARGET_NAME}/$2  || exit 1
+	export TMP_ARCHIVE_FOLDER=`tar tf ${TARGET_DOWNLOAD}/$1 | sed -e 's@/.*@@' | uniq`
+	tar xvf ${TARGET_DOWNLOAD}/$1 --directory=${TARGET_SOURCES}/$2  || exit 1
 }

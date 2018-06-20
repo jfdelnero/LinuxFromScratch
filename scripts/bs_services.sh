@@ -6,9 +6,9 @@
 # Services
 #
 
-source ${BASE_DIR}/scripts/unpack.sh || exit 1
+source ${SCRIPTS_HOME}/unpack.sh || exit 1
 
-source ${BASE_DIR}/configs/${TARGET_NAME}/config.sh || exit 1
+source ${TARGET_CONFIG}/config.sh || exit 1
 
 echo "****************"
 echo "*   Services   *"
@@ -23,11 +23,11 @@ CUR_PACKAGE="${CUR_PACKAGE##*/}"
 if [ "$CUR_PACKAGE" != "UNDEF" ]
 then
 (
-	if [ ! -f ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE ]
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
 	then
 	(
 		unpack ${CUR_PACKAGE} ""
-		cd ${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER} || exit 1
+		cd ${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER} || exit 1
 
 		sed -i s#locate_library\ #locate_library\ ${TARGET_ROOTFS}/#g vsf_findlibs.sh || exit 1
 		sed -i s#echo\ \"/lib#echo\ \"${TARGET_ROOTFS}/lib#g vsf_findlibs.sh || exit 1
@@ -36,7 +36,7 @@ then
 		cp vsftpd ${TARGET_ROOTFS}/usr/sbin || exit 1
 		cp vsftpd.conf ${TARGET_ROOTFS}/etc || exit 1
 
-		echo "" > ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
 
 	) || exit 1
 	fi
@@ -52,16 +52,16 @@ CUR_PACKAGE="${CUR_PACKAGE##*/}"
 if [ "$CUR_PACKAGE" != "UNDEF" ]
 then
 (
-	if [ ! -f ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE ]
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
 	then
 	(
 		unpack ${CUR_PACKAGE} ""
 
-		cd ${BASE_DIR}/build/$TARGET_NAME
+		cd ${TARGET_BUILD}  || exit 1
 		mkdir lighttpd
 		cd lighttpd || exit 1
 
-		${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER}/configure \
+		${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure \
 				--prefix="${TARGET_ROOTFS}" \
 				--build=$MACHTYPE \
 				--host=$TGT_MACH \
@@ -72,7 +72,7 @@ then
 		make ${NBCORE}         || exit 1
 		make ${NBCORE} install || exit 1
 
-		echo "" > ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
 
 	) || exit 1
 	fi
@@ -88,16 +88,16 @@ CUR_PACKAGE="${CUR_PACKAGE##*/}"
 if [ "$CUR_PACKAGE" != "UNDEF" ]
 then
 (
-	if [ ! -f ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE ]
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
 	then
 	(
 		unpack ${CUR_PACKAGE} ""
 
-		cd ${BASE_DIR}/build/$TARGET_NAME
+		cd ${TARGET_BUILD}  || exit 1
 		mkdir cvs
 		cd cvs || exit 1
 
-		${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER}/configure \
+		${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure \
 				--prefix="${TARGET_ROOTFS}" \
 				--build=$MACHTYPE \
 				--host=$TGT_MACH \
@@ -106,7 +106,7 @@ then
 		make ${NBCORE}         || exit 1
 		make ${NBCORE} install || exit 1
 
-		echo "" > ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
 
 	) || exit 1
 	fi
@@ -121,16 +121,16 @@ CUR_PACKAGE="${CUR_PACKAGE##*/}"
 if [ "$CUR_PACKAGE" != "UNDEF" ]
 then
 (
-	if [ ! -f ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE ]
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
 	then
 	(
 		unpack ${CUR_PACKAGE} ""
 
-		cd ${BASE_DIR}/build/$TARGET_NAME
+		cd ${TARGET_BUILD} || exit 1
 		mkdir openssh
 		cd openssh || exit 1
 
-		${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER}/configure \
+		${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure \
 				--prefix="/" \
 				--build=$MACHTYPE \
 				--host=$TGT_MACH \
@@ -140,7 +140,7 @@ then
 		make ${NBCORE} LD=${TGT_MACH}-gcc                          || exit 1
 		make ${NBCORE} DESTDIR=${TARGET_ROOTFS} STRIP_OPT= install || exit 1
 
-		echo "" > ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
 
 	) || exit 1
 	fi

@@ -6,14 +6,14 @@
 # Package download script
 #
 
-source ${BASE_DIR}/configs/${TARGET_NAME}/config.sh || exit 1
+source ${TARGET_CONFIG}/config.sh || exit 1
 
 function dowload_list {
 	while IFS='' read -r line || [[ -n "$line" ]]; do
 	if [[ $line != \#* ]];
 	then
 		echo "Downloading $line ..."
-		wget -c $line --no-check-certificate --no-clobber --directory-prefix=${BASE_DIR}/download/$TARGET_NAME
+		wget -c $line --no-check-certificate --no-clobber --directory-prefix=${TARGET_DOWNLOAD}
 	fi
 	done < "$1"
 }
@@ -22,11 +22,10 @@ echo "**********************************"
 echo "*   Starting Download packages   *"
 echo "**********************************"
 
-mkdir -p ${BASE_DIR}/download || exit 1
-mkdir -p ${BASE_DIR}/download/$TARGET_NAME || exit 1
+mkdir -p ${TARGET_HOME}/download || exit 1
 
-set | grep SRC_PACKAGE_ | cut -f2 -d"=" > ${BASE_DIR}/build/$TARGET_NAME/download_list.txt
+set | grep SRC_PACKAGE_ | cut -f2 -d"=" > ${TARGET_DOWNLOAD}/download_list.txt
 
-dowload_list ${BASE_DIR}/build/$TARGET_NAME/download_list.txt
+dowload_list ${TARGET_DOWNLOAD}/download_list.txt
 
 exit 0

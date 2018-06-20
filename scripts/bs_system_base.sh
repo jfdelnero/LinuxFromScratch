@@ -7,9 +7,9 @@
 # GCC + GCC Libs + GLIBC + Kernel
 #
 
-source ${BASE_DIR}/scripts/unpack.sh || exit 1
+source ${SCRIPTS_HOME}/unpack.sh || exit 1
 
-source ${BASE_DIR}/configs/${TARGET_NAME}/config.sh || exit 1
+source ${TARGET_CONFIG}/config.sh || exit 1
 
 echo "************************************************"
 echo "*   Cross Compiler & System base building...   *"
@@ -24,7 +24,7 @@ CUR_PACKAGE="${CUR_PACKAGE##*/}"
 if [ "$CUR_PACKAGE" != "UNDEF" ]
 then
 (
-	if [ ! -f ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE ]
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
 	then
 	(
 		echo "*******************"
@@ -35,12 +35,12 @@ then
 
 		unset PKG_CONFIG_LIBDIR
 
-		cd ${BASE_DIR}/build/$TARGET_NAME || exit 1
+		cd ${TARGET_BUILD} || exit 1
 		mkdir -pv binutils
 		cd binutils || exit 1
 
-		${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER}/configure \
-				--prefix="${CROSS_COMPILER_TOOLS}" \
+		${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure \
+				--prefix="${TARGET_CROSS_TOOLS}" \
 				--target=$TGT_MACH \
 				--with-sysroot=${TARGET_ROOTFS} \
 				--disable-multilib \
@@ -48,8 +48,7 @@ then
 
 		make all install || exit 1
 
-
-		echo "" > ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
 	) || exit 1
 	fi
 
@@ -64,7 +63,7 @@ CUR_PACKAGE="${CUR_PACKAGE##*/}"
 if [ "$CUR_PACKAGE" != "UNDEF" ]
 then
 (
-	if [ ! -f ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE ]
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
 	then
 	(
 		echo "************************"
@@ -73,32 +72,31 @@ then
 
 		unpack ${CUR_PACKAGE} ""
 
-		cd ${BASE_DIR}/sources/${TARGET_NAME} || exit 1
+		cd ${TARGET_SOURCES} || exit 1
 		mv ${TMP_ARCHIVE_FOLDER} linux-kernel  || exit 1
 		cd linux-kernel                        || exit 1
 
-		if [ -f ${BASE_DIR}/configs/${TARGET_NAME}/kernel_pre_process.sh ]
+		if [ -f ${TARGET_CONFIG}/kernel_pre_process.sh ]
 		then
 		(
 			echo Pre process script available... executing it...
 			#To apply patchs or anything else
-			source ${BASE_DIR}/configs/${TARGET_NAME}/kernel_pre_process.sh || exit 1
+			source ${TARGET_CONFIG}/kernel_pre_process.sh || exit 1
 		)
 		fi
 
-		cd ${BASE_DIR}/sources/${TARGET_NAME}/
-		cd ${BASE_DIR}/sources/${TARGET_NAME}/linux-kernel || exit 1
+		cd ${TARGET_SOURCES}/linux-kernel || exit 1
 
 		make ${NBCORE} ARCH=${KERNEL_ARCH} CROSS_COMPILE=${TGT_MACH}- mrproper || exit 1
 		make ${NBCORE} ARCH=${KERNEL_ARCH} CROSS_COMPILE=${TGT_MACH}- distclean || exit 1
 		make ${NBCORE} ARCH=${KERNEL_ARCH} CROSS_COMPILE=${TGT_MACH}- clean || exit 1
 
-		cp ${BASE_DIR}/configs/${TARGET_NAME}/kernel_config .config || exit 1
+		cp ${TARGET_CONFIG}/kernel_config .config || exit 1
 		make ${NBCORE} ARCH=${KERNEL_ARCH} CROSS_COMPILE=${TGT_MACH}- oldconfig || exit 1
 		make ${NBCORE} ARCH=${KERNEL_ARCH} CROSS_COMPILE=${TGT_MACH}- headers_check || exit 1
 		make ${NBCORE} ARCH=${KERNEL_ARCH} CROSS_COMPILE=${TGT_MACH}- INSTALL_HDR_PATH="${TARGET_ROOTFS}" headers_install || exit 1
 
-		echo "" > ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
 	) || exit 1
 	fi
 
@@ -113,7 +111,7 @@ CUR_PACKAGE="${CUR_PACKAGE##*/}"
 if [ "$CUR_PACKAGE" != "UNDEF" ]
 then
 (
-	if [ ! -f ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE ]
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
 	then
 	(
 		echo "**************"
@@ -126,7 +124,7 @@ then
 
 		CUR_SRC_MAIN_FOLDER=$TMP_ARCHIVE_FOLDER
 
-		cd ${BASE_DIR}/sources/${TARGET_NAME}/${CUR_SRC_MAIN_FOLDER}   || exit 1
+		cd ${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}   || exit 1
 
 		TMP_PACKAGE="${SRC_PACKAGE_GCC_MPFR##*/}"
 		unpack ${TMP_PACKAGE} ${CUR_SRC_MAIN_FOLDER}
@@ -148,19 +146,21 @@ then
 		#unpack ${TMP_PACKAGE} ${CUR_SRC_MAIN_FOLDER}
 		#mv -v ${TMP_ARCHIVE_FOLDER} cloog || exit 1
 
-		cd ${BASE_DIR}/build/$TARGET_NAME || exit 1
+		cd ${TARGET_BUILD} || exit 1
 		mkdir -pv gcc || exit 1
 		cd gcc || exit 1
 
-		${BASE_DIR}/sources/${TARGET_NAME}/${CUR_SRC_MAIN_FOLDER}/configure \
-			--prefix="${CROSS_COMPILER_TOOLS}" \
-			--target=$TGT_MACH          \
-			--enable-languages=c,c++   \
-			--disable-multilib         \
-			--with-sysroot=${TARGET_ROOTFS} \
-			--with-native-system-header-dir=/include \
-			--enable-languages=c,c++ \
-			${GCC_ADD_CONF} || exit 1
+		TMP_ARCHIVE_FOLDER=$CUR_SRC_MAIN_FOLDER
+
+		${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure \
+				--prefix="${TARGET_CROSS_TOOLS}" \
+				--target=$TGT_MACH          \
+				--enable-languages=c,c++   \
+				--disable-multilib         \
+				--with-sysroot=${TARGET_ROOTFS} \
+				--with-native-system-header-dir=/include \
+				--enable-languages=c,c++ \
+				${GCC_ADD_CONF} || exit 1
 
 		# To force the fixed limits.h generation...
 		echo > ${TARGET_ROOTFS}/include/limits.h
@@ -171,7 +171,7 @@ then
 
 		rm ${TARGET_ROOTFS}/sys-include
 
-		echo "" > ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
 
 	) || exit 1
 	fi
@@ -188,7 +188,7 @@ CUR_PACKAGE="${CUR_PACKAGE##*/}"
 if [ "$CUR_PACKAGE" != "UNDEF" ]
 then
 (
-	if [ ! -f ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE ]
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
 	then
 	(
 		echo "************************"
@@ -196,13 +196,12 @@ then
 		echo "************************"
 
 		unpack ${CUR_PACKAGE} ""
-		CUR_SRC_MAIN_FOLDER=$TMP_ARCHIVE_FOLDER
 
-		cd ${BASE_DIR}/build/$TARGET_NAME || exit 1
+		cd ${TARGET_BUILD} || exit 1
 		mkdir -pv glibc || exit 1
 		cd glibc || exit 1
 
-		${BASE_DIR}/sources/${TARGET_NAME}/${CUR_SRC_MAIN_FOLDER}/configure \
+		${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure \
 				--prefix="/" \
 				--build=$MACHTYPE \
 				--host=$TGT_MACH \
@@ -219,7 +218,7 @@ then
 		${TGT_MACH}-gcc -nostdlib -nostartfiles -shared -x c /dev/null -o "${TARGET_ROOTFS}/lib/libc.so"
 		touch ${TARGET_ROOTFS}/include/gnu/stubs.h
 
-		echo "" > ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
 
 	) || exit 1
 	fi
@@ -235,19 +234,19 @@ CUR_PACKAGE="${CUR_PACKAGE##*/}"
 if [ "$CUR_PACKAGE" != "UNDEF" ]
 then
 (
-	if [ ! -f ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_LIB_DONE ]
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_LIB_DONE ]
 	then
 	(
 		echo "********************"
 		echo "*   GCC Libs ...   *"
 		echo "********************"
 
-		cd  ${BASE_DIR}/build/$TARGET_NAME/gcc || exit 1
+		cd  ${TARGET_BUILD}/gcc || exit 1
 
 		make ${NBCORE} all-target-libgcc || exit 1
 		make ${NBCORE} install-target-libgcc || exit 1
 
-		echo "" > ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_LIB_DONE
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_LIB_DONE
 
 	) || exit 1
 	fi
@@ -263,19 +262,19 @@ CUR_PACKAGE="${CUR_PACKAGE##*/}"
 if [ "$CUR_PACKAGE" != "UNDEF" ]
 then
 (
-	if [ ! -f ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_LIBC_DONE ]
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_LIBC_DONE ]
 	then
 	(
 		echo "*************"
 		echo "*   GlibC   *"
 		echo "*************"
 
-		cd  ${BASE_DIR}/build/$TARGET_NAME/glibc || exit 1
+		cd  ${TARGET_BUILD}/glibc || exit 1
 
 		make ${NBCORE} install_root=${TARGET_ROOTFS}           || exit 1
 		make ${NBCORE} install_root=${TARGET_ROOTFS} install   || exit 1
 
-		echo "" > ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_LIBC_DONE
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_LIBC_DONE
 
 	) || exit 1
 	fi
@@ -290,23 +289,23 @@ CUR_PACKAGE="${CUR_PACKAGE##*/}"
 if [ "$CUR_PACKAGE" != "UNDEF" ]
 then
 (
-	if [ ! -f ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_LIBCPP_DONE ]
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_LIBCPP_DONE ]
 	then
 	(
 		echo "************************"
 		echo "*   GCC C++ Libs ...   *"
 		echo "************************"
 
-		cd  ${BASE_DIR}/build/$TARGET_NAME/gcc || exit 1
+		cd  ${TARGET_BUILD}/gcc || exit 1
 
 		make ${NBCORE} all   || exit 1
 		make ${NBCORE} install   || exit 1
 
 		#FIXME ! C++ libs not in the root fs ?
-		cp  -aR  ${CROSS_COMPILER_TOOLS}/${TGT_MACH}/lib64/*   ${TARGET_ROOTFS}/lib
-		cp  -aR  ${CROSS_COMPILER_TOOLS}/${TGT_MACH}/lib/*   ${TARGET_ROOTFS}/lib
+		cp  -aR  ${TARGET_CROSS_TOOLS}/${TGT_MACH}/lib64/*   ${TARGET_ROOTFS}/lib
+		cp  -aR  ${TARGET_CROSS_TOOLS}/${TGT_MACH}/lib/*   ${TARGET_ROOTFS}/lib
 
-		echo "" > ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_LIBCPP_DONE
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_LIBCPP_DONE
 
 	) || exit 1
 	fi
@@ -321,17 +320,17 @@ CUR_PACKAGE="${CUR_PACKAGE##*/}"
 if [ "$CUR_PACKAGE" != "UNDEF" ]
 then
 (
-	if [ ! -f ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_KERNEL_DONE ]
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_KERNEL_DONE ]
 	then
 	(
-		cd ${BASE_DIR}/sources/${TARGET_NAME}/linux-kernel || exit 1
+		cd ${TARGET_SOURCES}/linux-kernel || exit 1
 
-		if [ -f ${BASE_DIR}/configs/${TARGET_NAME}/kernel_pre_process.sh ]
+		if [ -f ${TARGET_CONFIG}/kernel_pre_process.sh ]
 		then
 		(
 			echo Pre process script available... executing it...
 			#To apply patchs or anything else
-			source ${BASE_DIR}/configs/${TARGET_NAME}/kernel_pre_process.sh || exit 1
+			source ${TARGET_CONFIG}/kernel_pre_process.sh || exit 1
 		)
 		fi
 
@@ -340,7 +339,7 @@ then
 
 		make ${NBCORE} ARCH=${KERNEL_ARCH} CROSS_COMPILE=${TGT_MACH}- clean || exit 1
 
-		cp ${BASE_DIR}/configs/${TARGET_NAME}/kernel_config .config || exit 1
+		cp ${TARGET_CONFIG}/kernel_config .config || exit 1
 		make ${NBCORE} ARCH=${KERNEL_ARCH} CROSS_COMPILE=${TGT_MACH}- oldconfig || exit 1
 
 		make ${NBCORE} ${KERNEL_IMAGE_TYPE} modules dtbs ARCH=${KERNEL_ARCH} CROSS_COMPILE=${TGT_MACH}- ${KERNEL_ADD_OPTIONS} || exit 1
@@ -349,16 +348,16 @@ then
 
 		#make ARCH=${KERNEL_ARCH} INSTALL_PATH=${TARGET_ROOTFS}/boot install
 
-		if [ -f ${BASE_DIR}/configs/${TARGET_NAME}/kernel_post_process.sh ]
+		if [ -f ${TARGET_CONFIG}/kernel_post_process.sh ]
 		then
 		(
 			echo Post process script available... executing it...
 			#To prepare the kernel image or anything else
-			${BASE_DIR}/configs/${TARGET_NAME}/kernel_post_process.sh || exit 1
+			${TARGET_CONFIG}/kernel_post_process.sh || exit 1
 		)
 		fi
 
-		echo "" > ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_KERNEL_DONE
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_KERNEL_DONE
 
 	) || exit 1
 	fi
@@ -373,7 +372,7 @@ CUR_PACKAGE="${CUR_PACKAGE##*/}"
 if [ "$CUR_PACKAGE" != "UNDEF" ]
 then
 (
-	if [ ! -f ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE ]
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
 	then
 	(
 		echo "********************"
@@ -381,18 +380,17 @@ then
 		echo "********************"
 
 		unpack ${CUR_PACKAGE} ""
-		CUR_SRC_MAIN_FOLDER=$TMP_ARCHIVE_FOLDER
 
-		cd ${BASE_DIR}/sources/${TARGET_NAME}/${CUR_SRC_MAIN_FOLDER}
+		cd ${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}
 
 		# aarch64 support...
 		sed -i s#be64#aarch64#g config-aux/config.sub || exit 1
 
-		cd ${BASE_DIR}/build/$TARGET_NAME || exit 1
+		cd ${TARGET_BUILD} || exit 1
 		mkdir -pv libmtdev || exit 1
 		cd libmtdev || exit 1
 
-		${BASE_DIR}/sources/${TARGET_NAME}/${CUR_SRC_MAIN_FOLDER}/configure \
+		${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure \
 				--prefix="${TARGET_ROOTFS}" \
 				--build=$MACHTYPE \
 				--host=$TGT_MACH || exit 1
@@ -400,7 +398,7 @@ then
 		make ${NBCORE}  || exit 1
 		make ${NBCORE} install || exit 1
 
-		echo "" > ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
 
 	) || exit 1
 	fi
@@ -416,7 +414,7 @@ CUR_PACKAGE="${CUR_PACKAGE##*/}"
 if [ "$CUR_PACKAGE" != "UNDEF" ]
 then
 (
-	if [ ! -f ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE ]
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
 	then
 	(
 		echo "****************"
@@ -424,20 +422,19 @@ then
 		echo "****************"
 
 		unpack ${CUR_PACKAGE} ""
-		CUR_SRC_MAIN_FOLDER=$TMP_ARCHIVE_FOLDER
 
-		cd ${BASE_DIR}/build/$TARGET_NAME || exit 1
+		cd ${TARGET_BUILD} || exit 1
 		mkdir -pv libevdev || exit 1
 		cd libevdev || exit 1
 
-		${BASE_DIR}/sources/${TARGET_NAME}/${CUR_SRC_MAIN_FOLDER}/configure \
+		${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure \
 				--prefix="${TARGET_ROOTFS}" \
 				--host=$TGT_MACH || exit 1
 
 		make ${NBCORE}  || exit 1
 		make ${NBCORE} install || exit 1
 
-		echo "" > ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
 
 	) || exit 1
 	fi
@@ -454,7 +451,7 @@ CUR_PACKAGE="${CUR_PACKAGE##*/}"
 if [ "$CUR_PACKAGE" != "UNDEF" ]
 then
 (
-	if [ ! -f ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE ]
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
 	then
 	(
 		echo "************"
@@ -462,11 +459,10 @@ then
 		echo "************"
 
 		unpack ${CUR_PACKAGE} ""
-		CUR_SRC_MAIN_FOLDER=$TMP_ARCHIVE_FOLDER
 
-		cd ${BASE_DIR}/sources/${TARGET_NAME}/${CUR_SRC_MAIN_FOLDER} || exit 1
+		cd ${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER} || exit 1
 
-		${BASE_DIR}/sources/${TARGET_NAME}/${CUR_SRC_MAIN_FOLDER}/configure \
+		${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure \
 				--prefix="${TARGET_ROOTFS}" \
 				--build=$MACHTYPE \
 				--target=$TGT_MACH || exit 1
@@ -474,7 +470,7 @@ then
 		make ${NBCORE}  || exit 1
 		make ${NBCORE} install-lib install-dev || exit 1
 
-		echo "" > ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
 
 	) || exit 1
 	fi
@@ -490,7 +486,7 @@ CUR_PACKAGE="${CUR_PACKAGE##*/}"
 if [ "$CUR_PACKAGE" != "UNDEF" ]
 then
 (
-	if [ ! -f ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE ]
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
 	then
 	(
 		echo "************"
@@ -502,9 +498,8 @@ then
 		export RANLIB=${TGT_MACH}-ranlib
 
 		unpack ${CUR_PACKAGE} ""
-		CUR_SRC_MAIN_FOLDER=$TMP_ARCHIVE_FOLDER
 
-		cd ${BASE_DIR}/sources/${TARGET_NAME}/${CUR_SRC_MAIN_FOLDER} || exit 1
+		cd ${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER} || exit 1
 
 #		export DESTDIR=${TARGET_ROOTFS}
 		export PKGCONFIGDIR=/lib/pkgconfig
@@ -514,7 +509,7 @@ then
 
 		make install prefix="${TARGET_ROOTFS}" BUILD_CC=gcc  CC=${TGT_MACH}-gcc AR=${TGT_MACH}-ar RANLIB=${TGT_MACH}-ranlib
 
-		echo "" > ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
 
 	) || exit 1
 	fi
@@ -531,21 +526,24 @@ CUR_PACKAGE="${CUR_PACKAGE##*/}"
 if [ "$CUR_PACKAGE" != "UNDEF" ]
 then
 (
-	if [ ! -f ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE ]
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
 	then
 	(
 		unpack ${CUR_PACKAGE} ""
 
-		cd ${BASE_DIR}/build/$TARGET_NAME || exit 1
+		cd ${TARGET_BUILD} || exit 1
 		mkdir expat
 		cd expat || exit 1
 
-		${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER}/configure --prefix="${TARGET_ROOTFS}" --host=$TGT_MACH CC=${TGT_MACH}-gcc || exit 1
+		${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure \
+				--prefix="${TARGET_ROOTFS}" \
+				--host=$TGT_MACH CC=${TGT_MACH}-gcc \
+				|| exit 1
 
 		make ${NBCORE} all     || exit 1
 		make ${NBCORE} install || exit 1
 
-		echo "" > ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
 
 	) || exit 1
 	fi
@@ -560,7 +558,7 @@ CUR_PACKAGE="${CUR_PACKAGE##*/}"
 if [ "$CUR_PACKAGE" != "UNDEF" ]
 then
 (
-	if [ ! -f ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE ]
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
 	then
 	(
 		echo "********"
@@ -568,13 +566,12 @@ then
 		echo "********"
 
 		unpack ${CUR_PACKAGE} ""
-		CUR_SRC_MAIN_FOLDER=$TMP_ARCHIVE_FOLDER
 
-		cd ${BASE_DIR}/build/$TARGET_NAME || exit 1
+		cd ${TARGET_BUILD} || exit 1
 		mkdir -pv dbus || exit 1
 		cd dbus || exit 1
 
-		${BASE_DIR}/sources/${TARGET_NAME}/${CUR_SRC_MAIN_FOLDER}/configure \
+		${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure \
 				--prefix="${TARGET_ROOTFS}" \
 				--host=$TGT_MACH \
 				--disable-xml-docs \
@@ -585,7 +582,7 @@ then
 		make ${NBCORE}  || exit 1
 		make ${NBCORE} install || exit 1
 
-		echo "" > ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
 
 	) || exit 1
 	fi
@@ -601,7 +598,7 @@ CUR_PACKAGE="${CUR_PACKAGE##*/}"
 if [ "$CUR_PACKAGE" != "UNDEF" ]
 then
 (
-	if [ ! -f ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE ]
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
 	then
 	(
 		echo "****************"
@@ -609,7 +606,6 @@ then
 		echo "****************"
 
 		unpack ${CUR_PACKAGE} ""
-		CUR_SRC_MAIN_FOLDER=$TMP_ARCHIVE_FOLDER
 
 		mkdir ${TARGET_ROOTFS}/usr/share
 		mkdir ${TARGET_ROOTFS}/usr/share/bash-completion
@@ -620,62 +616,62 @@ then
 		export AS=${TGT_MACH}-as
 		export AR=${TGT_MACH}-ar
 
-		cd ${BASE_DIR}/build/$TARGET_NAME || exit 1
+		cd ${TARGET_BUILD} || exit 1
 		mkdir -pv util-linux || exit 1
 		cd util-linux || exit 1
 
-		${BASE_DIR}/sources/${TARGET_NAME}/${CUR_SRC_MAIN_FOLDER}/configure \
-			--prefix="${TARGET_ROOTFS}" \
-			--host=${TGT_MACH} \
-			--without-systemdsystemunitdir \
-			--disable-makeinstall-chown \
-			--disable-makeinstall-setuid \
-			--enable-nologin \
-			--without-python \
-			--disable-login \
-			--disable-su \
-			--disable-schedutils \
-			--without-ncurses  \
-			--without-selinux  \
-			--without-tinfo    \
-			--disable-nls      \
-			--enable-libuuid  \
-			--enable-libblkid \
-			--enable-libmount  \
-			--disable-mount    \
-			--disable-losetup  \
-			--enable-fsck     \
-			--disable-partx    \
-			--enable-uuidd    \
-			--disable-mountpoint \
-			--disable-fallocate  \
-			--disable-unshare    \
-			--disable-arch       \
-			--disable-ddate      \
-			--disable-agetty     \
-			--disable-cramfs     \
-			--disable-switch_root\
-			--disable-pivot_root \
-			--disable-elvtune    \
-			--disable-kill       \
-			--disable-last       \
-			--disable-line       \
-			--disable-mesg       \
-			--disable-raw        \
-			--disable-rename     \
-			--disable-reset      \
-			--disable-login-utils\
-			--disable-schedutils \
-			--disable-wall       \
-			--disable-write      \
-			--disable-chsh-only-listed \
-			--disable-eject \
-			--with-bashcompletiondir=${TARGET_ROOTFS}/usr/share/bash-completion/completions/  || exit 1
+		${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure \
+				--prefix="${TARGET_ROOTFS}" \
+				--host=${TGT_MACH}   \
+				--without-systemdsystemunitdir \
+				--disable-makeinstall-chown \
+				--disable-makeinstall-setuid \
+				--enable-nologin     \
+				--without-python     \
+				--disable-login      \
+				--disable-su         \
+				--disable-schedutils \
+				--without-ncurses    \
+				--without-selinux    \
+				--without-tinfo      \
+				--disable-nls        \
+				--enable-libuuid     \
+				--enable-libblkid    \
+				--enable-libmount    \
+				--disable-mount      \
+				--disable-losetup    \
+				--enable-fsck        \
+				--disable-partx      \
+				--enable-uuidd       \
+				--disable-mountpoint \
+				--disable-fallocate  \
+				--disable-unshare    \
+				--disable-arch       \
+				--disable-ddate      \
+				--disable-agetty     \
+				--disable-cramfs     \
+				--disable-switch_root\
+				--disable-pivot_root \
+				--disable-elvtune    \
+				--disable-kill       \
+				--disable-last       \
+				--disable-line       \
+				--disable-mesg       \
+				--disable-raw        \
+				--disable-rename     \
+				--disable-reset      \
+				--disable-login-utils\
+				--disable-schedutils \
+				--disable-wall       \
+				--disable-write      \
+				--disable-chsh-only-listed \
+				--disable-eject      \
+				--with-bashcompletiondir=${TARGET_ROOTFS}/usr/share/bash-completion/completions/  || exit 1
 
 		make ${NBCORE}  || exit 1
 		make ${NBCORE} install || exit 1
 
-		echo "" > ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
 
 	) || exit 1
 	fi
@@ -692,7 +688,7 @@ CUR_PACKAGE="${CUR_PACKAGE##*/}"
 if [ "$CUR_PACKAGE" != "UNDEF" ]
 then
 (
-	if [ ! -f ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE ]
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
 	then
 	(
 		echo "*************"
@@ -700,19 +696,20 @@ then
 		echo "*************"
 
 		unpack ${CUR_PACKAGE} ""
-		CUR_SRC_MAIN_FOLDER=$TMP_ARCHIVE_FOLDER
 
-		cd ${BASE_DIR}/build/$TARGET_NAME || exit 1
+		cd ${TARGET_BUILD} || exit 1
 		mkdir -pv eudev || exit 1
 		cd eudev || exit 1
 
-		${BASE_DIR}/sources/${TARGET_NAME}/${CUR_SRC_MAIN_FOLDER}/configure --prefix=${TARGET_ROOTFS} --host=$TGT_MACH \
-			|| exit 1
+		${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure \
+				--prefix=${TARGET_ROOTFS} \
+				--host=$TGT_MACH \
+				|| exit 1
 
 		make ${NBCORE} || exit 1
 		make ${NBCORE} install || exit 1
 
-		echo "" > ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
 
 	) || exit 1
 	fi
@@ -728,7 +725,7 @@ CUR_PACKAGE="${CUR_PACKAGE##*/}"
 if [ "$CUR_PACKAGE" != "UNDEF" ]
 then
 (
-	if [ ! -f ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE ]
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
 	then
 	(
 		echo "**********"
@@ -736,13 +733,12 @@ then
 		echo "**********"
 
 		unpack ${CUR_PACKAGE} ""
-		CUR_SRC_MAIN_FOLDER=$TMP_ARCHIVE_FOLDER
 
-		cd ${BASE_DIR}/build/$TARGET_NAME || exit 1
+		cd ${TARGET_BUILD} || exit 1
 		mkdir -pv libpam || exit 1
 		cd libpam || exit 1
 
-		${BASE_DIR}/sources/${TARGET_NAME}/${CUR_SRC_MAIN_FOLDER}/configure \
+		${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure \
 				--prefix="${TARGET_ROOTFS}" \
 				--host=$TGT_MACH \
 				--disable-nis \
@@ -751,11 +747,11 @@ then
 		make ${NBCORE}  || exit 1
 		make ${NBCORE} install || exit 1
 
-		cp -a ${BASE_DIR}/sources/${TARGET_NAME}/${CUR_SRC_MAIN_FOLDER}/libpam/include/ ${TARGET_ROOTFS} || exit 1
-		cp -a ${BASE_DIR}/sources/${TARGET_NAME}/${CUR_SRC_MAIN_FOLDER}/libpamc/include/ ${TARGET_ROOTFS} || exit 1
-		cp -a ${BASE_DIR}/sources/${TARGET_NAME}/${CUR_SRC_MAIN_FOLDER}/libpam_misc/include/ ${TARGET_ROOTFS} || exit 1
+		cp -a ${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/libpam/include/ ${TARGET_ROOTFS} || exit 1
+		cp -a ${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/libpamc/include/ ${TARGET_ROOTFS} || exit 1
+		cp -a ${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/libpam_misc/include/ ${TARGET_ROOTFS} || exit 1
 
-		echo "" > ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
 
 	) || exit 1
 	fi
@@ -771,7 +767,7 @@ CUR_PACKAGE="${CUR_PACKAGE##*/}"
 if [ "$CUR_PACKAGE" != "UNDEF" ]
 then
 (
-	if [ ! -f ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE ]
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
 	then
 	(
 		echo "*************"
@@ -779,75 +775,76 @@ then
 		echo "*************"
 
 		unpack ${CUR_PACKAGE} ""
-		CUR_SRC_MAIN_FOLDER=$TMP_ARCHIVE_FOLDER
 
-		cd ${BASE_DIR}/build/$TARGET_NAME || exit 1
+		cd ${TARGET_BUILD} || exit 1
 		mkdir -pv systemd || exit 1
 		cd systemd || exit 1
 
-		${BASE_DIR}/sources/${TARGET_NAME}/${CUR_SRC_MAIN_FOLDER}/configure --prefix="${TARGET_ROOTFS}" --host=$TGT_MACH \
-				--disable-python-devel \
-				--enable-dbus \
-				--disable-utmp \
-				--disable-compat-libs \
-				--disable-coverage \
-				--disable-kmod \
-				--disable-xkbcommon \
-				--enable-blkid \
-				--disable-seccomp \
-				--disable-ima \
-				--disable-selinux \
-				--disable-apparmor \
-				--disable-xz \
-				--disable-zlib \
-				--enable-bzip2 \
-				--disable-lz4 \
-				--enable-pam \
-				--disable-acl \
-				--disable-smack \
-				--disable-gcrypt \
-				--disable-audit \
-				--disable-elfutils \
-				--disable-libcryptsetup \
-				--disable-qrencode \
-				--disable-microhttpd \
-				--disable-gnutls \
-				--disable-libcurl \
-				--disable-libidn \
-				--disable-libiptc \
-				--disable-binfmt \
-				--disable-vconsole \
-				--disable-bootchart \
-				--disable-quotacheck \
-				--disable-tmpfiles \
-				--disable-sysusers \
-				--disable-firstboot \
-				--disable-randomseed \
-				--disable-backlight \
-				--disable-rfkill \
-				--enable-logind \
-				--disable-machined \
-				--disable-importd \
-				--disable-hostnamed \
-				--disable-timedated \
-				--disable-timesyncd \
-				--disable-localed \
-				--disable-coredump \
-				--disable-polkit \
-				--disable-resolved \
-				--disable-networkd \
-				--disable-efi \
-				--disable-gnuefi \
-				--disable-terminal \
-				--disable-kdbus \
-				--disable-myhostname \
-				--disable-hwdb \
-				--disable-manpages \
-				--disable-hibernate \
-				--disable-ldconfig \
-				--enable-split-usr \
-				--disable-tests \
-				--without-python \
+		${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure \
+				--prefix="${TARGET_ROOTFS}" \
+				--host=$TGT_MACH            \
+				--disable-python-devel      \
+				--enable-dbus               \
+				--disable-utmp              \
+				--disable-compat-libs       \
+				--disable-coverage          \
+				--disable-kmod              \
+				--disable-xkbcommon         \
+				--enable-blkid              \
+				--disable-seccomp           \
+				--disable-ima               \
+				--disable-selinux           \
+				--disable-apparmor          \
+				--disable-xz                \
+				--disable-zlib              \
+				--enable-bzip2              \
+				--disable-lz4               \
+				--enable-pam                \
+				--disable-acl               \
+				--disable-smack             \
+				--disable-gcrypt            \
+				--disable-audit             \
+				--disable-elfutils          \
+				--disable-libcryptsetup     \
+				--disable-qrencode          \
+				--disable-microhttpd        \
+				--disable-gnutls            \
+				--disable-libcurl           \
+				--disable-libidn            \
+				--disable-libiptc           \
+				--disable-binfmt            \
+				--disable-vconsole          \
+				--disable-bootchart         \
+				--disable-quotacheck        \
+				--disable-tmpfiles          \
+				--disable-sysusers          \
+				--disable-firstboot         \
+				--disable-randomseed        \
+				--disable-backlight         \
+				--disable-rfkill            \
+				--enable-logind             \
+				--disable-machined          \
+				--disable-importd           \
+				--disable-hostnamed         \
+				--disable-timedated         \
+				--disable-timesyncd         \
+				--disable-localed           \
+				--disable-coredump          \
+				--disable-polkit            \
+				--disable-resolved          \
+				--disable-networkd          \
+				--disable-efi               \
+				--disable-gnuefi            \
+				--disable-terminal          \
+				--disable-kdbus             \
+				--disable-myhostname        \
+				--disable-hwdb              \
+				--disable-manpages          \
+				--disable-hibernate         \
+				--disable-ldconfig          \
+				--enable-split-usr          \
+				--disable-tests             \
+				--without-python            \
 				--with-bashcompletiondir="${TARGET_ROOTFS}/share/bash-completions/completions" \
 				--with-rootprefix="${TARGET_ROOTFS}" \
 				--with-sysvinit-path="${TARGET_ROOTFS}"/etc/init.d \
@@ -857,7 +854,7 @@ then
 
 		make ${NBCORE} install || exit 1
 
-		echo "" > ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
 
 	) || exit 1
 	fi
@@ -873,7 +870,7 @@ CUR_PACKAGE="${CUR_PACKAGE##*/}"
 if [ "$CUR_PACKAGE" != "UNDEF" ]
 then
 (
-	if [ ! -f ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE ]
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
 	then
 	(
 		echo "************"
@@ -881,13 +878,12 @@ then
 		echo "************"
 
 		unpack ${CUR_PACKAGE} ""
-		CUR_SRC_MAIN_FOLDER=$TMP_ARCHIVE_FOLDER
 
-		cd ${BASE_DIR}/build/$TARGET_NAME || exit 1
+		cd ${TARGET_BUILD} || exit 1
 		mkdir -pv libinput || exit 1
 		cd libinput || exit 1
 
-		${BASE_DIR}/sources/${TARGET_NAME}/${CUR_SRC_MAIN_FOLDER}/configure \
+		${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure \
 				--prefix="${TARGET_ROOTFS}" \
 				--host=$TGT_MACH \
 				--disable-documentation --disable-debug-gui --disable-tests --disable-libwacom || exit 1
@@ -895,7 +891,7 @@ then
 		make ${NBCORE}  || exit 1
 		make ${NBCORE} install || exit 1
 
-		echo "" > ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
 
 	) || exit 1
 	fi

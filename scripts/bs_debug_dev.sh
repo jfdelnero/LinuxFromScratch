@@ -6,9 +6,9 @@
 # Debug & Devs tools
 #
 
-source ${BASE_DIR}/scripts/unpack.sh || exit 1
+source ${SCRIPTS_HOME}/unpack.sh || exit 1
 
-source ${BASE_DIR}/configs/${TARGET_NAME}/config.sh || exit 1
+source ${TARGET_CONFIG}/config.sh || exit 1
 
 echo "********************"
 echo "*Debug & Devs tools*"
@@ -23,12 +23,12 @@ CUR_PACKAGE="${CUR_PACKAGE##*/}"
 if [ "$CUR_PACKAGE" != "UNDEF" ]
 then
 (
-	if [ ! -f ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE ]
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
 	then
 	(
 		unpack ${CUR_PACKAGE} ""
 
-		cd ${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER} || exit 1
+		cd ${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER} || exit 1
 
 		#fake makeinfo...
 		echo '#!/bin/sh'                          >makeinfo
@@ -36,7 +36,7 @@ then
 		chmod a+x makeinfo
 
 
-		cd ${BASE_DIR}/build/$TARGET_NAME || exit 1
+		cd ${TARGET_BUILD} || exit 1
 		mkdir gdb
 		cd gdb || exit 1
 
@@ -45,15 +45,15 @@ then
 		export AS=${TGT_MACH}-as
 		export AR=${TGT_MACH}-ar
 
-		${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER}/configure \
+		${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure \
 				--prefix="${TARGET_ROOTFS}" \
 				--host=$TGT_MACH \
-				MAKEINFO="${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER}/makeinfo" \
+				MAKEINFO="${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/makeinfo" \
 				|| exit 1
 		make ${NBCORE} all     || exit 1
 		make ${NBCORE} install || exit 1
 
-		echo "" > ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
 
 	) || exit 1
 	fi
@@ -69,12 +69,12 @@ CUR_PACKAGE="${CUR_PACKAGE##*/}"
 if [ "$CUR_PACKAGE" != "UNDEF" ]
 then
 (
-	if [ ! -f ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE ]
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
 	then
 	(
 		unpack ${CUR_PACKAGE} ""
 
-		cd ${BASE_DIR}/build/$TARGET_NAME  || exit 1
+		cd ${TARGET_BUILD}  || exit 1
 		mkdir strace
 		cd strace || exit 1
 
@@ -84,7 +84,7 @@ then
 		export AR=${TGT_MACH}-ar
 		export TARGET_DIR=${TARGET_ROOTFS}
 
-		${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER}/configure \
+		${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure \
 				--prefix="${TARGET_ROOTFS}" \
 				--build=$MACHTYPE \
 				--host=$TGT_MACH \
@@ -94,7 +94,7 @@ then
 		make ${NBCORE} all     || exit 1
 		make ${NBCORE} install || exit 1
 
-		echo "" > ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
 
 	) || exit 1
 	fi
@@ -110,12 +110,12 @@ CUR_PACKAGE="${CUR_PACKAGE##*/}"
 if [ "$CUR_PACKAGE" != "UNDEF" ]
 then
 (
-	if [ ! -f ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE ]
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
 	then
 	(
 		unpack ${CUR_PACKAGE} ""
 
-		cd ${BASE_DIR}/build/$TARGET_NAME  || exit 1
+		cd ${TARGET_BUILD}  || exit 1
 		mkdir ltrace
 		cd ltrace || exit 1
 
@@ -125,7 +125,7 @@ then
 		export AR=${TGT_MACH}-ar
 		export TARGET_DIR=${TARGET_ROOTFS}
 
-		${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER}/configure \
+		${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure \
 				--prefix="${TARGET_ROOTFS}" \
 				--build=$MACHTYPE \
 				--host=$TGT_MACH \
@@ -135,7 +135,7 @@ then
 		make ${NBCORE} all     || exit 1
 		make ${NBCORE} install || exit 1
 
-		echo "" > ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
 
 	) || exit 1
 	fi
@@ -151,19 +151,19 @@ CUR_PACKAGE="${CUR_PACKAGE##*/}"
 if [ "$CUR_PACKAGE" != "UNDEF" ]
 then
 (
-	if [ ! -f ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE ]
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
 	then
 	(
 		unpack ${CUR_PACKAGE} ""
 
-		cd ${BASE_DIR}/build/$TARGET_NAME  || exit 1
+		cd ${TARGET_BUILD}  || exit 1
 		mkdir valgrind
 		cd valgrind || exit 1
 
 		# ArmV6 support.
-		sed -i 's/armv7\*)/armv[67]\*)/g' ${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER}/configure
+		sed -i 's/armv7\*)/armv[67]\*)/g' ${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure
 
-		${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER}/configure \
+		${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure \
 				--prefix="${TARGET_ROOTFS}" \
 				--build=$MACHTYPE \
 				--host=$TGT_MACH \
@@ -172,7 +172,7 @@ then
 		make ${NBCORE} all     || exit 1
 		make ${NBCORE} install || exit 1
 
-		echo "" > ${BASE_DIR}/build/${TARGET_NAME}/${CUR_PACKAGE}_DONE
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
 
 	) || exit 1
 	fi

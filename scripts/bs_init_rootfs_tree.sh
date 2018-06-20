@@ -7,7 +7,7 @@
 #
 
 mkdir -p ${TARGET_ROOTFS}               || exit 1
-mkdir -p ${CROSS_COMPILER_TOOLS}        || exit 1
+mkdir -p ${TARGET_CROSS_TOOLS}          || exit 1
 
 mkdir -p ${TARGET_ROOTFS}               || exit 1
 mkdir -p ${TARGET_ROOTFS}/bin           || exit 1

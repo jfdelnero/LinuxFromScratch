@@ -16,18 +16,25 @@ if [ $CROSS_BUILD_SIGN = "CROSS_ENV_SET" ]; then
 
 else
 
-	if [ -d "${PWD}/configs/${TARGET_NAME}" ]; then
+	if [ -d "${PWD}/targets/${TARGET_NAME}/config" ]; then
 
 		export BASE_DIR="${PWD}"
 
-		source ${BASE_DIR}/configs/${TARGET_NAME}/config.sh
+		export SCRIPTS_HOME="${BASE_DIR}/scripts/"
+		export TARGET_HOME="${BASE_DIR}/targets/${TARGET_NAME}"
+		export TARGET_CONFIG="${TARGET_HOME}/config"
+		export TARGET_BUILD="${TARGET_HOME}/build"
+		export TARGET_SOURCES="${TARGET_HOME}/sources"
+		export TARGET_ROOTFS="${TARGET_HOME}/root-fs"
+		export TARGET_DOWNLOAD="${TARGET_HOME}/download"
+		export TARGET_CROSS_TOOLS="${TARGET_HOME}/cross-tools"
+
+		source ${TARGET_CONFIG}/config.sh
 
 		export CROSS_BUILD_SIGN="CROSS_ENV_SET"
 
-		export TARGET_ROOTFS="${PWD}/targets/${TARGET_NAME}/root-fs"
-		export CROSS_COMPILER_TOOLS="${PWD}/targets/${TARGET_NAME}/cross-tools"
 
-		export PATH="${CROSS_COMPILER_TOOLS}/bin:${PATH}"
+		export PATH="${TARGET_CROSS_TOOLS}/bin:${PATH}:${BASE_DIR}/scripts:"
 		export BUILDMACH=$MACHTYPE
 
 		export NBCORE=-j`nproc`
@@ -40,9 +47,11 @@ else
 		ls *.sh
 		echo
 
-		chmod +x ${BASE_DIR}/configs/${TARGET_NAME}/*.sh
+		chmod +x ${BASE_DIR}/targets/${TARGET_NAME}/config/*.sh
 		chmod +x ${BASE_DIR}/scripts/*.sh
 		chmod +x ${BASE_DIR}/*.sh
+
+		cd   ${BASE_DIR}/targets/${TARGET_NAME}
 
 		bash
 
@@ -56,6 +65,6 @@ else
 		echo "* Invalid target ! *"
 		echo "********************"
 
-		ls ${PWD}/configs
+		ls ${PWD}/targets
 	fi
 fi
