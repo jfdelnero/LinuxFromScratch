@@ -585,6 +585,7 @@ then
 			--prefix="${TARGET_ROOTFS}" \
 			--host=$TGT_MACH \
 			--without-python \
+			--disable-docs \
 			--enable-libxml2 || exit 1
 
 		make ${NBCORE}         || exit 1
