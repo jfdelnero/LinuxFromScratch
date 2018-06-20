@@ -71,9 +71,9 @@ then
 		${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER}/configure \
 				--prefix="${TARGET_ROOTFS}" \
 				--host=$TGT_MACH CC=${TGT_MACH}-gcc \
-				--enable-vc4 \
-				--enable-radeon \
-				--enable-amdgpu \
+				--disable-vc4 \
+				--disable-radeon \
+				--disable-amdgpu \
 				--enable-nouveau \
 				--enable-libkms \
 				--enable-tegra-experimental-api \
@@ -223,8 +223,8 @@ then
 					--disable-dri3 \
 					--enable-dri \
 					--with-platforms=${PLATEFORM_LIST} \
-					--with-dri-drivers=swrast \
-					--with-gallium-drivers=vc4,swrast \
+					--with-dri-drivers=nouveau,swrast \
+					--with-gallium-drivers=tegra,nouveau,swrast \
 					CFLAGS="-DHAVE_PIPE_LOADER_DRI -DHAVE_PIPE_LOADER_KMS" || exit 1
 
 		make ${NBCORE} all     || exit 1
@@ -504,6 +504,8 @@ then
 	(
 		unpack ${CUR_PACKAGE} ""
 
+		export PKG_CONFIG_LIBDIR=${TARGET_ROOTFS}/lib/pkgconfig
+
 		cd ${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER} || exit 1
 
 		make ${NBCORE} configure STRIP=${TGT_MACH}-strip CC=${TGT_MACH}-gcc LD=${TGT_MACH}-ld AR=${TGT_MACH}-ar AS=${TGT_MACH}-as  linux-osmesa || exit 1
@@ -531,6 +533,8 @@ then
 	(
 		unpack ${CUR_PACKAGE} ""
 
+		export PKG_CONFIG_LIBDIR=${TARGET_ROOTFS}/lib/pkgconfig
+
 		cd ${BASE_DIR}/build/${TARGET_NAME} || exit 1
 		mkdir freetype
 		cd freetype || exit 1
@@ -538,6 +542,7 @@ then
 		${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER}/configure \
 				--prefix="${TARGET_ROOTFS}" \
 				--host=$TGT_MACH \
+				--with-harfbuzz=no \
 				--without-png || exit 1
 
 		make ${NBCORE}         || exit 1
