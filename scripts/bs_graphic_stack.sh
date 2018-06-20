@@ -69,9 +69,9 @@ then
 		${BASE_DIR}/sources/${TARGET_NAME}/${TMP_ARCHIVE_FOLDER}/configure \
 				--prefix="${TARGET_ROOTFS}" \
 				--host=$TGT_MACH CC=${TGT_MACH}-gcc \
-				--disable-vc4 \
-				--disable-radeon \
-				--disable-amdgpu \
+				--enable-vc4 \
+				--enable-radeon \
+				--enable-amdgpu \
 				--enable-nouveau \
 				--enable-libkms \
 				--enable-tegra-experimental-api \
@@ -219,8 +219,8 @@ then
 					--disable-dri3 \
 					--enable-dri \
 					--with-platforms=${PLATEFORM_LIST} \
-					--with-dri-drivers=nouveau,swrast \
-					--with-gallium-drivers=tegra,nouveau,swrast \
+					--with-dri-drivers=swrast \
+					--with-gallium-drivers=vc4,swrast \
 					CFLAGS="-DHAVE_PIPE_LOADER_DRI -DHAVE_PIPE_LOADER_KMS" || exit 1
 
 		make ${NBCORE} all     || exit 1
