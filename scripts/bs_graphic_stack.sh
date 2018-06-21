@@ -328,7 +328,7 @@ then
 
 		${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure --prefix="${TARGET_ROOTFS}" --host=$TGT_MACH --disable-x11 || exit 1
 
-		sed -i s#wayland_scanner\ \=#wayland_scanner\ \=${wayland_scanner}\##g Makefile || exit 1
+		sed -i s#wayland_scanner\ \=#wayland_scanner\ \=${wayland_scanner}\ \\##g Makefile || exit 1
 
 		make || exit 1
 		make install || exit 1
