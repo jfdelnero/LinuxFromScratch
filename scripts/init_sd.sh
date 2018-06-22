@@ -129,14 +129,14 @@ if [ ! -f $1 ]; then
 
     sudo chmod ugo-w home
     sudo chmod +x etc/*.sh
-    sudo chmod +x etc/rcS.d/*.sh	
+    sudo chmod +x etc/rcS.d/*.sh
     sudo chmod go-w etc/*.sh
-    sudo chmod go-w etc/rcS.d/*.sh	
+    sudo chmod go-w etc/rcS.d/*.sh
     sudo chmod go-w etc/*
     sudo chmod ugo-rwx etc/passwd
     sudo chmod u+rw etc/passwd
     sudo chmod go+r etc/passwd
-	
+
     cd ..
 
     sudo umount $1
