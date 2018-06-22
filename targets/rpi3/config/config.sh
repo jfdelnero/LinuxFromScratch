@@ -19,6 +19,7 @@ export WIRELESS_SUPPORT="1"
 export GFX_SUPPORT="1"
 export WAYLAND_SUPPORT="1"
 export AUDIO_SUPPORT="1"
+export GAMES_SUPPORT="1"
 
 source ${BASE_DIR}/targets/common/config/config.sh || exit 1
 
@@ -27,5 +28,4 @@ source ${BASE_DIR}/targets/common/config/config.sh || exit 1
 SRC_PACKAGE_KERNEL="https://github.com/raspberrypi/linux/archive/raspberrypi-kernel_1.20180417-1.tar.gz"
 
 SRC_PACKAGE_DIRECTFB=
-#SRC_PACKAGE_MAME="https://github.com/mamedev/mame/archive/mame0198.tar.gz"
-#SRC_PACKAGE_QUAKE3="quake3-master.tar.gz"
+
