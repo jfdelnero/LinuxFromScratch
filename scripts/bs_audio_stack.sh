@@ -83,3 +83,38 @@ then
 	fi
 ) || exit 1
 fi
+
+####################################################################
+# SDL Mixer
+####################################################################
+
+CUR_PACKAGE=${SRC_PACKAGE_SDLMIXER:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
+	then
+	(
+		unpack ${CUR_PACKAGE} ""
+
+		cd ${TARGET_BUILD} || exit 1
+		mkdir sdlmixer
+		cd sdlmixer || exit 1
+
+		${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure \
+				--prefix="${TARGET_ROOTFS}" \
+				--build=$MACHTYPE \
+				--host=$TGT_MACH \
+				--target=$TGT_MACH \
+				|| exit 1
+
+		make ${NBCORE}         || exit 1
+		make ${NBCORE} install || exit 1
+
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
+
+	) || exit 1
+	fi
+) || exit 1
+fi
