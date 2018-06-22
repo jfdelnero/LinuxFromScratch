@@ -33,6 +33,7 @@ stage_graphicstack="yes"
 stage_audiostack="yes"
 stage_network="yes"
 stage_miscellaneous="yes"
+stage_games="yes"
 
 mkdir -p ${TARGET_HOME}/download             || exit 1
 mkdir -p ${TARGET_HOME}/build                || exit 1
@@ -144,6 +145,16 @@ if [ $stage_debugdev = "yes" ];
 then
 (
 	${SCRIPTS_HOME}/bs_debug_dev.sh
+) || exit 1
+fi
+
+####################################################################
+# Games
+####################################################################
+if [ $stage_games = "yes" ];
+then
+(
+	${SCRIPTS_HOME}/bs_games.sh
 ) || exit 1
 fi
 
