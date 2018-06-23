@@ -31,6 +31,7 @@ then
 
 		sed -i s#locate_library\ #locate_library\ ${TARGET_ROOTFS}/#g vsf_findlibs.sh || exit 1
 		sed -i s#echo\ \"/lib#echo\ \"${TARGET_ROOTFS}/lib#g vsf_findlibs.sh || exit 1
+		sed -i s#define\ VSF_BUILD_PAM#undef\ VSF_BUILD_PAM#g builddefs.h || exit 1
 
 		make ${NBCORE} CC=${TGT_MACH}-gcc   || exit 1
 		cp vsftpd ${TARGET_ROOTFS}/usr/sbin || exit 1
