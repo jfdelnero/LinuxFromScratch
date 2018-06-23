@@ -88,6 +88,8 @@ SRC_PACKAGE_NTP="http://www.eecis.udel.edu/~ntp/ntp_spool/ntp4/ntp-4.2/ntp-4.2.8
 SRC_PACKAGE_VSFTPD="https://security.appspot.com/downloads/vsftpd-3.0.3.tar.gz"
 SRC_PACKAGE_LIGHTTPD="https://download.lighttpd.net/lighttpd/releases-1.4.x/lighttpd-1.4.49.tar.gz"
 #SRC_PACKAGE_CVS=cvs-1.11.23.tar.gz
+SRC_PACKAGE_PXESERVER="https://github.com/jfdelnero/pxe-server/releases/download/PXE_1_4_2/pxe-1.4.2.tar.gz"
+SRC_PACKAGE_TFTPD="https://kernel.org/pub/software/network/tftp/tftp-hpa/tftp-hpa-5.2.tar.gz"
 
 #
 # Graphic Stack
@@ -120,7 +122,7 @@ then
 
 SRC_PACKAGE_ALSALIB="ftp://ftp.alsa-project.org/pub/lib/alsa-lib-1.1.6.tar.bz2"
 SRC_PACKAGE_ALSAUTILS="ftp://ftp.alsa-project.org/pub/utils/alsa-utils-1.1.6.tar.bz2"
-
+SRC_PACKAGE_SDLMIXER="https://www.libsdl.org/projects/SDL_mixer/release/SDL2_mixer-2.0.2.tar.gz"
 fi
 
 #
@@ -153,7 +155,9 @@ SRC_PACKAGE_WAYLANDWESTON="https://wayland.freedesktop.org/releases/weston-4.0.0
 
 fi
 
-#Misc
+#
+# Misc
+#
 
 CUR_PART=${HDD_SUPPORT:-"UNDEF"}
 if [ "$CUR_PART" != "UNDEF" ]
@@ -169,7 +173,18 @@ SRC_PACKAGE_PYTHON="https://www.python.org/ftp/python/3.6.4/Python-3.6.4.tgz"
 #SRC_PACKAGE_LIBUSBGADGET=libusb-gadget.tar.gz
 
 SRC_PACKAGE_LIBNCURSES="https://ftp.gnu.org/gnu/ncurses/ncurses-6.1.tar.gz"
-SRC_PACKAGE_NANOEDITOR="https://www.nano-editor.org/dist/v2.9/nano-2.9.4.tar.gz"
+SRC_PACKAGE_NANOEDITOR="https://www.nano-editor.org/dist/v2.9/nano-2.9.8.tar.gz"
 SRC_PACKAGE_LIBAIO="http://releases.pagure.org/libaio/libaio-0.3.111.tar.gz"
-#SRC_PACKAGE_MAME=mame-master.tar.gz
 
+#
+# Games
+#
+CUR_PART=${GAMES_SUPPORT:-"UNDEF"}
+if [ "$CUR_PART" != "UNDEF" ]
+then
+
+SRC_PACKAGE_MAME="https://github.com/mamedev/mame/archive/mame0198.tar.gz"
+SRC_PACKAGE_QUAKE3="quake3-master.tar.gz"
+SRC_PACKAGE_DOOM="https://www.chocolate-doom.org/downloads/3.0.0/chocolate-doom-3.0.0.tar.gz"
+
+fi
