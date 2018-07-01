@@ -95,8 +95,7 @@ cp -R ${BASE_DIR}/targets/common/config/rootfs_cfg/* ./
 cp -R ${TARGET_CONFIG}/rootfs_cfg/* ./
 
 chmod +x ./etc/init.d/rcS
-chmod +x ./etc/init.d/rcS
-chmod +x ./etc/init.d/rcS.d/*
+chmod +x ./etc/rcS.d/*
 
 chmod +x ./usr/share/udhcpc/*
 chmod go-rxw ./etc/ssh/ssh_host_*
@@ -106,6 +105,63 @@ mkdir home/root
 mkdir ramdisk
 mkdir mnt/tmp
 mkdir usr/share/empty
+
+CUR_PACKAGE=${SRC_PACKAGE_PXESERVER:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" = "UNDEF" ]
+then
+(
+	rename 's/pxe\.sh$/pxe\.dis/' ./etc/rcS.d/*.sh
+)
+fi
+
+CUR_PACKAGE=${SRC_PACKAGE_WPASUPPLICANT:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" = "UNDEF" ]
+then
+(
+	rename 's/wireless\.sh$/wireless\.dis/' ./etc/rcS.d/*.sh
+)
+fi
+
+CUR_PACKAGE=${SRC_PACKAGE_VSFTPD:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" = "UNDEF" ]
+then
+(
+	rename 's/vsftpd\.sh$/vsftpd\.dis/' ./etc/rcS.d/*.sh
+)
+fi
+
+CUR_PACKAGE=${SRC_PACKAGE_LIGHTTPD:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" = "UNDEF" ]
+then
+(
+	rename 's/lighttpd\.sh$/lighttpd\.dis/' ./etc/rcS.d/*.sh
+)
+fi
+
+CUR_PACKAGE=${SRC_PACKAGE_SAMBA:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" = "UNDEF" ]
+then
+(
+	rename 's/samba\.sh$/samba\.dis/' ./etc/rcS.d/*.sh
+)
+fi
+
+CUR_PACKAGE=${SRC_PACKAGE_OPENSSH:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" = "UNDEF" ]
+then
+(
+	rename 's/ssh\.sh$/ssh\.dis/' ./etc/rcS.d/*.sh
+)
+fi
+
+#disable the router mode by default 
+rename 's/network_router\.sh$/network_router\.dis/' ./etc/rcS.d/*.sh
 
 ##########################################################################
 # Post process install...
