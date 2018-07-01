@@ -185,7 +185,7 @@ if [ "$CUR_PART" != "UNDEF" ]
 then
 
 SRC_PACKAGE_MAME="https://github.com/mamedev/mame/archive/mame0198.tar.gz"
-SRC_PACKAGE_QUAKE3="quake3-master.tar.gz"
+#SRC_PACKAGE_QUAKE3="quake3-master.tar.gz"
 SRC_PACKAGE_DOOM="https://www.chocolate-doom.org/downloads/3.0.0/chocolate-doom-3.0.0.tar.gz"
 
 fi
