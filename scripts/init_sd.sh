@@ -21,6 +21,10 @@ fi
 
 source ${TARGET_CONFIG}/config.sh || exit 1
 
+STRIPPARAM=$2
+ROOTFS_STRIP=${STRIPPARAM:-"UNDEF"}
+ROOTFS_STRIP="${ROOTFS_STRIP##*/}"
+
 ##########################################################################
 # Duplicate root fs
 ##########################################################################
@@ -48,20 +52,32 @@ rm -R share/locale/*
 rm -R share/info/*
 rm -R share/i18n
 rm -R include
+
 find ./lib -type f -name "*.la" -delete
 find ./lib -type f -name "*.a" -delete
 find ./lib64 -type f -name "*.la" -delete
 find ./lib64 -type f -name "*.a" -delete
+
+if [ "$ROOTFS_STRIP" != "NOSTRIP" ]
+then
+(
+	echo "*******************************"
+	echo "*    Stripping Binaries...    *"
+	echo "*******************************"
+
+	find ./ -type f -print0  -print | xargs -0 ${TGT_MACH}-strip --strip-debug --strip-unneeded
+
+	find ./bin   -type f -exec ${TGT_MACH}-strip --strip-debug --strip-unneeded {} \;
+	find ./lib   -type f -exec ${TGT_MACH}-strip --strip-debug --strip-unneeded {} \;
+	find ./lib64 -type f -exec ${TGT_MACH}-strip --strip-debug --strip-unneeded {} \;
+	find ./sbin  -type f -exec ${TGT_MACH}-strip --strip-debug --strip-unneeded {} \;
+	find ./usr   -type f -exec ${TGT_MACH}-strip --strip-debug --strip-unneeded {} \;
+
+)
+fi
+
 rm ./bin/smbd/*.old
 rm ./bin/smbclient/*.old
-
-find ./ -type f -print0  -print | xargs -0 ${TGT_MACH}-strip --strip-debug --strip-unneeded
-
-find ./bin   -type f -exec ${TGT_MACH}-strip --strip-debug --strip-unneeded {} \;
-find ./lib   -type f -exec ${TGT_MACH}-strip --strip-debug --strip-unneeded {} \;
-find ./lib64 -type f -exec ${TGT_MACH}-strip --strip-debug --strip-unneeded {} \;
-find ./sbin  -type f -exec ${TGT_MACH}-strip --strip-debug --strip-unneeded {} \;
-find ./usr   -type f -exec ${TGT_MACH}-strip --strip-debug --strip-unneeded {} \;
 
 # Fix buggy path...
 gcc ${BASE_DIR}/scripts/fix_bin_paths.c -o ${BASE_DIR}/scripts/fix_bin_paths

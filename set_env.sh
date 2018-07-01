@@ -46,13 +46,14 @@ else
 
 		clear
 
-		echo "*****************************************************"
+		echo "************************************************************************"
 		echo "* $TARGET_NAME Environment set !"
+		echo "*"
 		echo "* Commands:"
-		echo "* sysbuild.sh : Build the whole target system."
-		echo "* init_sd.sh  : Copy the root-fs to the flash media."
-		echo "* clean.sh    : Delete built objects and root-fs."
-		echo "*****************************************************"
+		echo "* sysbuild.sh                     : Build the whole target system."
+		echo "* init_sd.sh [Dev path] [NOSTRIP] : Copy the root-fs to the flash media."
+		echo "* clean.sh                        : Delete built objects and root-fs."
+		echo "************************************************************************"
 		echo
 
 		chmod +x ${BASE_DIR}/targets/${TARGET_NAME}/config/*.sh
@@ -68,7 +69,7 @@ else
 		bash
 
 		echo "************************************************************"
-		echo "* You just leaved the " ${TARGET_NAME} " build Environment"
+		echo "* You just leaved the "${TARGET_NAME}" build Environment"
 		echo "************************************************************"
 
 		exit 0
