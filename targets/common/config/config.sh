@@ -111,6 +111,7 @@ SRC_PACKAGE_FONTCONFIG="https://www.freedesktop.org/software/fontconfig/release/
 SRC_PACKAGE_DIRECTFB="https://github.com/Distrotech/DirectFB/archive/DIRECTFB_1_7_7.tar.gz"
 SRC_PACKAGE_SDL="https://www.libsdl.org/release/SDL2-2.0.8.tar.gz"
 SRC_PACKAGE_SDL_TTF="https://www.libsdl.org/projects/SDL_ttf/release/SDL2_ttf-2.0.14.tar.gz"
+SRC_PACKAGE_SDL_NET="https://www.libsdl.org/projects/SDL_net/release/SDL2_net-2.0.1.tar.gz"
 
 fi
 
@@ -170,6 +171,8 @@ SRC_PACKAGE_HDIDLE="http://sources.openelec.tv/mirror/hd-idle/hd-idle-1.04.tgz"
 fi
 
 SRC_PACKAGE_PYTHON="https://www.python.org/ftp/python/3.6.4/Python-3.6.4.tgz"
+SRC_PACKAGE_PERL="https://www.cpan.org/src/5.0/perl-5.28.0.tar.gz"
+SRC_PACKAGE_PERLCROSS="https://github.com/arsv/perl-cross/releases/download/1.2/perl-cross-1.2.tar.gz"
 #SRC_PACKAGE_LIBUSB=libusb-1.0.21.tar.bz2
 #SRC_PACKAGE_LIBUSBGADGET=libusb-gadget.tar.gz
 
