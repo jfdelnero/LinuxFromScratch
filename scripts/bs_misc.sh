@@ -153,6 +153,40 @@ then
 fi
 
 ####################################################################
+# Perl
+####################################################################
+
+CUR_PACKAGE=${SRC_PACKAGE_PERL:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
+	then
+	(
+		unpack ${CUR_PACKAGE} ""
+
+		cd ${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER} || exit 1
+
+		tar --strip-components=1 -zxf ${TARGET_DOWNLOAD}/${SRC_PACKAGE_PERLCROSS##*/}
+
+		${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure \
+				--prefix=/usr \
+				--target=$TGT_MACH \
+				-Duseshrplib \
+				|| exit 1
+
+		make ${NBCORE} || exit 1
+		make ${NBCORE} install DESTDIR=${TARGET_ROOTFS} || exit 1
+
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
+
+	) || exit 1
+	fi
+) || exit 1
+fi
+
+####################################################################
 # LIBAIO
 ####################################################################
 
