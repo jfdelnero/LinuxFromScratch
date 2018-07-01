@@ -216,3 +216,31 @@ then
 ) || exit 1
 fi
 
+####################################################################
+# uMTP Responder
+####################################################################
+
+CUR_PACKAGE=${SRC_PACKAGE_UMTPRD:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
+	then
+	(
+		unpack ${CUR_PACKAGE} ""
+
+		cd ${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}  || exit 1
+
+		make  CC=${TGT_MACH}-gcc || exit 1
+		cp    umtprd ${TARGET_ROOTFS}/sbin || exit 1
+		mkdir ${TARGET_ROOTFS}/etc/umtprd || exit 1
+		cp    conf/umtprd.conf ${TARGET_ROOTFS}/etc/umtprd || exit 1
+
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
+
+	) || exit 1
+	fi
+) || exit 1
+fi
+

@@ -90,6 +90,7 @@ SRC_PACKAGE_LIGHTTPD="https://download.lighttpd.net/lighttpd/releases-1.4.x/ligh
 #SRC_PACKAGE_CVS=cvs-1.11.23.tar.gz
 SRC_PACKAGE_PXESERVER="https://github.com/jfdelnero/pxe-server/releases/download/PXE_1_4_2/pxe-1.4.2.tar.gz"
 SRC_PACKAGE_TFTPD="https://kernel.org/pub/software/network/tftp/tftp-hpa/tftp-hpa-5.2.tar.gz"
+SRC_PACKAGE_UMTPRD="https://github.com/viveris/uMTP-Responder/archive/umtprd-0.8.6.tar.gz"
 
 #
 # Graphic Stack
