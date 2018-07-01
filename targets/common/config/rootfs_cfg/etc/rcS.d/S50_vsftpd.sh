@@ -1,5 +1,5 @@
 #! /bin/sh
 
-echo Starting vsftpd...
+echo "---> Starting vsftpd..."
 
 vsftpd &

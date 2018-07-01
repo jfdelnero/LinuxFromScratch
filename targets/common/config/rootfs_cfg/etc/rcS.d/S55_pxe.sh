@@ -1,6 +1,6 @@
 #! /bin/sh
 
-echo Starting pxe...
+echo "---> Starting pxe..."
 
 pxe -d &
 

@@ -1,6 +1,6 @@
 #! /bin/sh
 
-echo Starting system services...
+echo "---> Starting system services..."
 
 udevd &
 

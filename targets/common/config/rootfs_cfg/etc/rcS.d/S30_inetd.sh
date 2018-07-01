@@ -1,5 +1,5 @@
 #! /bin/sh
 
-echo Starting inetd...
+echo "---> Starting inetd..."
 
 inetd

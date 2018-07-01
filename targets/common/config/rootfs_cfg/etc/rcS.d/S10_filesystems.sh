@@ -3,7 +3,7 @@
 # Init the various file systems.
 # The main idea here is to use tmpfs where the write support is needed.
 
-echo Init file systems...
+echo "---> Init file systems..."
 
 mount -o remount,ro /dev/root /
 

@@ -1,5 +1,5 @@
 #! /bin/sh
 
-echo Starting Samba...
+echo "---> Starting Samba..."
 
 smbd

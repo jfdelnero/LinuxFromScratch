@@ -1,6 +1,6 @@
 #! /bin/sh
 
-echo "Starting Network (station mode)..."
+echo "---> Starting Network (station mode)..."
 
 ifconfig lo 127.0.0.1 up
 

@@ -1,5 +1,5 @@
 #! /bin/sh
 
-echo Starting sshd...
+echo "---> Starting sshd..."
 
 /sbin/sshd
