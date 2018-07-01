@@ -11,6 +11,8 @@ mount -t proc none  /proc
 mount -t sysfs none /sys
 
 mount -t tmpfs -o size=256m tmpfs /root
+chmod go-r /root
+
 mount -t tmpfs -o size=64m  tmpfs /tmp
 mount -t tmpfs -o size=64m  tmpfs /var
 
