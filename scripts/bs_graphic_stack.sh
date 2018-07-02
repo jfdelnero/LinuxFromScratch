@@ -69,12 +69,7 @@ then
 		${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure \
 				--prefix="${TARGET_ROOTFS}" \
 				--host=$TGT_MACH CC=${TGT_MACH}-gcc \
-				--enable-vc4 \
-				--enable-radeon \
-				--enable-amdgpu \
-				--enable-nouveau \
-				--enable-libkms \
-				--enable-tegra-experimental-api \
+				${DRM_SUPPORT} \
 				--enable-install-test-programs \
 				|| exit 1
 
@@ -219,81 +214,9 @@ then
 					--disable-dri3 \
 					--enable-dri \
 					--with-platforms=${PLATEFORM_LIST} \
-					--with-dri-drivers=swrast \
-					--with-gallium-drivers=vc4,swrast \
+					--with-dri-drivers=${MESA_DRI_DRV} \
+					--with-gallium-drivers=${MESA_GALLIUM_DRV} \
 					CFLAGS="-DHAVE_PIPE_LOADER_DRI -DHAVE_PIPE_LOADER_KMS" || exit 1
-
-		make ${NBCORE} all     || exit 1
-		make ${NBCORE} install || exit 1
-
-		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
-
-	) || exit 1
-	fi
-) || exit 1
-fi
-
-####################################################################
-# Mesa Lima
-####################################################################
-
-CUR_PACKAGE=${SRC_PACKAGE_MESALIMA:-"UNDEF"}
-CUR_PACKAGE="${CUR_PACKAGE##*/}"
-if [ "$CUR_PACKAGE" != "UNDEF" ]
-then
-(
-	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
-	then
-	(
-		#unpack ${CUR_PACKAGE} ""
-		export TMP_ARCHIVE_FOLDER="mesa-lima-lima-17.3"
-
-		unzip  ${BASE_DIR}/download/${TARGET_NAME}/${CUR_PACKAGE} -d ${TARGET_SOURCES}/
-
-		cd ${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER} || exit 1
-
-		./autogen.sh
-
-		#if [ -f ${TARGET_CONFIG}/patchs/mesa_configure_ac.patch ]
-		#then
-		#(
-		#	patch -Zf < ${TARGET_CONFIG}/patchs/mesa_configure_ac.patch  || exit 1
-		#) || exit 1
-		#fi
-
-		# export WAYLAND_SCANNER_PATH=${TARGET_BUILD}/wayland_scanner_build/wayland-scanner
-
-		cd ${TARGET_BUILD} || exit 1
-		mkdir mesa
-		cd mesa || exit 1
-
-		${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure \
-					--prefix="${TARGET_ROOTFS}" \
-					--host=$TGT_MACH \
-					--enable-opengl \
-					--enable-shared-glapi \
-					--enable-gles1 \
-					--enable-gles2 \
-					--enable-egl \
-					--enable-gbm \
-					--disable-glx \
-					--enable-dri \
-					--disable-dri3 \
-					--enable-gallium-osmesa \
-					--with-platforms=drm,surfaceless \
-					--with-dri-drivers=swrast \
-					--with-gallium-drivers=lima,swrast \
-					--with-egl-platforms=drm \
-					--enable-debug \
-					--disable-xvmc \
-					--disable-vdpau \
-					|| exit 1
-
-#					--enable-gallium-osmesa \
-#					--with-dri-drivers=swrast \
-#					--with-gallium-drivers=lima,swrast \
-
-		#--with-platforms=wayland,drm,surfaceless \
 
 		make ${NBCORE} all     || exit 1
 		make ${NBCORE} install || exit 1

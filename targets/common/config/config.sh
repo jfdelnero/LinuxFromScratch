@@ -113,6 +113,11 @@ SRC_PACKAGE_SDL="https://www.libsdl.org/release/SDL2-2.0.8.tar.gz"
 SRC_PACKAGE_SDL_TTF="https://www.libsdl.org/projects/SDL_ttf/release/SDL2_ttf-2.0.14.tar.gz"
 SRC_PACKAGE_SDL_NET="https://www.libsdl.org/projects/SDL_net/release/SDL2_net-2.0.1.tar.gz"
 
+# Default Mesa 3D setting : software raster only.
+export MESA_DRI_DRV="swrast"
+export MESA_GALLIUM_DRV="swrast"
+export DRM_SUPPORT=""
+
 fi
 
 #

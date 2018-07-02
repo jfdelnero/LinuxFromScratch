@@ -23,6 +23,10 @@ export GAMES_SUPPORT="1"
 
 source ${BASE_DIR}/targets/common/config/config.sh || exit 1
 
+export MESA_DRI_DRV="swrast"
+export MESA_GALLIUM_DRV="vc4,swrast"
+export DRM_SUPPORT="--enable-vc4"
+
 # Kernel
 
 SRC_PACKAGE_KERNEL="https://github.com/raspberrypi/linux/archive/raspberrypi-kernel_1.20180417-1.tar.gz"
