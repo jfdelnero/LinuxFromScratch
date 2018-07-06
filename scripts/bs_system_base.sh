@@ -342,9 +342,11 @@ then
 		cp ${TARGET_CONFIG}/kernel_config .config || exit 1
 		make ${NBCORE} ARCH=${KERNEL_ARCH} CROSS_COMPILE=${TGT_MACH}- oldconfig || exit 1
 
-		make ${NBCORE} ${KERNEL_IMAGE_TYPE} modules dtbs ARCH=${KERNEL_ARCH} CROSS_COMPILE=${TGT_MACH}- ${KERNEL_ADD_OPTIONS} || exit 1
-		make ${NBCORE} modules_install ARCH=${KERNEL_ARCH}  INSTALL_MOD_PATH=${TARGET_ROOTFS} || exit 1
-		#make ${NBCORE} firmwares_install ARCH=${KERNEL_ARCH}  INSTALL_MOD_PATH=${TARGET_ROOTFS} || exit 1
+		make ${NBCORE} ${KERNEL_IMAGE_TYPE} ARCH=${KERNEL_ARCH} CROSS_COMPILE=${TGT_MACH}- ${KERNEL_ADD_OPTIONS} || exit 1
+		make ${NBCORE} modules              ARCH=${KERNEL_ARCH} CROSS_COMPILE=${TGT_MACH}- ${KERNEL_ADD_OPTIONS} || exit 1
+		make ${NBCORE} dtbs                 ARCH=${KERNEL_ARCH} CROSS_COMPILE=${TGT_MACH}- ${KERNEL_ADD_OPTIONS} || exit 1
+		make ${NBCORE} modules_install      ARCH=${KERNEL_ARCH} INSTALL_MOD_PATH=${TARGET_ROOTFS}  || exit 1
+		#make ${NBCORE} firmwares_install   ARCH=${KERNEL_ARCH} INSTALL_MOD_PATH=${TARGET_ROOTFS}  || exit 1
 
 		#make ARCH=${KERNEL_ARCH} INSTALL_PATH=${TARGET_ROOTFS}/boot install
 
