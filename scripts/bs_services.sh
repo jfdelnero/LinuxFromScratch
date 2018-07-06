@@ -33,6 +33,9 @@ then
 		sed -i s#echo\ \"/lib#echo\ \"${TARGET_ROOTFS}/lib#g vsf_findlibs.sh || exit 1
 		sed -i s#define\ VSF_BUILD_PAM#undef\ VSF_BUILD_PAM#g builddefs.h || exit 1
 
+		#FIXME ! potential security vulnerability : stack-protector not available with ppc arch !
+		[[ $TGT_MACH == *@(ppc*) ]] && sed -i s#-fstack-protector##g Makefile
+
 		make ${NBCORE} CC=${TGT_MACH}-gcc   || exit 1
 		cp vsftpd ${TARGET_ROOTFS}/usr/sbin || exit 1
 		cp vsftpd.conf ${TARGET_ROOTFS}/etc || exit 1
