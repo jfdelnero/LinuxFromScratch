@@ -11,7 +11,7 @@ export TGT_MACH=i686-linux
 export SSL_ARCH=linux-i686
 export GCC_ADD_CONF=""
 
-export KERNEL_IMAGE_TYPE="Image"
+export KERNEL_IMAGE_TYPE=""
 
 export DEBUG_SUPPORT="1"
 export NETWORK_SUPPORT="1"
