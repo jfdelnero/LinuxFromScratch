@@ -49,6 +49,39 @@ then
 fi
 
 ####################################################################
+# Lib PCIACCESS
+####################################################################
+
+CUR_PACKAGE=${SRC_PACKAGE_LIBPCIACCESS:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
+	then
+	(
+		unpack ${CUR_PACKAGE} ""
+
+		cd ${TARGET_BUILD} || exit 1
+		mkdir libpciaccess
+		cd libpciaccess || exit 1
+
+		${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure \
+				--prefix="${TARGET_ROOTFS}" \
+				--host=$TGT_MACH CC=${TGT_MACH}-gcc \
+				|| exit 1
+
+		make ${NBCORE} all     || exit 1
+		make ${NBCORE} install || exit 1
+
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
+
+	) || exit 1
+	fi
+) || exit 1
+fi
+
+####################################################################
 # LibDRM
 ####################################################################
 
@@ -181,6 +214,10 @@ then
 	(
 		unpack ${CUR_PACKAGE} ""
 
+		# Fix x86-x86 cross compilation : temporary "hide" the target wayland scanner.
+		[[ -z "${SRC_PACKAGE_WAYLAND+x}" ]] && echo || mv ${TARGET_ROOTFS}/bin/wayland-scanner ${TARGET_ROOTFS}/bin/wayland-scanner_target
+		[[ -z "${SRC_PACKAGE_WAYLAND+x}" ]] && echo || ln -s ${TARGET_BUILD}/wayland_scanner/wayland-scanner ${TARGET_ROOTFS}/bin/wayland-scanner
+
 		export WAYLAND_SCANNER_PATH=${TARGET_BUILD}/wayland_scanner/wayland-scanner
 
 		[[ -z "${SRC_PACKAGE_WAYLAND+x}" ]] && PLATEFORM_LIST="drm,surfaceless" || PLATEFORM_LIST="wayland,drm,surfaceless"
@@ -193,8 +230,6 @@ then
 			patch -Zf < ${TARGET_CONFIG}/patchs/mesa_configure_ac.patch  || exit 1
 		) || exit 1
 		fi
-
-		# export WAYLAND_SCANNER_PATH=${TARGET_BUILD}/wayland_scanner_build/wayland-scanner
 
 		cd ${TARGET_BUILD} || exit 1
 		mkdir mesa
@@ -216,10 +251,15 @@ then
 					--with-platforms=${PLATEFORM_LIST} \
 					--with-dri-drivers=${MESA_DRI_DRV} \
 					--with-gallium-drivers=${MESA_GALLIUM_DRV} \
+					WAYLAND_SCANNER_PATH=${TARGET_BUILD}/wayland_scanner/wayland-scanner \
 					CFLAGS="-DHAVE_PIPE_LOADER_DRI -DHAVE_PIPE_LOADER_KMS" || exit 1
 
 		make ${NBCORE} all     || exit 1
 		make ${NBCORE} install || exit 1
+
+		# Restore target wayland-scanner
+		[[ -z "${SRC_PACKAGE_WAYLAND+x}" ]] && echo || rm ${TARGET_ROOTFS}/bin/wayland-scanner
+		[[ -z "${SRC_PACKAGE_WAYLAND+x}" ]] && echo || mv ${TARGET_ROOTFS}/bin/wayland-scanner_target ${TARGET_ROOTFS}/bin/wayland-scanner
 
 		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
 
@@ -479,6 +519,9 @@ then
 		#disable tests...
 		echo all: >./test/Makefile      || exit 1
 		echo install: >>./test/Makefile || exit 1
+
+		# x86-x86 cross compilation : Force the cross compile mode !
+		sed -i s#cross_compiling\=no#cross_compiling\=yes#g configure || exit 1
 
 		cd ${TARGET_BUILD} || exit 1
 		mkdir fontconfig
