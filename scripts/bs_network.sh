@@ -182,6 +182,15 @@ then
 		export AR=${TGT_MACH}-ar
 		export TARGET_DIR=${TARGET_ROOTFS}
 		export PREFIX=${TARGET_ROOTFS}
+		export BUILD_CC=gcc
+
+		# x86-x86 cross compilation : Force the cross compile mode !
+		cd bind
+		tar -xvzf bind.tar.gz
+		sed -i s#cross_compiling\=no#cross_compiling\=yes#g bind-9.11.2-P1/configure || exit 1
+		rm bind.tar.gz
+		tar -cvzf bind.tar.gz bind-9.11.2-P1
+		rm -R bind-9.11.2-P1
 
 		${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure \
 				--prefix= \
