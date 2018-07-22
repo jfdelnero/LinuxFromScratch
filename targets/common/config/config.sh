@@ -24,6 +24,8 @@ SRC_PACKAGE_GLIBC="http://ftp.gnu.org/gnu/glibc/glibc-2.25.tar.xz"
 SRC_PACKAGE_BUSYBOX="http://busybox.net/downloads/busybox-1.27.2.tar.bz2"
 SRC_PACKAGE_UTILLINUX="https://www.kernel.org/pub/linux/utils/util-linux/v2.31/util-linux-2.31.tar.gz"
 
+SRC_PACKAGE_LIBELF="http://www.mr511.de/software/libelf-0.8.13.tar.gz"
+
 SRC_PACKAGE_LIBFFI="https://www.mirrorservice.org/sites/sourceware.org/pub/libffi/libffi-3.2.tar.gz"
 SRC_PACKAGE_LIBXML2="http://xmlsoft.org/sources/libxml2-2.9.7.tar.gz"
 SRC_PACKAGE_XMLEXPAT="https://downloads.sourceforge.net/project/expat/expat/2.2.5/expat-2.2.5.tar.bz2"
@@ -100,6 +102,7 @@ if [ "$CUR_PART" != "UNDEF" ]
 then
 
 SRC_PACKAGE_LIBPNG="ftp://ftp-osl.osuosl.org/pub/libpng/src/libpng16/libpng-1.6.34.tar.xz"
+#SRC_PACKAGE_LIBPCIACCESS="https://www.x.org/archive/individual/lib/libpciaccess-0.14.tar.gz"
 SRC_PACKAGE_LIBDRM="https://dri.freedesktop.org/libdrm/libdrm-2.4.92.tar.gz"
 SRC_PACKAGE_MESA="https://mesa.freedesktop.org/archive/mesa-18.1.1.tar.xz"
 SRC_PACKAGE_GLEW="https://downloads.sourceforge.net/project/glew/glew/2.1.0/glew-2.1.0.tgz"
@@ -175,7 +178,7 @@ SRC_PACKAGE_HDIDLE="http://sources.openelec.tv/mirror/hd-idle/hd-idle-1.04.tgz"
 
 fi
 
-SRC_PACKAGE_PYTHON="https://www.python.org/ftp/python/3.6.4/Python-3.6.4.tgz"
+#SRC_PACKAGE_PYTHON="https://www.python.org/ftp/python/3.6.4/Python-3.6.4.tgz"
 SRC_PACKAGE_PERL="https://www.cpan.org/src/5.0/perl-5.28.0.tar.gz"
 SRC_PACKAGE_PERLCROSS="https://github.com/arsv/perl-cross/releases/download/1.2/perl-cross-1.2.tar.gz"
 #SRC_PACKAGE_LIBUSB=libusb-1.0.21.tar.bz2
@@ -197,3 +200,6 @@ SRC_PACKAGE_MAME="https://github.com/mamedev/mame/archive/mame0198.tar.gz"
 SRC_PACKAGE_DOOM="https://www.chocolate-doom.org/downloads/3.0.0/chocolate-doom-3.0.0.tar.gz"
 
 fi
+
+#SRC_PACKAGE_PCIUTILS="https://github.com/pciutils/pciutils/archive/v3.6.0.tar.gz"
+#SRC_PACKAGE_FLASHROM="https://download.flashrom.org/releases/flashrom-1.0.tar.bz2"
