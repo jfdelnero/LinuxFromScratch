@@ -8,7 +8,7 @@
 
 export KERNEL_ARCH=x86
 export TGT_MACH=i686-linux
-export SSL_ARCH=linux-i686
+export SSL_ARCH=linux-generic32
 export GCC_ADD_CONF=""
 
 export KERNEL_IMAGE_TYPE=""
@@ -21,6 +21,14 @@ export WAYLAND_SUPPORT="1"
 export AUDIO_SUPPORT="1"
 
 source ${BASE_DIR}/targets/common/config/config.sh || exit 1
+
+export MESA_DRI_DRV="i915,i965,nouveau,radeon,r200,swrast"
+export MESA_GALLIUM_DRV="i915,nouveau,r600,svga,swrast"
+
+export DRM_SUPPORT="--enable-intel --enable-radeon --enable-amdgpu --enable-nouveau"
+
+SRC_PACKAGE_LIBPCIACCESS="https://www.x.org/archive/individual/lib/libpciaccess-0.14.tar.gz"
+SRC_PACKAGE_GRUB="https://ftp.gnu.org/gnu/grub/grub-2.02.tar.xz"
 
 # Kernel
 
