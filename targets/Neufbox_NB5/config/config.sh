@@ -6,7 +6,7 @@
 # Neufbox NB5-SER-r1 target setup
 #
 
-export KERNEL_ARCH=arm
+export KERNEL_ARCH=mips
 export TGT_MACH=mips64-linux-gnueabi
 export SSL_ARCH=linux-mips64
 export GCC_ADD_CONF=""
