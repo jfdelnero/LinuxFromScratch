@@ -17,7 +17,7 @@ export DEBUG_SUPPORT="1"
 export NETWORK_SUPPORT="1"
 export WIRELESS_SUPPORT="1"
 
-source ${BASE_DIR}/configs/common/config.sh || exit 1
+source ${BASE_DIR}/targets/common/config/config.sh || exit 1
 
 # Kernel
 
