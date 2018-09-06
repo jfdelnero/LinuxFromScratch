@@ -32,6 +32,8 @@ SRC_PACKAGE_XMLEXPAT="https://downloads.sourceforge.net/project/expat/expat/2.2.
 SRC_PACKAGE_ZLIB="http://zlib.net/zlib-1.2.11.tar.gz"
 SRC_PACKAGE_LIBEVENT="https://github.com/libevent/libevent/releases/download/release-2.1.8-stable/libevent-2.1.8-stable.tar.gz"
 
+SRC_PACKAGE_BUILD_GPERF="http://ftp.gnu.org/pub/gnu/gperf/gperf-3.0.4.tar.gz"
+
 #
 # Debug support
 #
@@ -198,6 +200,7 @@ then
 SRC_PACKAGE_MAME="https://github.com/mamedev/mame/archive/mame0198.tar.gz"
 #SRC_PACKAGE_QUAKE3="quake3-master.tar.gz"
 SRC_PACKAGE_DOOM="https://www.chocolate-doom.org/downloads/3.0.0/chocolate-doom-3.0.0.tar.gz"
+SRC_PACKAGE_ROTT="https://icculus.org/rott/releases/rott-1.1.2.tar.gz"
 
 fi
 
