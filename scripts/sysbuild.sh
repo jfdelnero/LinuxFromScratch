@@ -34,6 +34,7 @@ stage_audiostack="yes"
 stage_network="yes"
 stage_miscellaneous="yes"
 stage_games="yes"
+stage_buildtools="yes"
 
 mkdir -p ${TARGET_HOME}/download             || exit 1
 mkdir -p ${TARGET_HOME}/build                || exit 1
@@ -57,6 +58,16 @@ fi
 (
 	${SCRIPTS_HOME}/bs_init_rootfs_tree.sh
 )
+
+####################################################################
+# Local build tools
+####################################################################
+if [ $stage_buildtools = "yes" ];
+then
+(
+	${SCRIPTS_HOME}/bs_build_tools.sh
+) || exit 1
+fi
 
 ####################################################################
 # System Base (Crosscompiler + Glibc + C/C++ libs + kernel)
