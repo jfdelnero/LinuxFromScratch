@@ -133,6 +133,7 @@ then
 		cd ${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER} || exit 1
 
 		unset PKG_CONFIG_LIBDIR
+		export PKG_CONFIG_PATH=${TARGET_CROSS_TOOLS}/lib/pkgconfig
 
 		sed -i s#\@USE_HOST_SCANNER_TRUE\@wayland_scanner\ =\ wayland-scanner#\@USE_HOST_SCANNER_TRUE\@wayland_scanner\ =\ \'\$\(top_builddir\)/..\\/wayland_scanner/wayland-scanner\'#g Makefile.in || exit 1
 
@@ -144,6 +145,7 @@ then
 		${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure --disable-static -disable-documentation || exit 1
 		make || exit 1
 
+		export PKG_CONFIG_PATH=
 		export WAYLAND_SCANNER_PATH=${TARGET_BUILD}/wayland_scanner/wayland-scanner
 
 		cd ..
