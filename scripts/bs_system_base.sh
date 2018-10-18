@@ -87,14 +87,14 @@ then
 
 		cd ${TARGET_SOURCES}/linux-kernel || exit 1
 
-		make ${NBCORE} ARCH=${KERNEL_ARCH} CROSS_COMPILE=${TGT_MACH}- mrproper || exit 1
-		make ${NBCORE} ARCH=${KERNEL_ARCH} CROSS_COMPILE=${TGT_MACH}- distclean || exit 1
-		make ${NBCORE} ARCH=${KERNEL_ARCH} CROSS_COMPILE=${TGT_MACH}- clean || exit 1
+		make ${NBCORE} ARCH=${KERNEL_ARCH}  mrproper || exit 1
+		make ${NBCORE} ARCH=${KERNEL_ARCH}  distclean || exit 1
+		make ${NBCORE} ARCH=${KERNEL_ARCH}  clean || exit 1
 
 		cp ${TARGET_CONFIG}/kernel_config .config || exit 1
-		make ${NBCORE} ARCH=${KERNEL_ARCH} CROSS_COMPILE=${TGT_MACH}- oldconfig || exit 1
-		make ${NBCORE} ARCH=${KERNEL_ARCH} CROSS_COMPILE=${TGT_MACH}- headers_check || exit 1
-		make ${NBCORE} ARCH=${KERNEL_ARCH} CROSS_COMPILE=${TGT_MACH}- INSTALL_HDR_PATH="${TARGET_ROOTFS}" headers_install || exit 1
+		make ${NBCORE} ARCH=${KERNEL_ARCH}  oldconfig || exit 1
+		make ${NBCORE} ARCH=${KERNEL_ARCH}  headers_check || exit 1
+		make ${NBCORE} ARCH=${KERNEL_ARCH}  INSTALL_HDR_PATH="${TARGET_ROOTFS}" headers_install || exit 1
 
 		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
 	) || exit 1
