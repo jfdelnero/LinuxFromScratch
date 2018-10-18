@@ -10,6 +10,12 @@
 # System base + Cross compiler
 #
 
+# "Local" build tools/libs 
+SRC_PACKAGE_BUILD_GPERF="http://ftp.gnu.org/pub/gnu/gperf/gperf-3.0.4.tar.gz"
+SRC_PACKAGE_BUILD_LIBFFI="https://www.mirrorservice.org/sites/sourceware.org/pub/libffi/libffi-3.2.tar.gz"
+SRC_PACKAGE_BUILD_XMLEXPAT="https://downloads.sourceforge.net/project/expat/expat/2.2.5/expat-2.2.5.tar.bz2"
+SRC_PACKAGE_BUILD_LIBXML2="http://xmlsoft.org/sources/libxml2-2.9.7.tar.gz"
+
 SRC_PACKAGE_BINUTILS="http://ftp.gnu.org/gnu/binutils/binutils-2.28.tar.gz"
 
 SRC_PACKAGE_GCC="http://ftp.gnu.org/gnu/gcc/gcc-6.4.0/gcc-6.4.0.tar.gz"
@@ -31,8 +37,6 @@ SRC_PACKAGE_LIBXML2="http://xmlsoft.org/sources/libxml2-2.9.7.tar.gz"
 SRC_PACKAGE_XMLEXPAT="https://downloads.sourceforge.net/project/expat/expat/2.2.5/expat-2.2.5.tar.bz2"
 SRC_PACKAGE_ZLIB="http://zlib.net/zlib-1.2.11.tar.gz"
 SRC_PACKAGE_LIBEVENT="https://github.com/libevent/libevent/releases/download/release-2.1.8-stable/libevent-2.1.8-stable.tar.gz"
-
-SRC_PACKAGE_BUILD_GPERF="http://ftp.gnu.org/pub/gnu/gperf/gperf-3.0.4.tar.gz"
 
 #
 # Debug support
