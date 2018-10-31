@@ -388,3 +388,58 @@ then
 	fi
 ) || exit 1
 fi
+
+####################################################################
+# Uboot
+####################################################################
+
+CUR_PACKAGE=${SRC_PACKAGE_UBOOT:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
+	then
+	(
+		echo "****************"
+		echo "*   Uboot...   *"
+		echo "****************"
+
+		unpack ${CUR_PACKAGE} ""
+
+		cd ${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER} || exit 1
+
+		if [ -f ${TARGET_CONFIG}/uboot_pre_process.sh ]
+		then
+		(
+			echo Pre process script available... executing it...
+			#To apply patchs or anything else
+			source ${TARGET_CONFIG}/uboot_pre_process.sh || exit 1
+		)
+		fi
+
+		export CROSS_COMPILE="$TGT_MACH"-
+
+		make ${NBCORE} mrproper || exit 1
+		make ${NBCORE} distclean || exit 1
+		make ${NBCORE} clean || exit 1
+
+		cp ${TARGET_CONFIG}/uboot_config .config || exit 1
+
+		make || exit 1
+
+		if [ -f ${TARGET_CONFIG}/uboot_post_process.sh ]
+		then
+		(
+			echo Post process script available... executing it...
+			#To prepare the u-boot image or anything else
+			${TARGET_CONFIG}/uboot_post_process.sh || exit 1
+		)
+		fi
+
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
+
+	) || exit 1
+	fi
+) || exit 1
+fi
