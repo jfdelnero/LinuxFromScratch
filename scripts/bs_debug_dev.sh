@@ -102,6 +102,36 @@ then
 fi
 
 ####################################################################
+# FTRACE (Linux kernel function trace utility)
+####################################################################
+
+CUR_PACKAGE=${SRC_PACKAGE_FTRACE:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
+	then
+	(
+		unpack ${CUR_PACKAGE} ""
+
+		cd ${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER} || exit 1
+
+		export CROSS_COMPILE=${TGT_MACH}-
+		export DESTDIR=${TARGET_ROOTFS}
+		export prefix=/usr
+
+		make ${NBCORE} trace-cmd || exit 1
+		make ${NBCORE} install   || exit 1
+
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
+
+	) || exit 1
+	fi
+) || exit 1
+fi
+
+####################################################################
 # LTRACE
 ####################################################################
 
