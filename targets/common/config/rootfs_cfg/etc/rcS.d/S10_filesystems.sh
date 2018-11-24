@@ -1,4 +1,4 @@
-#! /bin/sh
+#!/bin/sh
 
 # Init the various file systems.
 # The main idea here is to use tmpfs where the write support is needed.

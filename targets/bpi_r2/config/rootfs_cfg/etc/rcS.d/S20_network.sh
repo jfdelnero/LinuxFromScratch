@@ -1,4 +1,4 @@
-#! /bin/sh
+#!/bin/sh
 
 ifconfig lan0 hw ether 00:50:43:00:00:01
 

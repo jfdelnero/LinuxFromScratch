@@ -1,4 +1,4 @@
-#! /bin/sh
+#!/bin/sh
 
 ifconfig wlan0 192.168.40.1 down
 hostapd -d /etc/hostapd.conf &
