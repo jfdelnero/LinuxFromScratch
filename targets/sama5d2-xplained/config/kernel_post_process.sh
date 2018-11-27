@@ -3,7 +3,7 @@
 # Cross compiler and Linux generation scripts
 # (c)2014-2018 Jean-François DEL NERO
 #
-# Clearfog Pro target kernel compilation
+# Sama5d2-xplained target kernel compilation
 # post process
 #
 

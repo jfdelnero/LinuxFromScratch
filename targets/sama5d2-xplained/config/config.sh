@@ -3,7 +3,7 @@
 # Cross compiler and Linux generation scripts
 # (c)2014-2018 Jean-François DEL NERO
 #
-# Clearfog Pro target setup
+# Sama5d2-xplained target setup
 #
 
 export KERNEL_ARCH=arm
