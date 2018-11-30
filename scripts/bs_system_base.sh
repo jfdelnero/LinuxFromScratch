@@ -85,6 +85,10 @@ then
 		)
 		fi
 
+		# Don't let the Linux kernel build system using the cross-compiled libraries
+		# (fix issue with ncurses -> ".config" not found error...)
+		unset PKG_CONFIG_LIBDIR
+
 		cd ${TARGET_SOURCES}/linux-kernel || exit 1
 
 		make ${NBCORE} ARCH=${KERNEL_ARCH}  mrproper || exit 1
@@ -375,6 +379,10 @@ then
 
 		#make ${NBCORE} ARCH=${KERNEL_ARCH} CROSS_COMPILE=${TGT_MACH}- mt7623n_evb_fwu_defconfig
 		#make ${NBCORE} ARCH=${KERNEL_ARCH} CROSS_COMPILE=${TGT_MACH}- menuconfig
+
+		# Don't let the Linux kernel build system using the cross-compiled libraries
+		# (fix issue with ncurses -> ".config" not found error...)
+		unset PKG_CONFIG_LIBDIR
 
 		make ${NBCORE} ARCH=${KERNEL_ARCH} CROSS_COMPILE=${TGT_MACH}- clean || exit 1
 
