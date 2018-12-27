@@ -246,8 +246,8 @@ then
 		export TARGET_DIR=${TARGET_ROOTFS}
 		export PREFIX=${TARGET_ROOTFS}
 
-		make ${NBCORE} CC=${LFS_TGT}-gcc         || exit 1
-		make ${NBCORE} install CC=${LFS_TGT}-gcc || exit 1
+		make ${NBCORE} CC=${TGT_MACH}-gcc         || exit 1
+		make ${NBCORE} install CC=${TGT_MACH}-gcc || exit 1
 
 		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
 
