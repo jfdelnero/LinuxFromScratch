@@ -191,6 +191,7 @@ then
 		rm bind.tar.gz
 		tar -cvzf bind.tar.gz bind-9.11.2-P1
 		rm -R bind-9.11.2-P1
+		cd ..
 
 		${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure \
 				--prefix= \
