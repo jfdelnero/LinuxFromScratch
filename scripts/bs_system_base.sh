@@ -390,12 +390,34 @@ then
 		make ${NBCORE} ARCH=${KERNEL_ARCH} CROSS_COMPILE=${TGT_MACH}- oldconfig || exit 1
 
 		make ${NBCORE} ${KERNEL_IMAGE_TYPE} ARCH=${KERNEL_ARCH} CROSS_COMPILE=${TGT_MACH}- ${KERNEL_ADD_OPTIONS} || exit 1
-		make ${NBCORE} modules              ARCH=${KERNEL_ARCH} CROSS_COMPILE=${TGT_MACH}- ${KERNEL_ADD_OPTIONS} || exit 1
-		#make ${NBCORE} dtbs                 ARCH=${KERNEL_ARCH} CROSS_COMPILE=${TGT_MACH}- ${KERNEL_ADD_OPTIONS} || exit 1
-		make ${NBCORE} modules_install      ARCH=${KERNEL_ARCH} INSTALL_MOD_PATH=${TARGET_ROOTFS}  || exit 1
-		#make ${NBCORE} firmwares_install   ARCH=${KERNEL_ARCH} INSTALL_MOD_PATH=${TARGET_ROOTFS}  || exit 1
 
-		#make ARCH=${KERNEL_ARCH} INSTALL_PATH=${TARGET_ROOTFS}/boot install
+		make ${NBCORE} modules              ARCH=${KERNEL_ARCH} CROSS_COMPILE=${TGT_MACH}- ${KERNEL_ADD_OPTIONS} || exit 1
+
+		TMP_VAR=${KERNEL_DTBS:-"UNDEF"}
+		if [ "$TMP_VAR" = "YES" ]
+		then
+		(
+			make ${NBCORE} dtbs                 ARCH=${KERNEL_ARCH} CROSS_COMPILE=${TGT_MACH}- ${KERNEL_ADD_OPTIONS} || exit 1
+		)
+		fi
+
+		make ${NBCORE} modules_install      ARCH=${KERNEL_ARCH} INSTALL_MOD_PATH=${TARGET_ROOTFS}  || exit 1
+
+		TMP_VAR=${KERNEL_FIRMWARES:-"UNDEF"}
+		if [ "$TMP_VAR" = "YES" ]
+		then
+		(
+			make ${NBCORE} firmwares_install   ARCH=${KERNEL_ARCH} INSTALL_MOD_PATH=${TARGET_ROOTFS}  || exit 1
+		)
+		fi
+
+		TMP_VAR=${KERNEL_BOOTINSTALL:-"UNDEF"}
+		if [ "$TMP_VAR" = "YES" ]
+		then
+		(
+			make ARCH=${KERNEL_ARCH} INSTALL_PATH=${TARGET_ROOTFS}/boot install  || exit 1
+		)
+		fi
 
 		if [ -f ${TARGET_CONFIG}/kernel_post_process.sh ]
 		then
