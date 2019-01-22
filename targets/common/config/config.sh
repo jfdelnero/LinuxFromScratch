@@ -195,6 +195,25 @@ SRC_PACKAGE_NANOEDITOR="https://www.nano-editor.org/dist/v2.9/nano-2.9.8.tar.gz"
 SRC_PACKAGE_LIBAIO="http://releases.pagure.org/libaio/libaio-0.3.111.tar.gz"
 
 #
+# Target build system
+#
+
+CUR_PART=${TARGET_BUILD_SUPPORT:-"UNDEF"}
+if [ "$CUR_PART" != "UNDEF" ]
+then
+
+SRC_PACKAGE_TARGET_BINUTILS="http://ftp.gnu.org/gnu/binutils/binutils-2.28.tar.gz"
+
+SRC_PACKAGE_TARGET_GCC="http://ftp.gnu.org/gnu/gcc/gcc-6.4.0/gcc-6.4.0.tar.gz"
+SRC_PACKAGE_TARGET_GCC_MPFR="http://ftp.gnu.org/gnu/mpfr/mpfr-3.1.2.tar.xz"
+SRC_PACKAGE_TARGET_GCC_GMP="http://ftp.gnu.org/gnu/gmp/gmp-6.0.0a.tar.xz"
+SRC_PACKAGE_TARGET_GCC_MPC="http://ftp.gnu.org/gnu/mpc/mpc-1.0.3.tar.gz"
+SRC_PACKAGE_TARGET_GCC_ISL="ftp://gcc.gnu.org/pub/gcc/infrastructure/isl-0.15.tar.bz2"
+SRC_PACKAGE_TARGET_GCC_CLOOG="ftp://gcc.gnu.org/pub/gcc/infrastructure/cloog-0.18.1.tar.gz"
+
+fi
+
+#
 # Games
 #
 CUR_PART=${GAMES_SUPPORT:-"UNDEF"}
