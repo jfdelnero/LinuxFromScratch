@@ -51,12 +51,19 @@ rm -R share/gtk-doc
 rm -R share/locale/*
 rm -R share/info/*
 rm -R share/i18n
-rm -R include
 
-find ./lib -type f -name "*.la" -delete
-find ./lib -type f -name "*.a" -delete
-find ./lib64 -type f -name "*.la" -delete
-find ./lib64 -type f -name "*.a" -delete
+CUR_PART=${TARGET_BUILD_SUPPORT:-"UNDEF"}
+if [ "$CUR_PART" == "UNDEF" ]
+then
+(
+	rm -R include
+
+	find ./lib -type f -name "*.la" -delete
+	find ./lib -type f -name "*.a" -delete
+	find ./lib64 -type f -name "*.la" -delete
+	find ./lib64 -type f -name "*.a" -delete
+)
+fi
 
 if [ "$ROOTFS_STRIP" != "NOSTRIP" ]
 then
@@ -72,7 +79,6 @@ then
 	find ./lib64 -type f -exec ${TGT_MACH}-strip --strip-debug --strip-unneeded {} \;
 	find ./sbin  -type f -exec ${TGT_MACH}-strip --strip-debug --strip-unneeded {} \;
 	find ./usr   -type f -exec ${TGT_MACH}-strip --strip-debug --strip-unneeded {} \;
-
 )
 fi
 
@@ -108,7 +114,7 @@ mkdir usr/share/empty
 
 CUR_PACKAGE=${SRC_PACKAGE_PXESERVER:-"UNDEF"}
 CUR_PACKAGE="${CUR_PACKAGE##*/}"
-if [ "$CUR_PACKAGE" = "UNDEF" ]
+if [ "$CUR_PACKAGE" == "UNDEF" ]
 then
 (
 	rename 's/pxe\.sh$/pxe\.dis/' ./etc/rcS.d/*.sh
@@ -117,7 +123,7 @@ fi
 
 CUR_PACKAGE=${SRC_PACKAGE_WPASUPPLICANT:-"UNDEF"}
 CUR_PACKAGE="${CUR_PACKAGE##*/}"
-if [ "$CUR_PACKAGE" = "UNDEF" ]
+if [ "$CUR_PACKAGE" == "UNDEF" ]
 then
 (
 	rename 's/wireless\.sh$/wireless\.dis/' ./etc/rcS.d/*.sh
@@ -126,7 +132,7 @@ fi
 
 CUR_PACKAGE=${SRC_PACKAGE_VSFTPD:-"UNDEF"}
 CUR_PACKAGE="${CUR_PACKAGE##*/}"
-if [ "$CUR_PACKAGE" = "UNDEF" ]
+if [ "$CUR_PACKAGE" == "UNDEF" ]
 then
 (
 	rename 's/vsftpd\.sh$/vsftpd\.dis/' ./etc/rcS.d/*.sh
@@ -135,7 +141,7 @@ fi
 
 CUR_PACKAGE=${SRC_PACKAGE_LIGHTTPD:-"UNDEF"}
 CUR_PACKAGE="${CUR_PACKAGE##*/}"
-if [ "$CUR_PACKAGE" = "UNDEF" ]
+if [ "$CUR_PACKAGE" == "UNDEF" ]
 then
 (
 	rename 's/lighttpd\.sh$/lighttpd\.dis/' ./etc/rcS.d/*.sh
@@ -144,7 +150,7 @@ fi
 
 CUR_PACKAGE=${SRC_PACKAGE_SAMBA:-"UNDEF"}
 CUR_PACKAGE="${CUR_PACKAGE##*/}"
-if [ "$CUR_PACKAGE" = "UNDEF" ]
+if [ "$CUR_PACKAGE" == "UNDEF" ]
 then
 (
 	rename 's/samba\.sh$/samba\.dis/' ./etc/rcS.d/*.sh
@@ -153,15 +159,28 @@ fi
 
 CUR_PACKAGE=${SRC_PACKAGE_OPENSSH:-"UNDEF"}
 CUR_PACKAGE="${CUR_PACKAGE##*/}"
-if [ "$CUR_PACKAGE" = "UNDEF" ]
+if [ "$CUR_PACKAGE" == "UNDEF" ]
 then
 (
 	rename 's/ssh\.sh$/ssh\.dis/' ./etc/rcS.d/*.sh
 )
 fi
 
-#disable the router mode by default 
-rename 's/network_router\.sh$/network_router\.dis/' ./etc/rcS.d/*.sh
+TMP_VAR=${NETWORK_ROUTER_MODE:-"UNDEF"}
+if [ "$TMP_VAR" == "UNDEF" ]
+then
+(
+	rename 's/network_router\.sh$/network_router\.dis/' ./etc/rcS.d/*.sh
+)
+fi
+
+TMP_VAR=${NETWORK_STATION_MODE:-"UNDEF"}
+if [ "$TMP_VAR" == "UNDEF" ]
+then
+(
+	rename 's/network_station\.sh$/network_station\.dis/' ./etc/rcS.d/*.sh
+)
+fi
 
 ##########################################################################
 # Post process install...
