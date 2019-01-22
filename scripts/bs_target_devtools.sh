@@ -136,3 +136,42 @@ then
 ) || exit 1
 fi
 
+####################################################################
+# Make
+####################################################################
+
+CUR_PACKAGE=${SRC_PACKAGE_TARGET_MAKE:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_TARGET_DONE ]
+	then
+	(
+		echo "**********************"
+		echo "*   Target Make...   *"
+		echo "**********************"
+
+		unpack ${CUR_PACKAGE} ""
+
+		unset PKG_CONFIG_LIBDIR
+
+		cd ${TARGET_BUILD} || exit 1
+		mkdir -pv make_target
+		cd make_target || exit 1
+
+		${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure \
+				--prefix="${TARGET_ROOTFS}/usr" \
+				--host=$TGT_MACH \
+				--target=$TGT_MACH \
+				|| exit 1
+
+		make all install || exit 1
+
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_TARGET_DONE
+	) || exit 1
+	fi
+
+) || exit 1
+fi
+
