@@ -99,7 +99,7 @@ SRC_PACKAGE_LIGHTTPD="https://download.lighttpd.net/lighttpd/releases-1.4.x/ligh
 SRC_PACKAGE_PXESERVER="https://github.com/jfdelnero/pxe-server/releases/download/PXE_1_4_2/pxe-1.4.2.tar.gz"
 SRC_PACKAGE_TFTPD="https://kernel.org/pub/software/network/tftp/tftp-hpa/tftp-hpa-5.2.tar.gz"
 SRC_PACKAGE_UMTPRD="https://github.com/viveris/uMTP-Responder/archive/umtprd-0.8.6.tar.gz"
-
+SRC_PACKAGE_MAILUTILS="ftp://ftp.gnu.org/gnu/mailutils/mailutils-3.5.tar.xz"
 #
 # Graphic Stack
 #
@@ -194,6 +194,8 @@ SRC_PACKAGE_LIBNCURSES="https://ftp.gnu.org/gnu/ncurses/ncurses-6.1.tar.gz"
 SRC_PACKAGE_NANOEDITOR="https://www.nano-editor.org/dist/v2.9/nano-2.9.8.tar.gz"
 SRC_PACKAGE_LIBAIO="http://releases.pagure.org/libaio/libaio-0.3.111.tar.gz"
 
+SRC_PACKAGE_LIBCURL="https://curl.haxx.se/download/curl-7.63.0.tar.gz"
+
 #
 # Target build system
 #
@@ -210,6 +212,8 @@ SRC_PACKAGE_TARGET_GCC_GMP="http://ftp.gnu.org/gnu/gmp/gmp-6.0.0a.tar.xz"
 SRC_PACKAGE_TARGET_GCC_MPC="http://ftp.gnu.org/gnu/mpc/mpc-1.0.3.tar.gz"
 SRC_PACKAGE_TARGET_GCC_ISL="ftp://gcc.gnu.org/pub/gcc/infrastructure/isl-0.15.tar.bz2"
 SRC_PACKAGE_TARGET_GCC_CLOOG="ftp://gcc.gnu.org/pub/gcc/infrastructure/cloog-0.18.1.tar.gz"
+
+SRC_PACKAGE_TARGET_MAKE="http://ftp.gnu.org/gnu/make/make-4.2.1.tar.gz"
 
 fi
 
