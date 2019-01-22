@@ -35,6 +35,7 @@ stage_network="yes"
 stage_miscellaneous="yes"
 stage_games="yes"
 stage_buildtools="yes"
+stage_target_compiler="yes"
 
 mkdir -p ${TARGET_HOME}/download             || exit 1
 mkdir -p ${TARGET_HOME}/build                || exit 1
@@ -156,6 +157,16 @@ if [ $stage_debugdev = "yes" ];
 then
 (
 	${SCRIPTS_HOME}/bs_debug_dev.sh
+) || exit 1
+fi
+
+####################################################################
+# Target build system (Binutils + GCC)
+####################################################################
+if [ $stage_target_compiler = "yes" ];
+then
+(
+	${SCRIPTS_HOME}/bs_target_devtools.sh
 ) || exit 1
 fi
 
