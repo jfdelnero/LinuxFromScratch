@@ -90,7 +90,7 @@ fi
 # Services
 #
 
-SRC_PACKAGE_OPENSSL="ftp://ftp.openssl.org/source/openssl-1.0.2o.tar.gz"
+SRC_PACKAGE_OPENSSL="ftp://ftp.openssl.org/source/openssl-1.0.2q.tar.gz"
 SRC_PACKAGE_OPENSSH="http://ftp.fr.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-7.3p1.tar.gz"
 SRC_PACKAGE_NTP="http://www.eecis.udel.edu/~ntp/ntp_spool/ntp4/ntp-4.2/ntp-4.2.8p10.tar.gz"
 SRC_PACKAGE_VSFTPD="https://security.appspot.com/downloads/vsftpd-3.0.3.tar.gz"
@@ -204,14 +204,15 @@ CUR_PART=${TARGET_BUILD_SUPPORT:-"UNDEF"}
 if [ "$CUR_PART" != "UNDEF" ]
 then
 
-SRC_PACKAGE_TARGET_BINUTILS="http://ftp.gnu.org/gnu/binutils/binutils-2.28.tar.gz"
+# Target binutils/gcc
+SRC_PACKAGE_TARGET_BINUTILS=${SRC_PACKAGE_BINUTILS}
 
-SRC_PACKAGE_TARGET_GCC="http://ftp.gnu.org/gnu/gcc/gcc-6.4.0/gcc-6.4.0.tar.gz"
-SRC_PACKAGE_TARGET_GCC_MPFR="http://ftp.gnu.org/gnu/mpfr/mpfr-3.1.2.tar.xz"
-SRC_PACKAGE_TARGET_GCC_GMP="http://ftp.gnu.org/gnu/gmp/gmp-6.0.0a.tar.xz"
-SRC_PACKAGE_TARGET_GCC_MPC="http://ftp.gnu.org/gnu/mpc/mpc-1.0.3.tar.gz"
-SRC_PACKAGE_TARGET_GCC_ISL="ftp://gcc.gnu.org/pub/gcc/infrastructure/isl-0.15.tar.bz2"
-SRC_PACKAGE_TARGET_GCC_CLOOG="ftp://gcc.gnu.org/pub/gcc/infrastructure/cloog-0.18.1.tar.gz"
+SRC_PACKAGE_TARGET_GCC=${SRC_PACKAGE_GCC}
+SRC_PACKAGE_TARGET_GCC_MPFR=${SRC_PACKAGE_GCC_MPFR}
+SRC_PACKAGE_TARGET_GCC_GMP=${SRC_PACKAGE_GCC_GMP}
+SRC_PACKAGE_TARGET_GCC_MPC=${SRC_PACKAGE_GCC_MPC}
+SRC_PACKAGE_TARGET_GCC_ISL=${SRC_PACKAGE_GCC_ISL}
+SRC_PACKAGE_TARGET_GCC_CLOOG=${SRC_PACKAGE_GCC_CLOOG}
 
 SRC_PACKAGE_TARGET_MAKE="http://ftp.gnu.org/gnu/make/make-4.2.1.tar.gz"
 
