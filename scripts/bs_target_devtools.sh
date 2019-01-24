@@ -231,10 +231,12 @@ then
 
 		TMP_ARCHIVE_FOLDER=$CUR_SRC_MAIN_FOLDER
 
-		${TARGET_SOURCES}/target_devtools/crosscompiler/${TMP_ARCHIVE_FOLDER}/configure \
+		${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure \
 				--prefix="${TARGET_ROOTFS}/usr" \
 				--host=$TGT_MACH                \
 				--target=$CROSS_TGT_MACH        \
+				--disable-libada                \
+				--disable-libsanitizer          \
 				--disable-multilib              \
 				--disable-bootstrap             \
 				--disable-libssp                \
@@ -246,6 +248,7 @@ then
 				--disable-libffi                \
 				--disable-libmudflap            \
 				--disable-libquadmath           \
+				--disable-libquadmath-support   \
 				--disable-libssp                \
 				--disable-libstdcxx-pch         \
 				--disable-nls                   \
@@ -254,6 +257,9 @@ then
 				--disable-tls                   \
 				--disable-werror                \
 				--disable-interwork             \
+				--disable-libvtv                \
+				--disable-decimal-float         \
+				--disable-fixed-point           \
 				--with-gnu-as                   \
 				--with-gnu-ld                   \
 				--with-cpu=$CROSS_TGT_CPU       \
@@ -261,13 +267,25 @@ then
 				--without-headers               \
 				--enable-target-optspace        \
 				--with-float=soft               \
-				--with-sysroot=${TARGET_ROOTFS} \
-				--with-native-system-header-dir=/include \
-				--enable-languages=c            \
-				${GCC_ADD_CONF} || exit 1
+				--enable-languages=c    || exit 1
 
-		make ${NBCORE} all-gcc || exit 1
-		make ${NBCORE} install-gcc|| exit 1
+		# dumpspecs bypass... create a dummy cross compiler:
+		if [ ! -f ${TARGET_CROSS_TOOLS}/bin/${CROSS_TGT_MACH}-gcc ];
+		then
+			echo > ${TARGET_CROSS_TOOLS}/bin/${CROSS_TGT_MACH}-gcc
+			chmod +x ${TARGET_CROSS_TOOLS}/bin/${CROSS_TGT_MACH}-gcc
+
+			make ${NBCORE} all-gcc || exit 1
+			make ${NBCORE} install-gcc|| exit 1
+
+			rm ${TARGET_CROSS_TOOLS}/bin/${CROSS_TGT_MACH}-gcc
+		else
+
+			make ${NBCORE} all-gcc || exit 1
+			make ${NBCORE} install-gcc|| exit 1
+
+		fi
+
 
 		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_TARGET_CROSS_DONE
 
