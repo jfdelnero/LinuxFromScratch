@@ -31,7 +31,8 @@ then
 		echo "*   Target Binutils...   *"
 		echo "**************************"
 
-		unpack ${CUR_PACKAGE} ""
+		mkdir ${TARGET_SOURCES}/target_devtools
+		unpack ${CUR_PACKAGE} "target_devtools"
 
 		unset PKG_CONFIG_LIBDIR
 
@@ -39,7 +40,7 @@ then
 		mkdir -pv binutils_target
 		cd binutils_target || exit 1
 
-		${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure \
+		${TARGET_SOURCES}/target_devtools/${TMP_ARCHIVE_FOLDER}/configure \
 				--prefix="${TARGET_ROOTFS}/usr" \
 				--host=$TGT_MACH \
 				--target=$TGT_MACH \
@@ -71,13 +72,14 @@ then
 		echo "*   Target GCC...   *"
 		echo "*********************"
 
-		unpack ${CUR_PACKAGE} ""
+		mkdir ${TARGET_SOURCES}/target_devtools
+		unpack ${CUR_PACKAGE} "target_devtools"
 
 		unset PKG_CONFIG_LIBDIR
 
-		CUR_SRC_MAIN_FOLDER=$TMP_ARCHIVE_FOLDER
+		CUR_SRC_MAIN_FOLDER=target_devtools/$TMP_ARCHIVE_FOLDER
 
-		cd ${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}   || exit 1
+		cd ${TARGET_SOURCES}/target_devtools/${TMP_ARCHIVE_FOLDER}   || exit 1
 
 		TMP_PACKAGE="${SRC_PACKAGE_TARGET_GCC_MPFR##*/}"
 		unpack ${TMP_PACKAGE} ${CUR_SRC_MAIN_FOLDER}
@@ -109,7 +111,6 @@ then
 				--prefix="${TARGET_ROOTFS}/usr" \
 				--host=$TGT_MACH \
 				--target=$TGT_MACH          \
-				--enable-languages=c,c++   \
 				--disable-multilib         \
 				--with-sysroot=${TARGET_ROOTFS} \
 				--with-native-system-header-dir=/include \
@@ -129,6 +130,146 @@ then
 		cp  -aR  ${TARGET_CROSS_TOOLS}/lib/gcc/${TGT_MACH} ${TARGET_ROOTFS}/usr/lib/gcc/
 
 		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_TARGET_DONE
+
+	) || exit 1
+	fi
+
+) || exit 1
+fi
+
+####################################################################
+# Target Binutils cross-compiler
+####################################################################
+
+CUR_PACKAGE=${SRC_PACKAGE_TARGET_CROSS_BINUTILS:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_TARGET_CROSS_DONE ]
+	then
+	(
+		echo "*****************************************"
+		echo "*   Target Binutils cross-compiler...   *"
+		echo "****************************************"
+
+		mkdir ${TARGET_SOURCES}/target_devtools/crosscompiler
+		unpack ${CUR_PACKAGE} "target_devtools/crosscompiler"
+
+		unset PKG_CONFIG_LIBDIR
+
+		cd ${TARGET_BUILD} || exit 1
+		mkdir -pv binutils_cross_target
+		cd binutils_cross_target || exit 1
+
+		${TARGET_SOURCES}/target_devtools/crosscompiler/${TMP_ARCHIVE_FOLDER}/configure \
+				--prefix="${TARGET_ROOTFS}/usr" \
+				--host=$TGT_MACH \
+				--target=$CROSS_TGT_MACH \
+				--disable-werror \
+				--disable-interwork \
+				--with-sysroot=${TARGET_ROOTFS} \
+				--disable-multilib \
+				|| exit 1
+
+		make all install || exit 1
+
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_TARGET_CROSS_DONE
+	) || exit 1
+	fi
+
+) || exit 1
+fi
+
+####################################################################
+# Target GCC cross-compiler
+####################################################################
+CUR_PACKAGE=${SRC_PACKAGE_TARGET_CROSS_GCC:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_TARGET_CROSS_DONE ]
+	then
+	(
+		echo "***********************************"
+		echo "*   Target GCC cross-compiler...  *"
+		echo "***********************************"
+
+		mkdir ${TARGET_SOURCES}/target_devtools/crosscompiler
+		unpack ${CUR_PACKAGE} "target_devtools/crosscompiler"
+
+		unset PKG_CONFIG_LIBDIR
+
+		CUR_SRC_MAIN_FOLDER=target_devtools/crosscompiler/$TMP_ARCHIVE_FOLDER
+
+		cd ${TARGET_SOURCES}/target_devtools/crosscompiler/${TMP_ARCHIVE_FOLDER}   || exit 1
+
+		TMP_PACKAGE="${SRC_PACKAGE_TARGET_CROSS_GCC_MPFR##*/}"
+		unpack ${TMP_PACKAGE} ${CUR_SRC_MAIN_FOLDER}
+		mv -v ${TMP_ARCHIVE_FOLDER} mpfr || exit 1
+
+		TMP_PACKAGE="${SRC_PACKAGE_TARGET_CROSS_GCC_GMP##*/}"
+		unpack ${TMP_PACKAGE} ${CUR_SRC_MAIN_FOLDER}
+		mv -v ${TMP_ARCHIVE_FOLDER} gmp || exit 1
+
+		TMP_PACKAGE="${SRC_PACKAGE_TARGET_CROSS_GCC_MPC##*/}"
+		unpack ${TMP_PACKAGE} ${CUR_SRC_MAIN_FOLDER}
+		mv -v ${TMP_ARCHIVE_FOLDER} mpc || exit 1
+
+		TMP_PACKAGE="${SRC_PACKAGE_TARGET_CROSS_GCC_ISL##*/}"
+		unpack ${TMP_PACKAGE} ${CUR_SRC_MAIN_FOLDER}
+		mv -v ${TMP_ARCHIVE_FOLDER} isl || exit 1
+
+		#TMP_PACKAGE="${SRC_PACKAGE_TARGET_CROSS_GCC_CLOOG##*/}"
+		#unpack ${TMP_PACKAGE} ${CUR_SRC_MAIN_FOLDER}
+		#mv -v ${TMP_ARCHIVE_FOLDER} cloog || exit 1
+
+		cd ${TARGET_BUILD} || exit 1
+		mkdir -pv target_cross_gcc || exit 1
+		cd target_cross_gcc || exit 1
+
+		TMP_ARCHIVE_FOLDER=$CUR_SRC_MAIN_FOLDER
+
+		${TARGET_SOURCES}/target_devtools/crosscompiler/${TMP_ARCHIVE_FOLDER}/configure \
+				--prefix="${TARGET_ROOTFS}/usr" \
+				--host=$TGT_MACH                \
+				--target=$CROSS_TGT_MACH        \
+				--disable-multilib              \
+				--disable-bootstrap             \
+				--disable-libssp                \
+				--disable-libgomp               \
+				--disable-libmudflap            \
+				--disable-multilib              \
+				--disable-libphobos             \
+				--disable-decimal-float         \
+				--disable-libffi                \
+				--disable-libmudflap            \
+				--disable-libquadmath           \
+				--disable-libssp                \
+				--disable-libstdcxx-pch         \
+				--disable-nls                   \
+				--disable-shared                \
+				--disable-threads               \
+				--disable-tls                   \
+				--disable-werror                \
+				--disable-interwork             \
+				--with-gnu-as                   \
+				--with-gnu-ld                   \
+				--with-cpu=$CROSS_TGT_CPU       \
+				--with-mode=$CROSS_TGT_CPUMODE  \
+				--without-headers               \
+				--enable-target-optspace        \
+				--with-float=soft               \
+				--with-sysroot=${TARGET_ROOTFS} \
+				--with-native-system-header-dir=/include \
+				--enable-languages=c            \
+				${GCC_ADD_CONF} || exit 1
+
+		make ${NBCORE} all-gcc || exit 1
+		make ${NBCORE} install-gcc|| exit 1
+
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_TARGET_CROSS_DONE
 
 	) || exit 1
 	fi
