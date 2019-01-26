@@ -34,6 +34,7 @@ mkdir /var/spool
 mkdir /var/spool/cron
 mkdir /var/spool/cron/crontabs
 mkdir /var/state
+mkdir /var/mail
 
 #######################################
 # /dev

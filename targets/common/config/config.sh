@@ -99,7 +99,13 @@ SRC_PACKAGE_LIGHTTPD="https://download.lighttpd.net/lighttpd/releases-1.4.x/ligh
 SRC_PACKAGE_PXESERVER="https://github.com/jfdelnero/pxe-server/releases/download/PXE_1_4_2/pxe-1.4.2.tar.gz"
 SRC_PACKAGE_TFTPD="https://kernel.org/pub/software/network/tftp/tftp-hpa/tftp-hpa-5.2.tar.gz"
 SRC_PACKAGE_UMTPRD="https://github.com/viveris/uMTP-Responder/archive/umtprd-0.8.6.tar.gz"
+
+SRC_PACKAGE_LIBGMP="https://gmplib.org/download/gmp/gmp-6.1.2.tar.xz"
 SRC_PACKAGE_MAILUTILS="ftp://ftp.gnu.org/gnu/mailutils/mailutils-3.5.tar.xz"
+SRC_PACKAGE_NETTLE="https://ftp.gnu.org/gnu/nettle/nettle-3.4.1.tar.gz"
+SRC_PACKAGE_GNUTLS="https://www.gnupg.org/ftp/gcrypt/gnutls/v3.6/gnutls-3.6.6.tar.xz"
+SRC_PACKAGE_MSMTP="https://marlam.de/msmtp/releases/msmtp-1.8.2.tar.xz"
+
 #
 # Graphic Stack
 #

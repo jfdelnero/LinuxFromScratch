@@ -1,0 +1,1 @@
+set sendmail="/bin/aarch64-linux-msmtp -t"
