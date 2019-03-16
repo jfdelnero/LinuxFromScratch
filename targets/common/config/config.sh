@@ -30,7 +30,7 @@ SRC_PACKAGE_GLIBC="http://ftp.gnu.org/gnu/glibc/glibc-2.25.tar.xz"
 SRC_PACKAGE_BUSYBOX="http://busybox.net/downloads/busybox-1.27.2.tar.bz2"
 SRC_PACKAGE_UTILLINUX="https://www.kernel.org/pub/linux/utils/util-linux/v2.31/util-linux-2.31.tar.gz"
 
-SRC_PACKAGE_LIBELF="http://www.mr511.de/software/libelf-0.8.13.tar.gz"
+SRC_PACKAGE_LIBELF="https://fossies.org/linux/misc/old/libelf-0.8.13.tar.gz"
 
 SRC_PACKAGE_LIBFFI="https://www.mirrorservice.org/sites/sourceware.org/pub/libffi/libffi-3.2.tar.gz"
 SRC_PACKAGE_LIBXML2="http://xmlsoft.org/sources/libxml2-2.9.7.tar.gz"
@@ -90,7 +90,7 @@ fi
 # Services
 #
 
-SRC_PACKAGE_OPENSSL="ftp://ftp.openssl.org/source/openssl-1.0.2q.tar.gz"
+SRC_PACKAGE_OPENSSL="ftp://ftp.openssl.org/source/openssl-1.0.2r.tar.gz"
 SRC_PACKAGE_OPENSSH="http://ftp.fr.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-7.3p1.tar.gz"
 SRC_PACKAGE_NTP="http://www.eecis.udel.edu/~ntp/ntp_spool/ntp4/ntp-4.2/ntp-4.2.8p10.tar.gz"
 SRC_PACKAGE_VSFTPD="https://security.appspot.com/downloads/vsftpd-3.0.3.tar.gz"
@@ -201,6 +201,8 @@ SRC_PACKAGE_NANOEDITOR="https://www.nano-editor.org/dist/v2.9/nano-2.9.8.tar.gz"
 SRC_PACKAGE_LIBAIO="http://releases.pagure.org/libaio/libaio-0.3.111.tar.gz"
 
 SRC_PACKAGE_LIBCURL="https://curl.haxx.se/download/curl-7.63.0.tar.gz"
+
+SRC_PACKAGE_E2FSPROGS="https://mirrors.edge.kernel.org/pub/linux/kernel/people/tytso/e2fsprogs/v1.44.5/e2fsprogs-1.44.5.tar.gz"
 
 #
 # Target build system
