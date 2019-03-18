@@ -20,7 +20,7 @@ SRC_PACKAGE_BINUTILS="http://ftp.gnu.org/gnu/binutils/binutils-2.28.tar.gz"
 
 SRC_PACKAGE_GCC="http://ftp.gnu.org/gnu/gcc/gcc-6.4.0/gcc-6.4.0.tar.gz"
 SRC_PACKAGE_GCC_MPFR="http://ftp.gnu.org/gnu/mpfr/mpfr-3.1.2.tar.xz"
-SRC_PACKAGE_GCC_GMP="http://ftp.gnu.org/gnu/gmp/gmp-6.0.0a.tar.xz"
+SRC_PACKAGE_GCC_GMP="https://gmplib.org/download/gmp/gmp-6.1.2.tar.xz"
 SRC_PACKAGE_GCC_MPC="http://ftp.gnu.org/gnu/mpc/mpc-1.0.3.tar.gz"
 SRC_PACKAGE_GCC_ISL="ftp://gcc.gnu.org/pub/gcc/infrastructure/isl-0.15.tar.bz2"
 SRC_PACKAGE_GCC_CLOOG="ftp://gcc.gnu.org/pub/gcc/infrastructure/cloog-0.18.1.tar.gz"
