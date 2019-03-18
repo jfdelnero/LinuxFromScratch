@@ -85,9 +85,9 @@ then
 		unpack ${TMP_PACKAGE} ${CUR_SRC_MAIN_FOLDER}
 		mv -v ${TMP_ARCHIVE_FOLDER} mpfr || exit 1
 
-		TMP_PACKAGE="${SRC_PACKAGE_TARGET_GCC_GMP##*/}"
-		unpack ${TMP_PACKAGE} ${CUR_SRC_MAIN_FOLDER}
-		mv -v ${TMP_ARCHIVE_FOLDER} gmp || exit 1
+		#TMP_PACKAGE="${SRC_PACKAGE_TARGET_GCC_GMP##*/}"
+		#unpack ${TMP_PACKAGE} ${CUR_SRC_MAIN_FOLDER}
+		#mv -v ${TMP_ARCHIVE_FOLDER} gmp || exit 1
 
 		TMP_PACKAGE="${SRC_PACKAGE_TARGET_GCC_MPC##*/}"
 		unpack ${TMP_PACKAGE} ${CUR_SRC_MAIN_FOLDER}
@@ -114,6 +114,8 @@ then
 				--disable-multilib         \
 				--with-sysroot=${TARGET_ROOTFS} \
 				--with-native-system-header-dir=/include \
+				--with-gmp-lib=${TARGET_ROOTFS}/lib \
+				--with-gmp-include=${TARGET_ROOTFS}/include \
 				--enable-languages=c,c++ \
 				${GCC_ADD_CONF} || exit 1
 
