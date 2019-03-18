@@ -14,4 +14,5 @@ patch -i ${TARGET_CONFIG}/patchs/0003-arm-socfpga-add-support-for-Terasic-DE10-N
 patch -i ${TARGET_CONFIG}/patchs/0004-Add-HDMI-init-to-de10-env.patch -p1 || exit 1
 patch -i ${TARGET_CONFIG}/patchs/0005-Add-DE10-Nano-HDMI-configuration-and-debug-apps.patch -p1 || exit 1
 patch -i ${TARGET_CONFIG}/patchs/0006-arm-socfpga-fix-issue-with-warm-reset-when-CSEL-is-0.patch -p1 || exit 1
+cp ${TARGET_CONFIG}/patchs/socfpga_de10_nano.h include/configs/
 
