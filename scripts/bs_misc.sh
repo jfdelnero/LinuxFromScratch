@@ -464,7 +464,23 @@ then
 		make ${NBCORE} distclean || exit 1
 		make ${NBCORE} clean || exit 1
 
-		cp ${TARGET_CONFIG}/uboot_config .config || exit 1
+		# Generate the default config if needed.
+		TMP_VAR=${UBOOT_DEFCONF:-"UNDEF"}
+		TMP_VAR="${TMP_VAR##*/}"
+		if [ "$TMP_VAR" != "UNDEF" ]
+		then
+		(
+			make $TMP_VAR || exit 1
+		)
+		fi
+
+		# use a predefined config if present.
+		if [ -f ${TARGET_CONFIG}/uboot_config ]
+		then
+		(
+			cp ${TARGET_CONFIG}/uboot_config .config || exit 1
+		)
+		fi
 
 		make || exit 1
 
