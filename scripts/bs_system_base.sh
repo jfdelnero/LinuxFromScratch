@@ -95,7 +95,24 @@ then
 		make ${NBCORE} ARCH=${KERNEL_ARCH}  distclean || exit 1
 		make ${NBCORE} ARCH=${KERNEL_ARCH}  clean || exit 1
 
-		cp ${TARGET_CONFIG}/kernel_config .config || exit 1
+		# Generate the default config if needed.
+		TMP_VAR=${KERNEL_DEFCONF:-"UNDEF"}
+		TMP_VAR="${TMP_VAR##*/}"
+		if [ "$TMP_VAR" != "UNDEF" ]
+		then
+		(
+			make ${NBCORE} ARCH=${KERNEL_ARCH} CROSS_COMPILE=${TGT_MACH}- $TMP_VAR
+		)
+		fi
+
+		# use a predefined config if present.
+		if [ -f ${TARGET_CONFIG}/kernel_config ]
+		then
+		(
+			cp ${TARGET_CONFIG}/kernel_config .config || exit 1
+		)
+		fi
+
 		make ${NBCORE} ARCH=${KERNEL_ARCH}  oldconfig || exit 1
 		make ${NBCORE} ARCH=${KERNEL_ARCH}  headers_check || exit 1
 		make ${NBCORE} ARCH=${KERNEL_ARCH}  INSTALL_HDR_PATH="${TARGET_ROOTFS}" headers_install || exit 1
@@ -376,7 +393,6 @@ then
 		)
 		fi
 
-		#make ${NBCORE} ARCH=${KERNEL_ARCH} CROSS_COMPILE=${TGT_MACH}- mt7623n_evb_fwu_defconfig
 		#make ${NBCORE} ARCH=${KERNEL_ARCH} CROSS_COMPILE=${TGT_MACH}- menuconfig
 
 		# Don't let the Linux kernel build system using the cross-compiled libraries
@@ -385,7 +401,14 @@ then
 
 		make ${NBCORE} ARCH=${KERNEL_ARCH} CROSS_COMPILE=${TGT_MACH}- clean || exit 1
 
-		cp ${TARGET_CONFIG}/kernel_config .config || exit 1
+		# use a predefined config if present.
+		#if [ -f ${TARGET_CONFIG}/kernel_config ]
+		#then
+		#(
+		#	cp ${TARGET_CONFIG}/kernel_config .config || exit 1
+		#)
+		#fi
+
 		make ${NBCORE} ARCH=${KERNEL_ARCH} CROSS_COMPILE=${TGT_MACH}- oldconfig || exit 1
 
 		make ${NBCORE} ${KERNEL_IMAGE_TYPE} ARCH=${KERNEL_ARCH} CROSS_COMPILE=${TGT_MACH}- ${KERNEL_ADD_OPTIONS} || exit 1
@@ -396,7 +419,7 @@ then
 		if [ "$TMP_VAR" = "YES" ]
 		then
 		(
-			make ${NBCORE} dtbs                 ARCH=${KERNEL_ARCH} CROSS_COMPILE=${TGT_MACH}- ${KERNEL_ADD_OPTIONS} || exit 1
+			make ${NBCORE} dtbs             ARCH=${KERNEL_ARCH} CROSS_COMPILE=${TGT_MACH}- ${KERNEL_ADD_OPTIONS} || exit 1
 		)
 		fi
 
