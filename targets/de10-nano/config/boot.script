@@ -6,7 +6,7 @@ echo -- Setting Env Variables --
 setenv fdtimage soc_system.dtb;
 setenv mmcroot /dev/mmcblk0p2;
 setenv mmcload 'mmc rescan;${mmcloadcmd} mmc 0:${mmcloadpart} ${loadaddr} ${bootimage};${mmcloadcmd} mmc 0:${mmcloadpart} ${fdtaddr} ${fdtimage};';
-setenv mmcboot 'setenv bootargs console=ttyS0,115200 root=${mmcroot} rw rootwait; bootz ${loadaddr} - ${fdtaddr}';
+setenv mmcboot 'setenv bootargs console=ttyS0,115200 root=${mmcroot} rw rootwait quiet; bootz ${loadaddr} - ${fdtaddr}';
 run mmcload;
 run mmcboot;
 
