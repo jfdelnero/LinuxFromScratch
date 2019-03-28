@@ -8,3 +8,5 @@
 
 source ${TARGET_CONFIG}/config.sh || exit 1
 
+cp ${TARGET_CONFIG}/patches/socfpga_cyclone5.h include/configs/
+
