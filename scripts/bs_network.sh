@@ -370,6 +370,9 @@ then
 
 		cp defconfig .config  || exit 1
 
+		sed -i s#CONFIG_CTRL_IFACE_DBUS_NEW\=y#\\#CONFIG_CTRL_IFACE_DBUS_NEW\=y#g .config || exit 1
+		sed -i s#CONFIG_CTRL_IFACE_DBUS_INTRO\=y#\\#CONFIG_CTRL_IFACE_DBUS_INTRO\=y#g .config || exit 1
+
 		export LIBDIR=/lib/
 		export INCDIR=/include/
 		export BINDIR=/sbin/
