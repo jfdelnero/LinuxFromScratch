@@ -19,7 +19,7 @@ exit 2
 
 fi
 
-source ${BASE_DIR}/targets/common/config/config.sh || exit 1
+source ${COMMON_CONFIG}/config.sh || exit 1
 
 source ${TARGET_CONFIG}/config.sh || exit 1
 

@@ -32,6 +32,10 @@ else
 		export TARGET_DOWNLOAD="${TARGET_HOME}/download"
 		export TARGET_CROSS_TOOLS="${TARGET_HOME}/cross-tools"
 
+		export COMMON_HOME="${BASE_DIR}/targets/common"
+		export COMMON_CONFIG="${COMMON_HOME}/config"
+		export COMMON_DOWNLOAD="${COMMON_HOME}/download"
+
 		source ${TARGET_CONFIG}/config.sh
 
 		export CROSS_BUILD_SIGN="CROSS_ENV_SET"

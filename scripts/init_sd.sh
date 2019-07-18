@@ -97,7 +97,7 @@ find ./ -type f -exec ${BASE_DIR}/scripts/fix_bin_paths {} ${TARGET_ROOTFS} \;
 chmod +x "./lib/libc.so" || exit 1
 chmod +x "./lib/libpthread.so" || exit 1
 
-cp -R ${BASE_DIR}/targets/common/config/rootfs_cfg/* ./
+cp -R ${COMMON_CONFIG}/rootfs_cfg/* ./
 cp -R ${TARGET_CONFIG}/rootfs_cfg/* ./
 
 chmod +x ./etc/init.d/rcS
