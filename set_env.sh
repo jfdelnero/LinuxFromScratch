@@ -50,31 +50,42 @@ else
 
 		clear
 
-		echo "************************************************************************"
-		echo "* $TARGET_NAME Environment set !"
-		echo "*"
-		echo "* Commands:"
-		echo "* sysbuild.sh                     : Build the whole target system."
-		echo "* init_sd.sh [Dev path] [NOSTRIP] : Copy the root-fs to the flash media."
-		echo "* clean.sh                        : Delete built objects and root-fs."
-		echo "************************************************************************"
-		echo
-
 		chmod +x ${BASE_DIR}/targets/${TARGET_NAME}/config/*.sh
 		chmod +x ${BASE_DIR}/scripts/*.sh
 		chmod +x ${BASE_DIR}/*.sh
 
 		cd   ${BASE_DIR}/targets/${TARGET_NAME}
 
-		echo "Current folder :"
-		pwd
-		echo
+		SECONDPARAM=${2:-"UNDEF"}
+		SECONDPARAM="${SECONDPARAM##*/}"
 
-		bash
+		if [ $SECONDPARAM = "CLEAN_ALL" ] || [ $SECONDPARAM = "MRPROPER" ]; then
 
-		echo "************************************************************"
-		echo "* You just leaved the "${TARGET_NAME}" build Environment"
-		echo "************************************************************"
+			clean.sh $SECONDPARAM
+
+		else
+
+			echo "************************************************************************"
+			echo "* $TARGET_NAME Environment set !"
+			echo "*"
+			echo "* Commands:"
+			echo "* sysbuild.sh                     : Build the whole target system."
+			echo "* init_sd.sh [Dev path] [NOSTRIP] : Copy the root-fs to the flash media."
+			echo "* clean.sh                        : Delete built objects and root-fs."
+			echo "************************************************************************"
+			echo
+
+			echo "Current folder :"
+			pwd
+			echo
+
+			bash
+
+			echo "************************************************************"
+			echo "* You just leaved the "${TARGET_NAME}" build Environment"
+			echo "************************************************************"
+
+		fi
 
 		exit 0
 	else
