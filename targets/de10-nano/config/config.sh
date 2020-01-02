@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # Cross compiler and Linux generation scripts
-# (c)2014-2019 Jean-François DEL NERO
+# (c)2014-2020 Jean-François DEL NERO
 #
 # DE10-Nano target setup
 #
@@ -25,14 +25,18 @@ source ${BASE_DIR}/targets/common/config/config.sh || exit 1
 
 # Altera tools installation path
 
-export ALTERA_TOOLS_ROOT="/home/jeff/intelFPGA_lite/18.1/"
+# Quartus II Folder (../intelFPGA_lite/XX.X/)
+export ALTERA_TOOLS_ROOT=${ALTERA_BASEDIR}
 
-# GHRD FPGA PROJECT folder
-export FPGA_GHRD_FOLDER=/home/jeff/dev/DE10-Nano/DE10-Nano_v.1.3.4_HWrevC_SystemCD/Demonstrations/SoC_FPGA/DE10_NANO_SoC_GHRD
+# GHRD (Golden Hardware Reference Design) DE10-nano project folder (DE10_NANO_SoC_GHRD folder)
+export FPGA_GHRD_FOLDER=${ALTERA_DE10_GHRD_BASEDIR}
 
 # Kernel
 
 SRC_PACKAGE_KERNEL="https://github.com/altera-opensource/linux-socfpga/archive/rel_socfpga-4.14.73-ltsi-rt_19.03.01_pr.tar.gz"
+
+SRC_PACKAGE_PERL=
+SRC_PACKAGE_PERLCROSS=
 
 #uboot
 export UBOOT_DEFCONF=socfpga_cyclone5_config
