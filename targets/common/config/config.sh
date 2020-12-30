@@ -15,6 +15,7 @@ SRC_PACKAGE_BUILD_GPERF="@COMMON@""http://ftp.gnu.org/pub/gnu/gperf/gperf-3.0.4.
 SRC_PACKAGE_BUILD_LIBFFI="@COMMON@""https://www.mirrorservice.org/sites/sourceware.org/pub/libffi/libffi-3.2.tar.gz"
 SRC_PACKAGE_BUILD_XMLEXPAT="@COMMON@""https://downloads.sourceforge.net/project/expat/expat/2.2.5/expat-2.2.5.tar.bz2"
 SRC_PACKAGE_BUILD_LIBXML2="@COMMON@""http://xmlsoft.org/sources/libxml2-2.9.7.tar.gz"
+#SRC_PACKAGE_BUILD_CMAKE="@COMMON@""https://github.com/Kitware/CMake/releases/download/v3.17.2/cmake-3.17.2.tar.gz"
 
 SRC_PACKAGE_BINUTILS="@COMMON@""http://ftp.gnu.org/gnu/binutils/binutils-2.28.tar.gz"
 
@@ -90,7 +91,7 @@ fi
 # Services
 #
 
-SRC_PACKAGE_OPENSSL="@COMMON@""ftp://ftp.openssl.org/source/openssl-1.0.2s.tar.gz"
+SRC_PACKAGE_OPENSSL="@COMMON@""https://ftp.openssl.org/source/old/1.0.2/openssl-1.0.2u.tar.gz"
 SRC_PACKAGE_OPENSSH="@COMMON@""http://ftp.fr.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-8.0p1.tar.gz"
 SRC_PACKAGE_NTP="@COMMON@""http://www.eecis.udel.edu/~ntp/ntp_spool/ntp4/ntp-4.2/ntp-4.2.8p13.tar.gz"
 SRC_PACKAGE_VSFTPD="@COMMON@""https://security.appspot.com/downloads/vsftpd-3.0.3.tar.gz"
@@ -105,28 +106,45 @@ SRC_PACKAGE_MAILUTILS="@COMMON@""ftp://ftp.gnu.org/gnu/mailutils/mailutils-3.7.t
 SRC_PACKAGE_NETTLE="@COMMON@""https://ftp.gnu.org/gnu/nettle/nettle-3.5.1.tar.gz"
 SRC_PACKAGE_GNUTLS="@COMMON@""https://www.gnupg.org/ftp/gcrypt/gnutls/v3.6/gnutls-3.6.8.tar.xz"
 SRC_PACKAGE_MSMTP="@COMMON@""https://marlam.de/msmtp/releases/msmtp-1.8.5.tar.xz"
+SRC_PACKAGE_SAMBA="@COMMON@""https://download.samba.org/pub/samba/stable/samba-3.6.25.tar.gz"
 
 #
 # Graphic Stack
 #
+
+CUR_PART=${LIBGFX_SUPPORT:-"UNDEF"}
+if [ "$CUR_PART" != "UNDEF" ]
+then
+
+SRC_PACKAGE_LIBGD="@COMMON@""https://github.com/libgd/libgd/releases/download/gd-2.3.0/libgd-2.3.0.tar.gz"
+SRC_PACKAGE_LIBPNG="@COMMON@""https://download.sourceforge.net/libpng/libpng-1.6.37.tar.xz"
+SRC_PACKAGE_FREETYPE="@COMMON@""https://downloads.sourceforge.net/project/freetype/freetype2/2.8.1/freetype-2.8.1.tar.bz2"
+SRC_PACKAGE_FONTCONFIG="@COMMON@""https://www.freedesktop.org/software/fontconfig/release/fontconfig-2.12.4.tar.bz2"
+
+fi
+
 CUR_PART=${GFX_SUPPORT:-"UNDEF"}
 if [ "$CUR_PART" != "UNDEF" ]
 then
 
-SRC_PACKAGE_LIBPNG="@COMMON@""ftp://ftp-osl.osuosl.org/pub/libpng/src/libpng16/libpng-1.6.34.tar.xz"
 #SRC_PACKAGE_LIBPCIACCESS="@COMMON@""https://www.x.org/archive/individual/lib/libpciaccess-0.14.tar.gz"
 SRC_PACKAGE_LIBDRM="@COMMON@""https://dri.freedesktop.org/libdrm/libdrm-2.4.92.tar.gz"
-SRC_PACKAGE_MESA="@COMMON@""https://mesa.freedesktop.org/archive/mesa-18.1.1.tar.xz"
-SRC_PACKAGE_GLEW="@COMMON@""https://downloads.sourceforge.net/project/glew/glew/2.1.0/glew-2.1.0.tgz"
-SRC_PACKAGE_GLU="@COMMON@""ftp://ftp.freedesktop.org/pub/mesa/glu/glu-9.0.0.tar.gz"
-#SRC_PACKAGE_GLUT=glut.tar.gz
 
-SRC_PACKAGE_FREETYPE="@COMMON@""https://downloads.sourceforge.net/project/freetype/freetype2/2.8.1/freetype-2.8.1.tar.bz2"
-SRC_PACKAGE_FONTCONFIG="@COMMON@""https://www.freedesktop.org/software/fontconfig/release/fontconfig-2.12.4.tar.bz2"
 SRC_PACKAGE_DIRECTFB="@COMMON@""https://github.com/Distrotech/DirectFB/archive/DIRECTFB_1_7_7.tar.gz"
 SRC_PACKAGE_SDL="@COMMON@""https://www.libsdl.org/release/SDL2-2.0.8.tar.gz"
 SRC_PACKAGE_SDL_TTF="@COMMON@""https://www.libsdl.org/projects/SDL_ttf/release/SDL2_ttf-2.0.14.tar.gz"
 SRC_PACKAGE_SDL_NET="@COMMON@""https://www.libsdl.org/projects/SDL_net/release/SDL2_net-2.0.1.tar.gz"
+
+fi
+
+CUR_PART=${GFX3D_SUPPORT:-"UNDEF"}
+if [ "$CUR_PART" != "UNDEF" ]
+then
+
+SRC_PACKAGE_MESA="@COMMON@""https://mesa.freedesktop.org/archive/mesa-18.1.1.tar.xz"
+SRC_PACKAGE_GLEW="@COMMON@""https://downloads.sourceforge.net/project/glew/glew/2.1.0/glew-2.1.0.tgz"
+SRC_PACKAGE_GLU="@COMMON@""ftp://ftp.freedesktop.org/pub/mesa/glu/glu-9.0.0.tar.gz"
+#SRC_PACKAGE_GLUT=glut.tar.gz
 
 # Default Mesa 3D setting : software raster only.
 export MESA_DRI_DRV="swrast"
@@ -242,3 +260,5 @@ fi
 
 #SRC_PACKAGE_PCIUTILS="@COMMON@""https://github.com/pciutils/pciutils/archive/v3.6.0.tar.gz"
 #SRC_PACKAGE_FLASHROM="@COMMON@""https://download.flashrom.org/releases/flashrom-1.0.tar.bz2"
+#SRC_PACKAGE_FSWEBCAM="@COMMON@""https://www.sanslogic.co.uk/fswebcam/files/fswebcam-20140113.tar.gz"
+
