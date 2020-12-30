@@ -311,3 +311,50 @@ then
 ) || exit 1
 fi
 
+####################################################################
+# Samba
+####################################################################
+
+CUR_PACKAGE=${SRC_PACKAGE_SAMBA:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
+	then
+	(
+		unpack ${CUR_PACKAGE} ""
+
+		cd ${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}  || exit 1
+
+		cd source3 || exit 1
+
+		./autogen.sh  || exit 1
+
+		cat "config.sub" | sed s#armv\\[345\\]\\[lb\\]#armv\\[3457\\]\\[alb\\]#g > "config_new.sub" || exit 1
+		cp config_new.sub config.sub
+
+		./configure --without-krb5 --without-ldap --without-ads --without-sys-quotas --without-quotas\
+				--disable-cups --enable-swat=no --with-winbind=no \
+				--build=$MACHTYPE \
+				--target=$TGT_MACH --host=$TGT_MACH \
+				--with-configdir=/etc \
+				samba_cv_CC_NEGATIVE_ENUM_VALUES=yes \
+				libreplace_cv_HAVE_GETADDRINFO=no \
+				ac_cv_file__proc_sys_kernel_core_pattern=yes || exit 1
+
+		mkdir ${TARGET_ROOTFS}/bin/smbd
+		mkdir ${TARGET_ROOTFS}/bin/smbclient
+
+		echo "#define USE_SETRESUID 1" >> "include/config.h"
+		echo "" >> "include/config.h"
+
+		make ${NBCORE} || exit 1
+		make ${NBCORE} install DESTDIR=${TARGET_ROOTFS} || exit 1
+
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
+
+	) || exit 1
+	fi
+) || exit 1
+fi
