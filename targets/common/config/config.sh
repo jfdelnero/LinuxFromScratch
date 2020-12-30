@@ -77,7 +77,7 @@ CUR_PART=${WIRELESS_SUPPORT:-"UNDEF"}
 if [ "$CUR_PART" != "UNDEF" ]
 then
 
-SRC_PACKAGE_WIRELESSTOOLS="@COMMON@""http://www.labs.hpe.com/personal/Jean_Tourrilhes/Linux/wireless_tools.29.tar.gz"
+SRC_PACKAGE_WIRELESSTOOLS="@COMMON@""https://hewlettpackard.github.io/wireless-tools/wireless_tools.29.tar.gz"
 SRC_PACKAGE_LIBNL3="@COMMON@""https://www.infradead.org/~tgr/libnl/files/libnl-3.2.25.tar.gz"
 SRC_PACKAGE_LIBNL1="@COMMON@""http://www.infradead.org/~tgr/libnl/files/libnl-1.1.4.tar.gz"
 SRC_PACKAGE_IW="@COMMON@""https://www.kernel.org/pub/software/network/iw/iw-5.0.1.tar.gz"
