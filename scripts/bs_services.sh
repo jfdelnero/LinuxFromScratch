@@ -264,6 +264,7 @@ then
 		cd ${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}  || exit 1
 
 		./configure \
+				--disable-python \
 				--prefix="${TARGET_ROOTFS}" \
 				--build=$MACHTYPE \
 				--host=$TGT_MACH \
