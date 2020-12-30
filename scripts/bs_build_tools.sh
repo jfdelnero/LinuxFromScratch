@@ -157,3 +157,39 @@ then
 	fi
 ) || exit 1
 fi
+
+####################################################################
+# CMAKE
+####################################################################
+
+CUR_PACKAGE=${SRC_PACKAGE_BUILD_CMAKE:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_BUILD_DONE ]
+	then
+	(
+		unpack ${CUR_PACKAGE} ""
+
+		unset PKG_CONFIG_LIBDIR
+
+		cd ${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER} || exit 1
+
+		cd ${TARGET_BUILD} || exit 1
+		mkdir cmake_local
+		cd cmake_local || exit 1
+
+		${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure \
+				--prefix="${TARGET_CROSS_TOOLS}" || exit 1
+
+		make ${NBCORE}         || exit 1
+		make ${NBCORE} install || exit 1
+
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_BUILD_DONE
+
+	) || exit 1
+	fi
+) || exit 1
+fi
+
