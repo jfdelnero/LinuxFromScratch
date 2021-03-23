@@ -187,11 +187,19 @@ then
 		# x86-x86 cross compilation : Force the cross compile mode !
 		cd bind
 		tar -xvzf bind.tar.gz
-		sed -i s#cross_compiling\=no#cross_compiling\=yes#g bind-9.11.2-P1/configure || exit 1
+		sed -i s#cross_compiling\=no#cross_compiling\=yes#g bind-9.11.14/configure || exit 1
+		sed -i s#=\ val\;#=\ value\;#g bind-9.11.14/lib/isc/stats.c || exit 1
+
 		rm bind.tar.gz
-		tar -cvzf bind.tar.gz bind-9.11.2-P1
-		rm -R bind-9.11.2-P1
+		tar -cvzf bind.tar.gz bind-9.11.14
+		rm -R bind-9.11.14
 		cd ..
+
+		sed -i s#u_int16_t\ local_port#u_int16_t\ local_port____#g client/dhclient.c || exit 1
+		sed -i s#u_int16_t\ remote_port#u_int16_t\ remote_port____#g client/dhclient.c || exit 1
+		sed -i s#u_int16_t\ local_port#u_int16_t\ local_port___#g relay/dhcrelay.c || exit 1
+		sed -i s#u_int16_t\ remote_port#u_int16_t\ remote_port___#g relay/dhcrelay.c || exit 1
+		sed -i s#omapi_object_type_t#//omapi_object_type_t#g server/mdb.c || exit 1
 
 		${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure \
 				--prefix= \

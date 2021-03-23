@@ -523,6 +523,7 @@ then
 				--build=$MACHTYPE \
 				--host=$TGT_MACH \
 				--target=$TGT_MACH \
+				--with-crond-dir=no \
 				|| exit 1
 
 		make ${NBCORE} || exit 1

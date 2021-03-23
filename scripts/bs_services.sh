@@ -32,6 +32,7 @@ then
 		sed -i s#locate_library\ #locate_library\ ${TARGET_ROOTFS}/#g vsf_findlibs.sh || exit 1
 		sed -i s#echo\ \"/lib#echo\ \"${TARGET_ROOTFS}/lib#g vsf_findlibs.sh || exit 1
 		sed -i s#define\ VSF_BUILD_PAM#undef\ VSF_BUILD_PAM#g builddefs.h || exit 1
+		sed -i s#open_mode\ \=\ kVSFSysStrOpenUnknown#open_mode\ \=\ \(enum\ EVSFSysUtilOpenMode\)kVSFSysStrOpenUnknown#g sysstr.c || exit 1
 
 		#FIXME ! potential security vulnerability : stack-protector not available with ppc arch !
 		[[ $TGT_MACH == *@(ppc*) ]] && sed -i s#-fstack-protector##g Makefile
@@ -202,6 +203,8 @@ then
 		unpack ${CUR_PACKAGE} ""
 
 		cd ${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}  || exit 1
+
+		sed -i s#sigjmp_buf\ toplevel#extern\ sigjmp_buf\ toplevel#g tftp/tftp.c || exit 1
 
 		./configure \
 				--prefix="${TARGET_ROOTFS}" \
