@@ -8,6 +8,31 @@ Various targets are currently supported : ARM, PowerPC, x86, FPGA SOC...
 
 A Linux machine with the "build-essential" package installed.
 
+As example here are the commands to prepare and build a system for the Raspberry Pi Zero W on a freshly installed Linux Mint 20.1 machine :
+
+```c 
+# Install some missing build tools (C++ compiler,...)
+sudo apt install build-essential
+
+# libssl-dev is needed by the latest kernels...
+sudo apt-get install libssl-dev 
+
+# Git is needed to checkout LinuxFromScratch
+sudo apt install git
+
+# Checkout LinuxFromScratch
+git clone https://github.com/jfdelnero/LinuxFromScratch.git
+
+# Select the Raspberry Pi Zero W target
+
+cd LinuxFromScratch
+./set_env.sh rpi_zero_w
+
+# Build the system !
+sysbuild
+```
+
+
 ## Usage
 
 To setup the build environnement run from the repository root folder
@@ -111,4 +136,4 @@ clean.sh
 
 - Solid-run ClearFog.
 
-(c) 2004-2019 Jean-François DEL NERO
+(c) 2004-2021 Jean-François DEL NERO
