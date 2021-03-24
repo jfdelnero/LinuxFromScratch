@@ -72,6 +72,7 @@ then
 		${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure \
 				--prefix="${TARGET_ROOTFS}" \
 				--host=$TGT_MACH \
+				--without-docbook \
 				CC=${TGT_MACH}-gcc || exit 1
 
 		make ${NBCORE} all     || exit 1

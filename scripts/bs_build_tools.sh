@@ -109,6 +109,7 @@ then
 		cd expat_local || exit 1
 
 		${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure \
+				--without-docbook \
 				--prefix="${TARGET_CROSS_TOOLS}" \
 				--datarootdir="${TARGET_CROSS_TOOLS}" \
 				--exec-prefix="${TARGET_CROSS_TOOLS}" || exit 1
