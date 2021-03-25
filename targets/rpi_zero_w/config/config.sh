@@ -34,8 +34,7 @@ source ${BASE_DIR}/targets/common/config/config.sh || exit 1
 #export DRM_SUPPORT="--enable-vc4"
 
 # Kernel
-
-SRC_PACKAGE_KERNEL="https://github.com/raspberrypi/linux/archive/raspberrypi-kernel_1.20190709-1.tar.gz"
+SRC_PACKAGE_KERNEL="https://github.com/raspberrypi/linux/archive/refs/tags/raspberrypi-kernel_1.20210303-1.tar.gz"
 
 SRC_PACKAGE_PERL=
 SRC_PACKAGE_PERLCROSS=
