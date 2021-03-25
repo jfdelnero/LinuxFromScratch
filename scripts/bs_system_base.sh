@@ -540,7 +540,7 @@ then
 		cd ${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}
 
 		# aarch64 support...
-		sed -i s#be64#aarch64#g config-aux/config.sub || exit 1
+		sed -i s#mips64vr5900el#aarch64#g config-aux/config.sub || exit 1
 
 		cd ${TARGET_BUILD} || exit 1
 		mkdir -pv libmtdev || exit 1
@@ -624,7 +624,7 @@ then
 				--target=$TGT_MACH || exit 1
 
 		make ${NBCORE}  || exit 1
-		make ${NBCORE} install-lib install-dev || exit 1
+		make ${NBCORE} install || exit 1
 
 		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
 
