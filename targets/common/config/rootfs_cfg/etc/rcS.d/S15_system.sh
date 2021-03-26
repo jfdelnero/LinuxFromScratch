@@ -2,6 +2,8 @@
 
 echo "---> Starting system services..."
 
+hostname HxC2001
+
 udevd &
 
 klogd
