@@ -104,7 +104,7 @@ if [ $SIZELEN == 0 ]; then
 
    # And restart the system...
    #/usr/sbin/splash_screen /data/pauline_splash_bitmaps/rebooting.bmp
-   reboot
+   reboot -f
 fi
 
 #######################################
@@ -124,8 +124,6 @@ if [ $ret -ne 0 ]; then
       mkfs.vfat /dev/mmcblk0p3
       sync
       #/usr/sbin/splash_screen /data/pauline_splash_bitmaps/starting.bmp
-
-      reboot
    fi
 fi
 
