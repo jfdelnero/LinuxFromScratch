@@ -88,13 +88,14 @@ mount -t tmpfs -o size=64m  tmpfs /mnt
 cp -aR /etc/* /mnt
 mount --move /mnt /etc
 
-#######
+#######################################
 # Test the data partition presence
+#######################################
+
 SIZELEN=`sfdisk /dev/mmcblk0p3 -F -s 2>/dev/null | wc -m`
 if [ $SIZELEN == 0 ]; then
    #/usr/sbin/splash_screen /data/pauline_splash_bitmaps/prep_data_disk.bmp
    echo "Partition 3 not defined... Add it"
-
 
    # Add a partition (vfat) - (2097152 sectors -> keep/reserved the first 1GB for the system partitions)
    echo 'start=2097152,type=c' | sfdisk /dev/mmcblk0 -f -N 3
@@ -104,9 +105,9 @@ if [ $SIZELEN == 0 ]; then
    reboot
 fi
 
-#
+#######################################
 # Data partition mount / initialization
-#
+#######################################
 mount -o fmask=0000,dmask=0000 /dev/mmcblk0p3 /home/data
 ret=$?
 
@@ -121,63 +122,50 @@ if [ $ret -ne 0 ]; then
       mkfs.vfat /dev/mmcblk0p3
       sync
       #/usr/sbin/splash_screen /data/pauline_splash_bitmaps/starting.bmp
+
+      reboot
    fi
 fi
 
 mount -o fmask=0000,dmask=0000 /dev/mmcblk0p3 /home/data
 
+#######################################
 # Test and copy the data folders
+#######################################
 
-if [ ! -d "/home/data/Disks_Captures" ] ; then
-	mkdir "/home/data/Disks_Captures"
-fi
+#if [ ! -d "/home/data/Tools" ] ; then
+#	mkdir "/home/data/Tools"
+#	cp -ar /data/Tools/* /home/data/Tools
+#fi
 
-if [ ! -d "/home/data/Drives_Simulation" ] ; then
-	mkdir "/home/data/Drives_Simulation"
-	cp -ar /data/Drives_Simulation/* /home/data/Drives_Simulation
-fi
+#if [ /data/Tools/pc_hxc_tool/HxCFloppyEmulator.exe -nt /home/data/Tools/pc_hxc_tool/HxCFloppyEmulator.exe ]
+#then
+#	cp -ar /data/Tools/* /home/data/Tools
+#fi
 
-if [ ! -d "/home/data/Tools" ] ; then
-	mkdir "/home/data/Tools"
-	cp -ar /data/Tools/* /home/data/Tools
-fi
+#if [ ! -d "/home/data/Documentations" ] ; then
+#	mkdir "/home/data/Documentations"
+#	cp -ar /data/Documentations/* /home/data/Documentations
+#fi
 
-if [ /data/Tools/pc_hxc_tool/HxCFloppyEmulator.exe -nt /home/data/Tools/pc_hxc_tool/HxCFloppyEmulator.exe ]
-then
-	cp -ar /data/Tools/* /home/data/Tools
-fi
+#if [ ! -f "/home/data/Settings/drives_script_base.txt" ] ; then
+#	cp -ar /data/Settings/drives.script /home/data/Settings/drives_script_base.txt
+#fi
 
-if [ ! -d "/home/data/Documentations" ] ; then
-	mkdir "/home/data/Documentations"
-	cp -ar /data/Documentations/* /home/data/Documentations
-fi
-
-if [ ! -d "/home/data/Settings" ] ; then
-	mkdir "/home/data/Settings"
-	cp -ar /data/Settings/* /home/data/Settings
-	cp /data/Settings/drives.script /home/data/Settings/drives_script_base.txt
-fi
-
-if [ ! -f "/home/data/Settings/drives.script" ] ; then
-	cp -ar /data/Settings/* /home/data/Settings
-fi
-
-if [ ! -f "/home/data/Settings/drives_script_base.txt" ] ; then
-	cp -ar /data/Settings/drives.script /home/data/Settings/drives_script_base.txt
-fi
-
-if [ /data/Settings/drives.script -nt /home/data/Settings/drives_script_base.txt ]
-then
-	cp -ar /data/Settings/drives.script /home/data/Settings/drives_script_base.txt
-fi
-
+#######################################
+# Cache : 
 # Push to the disk the dirty data after 1 second !
+#######################################
+
 echo 100 > /proc/sys/vm/dirty_expire_centisecs
 echo 100 > /proc/sys/vm/dirty_writeback_centisecs
+
+#######################################
+# ramdisk
+#######################################
 
 mount -t tmpfs -o size=64m  tmpfs /ramdisk
 cp -aR /ramdisk/* /mnt
 mount --move /mnt /ramdisk
 
 mount -a
-
