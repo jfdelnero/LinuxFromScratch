@@ -10,6 +10,8 @@ mount -o remount,ro /dev/root /
 mount -t proc none  /proc
 mount -t sysfs none /sys
 
+echo mmc0 | tee /sys/class/leds/led0/trigger
+
 mount -t tmpfs -o size=256m tmpfs /root
 chmod go-r /root
 
@@ -153,7 +155,7 @@ mount -o fmask=0000,dmask=0000 /dev/mmcblk0p3 /home/data
 #fi
 
 #######################################
-# Cache : 
+# Cache :
 # Push to the disk the dirty data after 1 second !
 #######################################
 
