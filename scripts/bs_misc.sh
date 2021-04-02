@@ -133,7 +133,7 @@ then
 	(
 		unpack ${CUR_PACKAGE} ""
 
-		cd ${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER} || exit 1| exit 1
+		cd ${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER} || exit 1
 
 		export CC=${TGT_MACH}-gcc
 		export LD=${TGT_MACH}-ld
@@ -164,6 +164,13 @@ then
 		unpack ${CUR_PACKAGE} ""
 
 		cd ${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER} || exit 1
+
+		if [ -f ${TARGET_CONFIG}/patches/syslinux.patch ]
+		then
+		(
+			patch -s -p0 < ${TARGET_CONFIG}/patches/syslinux.patch  || exit 1
+		) || exit 1
+		fi
 
 		make ${NBCORE} CROSS_COMPILE="${TGT_MACH}-"  || exit 1
 		make ${NBCORE} CROSS_COMPILE="${TGT_MACH}-"  install INSTALLROOT=${TARGET_ROOTFS} || exit 1
@@ -623,3 +630,50 @@ then
 	fi
 ) || exit 1
 fi
+
+####################################################################
+# DDRESCUE
+####################################################################
+
+CUR_PACKAGE=${SRC_PACKAGE_DDRESCUE:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
+	then
+	(
+		unpack ${CUR_PACKAGE} ""
+
+		cd ${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER} || exit 1
+
+		export CXX=${TGT_MACH}-g++
+		export CC=${TGT_MACH}-gcc
+		export LD=${TGT_MACH}-ld
+		export AS=${TGT_MACH}-as
+		export AR=${TGT_MACH}-ar
+
+		${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure \
+			CXX=${TGT_MACH}-g++ \
+			--prefix="${TARGET_ROOTFS}" \
+			--build=$MACHTYPE \
+			--host=$TGT_MACH \
+			--target=$TGT_MACH \
+			|| exit 1
+
+			export CXX=${TGT_MACH}-g++
+			export CC=${TGT_MACH}-gcc
+			export LD=${TGT_MACH}-ld
+			export AS=${TGT_MACH}-as
+			export AR=${TGT_MACH}-ar
+
+			make ${NBCORE} || exit 1
+			make ${NBCORE} install || exit 1
+
+			echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
+
+	) || exit 1
+	fi
+) || exit 1
+fi
+
