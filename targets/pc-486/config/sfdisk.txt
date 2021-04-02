@@ -1,0 +1,3 @@
+unit: sectors
+
+/dev/sdd1 : start=        2048, size=     1992352, type=83, bootable

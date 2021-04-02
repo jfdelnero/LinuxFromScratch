@@ -1,0 +1,10 @@
+--- extlinux/main.c	2021-04-02 08:34:02.907797770 +0200
++++ extlinux/main.c	2021-04-02 08:34:28.331686075 +0200
+@@ -41,6 +41,7 @@
+ #include <sys/types.h>
+ #include <sys/mount.h>
+ #include <sys/vfs.h>
++#include <sys/sysmacros.h>
+ 
+ #include "linuxioctl.h"
+ 
