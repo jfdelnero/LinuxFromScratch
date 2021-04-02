@@ -80,7 +80,7 @@ then
 		then
 		(
 			echo Pre process script available... executing it...
-			#To apply patchs or anything else
+			#To apply patches or anything else
 			source ${TARGET_CONFIG}/kernel_pre_process.sh || exit 1
 		)
 		fi
@@ -451,7 +451,7 @@ then
 		then
 		(
 			echo Pre process script available... executing it...
-			#To apply patchs or anything else
+			#To apply patches or anything else
 			source ${TARGET_CONFIG}/kernel_pre_process.sh || exit 1
 		)
 		fi

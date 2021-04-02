@@ -171,11 +171,11 @@ then
 
 		cd ${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER} || exit 1
 
-		if [ -f ${TARGET_CONFIG}/patchs/ffi.patch ]
+		if [ -f ${TARGET_CONFIG}/patches/ffi.patch ]
 		then
 		(
 			cd src/aarch64 || exit 1
-			patch -Zf < ${TARGET_CONFIG}/patchs/ffi.patch  || exit 1
+			patch -Zf < ${TARGET_CONFIG}/patches/ffi.patch  || exit 1
 		) || exit 1
 		fi
 

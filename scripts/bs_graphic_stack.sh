@@ -226,10 +226,10 @@ then
 
 		cd ${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER} || exit 1
 
-		if [ -f ${TARGET_CONFIG}/patchs/mesa_configure_ac.patch ]
+		if [ -f ${TARGET_CONFIG}/patches/mesa_configure_ac.patch ]
 		then
 		(
-			patch -Zf < ${TARGET_CONFIG}/patchs/mesa_configure_ac.patch  || exit 1
+			patch -Zf < ${TARGET_CONFIG}/patches/mesa_configure_ac.patch  || exit 1
 		) || exit 1
 		fi
 
@@ -565,7 +565,7 @@ then
 		sed -i s#define\ RASPBERRY_PI#undef\ RASPBERRY_PI#g ./systems/egl/egl_system.c || exit 1
 
 		cd ./systems/mesa || exit 1
-		patch -Z < ${TARGET_CONFIG}/patchs/mesa_surface_pool.patch  || exit 1
+		patch -Z < ${TARGET_CONFIG}/patches/mesa_surface_pool.patch  || exit 1
 
 		cd ${TARGET_BUILD} || exit 1
 		mkdir directfb
