@@ -19,7 +19,7 @@ SRC_PACKAGE_BUILD_LIBXML2="@COMMON@""http://xmlsoft.org/sources/libxml2-2.9.10.t
 
 SRC_PACKAGE_BINUTILS="@COMMON@""https://ftp.gnu.org/gnu/binutils/binutils-2.36.1.tar.xz"
 
-SRC_PACKAGE_GCC="@COMMON@""https://ftp.gnu.org/gnu/gcc/gcc-10.2.0/gcc-10.2.0.tar.xz"
+SRC_PACKAGE_GCC="@COMMON@""https://ftp.gnu.org/gnu/gcc/gcc-11.1.0/gcc-11.1.0.tar.xz"
 SRC_PACKAGE_GCC_MPFR="@COMMON@""https://ftp.gnu.org/gnu/mpfr/mpfr-4.1.0.tar.xz"
 SRC_PACKAGE_GCC_GMP="@COMMON@""https://gmplib.org/download/gmp/gmp-6.2.1.tar.xz"
 SRC_PACKAGE_GCC_MPC="@COMMON@""https://ftp.gnu.org/gnu/mpc/mpc-1.2.1.tar.gz"
@@ -50,7 +50,7 @@ if [ "$CUR_PART" != "UNDEF" ]
 then
 
 SRC_PACKAGE_GDB="@COMMON@""https://ftp.gnu.org/gnu/gdb/gdb-10.1.tar.xz"
-SRC_PACKAGE_STRACE="@COMMON@""https://strace.io/files/5.9/strace-5.9.tar.xz"
+SRC_PACKAGE_STRACE="@COMMON@""https://github.com/strace/strace/releases/download/v5.12/strace-5.12.tar.xz"
 #SRC_PACKAGE_LTRACE="@COMMON@""https://fossies.org/linux/misc/ltrace-0.7.3.tar.gz"
 SRC_PACKAGE_VALGRIND="@COMMON@""ftp://sourceware.org/pub/valgrind/valgrind-3.17.0.tar.bz2"
 
@@ -211,9 +211,9 @@ SRC_PACKAGE_HDIDLE="@COMMON@""https://sources.openelec.tv/mirror/hd-idle/hd-idle
 
 fi
 
-#SRC_PACKAGE_PYTHON="@COMMON@""https://www.python.org/ftp/python/3.9.2/Python-3.9.2.tar.xz"
-SRC_PACKAGE_PERL="@COMMON@""https://www.cpan.org/src/5.0/perl-5.32.1.tar.gz"
-SRC_PACKAGE_PERLCROSS="@COMMON@""https://github.com/arsv/perl-cross/releases/download/1.3.5/perl-cross-1.3.5.tar.gz"
+#SRC_PACKAGE_PYTHON="@COMMON@""https://www.python.org/ftp/python/3.9.5/Python-3.9.5.tar.xz"
+SRC_PACKAGE_PERL="@COMMON@""https://www.cpan.org/src/5.0/perl-5.34.0.tar.gz"
+SRC_PACKAGE_PERLCROSS="@COMMON@""https://github.com/arsv/perl-cross/releases/download/1.3.6/perl-cross-1.3.6.tar.gz"
 #SRC_PACKAGE_LIBUSB=libusb-1.0.21.tar.bz2
 #SRC_PACKAGE_LIBUSBGADGET=libusb-gadget.tar.gz
 
