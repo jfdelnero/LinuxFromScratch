@@ -176,7 +176,7 @@ then
 		cd ${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER} || exit 1
 
 		export CROSS=${TGT_MACH}
-		export CC=${TGT_MACH}-gcc
+		export CC="${TGT_MACH}-gcc -latomic"
 		export LD=${TGT_MACH}-ld
 		export AS=${TGT_MACH}-as
 		export AR=${TGT_MACH}-ar
