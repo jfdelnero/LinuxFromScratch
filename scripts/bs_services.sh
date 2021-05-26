@@ -33,6 +33,7 @@ then
 		sed -i s#echo\ \"/lib#echo\ \"${TARGET_ROOTFS}/lib#g vsf_findlibs.sh || exit 1
 		sed -i s#define\ VSF_BUILD_PAM#undef\ VSF_BUILD_PAM#g builddefs.h || exit 1
 		sed -i s#open_mode\ \=\ kVSFSysStrOpenUnknown#open_mode\ \=\ \(enum\ EVSFSysUtilOpenMode\)kVSFSysStrOpenUnknown#g sysstr.c || exit 1
+		#sed -i s#-fstack-protector##g Makefile || exit 1
 
 		#FIXME ! potential security vulnerability : stack-protector not available with ppc arch !
 		[[ $TGT_MACH == *@(ppc*) ]] && sed -i s#-fstack-protector##g Makefile
@@ -335,7 +336,10 @@ then
 
 		./autogen.sh  || exit 1
 
-		cat "config.sub" | sed s#armv\\[345\\]\\[lb\\]#armv\\[3457\\]\\[alb\\]#g > "config_new.sub" || exit 1
+		# Add arch64 and arm7 support...
+		cat "config.sub" | \
+		sed s#armv\\[345\\]\\[lb\\]#armv\\[3457\\]\\[alb\\]#g | \
+		sed s#\|\ bfin#\|\ bfin\ \|\ aarch64#g > "config_new.sub" || exit 1
 		cp config_new.sub config.sub
 
 		./configure --without-krb5 --without-ldap --without-ads --without-sys-quotas --without-quotas\
