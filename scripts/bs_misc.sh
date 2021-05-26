@@ -297,7 +297,7 @@ then
 
 		cd ${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER} || exit 1
 
-		tar --strip-components=1 -zxf ${TARGET_DOWNLOAD}/${SRC_PACKAGE_PERLCROSS##*/}
+		tar --strip-components=1 -zxf ${COMMON_DOWNLOAD}/${SRC_PACKAGE_PERLCROSS##*/}
 
 		${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure \
 				--prefix=/usr \
