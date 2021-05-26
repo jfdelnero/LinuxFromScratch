@@ -37,6 +37,7 @@ then
 				--build=$MACHTYPE \
 				--host=$TGT_MACH \
 				--target=$TGT_MACH \
+				--disable-alsamixer \
 				|| exit 1
 
 		make ${NBCORE}         || exit 1
@@ -72,6 +73,7 @@ then
 				--build=$MACHTYPE \
 				--host=$TGT_MACH \
 				--target=$TGT_MACH \
+				--disable-alsamixer \
 				--with-udev-rules-dir=${TARGET_ROOTFS}/lib/udev/rules.d || exit 1
 
 		make ${NBCORE}         || exit 1
@@ -88,9 +90,12 @@ fi
 # SDL Mixer
 ####################################################################
 
+
+CUR_PACKAGE_SDL=${SRC_PACKAGE_SDL:-"UNDEF"}
+CUR_PACKAGE_SDL="${CUR_PACKAGE_SDL##*/}"
 CUR_PACKAGE=${SRC_PACKAGE_SDLMIXER:-"UNDEF"}
 CUR_PACKAGE="${CUR_PACKAGE##*/}"
-if [ "$CUR_PACKAGE" != "UNDEF" ]
+if [ "$CUR_PACKAGE" != "UNDEF" && "$CUR_PACKAGE_SDL" != "UNDEF"]
 then
 (
 	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
