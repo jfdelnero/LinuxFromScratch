@@ -33,6 +33,10 @@ mkdir -p ${TARGET_ROOTFS}/tmp           || exit 1
 mkdir -p ${TARGET_ROOTFS}/usr           || exit 1
 mkdir -p ${TARGET_ROOTFS}/usr/lib       || exit 1
 mkdir -p ${TARGET_ROOTFS}/usr/include   || exit 1
+mkdir -p ${TARGET_ROOTFS}/usr/bin       || exit 1
+mkdir -p ${TARGET_ROOTFS}/usr/sbin      || exit 1
+mkdir -p ${TARGET_ROOTFS}/usr/local/bin || exit 1
+mkdir -p ${TARGET_ROOTFS}/usr/local/sbin || exit 1
 mkdir -p ${TARGET_ROOTFS}/var           || exit 1
 mkdir -p ${TARGET_ROOTFS}/var/db        || exit 1
 
