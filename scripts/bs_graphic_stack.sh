@@ -99,6 +99,8 @@ then
 		mkdir libdrm
 		cd libdrm || exit 1
 
+		sed -i s#-DDEBUG#-D__DEBUG__#g nouveau/Makefile.in || exit 1
+
 		${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure \
 				--prefix="${TARGET_ROOTFS}" \
 				--host=$TGT_MACH CC=${TGT_MACH}-gcc \
