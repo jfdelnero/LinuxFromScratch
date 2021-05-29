@@ -131,7 +131,7 @@ if [ "$CUR_PART" != "UNDEF" ]
 then
 
 #SRC_PACKAGE_LIBPCIACCESS="@COMMON@""https://www.x.org/archive/individual/lib/libpciaccess-0.14.tar.gz"
-SRC_PACKAGE_LIBDRM="@COMMON@""https://dri.freedesktop.org/libdrm/libdrm-2.4.104.tar.xz"
+SRC_PACKAGE_LIBDRM="@COMMON@""https://dri.freedesktop.org/libdrm/libdrm-2.4.100.tar.gz"
 
 SRC_PACKAGE_DIRECTFB="@COMMON@""https://github.com/Distrotech/DirectFB/archive/DIRECTFB_1_7_7.tar.gz"
 SRC_PACKAGE_SDL="@COMMON@""https://www.libsdl.org/release/SDL2-2.0.14.tar.gz"
