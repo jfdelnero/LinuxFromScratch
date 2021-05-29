@@ -27,6 +27,8 @@ export NETWORK_STATION_MODE="1"
 
 source ${BASE_DIR}/targets/common/config/config.sh || exit 1
 
+export SRC_PACKAGE_OPENOCD="https://downloads.sourceforge.net/project/openocd/openocd/0.11.0/openocd-0.11.0.tar.bz2"
+
 #export MESA_DRI_DRV="swrast"
 #export MESA_GALLIUM_DRV="vc4,swrast"
 #export DRM_SUPPORT="--enable-vc4"

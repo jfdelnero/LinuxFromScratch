@@ -1,0 +1,68 @@
+diff -ruN ocd/openocd-0.11.0/src/flash/nor/numicro.c openocd-0.11.0/src/flash/nor/numicro.c
+--- src/flash/nor/numicro.c	2020-12-09 20:43:09.000000000 +0100
++++ src/flash/nor/numicro.c	2021-05-29 11:23:07.299280135 +0200
+@@ -1148,6 +1148,7 @@
+ 		return retval;
+ 
+ 	LOG_DEBUG("protected = 0x%08" PRIx32 "", is_protected);
++
+ 	if (is_protected == 0) {	/* means protected - so unlock it */
+ 		/* unlock flash registers */
+ 		retval = target_write_u32(target, NUMICRO_SYS_WRPROT, REG_KEY1);
+@@ -1243,7 +1244,9 @@
+ 		retval = target_read_u32(target, NUMICRO_FLASH_ISPTRG, &status);
+ 		if (retval != ERROR_OK)
+ 			return retval;
+-			LOG_DEBUG("status: 0x%" PRIx32 "", status);
++
++		LOG_DEBUG("status: 0x%" PRIx32 "", status);
++
+ 		if ((status & (ISPTRG_ISPGO)) == 0)
+ 			break;
+ 		if (timeout-- <= 0) {
+@@ -1512,7 +1515,9 @@
+ 			retval = target_read_u32(target, NUMICRO_FLASH_ISPTRG, &status);
+ 			if (retval != ERROR_OK)
+ 				return retval;
+-				LOG_DEBUG("status: 0x%" PRIx32 "", status);
++
++			LOG_DEBUG("status: 0x%" PRIx32 "", status);
++
+ 			if (status == 0)
+ 				break;
+ 			if (timeout-- <= 0) {
+@@ -1601,7 +1606,9 @@
+ 				retval = target_read_u32(target, NUMICRO_FLASH_ISPTRG, &status);
+ 				if (retval != ERROR_OK)
+ 					return retval;
+-					LOG_DEBUG("status: 0x%" PRIx32 "", status);
++
++				LOG_DEBUG("status: 0x%" PRIx32 "", status);
++
+ 				if (status == 0)
+ 					break;
+ 				if (timeout-- <= 0) {
+diff -ruN ocd/openocd-0.11.0/src/target/arm920t.c openocd-0.11.0/src/target/arm920t.c
+--- src/target/arm920t.c	2020-12-09 20:43:09.000000000 +0100
++++ src/target/arm920t.c	2021-05-29 11:29:08.994571425 +0200
+@@ -245,8 +245,8 @@
+ 	uint32_t cp15_opcode, uint32_t address, uint32_t *value)
+ {
+ 	struct arm *arm = target_to_arm(target);
+-	uint32_t *regs_p[1];
+-	uint32_t regs[2];
++	uint32_t *regs_p[16];
++	uint32_t regs[16];
+ 	uint32_t cp15c15 = 0x0;
+ 	struct reg *r = arm->core_cache->reg_list;
+ 
+@@ -295,7 +295,7 @@
+ {
+ 	uint32_t cp15c15 = 0x0;
+ 	struct arm *arm = target_to_arm(target);
+-	uint32_t regs[2];
++	uint32_t regs[16];
+ 	struct reg *r = arm->core_cache->reg_list;
+ 
+ 	/* load value, address into R0, R1 */
+

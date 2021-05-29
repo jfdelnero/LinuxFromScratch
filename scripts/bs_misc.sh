@@ -677,3 +677,48 @@ then
 ) || exit 1
 fi
 
+####################################################################
+# OpenOCD
+####################################################################
+
+CUR_PACKAGE=${SRC_PACKAGE_OPENOCD:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
+	then
+	(
+		unpack ${CUR_PACKAGE} ""
+
+		cd ${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER} || exit 1
+
+		if [ -f ${TARGET_CONFIG}/patches/openocd.patch ]
+		then
+		(
+			patch -s -p0 < ${TARGET_CONFIG}/patches/openocd.patch  || exit 1
+		) || exit 1
+		fi
+
+		cd ${TARGET_BUILD} || exit 1
+		mkdir openocd
+		cd openocd || exit 1
+
+		${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure \
+				--enable-sysfsgpio \
+				--enable-bcm2835gpio \
+				--prefix="${TARGET_ROOTFS}" \
+				--build=$MACHTYPE \
+				--host=$TGT_MACH \
+				--target=$TGT_MACH \
+				|| exit 1
+
+		make ${NBCORE}         || exit 1
+		make ${NBCORE} install || exit 1
+
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
+
+	) || exit 1
+	fi
+) || exit 1
+fi
