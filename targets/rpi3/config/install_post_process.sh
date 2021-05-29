@@ -41,12 +41,13 @@ sudo losetup --show --sector-size 512 -f -P ${TARGET_HOME}/output_objects/sdcard
 sudo mount /dev/loop0p1 ${TARGET_HOME}/output_objects/tmp_mount_point
 
 # Boot loader blob
-rm -rf ${TARGET_HOME}/output_objects/RPI3_bootpart
-unzip ${TARGET_HOME}/config/boot_part/RPI3_bootpart.zip -d ${TARGET_HOME}/output_objects/
-sudo cp -a ${TARGET_HOME}/output_objects/RPI3_bootpart/* ${TARGET_HOME}/output_objects/tmp_mount_point
+rm -rf ${TARGET_HOME}/output_objects/RPi_bootpart
+unzip ${BASE_DIR}/blobs/RaspberryPi/RPi_bootpart.zip -d ${TARGET_HOME}/output_objects/
+sudo cp -a ${TARGET_HOME}/output_objects/RPi_bootpart/* ${TARGET_HOME}/output_objects/tmp_mount_point
+sudo cp -a ${TARGET_HOME}/config/boot_part/* ${TARGET_HOME}/output_objects/tmp_mount_point
 
 # Kernel
-sudo cp ${TARGET_ROOTFS_MIRROR}/boot/Image ${TARGET_HOME}/output_objects/tmp_mount_point/kernel.img
+sudo cp ${TARGET_ROOTFS_MIRROR}/boot/Image ${TARGET_HOME}/output_objects/tmp_mount_point/kernel8.img
 sudo cp -a ${TARGET_ROOTFS_MIRROR}/boot/dts/overlays ${TARGET_HOME}/output_objects/tmp_mount_point/
 sudo umount ${TARGET_HOME}/output_objects/tmp_mount_point
 
