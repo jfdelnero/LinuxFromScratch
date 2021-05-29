@@ -113,7 +113,7 @@ then
 		)
 		fi
 
-		make ${NBCORE} ARCH=${KERNEL_ARCH}  oldconfig || exit 1
+		make ${NBCORE} ARCH=${KERNEL_ARCH}  olddefconfig || exit 1
 		make ${NBCORE} ARCH=${KERNEL_ARCH}  headers_check || exit 1
 		make ${NBCORE} ARCH=${KERNEL_ARCH}  INSTALL_HDR_PATH="${TARGET_ROOTFS}" headers_install || exit 1
 
@@ -472,7 +472,7 @@ then
 		#)
 		#fi
 
-		make ${NBCORE} ARCH=${KERNEL_ARCH} CROSS_COMPILE=${TGT_MACH}- oldconfig || exit 1
+		make ${NBCORE} ARCH=${KERNEL_ARCH} CROSS_COMPILE=${TGT_MACH}- olddefconfig || exit 1
 
 		make ${NBCORE} ${KERNEL_IMAGE_TYPE} ARCH=${KERNEL_ARCH} CROSS_COMPILE=${TGT_MACH}- ${KERNEL_ADD_OPTIONS} || exit 1
 
