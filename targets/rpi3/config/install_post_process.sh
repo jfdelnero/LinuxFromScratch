@@ -74,6 +74,7 @@ sudo losetup --show --sector-size 512 -f -P ${TARGET_HOME}/output_objects/sdcard
 sudo mount /dev/loop0p2 ${TARGET_HOME}/output_objects/tmp_mount_point
 
 sudo cp -av ${TARGET_ROOTFS_MIRROR}/* ${TARGET_HOME}/output_objects/tmp_mount_point/.
+sudo tar -xvzf ${BASE_DIR}/blobs/RaspberryPi/firmware.tar.gz -C ${TARGET_HOME}/output_objects/tmp_mount_point/lib
 
 # Add here the customizations
 
