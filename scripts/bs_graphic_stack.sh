@@ -26,7 +26,6 @@ then
 	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
 	then
 	(
-
 		unpack ${CUR_PACKAGE} ""
 
 		cd ${TARGET_BUILD} || exit 1
@@ -95,11 +94,13 @@ then
 	(
 		unpack ${CUR_PACKAGE} ""
 
+		cd ${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER} || exit 1
+
+		sed -i s#-DDEBUG#-D__DEBUG__#g nouveau/Makefile.in || exit 1
+
 		cd ${TARGET_BUILD} || exit 1
 		mkdir libdrm
 		cd libdrm || exit 1
-
-		sed -i s#-DDEBUG#-D__DEBUG__#g nouveau/Makefile.in || exit 1
 
 		${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure \
 				--prefix="${TARGET_ROOTFS}" \
