@@ -2,6 +2,11 @@
 
 echo "---> Starting Network (station mode)..."
 
+if grep -q "Raspberry Pi 3 Model A"  /proc/cpuinfo; then
+    printf "%s" "No internal ethernet port..."
+    return
+fi
+
 printf "%s" "waiting for eth0 ..."
 while ! ifconfig -a | grep eth0 &> /dev/null
 do
