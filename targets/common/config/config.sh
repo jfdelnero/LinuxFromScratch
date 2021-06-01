@@ -224,6 +224,7 @@ SRC_PACKAGE_LIBAIO="@COMMON@""https://releases.pagure.org/libaio/libaio-0.3.112.
 SRC_PACKAGE_LIBCURL="@COMMON@""https://curl.se/download/curl-7.75.0.tar.xz"
 
 SRC_PACKAGE_E2FSPROGS="@COMMON@""https://mirrors.edge.kernel.org/pub/linux/kernel/people/tytso/e2fsprogs/v1.46.2/e2fsprogs-1.46.2.tar.xz"
+SRC_PACKAGE_EXFATPROGS="@COMMON@""https://github.com/exfatprogs/exfatprogs/releases/download/1.1.2/exfatprogs-1.1.2.tar.gz"
 
 #
 # Target build system

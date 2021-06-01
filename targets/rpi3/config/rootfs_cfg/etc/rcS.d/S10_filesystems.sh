@@ -99,8 +99,8 @@ if [ $SIZELEN == 0 ]; then
    #/usr/sbin/splash_screen /data/pauline_splash_bitmaps/prep_data_disk.bmp
    echo "Partition 3 not defined... Add it"
 
-   # Add a partition (vfat) - (2097152 sectors -> keep/reserved the first 1GB for the system partitions)
-   echo 'start=2097152,type=c' | sfdisk /dev/mmcblk0 -f -N 3
+   # Add a partition (exfat) - (2097152 sectors -> keep/reserved the first 1GB for the system partitions)
+   echo 'start=2097152,type=7' | sfdisk /dev/mmcblk0 -f -N 3
 
    # And restart the system...
    #/usr/sbin/splash_screen /data/pauline_splash_bitmaps/rebooting.bmp
@@ -121,7 +121,7 @@ if [ $ret -ne 0 ]; then
    if [ $MNTLEN == 0 ]; then
       #/usr/sbin/splash_screen /data/pauline_splash_bitmaps/formatting_data_disk.bmp
       echo "Formating the data partition !"
-      mkfs.vfat /dev/mmcblk0p3
+      mkfs.exfat /dev/mmcblk0p3
       sync
       #/usr/sbin/splash_screen /data/pauline_splash_bitmaps/starting.bmp
    fi
