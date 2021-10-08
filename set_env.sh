@@ -34,6 +34,7 @@ else
 
 		export COMMON_HOME="${BASE_DIR}/targets/common"
 		export COMMON_CONFIG="${COMMON_HOME}/config"
+		export COMMON_PATCHES="${COMMON_CONFIG}/patches"
 		export COMMON_DOWNLOAD="${COMMON_HOME}/download"
 
 		source ${TARGET_CONFIG}/config.sh

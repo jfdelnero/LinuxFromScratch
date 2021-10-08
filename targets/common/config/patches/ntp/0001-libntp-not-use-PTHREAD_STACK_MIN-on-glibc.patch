@@ -1,0 +1,12 @@
+diff -uNr --no-dereference a/libntp/work_thread.c b/libntp/work_thread.c
+--- a/libntp/work_thread.c	2021-10-08 08:53:01.483747945 +0200
++++ b/libntp/work_thread.c	2021-10-08 08:53:39.453397535 +0200
+@@ -41,7 +41,7 @@
+ #ifndef THREAD_MINSTACKSIZE
+ # define THREAD_MINSTACKSIZE	(64U * 1024)
+ #endif
+-#ifndef __sun
++#if !defined(__sun) && !defined(__GLIBC__)
+ #if defined(PTHREAD_STACK_MIN) && THREAD_MINSTACKSIZE < PTHREAD_STACK_MIN
+ # undef THREAD_MINSTACKSIZE
+ # define THREAD_MINSTACKSIZE PTHREAD_STACK_MIN
