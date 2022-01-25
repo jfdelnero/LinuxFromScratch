@@ -94,8 +94,7 @@ find ./ -type f -exec ${BASE_DIR}/scripts/fix_bin_paths {} ${TARGET_ROOTFS} \;
 # Copy configs files and do some last fixes...
 ##########################################################################
 
-chmod +x "./lib/libc.so" || exit 1
-chmod +x "./lib/libpthread.so" || exit 1
+chmod +x "./lib/*.so"
 
 cp -R ${COMMON_CONFIG}/rootfs_cfg/* ./
 cp -R ${TARGET_CONFIG}/rootfs_cfg/* ./
