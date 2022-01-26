@@ -10,6 +10,8 @@ source ${SCRIPTS_HOME}/unpack.sh || exit 1
 
 source ${TARGET_CONFIG}/config.sh || exit 1
 
+source ${SCRIPTS_HOME}/apply_patches.sh || exit 1
+
 echo "***********"
 echo "* Network *"
 echo "***********"
@@ -137,6 +139,8 @@ then
 		unpack ${CUR_PACKAGE} ""
 
 		cd ${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER} || exit 1
+
+		apply_patches ${COMMON_PATCHES}/ntp
 
 		cd ${TARGET_BUILD} || exit 1
 		mkdir ntp

@@ -17,6 +17,9 @@ sudo apt install build-essential
 # libssl-dev is needed by the latest kernels...
 sudo apt-get install libssl-dev 
 
+# autoconf is needed by samba...
+sudo apt-get install autoconf
+
 # Git is needed to checkout LinuxFromScratch
 sudo apt install git
 
