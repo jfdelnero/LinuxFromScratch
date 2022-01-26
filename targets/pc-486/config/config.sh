@@ -30,9 +30,6 @@ source ${BASE_DIR}/targets/common/config/config.sh || exit 1
 
 #export DRM_SUPPORT="--enable-intel --enable-radeon --enable-amdgpu --enable-nouveau"
 
-SRC_PACKAGE_GLIBC="@COMMON@""https://ftp.gnu.org/gnu/glibc/glibc-2.32.tar.xz"
-SRC_PACKAGE_BUSYBOX="@COMMON@""https://busybox.net/downloads/busybox-1.32.1.tar.bz2"
-
 SRC_PACKAGE_LIBPCIACCESS="https://www.x.org/archive/individual/lib/libpciaccess-0.14.tar.gz"
 
 # Loader
