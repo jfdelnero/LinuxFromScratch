@@ -10,12 +10,12 @@ A Linux machine with the "build-essential" package installed.
 
 As example here are the commands to prepare and build a system for the Raspberry Pi Zero W on a freshly installed Linux Mint 20.1 machine :
 
-```c 
+```c
 # Install some missing build tools (C++ compiler,...)
 sudo apt install build-essential
 
 # libssl-dev is needed by the latest kernels...
-sudo apt-get install libssl-dev 
+sudo apt-get install libssl-dev
 
 # autoconf is needed by samba...
 sudo apt-get install autoconf
@@ -32,7 +32,7 @@ cd LinuxFromScratch
 ./set_env.sh rpi_zero_w
 
 # Build the system !
-sysbuild
+sysbuild.sh
 ```
 
 
