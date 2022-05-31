@@ -1,0 +1,2 @@
+#/bin/sh
+loadkmap < /usr/share/keymaps/i386/azerty/fr-latin1.bmap
