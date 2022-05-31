@@ -93,9 +93,9 @@ mount --move /mnt /etc
 #######################################
 # Test the data partition presence
 #######################################
-
+DISKSIZE=`sfdisk /dev/sda -F -s 2>/dev/null`
 SIZELEN=`sfdisk /dev/sda2 -F -s 2>/dev/null | wc -m`
-if [ $SIZELEN == 0 ]; then
+if [ $SIZELEN == 0 ] && [ $DISKSIZE -gt 1048576 ]; then
    #/usr/sbin/splash_screen /data/pauline_splash_bitmaps/prep_data_disk.bmp
    echo "Partition 2 not defined... Add it"
 
@@ -113,7 +113,7 @@ fi
 mount -o fmask=0000,dmask=0000 /dev/sda2 /home/data
 ret=$?
 
-if [ $ret -ne 0 ]; then
+if [ $ret -ne 0 ] && [ $DISKSIZE -gt 1048576 ]; then
 
    # TODO !!! Ask the user before doing this !!!
 
@@ -169,3 +169,4 @@ cp -aR /ramdisk/* /mnt
 mount --move /mnt /ramdisk
 
 mount -a
+
