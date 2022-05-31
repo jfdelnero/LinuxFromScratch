@@ -65,6 +65,9 @@ sudo cp -av ${TARGET_ROOTFS_MIRROR}/* ${TARGET_HOME}/output_objects/tmp_mount_po
 sudo cp -av ${TARGET_HOME}/sources/linux-kernel/arch/x86/boot/bzImage ${TARGET_HOME}/output_objects/tmp_mount_point/boot
 # Add here the customizations
 
+# Keymaps
+sudo unzip ${BASE_DIR}/blobs/Keymaps/keymaps.zip -d ${TARGET_HOME}/output_objects/tmp_mount_point/
+
 #sudo cp -av ${TARGET_HOME}/output_objects/a_new_program  ${TARGET_HOME}/output_objects/tmp_mount_point/usr/sbin || exit 1
 
 ###############################################################################
