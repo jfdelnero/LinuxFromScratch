@@ -55,12 +55,15 @@ then
 ) || exit 1
 fi
 
+CROSSCOMPILERONLY_TMP=${CROSSCOMPILERONLY:-"UNDEF"}
+CROSSCOMPILERONLY_TMP="${CROSSCOMPILERONLY_TMP##*/}"
+
 ####################################################################
 # Kernel headers generation
 ####################################################################
 CUR_PACKAGE=${SRC_PACKAGE_KERNEL:-"UNDEF"}
 CUR_PACKAGE="${CUR_PACKAGE##*/}"
-if [ "$CUR_PACKAGE" != "UNDEF" ]
+if [ "$CUR_PACKAGE" != "UNDEF" ] && [ "$CROSSCOMPILERONLY_TMP" != "1" ]
 then
 (
 	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
@@ -173,15 +176,24 @@ then
 
 		TMP_ARCHIVE_FOLDER=$CUR_SRC_MAIN_FOLDER
 
-		${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure \
+		if [ "$CROSSCOMPILERONLY_TMP" = "1" ];
+		then
+			${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure \
+				--prefix="${TARGET_CROSS_TOOLS}" \
+				--target=$TGT_MACH          \
+				--enable-languages=c,c++   \
+				--disable-multilib         \
+				${GCC_ADD_CONF} || exit 1
+		else
+			${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure \
 				--prefix="${TARGET_CROSS_TOOLS}" \
 				--target=$TGT_MACH          \
 				--enable-languages=c,c++   \
 				--disable-multilib         \
 				--with-sysroot=${TARGET_ROOTFS} \
 				--with-native-system-header-dir=/include \
-				--enable-languages=c,c++ \
 				${GCC_ADD_CONF} || exit 1
+		fi
 
 		# To force the fixed limits.h generation...
 		echo > ${TARGET_ROOTFS}/include/limits.h
@@ -198,6 +210,14 @@ then
 	fi
 
 ) || exit 1
+fi
+
+####################################################################
+# Exit here in simple cross compiler mode
+####################################################################
+if [ "$CROSSCOMPILERONLY_TMP" = "1" ];
+then
+	exit 0
 fi
 
 ####################################################################

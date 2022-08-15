@@ -19,10 +19,6 @@ exit 2
 
 fi
 
-source ${COMMON_CONFIG}/config.sh || exit 1
-
-source ${TARGET_CONFIG}/config.sh || exit 1
-
 stage_download="yes"
 stage_sysbase="yes"
 stage_libraries="yes"
@@ -36,6 +32,28 @@ stage_miscellaneous="yes"
 stage_games="yes"
 stage_buildtools="yes"
 stage_target_compiler="yes"
+
+source ${COMMON_CONFIG}/config.sh || exit 1
+source ${TARGET_CONFIG}/config.sh || exit 1
+
+CROSSCOMPILERONLY_TMP=${CROSSCOMPILERONLY:-"UNDEF"}
+CROSSCOMPILERONLY_TMP="${CROSSCOMPILERONLY_TMP##*/}"
+if [ "$CROSSCOMPILERONLY_TMP" = "1" ];
+then
+	stage_download="yes"
+	stage_sysbase="yes"
+	stage_libraries="no"
+	stage_sysshell="no"
+	stage_services="no"
+	stage_debugdev="no"
+	stage_graphicstack="no"
+	stage_audiostack="no"
+	stage_network="no"
+	stage_miscellaneous="no"
+	stage_games="no"
+	stage_buildtools="no"
+	stage_target_compiler="no"
+fi
 
 mkdir -p ${TARGET_HOME}/download             || exit 1
 mkdir -p ${TARGET_HOME}/build                || exit 1
