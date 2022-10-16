@@ -33,6 +33,8 @@ stage_games="yes"
 stage_buildtools="yes"
 stage_target_compiler="yes"
 
+export build_start_timestamp=`date +"%s"`
+
 source ${COMMON_CONFIG}/config.sh || exit 1
 source ${TARGET_CONFIG}/config.sh || exit 1
 
@@ -205,5 +207,9 @@ fi
 	echo "*************************************"
 	echo "*************************************"
 	date
+
+	export build_stop_timestamp=`date +"%s"`
+	export compile_time=$(($build_stop_timestamp-$build_start_timestamp))
+	echo "Compile time : $(($compile_time/60/60))h:$((($compile_time/60) % 60))m:$(($compile_time % 60))s"
 )
 
