@@ -101,6 +101,10 @@ then
 	(
 		unpack ${CUR_PACKAGE} ""
 
+		cd ${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER} || exit 1
+
+		apply_patches ${COMMON_PATCHES}/iptables
+
 		cd ${TARGET_BUILD} || exit 1
 		mkdir iptables
 		cd iptables || exit 1
@@ -110,7 +114,6 @@ then
 				--build=$MACHTYPE \
 				--host=$TGT_MACH \
 				--target=$TGT_MACH \
-				--with-kernel=${BASE_DIR}/linux-4.7.5 \
 				CFLAGS=-DPATH_MAX=4096 \
 				LDFLAGS="${TARGET_ROOTFS}/lib/libmnl.so  ${TARGET_ROOTFS}/lib/libnftnl.so"  || exit 1
 
@@ -292,9 +295,6 @@ then
 
 
 		make ${NBCORE}           || exit 1
-		make ${NBCORE} install   || exit 1
-
-		cd include     || exit 1
 		make ${NBCORE} install   || exit 1
 
 		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE

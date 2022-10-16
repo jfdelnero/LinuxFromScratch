@@ -73,6 +73,7 @@ then
 				--host=$TGT_MACH \
 				--target=$TGT_MACH \
 				--without-pcre \
+				--without-pcre2 \
 				--without-bzip2 || exit 1
 
 		make ${NBCORE}         || exit 1

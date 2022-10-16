@@ -43,6 +43,7 @@ then
 				--prefix="${TARGET_CROSS_TOOLS}" \
 				--target=$TGT_MACH \
 				--with-sysroot=${TARGET_ROOTFS} \
+				--disable-doc \
 				--disable-multilib \
 				|| exit 1
 
@@ -117,7 +118,7 @@ then
 		fi
 
 		make ${NBCORE} ARCH=${KERNEL_ARCH}  olddefconfig || exit 1
-		make ${NBCORE} ARCH=${KERNEL_ARCH}  headers_check || exit 1
+		#make ${NBCORE} ARCH=${KERNEL_ARCH}  headers_check || exit 1
 		make ${NBCORE} ARCH=${KERNEL_ARCH}  INSTALL_HDR_PATH="${TARGET_ROOTFS}" headers_install || exit 1
 
 		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
