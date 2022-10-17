@@ -11,9 +11,15 @@ export TGT_MACH=armv7a-hardfloat-linux-gnueabi
 export SSL_ARCH=linux-armv4
 export GCC_ADD_CONF=""
 
-export KERNEL_IMAGE_TYPE="Image"
+export KERNEL_IMAGE_TYPE="zImage"
+export KERNEL_DTBS="YES"
+export KERNEL_FIRMWARES="YES"
+
+export NETWORK_ROUTER_MODE="YES"
 
 export DEBUG_SUPPORT="1"
+
+
 export NETWORK_SUPPORT="1"
 export WIRELESS_SUPPORT="1"
 
