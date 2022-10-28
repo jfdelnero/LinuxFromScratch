@@ -1,0 +1,49 @@
+#iface eth0 inet manual
+
+# Loopback
+auto lo
+iface lo inet loopback
+
+# eth0 wan
+#allow-hotplug eth0
+iface eth0 inet manual
+   pre-up /sbin/udhcpc -R -b -p /var/run/udhcpc.eth0.pid -i eth0
+
+# eth1 switch dsa port
+auto eth1
+iface eth1 inet manual
+
+# eth2 sfp port
+allow-hotplug eth2
+iface eth2 inet manual
+
+# lan ports (dsa)
+auto lan1 lan2 lan3 lan4 lan5 lan6
+iface lan1 inet manual
+iface lan2 inet manual
+iface lan3 inet manual
+iface lan4 inet manual
+iface lan5 inet manual
+iface lan6 inet manual
+
+# bridge for local ports
+auto br0
+iface br0 inet static
+        bridge_ports lan1 lan2 lan3 lan4 lan5 lan6
+                address 192.168.20.1
+                netmask 255.255.255.0
+                network 192.168.20.0
+                broadcast 192.168.20.255
+                gateway 192.168.20.1
+                dns-nameservers 1.1.1.1 1.0.0.1
+
+# wlan
+auto 
+iface wlan0 inet static
+       address 192.168.40.1
+       netmask 255.255.255.0
+       network 192.168.40.0
+       broadcast 192.168.40.255
+       gateway 192.168.40.1
+       dns-nameservers 1.1.1.1 1.0.0.1
+
