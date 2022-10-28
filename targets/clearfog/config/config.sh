@@ -27,4 +27,4 @@ source ${BASE_DIR}/targets/common/config/config.sh || exit 1
 
 # Kernel
 
-SRC_PACKAGE_KERNEL="https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.19.9.tar.xz"
+SRC_PACKAGE_KERNEL="https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.19.17.tar.xz"
