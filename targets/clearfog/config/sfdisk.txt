@@ -1,4 +1,4 @@
 unit: sectors
 
-/dev/sdd1 : start=       10000, size=     2087152, type=83, bootable
+/dev/sdd1 : start=       10000, size=     2087152, type=83
 
