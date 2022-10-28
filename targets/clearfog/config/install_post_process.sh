@@ -82,6 +82,9 @@ sudo cp -av ${TARGET_ROOTFS_MIRROR}/* ${TARGET_HOME}/output_objects/tmp_mount_po
 
 # Add here the customizations
 
+#sudo mkimage -A arm -T script -O linux -d ${TARGET_CONFIG}/boot_part/boot.script ${TARGET_HOME}/output_objects/tmp_mount_point/boot.scr
+sudo cp -av ${TARGET_CONFIG}/boot_part/boot.scr  ${TARGET_HOME}/output_objects/tmp_mount_point/  || exit 1
+
 #sudo cp -av ${TARGET_HOME}/output_objects/a_new_program  ${TARGET_HOME}/output_objects/tmp_mount_point/usr/sbin || exit 1
 
 ###############################################################################
