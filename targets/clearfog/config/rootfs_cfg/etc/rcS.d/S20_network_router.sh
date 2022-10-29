@@ -26,7 +26,7 @@ brctl addif br0 lan4
 brctl addif br0 lan5
 brctl addif br0 lan6
 
-ifup -a -v
+ifup -a
 
 echo "0" >/var/log/reconnect  
 echo "6" >/var/log/reconnect2
