@@ -518,7 +518,7 @@ then
 
 		${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure \
 				--prefix="${TARGET_ROOTFS}" -host=$TGT_MACH \
-				--disable-debuginfod || exit 1
+				--disable-libdebuginfod --disable-debuginfod || exit 1
 
 		make ${NBCORE}  || exit 1
 		make ${NBCORE} install || exit 1
