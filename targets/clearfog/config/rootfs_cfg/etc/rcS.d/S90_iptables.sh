@@ -56,6 +56,6 @@
     ifconfig $sfp_wlan   up
     
     udhcpc -n -i $internetif &
-    udhcpc -n -i $sfp_wlan 
+    udhcpc -n -i $sfp_wlan   &
     dhcpd
 
