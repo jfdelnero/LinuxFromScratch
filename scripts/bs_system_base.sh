@@ -354,6 +354,43 @@ then
 fi
 
 ####################################################################
+# ZLIB
+####################################################################
+
+CUR_PACKAGE=${SRC_PACKAGE_ZLIB:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
+	then
+	(
+		unpack ${CUR_PACKAGE} ""
+
+		cd ${TARGET_BUILD}
+		mkdir zlib
+		cd zlib || exit 1
+
+		export CC=${TGT_MACH}-gcc
+		export LD=${TGT_MACH}-ld
+		export AS=${TGT_MACH}-as
+		export AR=${TGT_MACH}-ar
+
+		${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure \
+					--prefix="${TARGET_ROOTFS}" \
+					|| exit 1
+
+		make ${NBCORE}         || exit 1
+		make ${NBCORE} install || exit 1
+
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
+
+	) || exit 1
+	fi
+) || exit 1
+fi
+
+####################################################################
 # LIBTIRPC
 ####################################################################
 CUR_PACKAGE=${SRC_PACKAGE_LIBTIRPC:-"UNDEF"}
@@ -442,7 +479,46 @@ then
 		${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure \
 				--prefix="${TARGET_ROOTFS}" \
 				--target=$TGT_MACH \
+				--enable-elf64 \
 				--enable-compat || exit 1
+
+		make ${NBCORE}  || exit 1
+		make ${NBCORE} install || exit 1
+
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
+
+	) || exit 1
+	fi
+
+) || exit 1
+fi
+
+####################################################################
+# elfutils
+####################################################################
+CUR_PACKAGE=${SRC_PACKAGE_ELFUTILS:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
+	then
+	(
+		echo "**************"
+		echo "*  elfutils   *"
+		echo "**************"
+
+		unpack ${CUR_PACKAGE} ""
+
+		cd ${TARGET_BUILD} || exit 1
+		mkdir -pv elfutils || exit 1
+		cd elfutils || exit 1
+
+		export CC=${TGT_MACH}-gcc
+
+		${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure \
+				--prefix="${TARGET_ROOTFS}" -host=$TGT_MACH \
+				--disable-debuginfod || exit 1
 
 		make ${NBCORE}  || exit 1
 		make ${NBCORE} install || exit 1
@@ -682,9 +758,9 @@ then
 		export PKGCONFIGDIR=/lib/pkgconfig
 		export lib=lib
 
-		make prefix="${TARGET_ROOTFS}" BUILD_CC=gcc CC=${TGT_MACH}-gcc AR=${TGT_MACH}-ar RANLIB=${TGT_MACH}-ranlib || exit 1
+		make prefix="${TARGET_ROOTFS}" BUILD_CC=gcc CROSS_COMPILE=${TGT_MACH}- || exit 1
 
-		make install prefix="${TARGET_ROOTFS}" BUILD_CC=gcc  CC=${TGT_MACH}-gcc AR=${TGT_MACH}-ar RANLIB=${TGT_MACH}-ranlib
+		make install prefix="${TARGET_ROOTFS}" BUILD_CC=gcc CROSS_COMPILE=${TGT_MACH}- || exit 1
 
 		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
 
