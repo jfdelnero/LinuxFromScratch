@@ -78,6 +78,7 @@ SRC_PACKAGE_LIBPCAP="@COMMON@""https://www.tcpdump.org/release/libpcap-1.10.1.ta
 SRC_PACKAGE_TCPDUMP="@COMMON@""https://www.tcpdump.org/release/tcpdump-4.99.1.tar.gz"
 SRC_PACKAGE_TCPSLICE="@COMMON@""https://www.tcpdump.org/release/tcpslice-1.6.tar.gz"
 SRC_PACKAGE_IPROUTE2="@COMMON@""https://mirrors.edge.kernel.org/pub/linux/utils/net/iproute2/iproute2-6.0.0.tar.gz"
+SRC_PACKAGE_NMAP="@COMMON@""https://nmap.org/dist/nmap-7.93.tar.bz2"
 fi
 
 #
