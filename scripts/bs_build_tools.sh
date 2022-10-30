@@ -230,3 +230,56 @@ then
 ) || exit 1
 fi
 
+####################################################################
+# heimdal
+####################################################################
+
+CUR_PACKAGE=${SRC_PACKAGE_HEIMDAL:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
+	then
+	(
+		unpack ${CUR_PACKAGE} ""
+
+		cd ${TARGET_BUILD} || exit 1
+		mkdir heimdal
+		cd heimdal || exit 1
+
+		${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure \
+				--prefix="${TARGET_CROSS_TOOLS}" \
+				--disable-shared \
+				--enable-static \
+				--without-openldap \
+				--without-capng \
+				--with-db-type-preference= \
+				--without-sqlite3 \
+				--without-libintl \
+				--without-openssl \
+				--without-berkeley-db \
+				--without-readline \
+				--without-libedit \
+				--without-hesiod \
+				--without-x \
+				--disable-mdb-db \
+				--disable-ndbm-db \
+				--disable-heimdal-documentation || exit 1
+
+		make ${NBCORE} || exit 1
+		make ${NBCORE} install || exit 1
+
+		cp ./lib/com_err/compile_et ${TARGET_CROSS_TOOLS}/bin
+		cp -a ./lib/com_err/.libs ${TARGET_CROSS_TOOLS}/bin
+
+		ln -sf ${TARGET_CROSS_TOOLS}/libexec/heimdal/asn1_compile	${TARGET_CROSS_TOOLS}/bin/asn1_compile
+		ln -sf ${TARGET_CROSS_TOOLS}/bin/compile_et ${TARGET_CROSS_TOOLS}/libexec/heimdal/compile_et
+
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
+
+	) || exit 1
+	fi
+) || exit 1
+fi
+

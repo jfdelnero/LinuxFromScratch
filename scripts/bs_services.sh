@@ -10,6 +10,8 @@ source ${SCRIPTS_HOME}/unpack.sh || exit 1
 
 source ${TARGET_CONFIG}/config.sh || exit 1
 
+source ${SCRIPTS_HOME}/apply_patches.sh || exit 1
+
 echo "****************"
 echo "*   Services   *"
 echo "****************"
@@ -333,32 +335,39 @@ then
 
 		cd ${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}  || exit 1
 
-		cd source3 || exit 1
+		# cp ${COMMON_CONFIG}/../patches/samba4/samba_cross.py ${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/buildtools/wafsamba
+		cp ${COMMON_CONFIG}/../patches/samba4/cache.txt ${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}
+		echo 'Checking uname machine type: "'$SAMBA_ARCH'"' >> ${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/cache.txt;
 
 		./autogen.sh  || exit 1
 
-		# Add arch64 and arm7 support...
-		cat "config.sub" | \
-		sed s#armv\\[345\\]\\[lb\\]#armv\\[3457\\]\\[alb\\]#g | \
-		sed s#\|\ bfin#\|\ bfin\ \|\ aarch64#g > "config_new.sub" || exit 1
-		cp config_new.sub config.sub
+		export CC=${TGT_MACH}-gcc
 
-		./configure --without-krb5 --without-ldap --without-ads --without-sys-quotas --without-quotas\
-				--disable-cups --enable-swat=no --with-winbind=no \
-				--build=$MACHTYPE \
-				--target=$TGT_MACH --host=$TGT_MACH \
-				--with-configdir=/etc \
-				samba_cv_CC_NEGATIVE_ENUM_VALUES=yes \
-				libreplace_cv_HAVE_GETADDRINFO=no \
-				ac_cv_file__proc_sys_kernel_core_pattern=yes || exit 1
+		./configure --hostcc=gcc --cross-compile --cross-answers=${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/cache.txt \
+			--without-acl-support --disable-cups --disable-avahi --without-fam \
+			--prefix=/usr \
+			--sysconfdir=/etc \
+			--localstatedir=/var \
+			--with-libiconv=${TARGET_ROOTFS}/usr \
+			--enable-fhs \
+			--disable-rpath \
+			--disable-rpath-install \
+			--disable-iprint \
+			--without-pam \
+			--without-dmapi \
+			--without-gpgme \
+			--without-json \
+			--without-ad-dc \
+			--without-libarchive \
+			--without-ldap \
+			--without-ads \
+			--disable-glusterfs \
+			--disable-python \
+			--with-cluster-support \
+			--with-shared-modules='!vfs_snapper' \
+			--bundled-libraries='!asn1_compile,!compile_et' || exit 1
 
-		mkdir ${TARGET_ROOTFS}/bin/smbd
-		mkdir ${TARGET_ROOTFS}/bin/smbclient
-
-		echo "#define USE_SETRESUID 1" >> "include/config.h"
-		echo "" >> "include/config.h"
-
-		make ${NBCORE} || exit 1
+		make ${NBCORE} CC=${TGT_MACH}-gcc || exit 1
 		make ${NBCORE} install DESTDIR=${TARGET_ROOTFS} || exit 1
 
 		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE

@@ -9,6 +9,7 @@
 export KERNEL_ARCH=arm
 export TGT_MACH=armv7a-hardfloat-linux-gnueabi
 export SSL_ARCH=linux-armv4
+export SAMBA_ARCH=arm
 export GCC_ADD_CONF=""
 
 export TARGET_BUILD_SUPPORT="1"
