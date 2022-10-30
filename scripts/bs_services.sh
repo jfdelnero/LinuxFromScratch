@@ -275,6 +275,7 @@ then
 				--prefix="${TARGET_ROOTFS}" \
 				--build=$MACHTYPE \
 				--host=$TGT_MACH \
+				--without-gssapi \
 				--target=$TGT_MACH || exit 1
 
 		make ${NBCORE}         || exit 1
@@ -339,7 +340,7 @@ then
 		cp ${COMMON_CONFIG}/../patches/samba4/cache.txt ${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}
 		echo 'Checking uname machine type: "'$SAMBA_ARCH'"' >> ${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/cache.txt;
 
-		./autogen.sh  || exit 1
+		apply_patches ${COMMON_PATCHES}/samba4
 
 		export CC=${TGT_MACH}-gcc
 
