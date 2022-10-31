@@ -25,6 +25,8 @@ export DEBUG_SUPPORT="1"
 export NETWORK_SUPPORT="1"
 export WIRELESS_SUPPORT="1"
 
+export HDD_SUPPORT="1"
+
 ###################################################
 # Cross compiler for the cross compiled machine
 
