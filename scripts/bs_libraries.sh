@@ -107,8 +107,35 @@ then
 				--prefix="${TARGET_ROOTFS}" \
 				--host=$TGT_MACH CC=${TGT_MACH}-gcc \
 				--disable-stripping STRIPPROG=${TGT_MACH}-strip \
+				--with-shared \
+				--without-normal \
+				--with-cxx-shared \
+				--without-debug \
+				--without-ada \
+				--without-manpages \
 				--with-curses-h \
+				--enable-pc-files \
 				--with-termlib \
+				--with-pkg-config-libdir=${TARGET_ROOTFS}/lib/pkgconfig || exit 1
+
+		make ${NBCORE} all     || exit 1
+		make ${NBCORE} install || exit 1
+
+		make ${NBCORE} clean   || exit 1
+
+		# rebuild without termlib to fix the missing "cursrc" symbol issue with nano...
+
+		${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure \
+				--prefix="${TARGET_ROOTFS}" \
+				--host=$TGT_MACH CC=${TGT_MACH}-gcc \
+				--disable-stripping STRIPPROG=${TGT_MACH}-strip \
+				--with-shared \
+				--without-normal \
+				--with-cxx-shared \
+				--without-debug \
+				--without-manpages \
+				--without-ada \
+				--with-curses-h \
 				--enable-pc-files \
 				--with-pkg-config-libdir=${TARGET_ROOTFS}/lib/pkgconfig || exit 1
 
