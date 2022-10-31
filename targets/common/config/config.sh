@@ -216,8 +216,8 @@ CUR_PART=${HDD_SUPPORT:-"UNDEF"}
 if [ "$CUR_PART" != "UNDEF" ]
 then
 
-SRC_PACKAGE_SDPARM="@COMMON@""https://fossies.org/linux/misc/sdparm-1.11.tgz"
-SRC_PACKAGE_HDIDLE="@COMMON@""https://sources.openelec.tv/mirror/hd-idle/hd-idle-1.04.tgz"
+SRC_PACKAGE_SDPARM="@COMMON@""https://fossies.org/linux/misc/sdparm-1.12.tgz"
+SRC_PACKAGE_HDIDLE="@COMMON@""https://freefr.dl.sourceforge.net/project/hd-idle/hd-idle-1.05.tgz"
 
 fi
 
