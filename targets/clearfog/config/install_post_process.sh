@@ -90,22 +90,13 @@ sudo cp -av ${TARGET_CONFIG}/boot_part/boot.scr  ${TARGET_HOME}/output_objects/t
 ###############################################################################
 # owner / group / right accesses fix
 
+cd ${TARGET_HOME}/output_objects/tmp_mount_point/ || exit 1
+
+${SCRIPTS_HOME}/fix_fs_perm.sh
+
 sudo chown 1001 ${TARGET_HOME}/output_objects/tmp_mount_point/ramdisk
 sudo chgrp 1001 ${TARGET_HOME}/output_objects/tmp_mount_point/ramdisk
 sudo chmod o+wr ${TARGET_HOME}/output_objects/tmp_mount_point/ramdisk
-
-sudo chown -R root ${TARGET_HOME}/output_objects/tmp_mount_point/*
-sudo chgrp -R root ${TARGET_HOME}/output_objects/tmp_mount_point/*
-
-sudo chmod ugo-w   ${TARGET_HOME}/output_objects/tmp_mount_point/home
-sudo chmod +x      ${TARGET_HOME}/output_objects/tmp_mount_point/etc/*.sh
-sudo chmod +x      ${TARGET_HOME}/output_objects/tmp_mount_point/etc/rcS.d/*.sh
-sudo chmod go-w    ${TARGET_HOME}/output_objects/tmp_mount_point/etc/*.sh
-sudo chmod go-w    ${TARGET_HOME}/output_objects/tmp_mount_point/etc/rcS.d/*.sh
-sudo chmod go-w    ${TARGET_HOME}/output_objects/tmp_mount_point/etc/*
-sudo chmod ugo-rwx ${TARGET_HOME}/output_objects/tmp_mount_point/etc/passwd
-sudo chmod u+rw    ${TARGET_HOME}/output_objects/tmp_mount_point/etc/passwd
-sudo chmod go+r    ${TARGET_HOME}/output_objects/tmp_mount_point/etc/passwd
 
 sudo umount ${TARGET_HOME}/output_objects/tmp_mount_point
 sudo losetup -d /dev/loop6
