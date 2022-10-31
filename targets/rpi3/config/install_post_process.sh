@@ -14,31 +14,38 @@ mkdir ${TARGET_HOME}/output_objects
 # Create SD Card image
 
 dd if=/dev/zero of=${TARGET_HOME}/output_objects/sdcard.img iflag=fullblock bs=1M count=1024 && sync
-sudo losetup loop0 --sector-size 512  ${TARGET_HOME}/output_objects/sdcard.img || exit 1
-sudo sfdisk -f /dev/loop0 < ${TARGET_CONFIG}/sfdisk.txt || exit 1
-sudo losetup -d /dev/loop0
+sudo losetup loop6 --sector-size 512  ${TARGET_HOME}/output_objects/sdcard.img || exit 1
+sudo sfdisk -f /dev/loop6 < ${TARGET_CONFIG}/sfdisk.txt || exit 1
+sudo losetup -d /dev/loop6
 
 fdisk -l ${TARGET_HOME}/output_objects/sdcard.img
 
 ###############################################################################
 # Format the partitions
 
-sudo losetup --show --sector-size 512 -f -P ${TARGET_HOME}/output_objects/sdcard.img
+sleep 1
+sudo losetup loop6 --show --sector-size 512 -P ${TARGET_HOME}/output_objects/sdcard.img
+
+sleep 1
+
 # Boot partion -> FAT
-sudo mkfs.vfat /dev/loop0p1
+sudo mkfs.vfat /dev/loop6p1
 
 # System partition
-sudo mkfs.ext2 /dev/loop0p2
+sudo mkfs.ext2 /dev/loop6p2
 
-sudo losetup -d /dev/loop0
+sudo losetup -d /dev/loop6
 
 ###############################################################################
 
 echo "Copy boot files to the file image ..."
 mkdir ${TARGET_HOME}/output_objects/tmp_mount_point
 
-sudo losetup --show --sector-size 512 -f -P ${TARGET_HOME}/output_objects/sdcard.img
-sudo mount /dev/loop0p1 ${TARGET_HOME}/output_objects/tmp_mount_point
+sleep 1
+sudo losetup loop6 --show --sector-size 512 -P ${TARGET_HOME}/output_objects/sdcard.img
+sleep 1
+
+sudo mount /dev/loop6p1 ${TARGET_HOME}/output_objects/tmp_mount_point
 
 # Boot loader blob
 rm -rf ${TARGET_HOME}/output_objects/RPi_bootpart
@@ -52,7 +59,7 @@ sudo cp -a ${TARGET_ROOTFS_MIRROR}/boot/dts/overlays ${TARGET_HOME}/output_objec
 sudo umount ${TARGET_HOME}/output_objects/tmp_mount_point
 
 # Fix/force the disk partitions uuid -> Must be equal to the cmdline.txt value
-sudo fdisk /dev/loop0 <<EOF > /dev/null
+sudo fdisk /dev/loop6 <<EOF > /dev/null
 p
 x
 i
@@ -62,16 +69,19 @@ p
 w
 EOF
 
-sudo losetup -d /dev/loop0
+sudo losetup -d /dev/loop6
 
 sync
 
 ###############################################################################
+sleep 1
 
 echo "Copy rootfs to the file image ..."
 
-sudo losetup --show --sector-size 512 -f -P ${TARGET_HOME}/output_objects/sdcard.img
-sudo mount /dev/loop0p2 ${TARGET_HOME}/output_objects/tmp_mount_point
+sudo losetup loop6 --show --sector-size 512 -P ${TARGET_HOME}/output_objects/sdcard.img
+sleep 1
+
+sudo mount /dev/loop6p2 ${TARGET_HOME}/output_objects/tmp_mount_point
 
 sudo cp -av ${TARGET_ROOTFS_MIRROR}/* ${TARGET_HOME}/output_objects/tmp_mount_point/.
 sudo tar -xvzf ${BASE_DIR}/blobs/RaspberryPi/firmware.tar.gz -C ${TARGET_HOME}/output_objects/tmp_mount_point/lib
@@ -83,24 +93,15 @@ sudo tar -xvzf ${BASE_DIR}/blobs/RaspberryPi/firmware.tar.gz -C ${TARGET_HOME}/o
 ###############################################################################
 # owner / group / right accesses fix
 
+cd ${TARGET_HOME}/output_objects/tmp_mount_point/ || exit 1
+
+${SCRIPTS_HOME}/fix_fs_perm.sh
+
 sudo chown 1001 ${TARGET_HOME}/output_objects/tmp_mount_point/ramdisk
 sudo chgrp 1001 ${TARGET_HOME}/output_objects/tmp_mount_point/ramdisk
 sudo chmod o+wr ${TARGET_HOME}/output_objects/tmp_mount_point/ramdisk
 
-sudo chown -R root ${TARGET_HOME}/output_objects/tmp_mount_point/*
-sudo chgrp -R root ${TARGET_HOME}/output_objects/tmp_mount_point/*
-
-sudo chmod ugo-w   ${TARGET_HOME}/output_objects/tmp_mount_point/home
-sudo chmod +x      ${TARGET_HOME}/output_objects/tmp_mount_point/etc/*.sh
-sudo chmod +x      ${TARGET_HOME}/output_objects/tmp_mount_point/etc/rcS.d/*.sh
-sudo chmod go-w    ${TARGET_HOME}/output_objects/tmp_mount_point/etc/*.sh
-sudo chmod go-w    ${TARGET_HOME}/output_objects/tmp_mount_point/etc/rcS.d/*.sh
-sudo chmod go-w    ${TARGET_HOME}/output_objects/tmp_mount_point/etc/*
-sudo chmod ugo-rwx ${TARGET_HOME}/output_objects/tmp_mount_point/etc/passwd
-sudo chmod u+rw    ${TARGET_HOME}/output_objects/tmp_mount_point/etc/passwd
-sudo chmod go+r    ${TARGET_HOME}/output_objects/tmp_mount_point/etc/passwd
-
 sudo umount ${TARGET_HOME}/output_objects/tmp_mount_point
-sudo losetup -d /dev/loop0
+sudo losetup -d /dev/loop6
 
 ###############################################################################
