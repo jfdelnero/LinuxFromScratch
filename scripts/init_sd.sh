@@ -99,12 +99,6 @@ chmod +x "./lib/*.so"
 cp -R ${COMMON_CONFIG}/rootfs_cfg/* ./
 cp -R ${TARGET_CONFIG}/rootfs_cfg/* ./
 
-chmod +x ./etc/init.d/rcS
-chmod +x ./etc/rcS.d/*
-
-chmod +x ./usr/share/udhcpc/*
-chmod go-rxw ./etc/ssh/ssh_host_*
-
 mkdir home/anonymous
 mkdir home/root
 mkdir ramdisk
@@ -200,36 +194,25 @@ fi
 cd ..
 
 if [ ! -f $1 ]; then
-    echo "Copy to Flash media ..."
+	echo "Copy to Flash media ..."
 
-    sudo umount $1
+	sudo umount $1
 
-    sudo mkfs.ext4 $1
+	sudo mkfs.ext4 $1
 
-    mkdir mount_point
+	mkdir mount_point
 
-    sudo mount $1 mount_point || exit 1
+	sudo mount $1 mount_point || exit 1
 
-    cd mount_point
+	cd mount_point
 
-    sudo cp -av ${TARGET_ROOTFS_MIRROR}/* .
+	sudo cp -av ${TARGET_ROOTFS_MIRROR}/* .
 
-    sudo chown -R root *
-    sudo chgrp -R root *
+	${SCRIPTS_HOME}/fix_fs_perm.sh
 
-    sudo chmod ugo-w home
-    sudo chmod +x etc/*.sh
-    sudo chmod +x etc/rcS.d/*.sh
-    sudo chmod go-w etc/*.sh
-    sudo chmod go-w etc/rcS.d/*.sh
-    sudo chmod go-w etc/*
-    sudo chmod ugo-rwx etc/passwd
-    sudo chmod u+rw etc/passwd
-    sudo chmod go+r etc/passwd
+	cd ..
 
-    cd ..
-
-    sudo umount $1
+	sudo umount $1
 fi
 
 echo  Done !
