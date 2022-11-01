@@ -20,6 +20,7 @@ mkdir ${TARGET_HOME}/output_objects
 
 ###############################################################################
 # Create SD Card image
+rm ${TARGET_HOME}/output_objects/sdcard.img
 
 dd if=/dev/zero of=${TARGET_HOME}/output_objects/sdcard.img iflag=fullblock bs=1M count=1024 && sync
 
@@ -100,7 +101,10 @@ sudo chown 1001 ${TARGET_HOME}/output_objects/tmp_mount_point/ramdisk
 sudo chgrp 1001 ${TARGET_HOME}/output_objects/tmp_mount_point/ramdisk
 sudo chmod o+wr ${TARGET_HOME}/output_objects/tmp_mount_point/ramdisk
 
+sync
+
 sudo umount ${TARGET_HOME}/output_objects/tmp_mount_point
+
 sudo losetup -d /dev/loop6
 
 ###############################################################################
