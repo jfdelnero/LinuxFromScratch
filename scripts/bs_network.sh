@@ -183,10 +183,6 @@ then
 
 		cd ${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER} || exit 1
 
-		cd ${TARGET_BUILD} || exit 1
-		mkdir chrony
-		cd chrony || exit 1
-
 		${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure \
 				--prefix="${TARGET_ROOTFS}" \
 				--build=$MACHTYPE \
@@ -194,7 +190,7 @@ then
 				--target=$TGT_MACH || exit 1
 
 		make ${NBCORE}         || exit 1
-		make ${NBCORE} install || exit 1
+		make ${NBCORE} install DESTDIR=${TARGET_ROOTFS} || exit 1
 
 		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
 
