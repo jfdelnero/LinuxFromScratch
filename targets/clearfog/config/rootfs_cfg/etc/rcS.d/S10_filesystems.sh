@@ -35,6 +35,7 @@ mkdir /var/lib/samba/private/
 mkdir /var/cache
 mkdir /var/cache/samba/
 mkdir /var/lock
+mkdir /var/lock/samba
 mkdir /var/spool
 mkdir /var/spool/cron
 mkdir /var/spool/cron/crontabs
