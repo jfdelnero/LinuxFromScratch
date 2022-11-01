@@ -1,5 +1,8 @@
 #! /bin/sh
 
+LD_LIBRARY_PATH=/lib:/lib64:/usr/lib
+export LD_LIBRARY_PATH
+
 PATH=/bin:/sbin:/usr/bin:/usr/sbin
 export PATH
 
