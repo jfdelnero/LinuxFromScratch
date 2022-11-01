@@ -184,7 +184,7 @@ then
 		cd ${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER} || exit 1
 
 		${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure \
-				--prefix="${TARGET_ROOTFS}" \
+				--prefix= \
 				--build=$MACHTYPE \
 				--host=$TGT_MACH \
 				--target=$TGT_MACH || exit 1
