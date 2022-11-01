@@ -103,8 +103,9 @@ sudo chmod o+wr ${TARGET_HOME}/output_objects/tmp_mount_point/ramdisk
 
 sync
 
-sudo umount ${TARGET_HOME}/output_objects/tmp_mount_point
+cd ${TARGET_HOME}
 
+sudo umount ${TARGET_HOME}/output_objects/tmp_mount_point
 sudo losetup -d /dev/loop6
 
 ###############################################################################
