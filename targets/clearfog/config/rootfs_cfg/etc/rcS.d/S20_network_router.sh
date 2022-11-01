@@ -1,12 +1,12 @@
 #!/bin/sh
 
 testwlan=`ifconfig wlan0 2>&1 >/dev/null |grep "Device not found"`
-  
+
 if [ -z "$testwlan"  ]; then
-    echo "Ok Wlan card detected :) ..."
+	echo "Ok Wlan card detected :) ..."
 else
-    echo "Wlan card not detected... Rebooting"
-reboot
+	echo "Wlan card not detected... Rebooting"
+	reboot -f
 fi
 
 echo "---> Starting Network (router mode)..."
@@ -28,7 +28,7 @@ brctl addif br0 lan6
 
 ifup -a
 
-echo "0" >/var/log/reconnect  
+echo "0" >/var/log/reconnect
 echo "6" >/var/log/reconnect2
 
 ifconfig lan1 up
