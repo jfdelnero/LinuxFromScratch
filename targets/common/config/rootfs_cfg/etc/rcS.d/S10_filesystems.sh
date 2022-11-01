@@ -26,21 +26,32 @@ mkdir /var/run
 mkdir /var/run/wpa_supplicant
 mkdir /var/run/hostapd
 mkdir /var/log/lastlog
-mkdir /var/log/samba
 mkdir /var/tmp
 mkdir /var/local
 mkdir /var/lib
-mkdir /var/lib/samba/
-mkdir /var/lib/samba/private/
 mkdir /var/cache
-mkdir /var/cache/samba/
 mkdir /var/lock
-mkdir /var/lock/samba
 mkdir /var/spool
 mkdir /var/spool/cron
 mkdir /var/spool/cron/crontabs
 mkdir /var/state
 mkdir /var/mail
+mkdir /var/cache/samba/
+mkdir /var/lock/samba
+mkdir /var/log/samba
+mkdir /var/lib/samba/
+mkdir /var/lib/samba/private/
+
+chgrp smbuser /var/log/samba
+chown smbuser /var/log/samba
+chgrp smbuser /var/cache/samba
+chown smbuser /var/cache/samba
+chgrp smbuser /var/lock/samba
+chown smbuser /var/lock/samba
+chgrp smbuser /var/lib/samba
+chown smbuser /var/lib/samba
+chgrp smbuser /var/lib/samba/private
+chown smbuser /var/lib/samba/private
 
 #######################################
 # /dev
