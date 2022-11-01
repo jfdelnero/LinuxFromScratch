@@ -32,6 +32,8 @@ sudo chmod +x      ./usr/share/udhcpc/*
 sudo chmod ugo-rxw ./etc/ssh/*
 sudo chmod u+rw    ./etc/ssh/*
 sudo chmod go+r    ./etc/ssh/*.pub
+sudo chmod go-rxw  ./etc/samba/private/*
+sudo chmod 0700    ./etc/samba/private/msg.sock
 
 # shadow / passwd files access
 sudo chmod ugo-rwx ./etc/passwd
