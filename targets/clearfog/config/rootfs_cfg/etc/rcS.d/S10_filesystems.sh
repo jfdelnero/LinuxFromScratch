@@ -14,7 +14,9 @@ mount -t tmpfs -o size=256m tmpfs /root
 chmod go-r /root
 
 mount -t tmpfs -o size=64m  tmpfs /tmp
+
 mount -t tmpfs -o size=64m  tmpfs /var
+chmod og-w /var
 
 # Populate /var
 mkdir /var/log
@@ -109,6 +111,12 @@ mount --move /mnt /run
 mount -t tmpfs -o size=64m  tmpfs /mnt
 cp -aR /etc/* /mnt
 mount --move /mnt /etc
+chmod og-w /etc
+
+mount -t tmpfs -o size=500m none /ramdisk
+chown ramdisk /ramdisk
+chgrp ramdisk /ramdisk
+chmod og-rwx /ramdisk
 
 mount -a
 
