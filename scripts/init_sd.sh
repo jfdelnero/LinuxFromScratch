@@ -104,6 +104,7 @@ mkdir home/root
 mkdir ramdisk
 mkdir mnt/tmp
 mkdir usr/share/empty
+mkdir etc/samba/private
 
 CUR_PACKAGE=${SRC_PACKAGE_PXESERVER:-"UNDEF"}
 CUR_PACKAGE="${CUR_PACKAGE##*/}"
