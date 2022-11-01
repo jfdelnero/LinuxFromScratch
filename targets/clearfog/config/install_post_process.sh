@@ -86,7 +86,7 @@ sudo cp -av ${TARGET_ROOTFS_MIRROR}/* ${TARGET_HOME}/output_objects/tmp_mount_po
 #sudo mkimage -A arm -T script -O linux -d ${TARGET_CONFIG}/boot_part/boot.script ${TARGET_HOME}/output_objects/tmp_mount_point/boot.scr
 sudo cp -av ${TARGET_CONFIG}/boot_part/boot.scr  ${TARGET_HOME}/output_objects/tmp_mount_point/  || exit 1
 
-if [[ -f ${TARGET_CONFIG}/private_rootfs/ ]]
+if [[ -f ${TARGET_CONFIG}/private_rootfs_cfg/ ]]
 then
 	sudo cp -av ${TARGET_CONFIG}/private_rootfs_cfg/       ${TARGET_HOME}/output_objects/tmp_mount_point/  || exit 1
 fi
