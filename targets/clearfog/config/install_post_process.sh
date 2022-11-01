@@ -88,7 +88,7 @@ sudo cp -av ${TARGET_CONFIG}/boot_part/boot.scr  ${TARGET_HOME}/output_objects/t
 
 if [[ -d ${TARGET_CONFIG}/private_rootfs_cfg/ ]]
 then
-	sudo cp -av ${TARGET_CONFIG}/private_rootfs_cfg/       ${TARGET_HOME}/output_objects/tmp_mount_point/  || exit 1
+	sudo cp -av ${TARGET_CONFIG}/private_rootfs_cfg/*       ${TARGET_HOME}/output_objects/tmp_mount_point/  || exit 1
 fi
 
 #sudo cp -av ${TARGET_HOME}/output_objects/a_new_program  ${TARGET_HOME}/output_objects/tmp_mount_point/usr/sbin || exit 1
