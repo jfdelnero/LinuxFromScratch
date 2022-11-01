@@ -24,12 +24,10 @@ sudo chmod -R go-w ./*
 
 # fix exec & r/w flags
 sudo chmod ugo-w   ./home
+sudo chmod +x      ./bin/*.sh
 sudo chmod +x      ./etc/*.sh
 sudo chmod +x      ./etc/init.d/rcS
 sudo chmod +x      ./etc/rcS.d/*.sh
-sudo chmod go-w    ./etc/init.d/rcS
-sudo chmod go-w    ./etc/rcS.d/*.sh
-sudo chmod go-w    ./etc/*
 sudo chmod +x      ./usr/share/udhcpc/*
 sudo chmod ugo-rxw ./etc/ssh/*
 sudo chmod u+rw    ./etc/ssh/*
