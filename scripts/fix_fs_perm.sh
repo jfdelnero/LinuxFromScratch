@@ -18,6 +18,7 @@ fi
 # root as default files owner
 sudo chown -R root ./*
 sudo chgrp -R root ./*
+sudo chmod -R go-w  /*
 
 # fix exec & r/w flags
 sudo chmod ugo-w   ./home
