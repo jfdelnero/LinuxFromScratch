@@ -40,6 +40,12 @@ sudo chmod go+r    ./etc/passwd
 sudo chmod ugo-rwx ./etc/shadow
 sudo chmod u+rw    ./etc/shadow
 
+sudo chown 1001    ./ramdisk # 1001 - ramdisk
+sudo chgrp 1001    ./ramdisk # 1001 - ramdisk
+sudo chmod u+rwx   ./ramdisk
+sudo chmod o-rwx   ./ramdisk
+sudo chmod g-rwx   ./ramdisk
+
 # if present, remove backup passwd / shadow files
 sudo rm            ./etc/passwd-
 sudo rm            ./etc/shadow-
