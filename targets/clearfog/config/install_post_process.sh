@@ -92,6 +92,8 @@ sudo cp -av ${TARGET_CONFIG}/boot_part/boot.scr  ${TARGET_HOME}/output_objects/t
 
 cd ${TARGET_HOME}/output_objects/tmp_mount_point/ || exit 1
 
+sudo mkdir data
+
 ${SCRIPTS_HOME}/fix_fs_perm.sh
 
 sudo chown 1001 ${TARGET_HOME}/output_objects/tmp_mount_point/ramdisk

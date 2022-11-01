@@ -94,3 +94,7 @@ cp -aR /etc/* /mnt
 mount --move /mnt /etc
 
 mount -a
+
+########
+# /data
+mount /dev/sda1 /data
