@@ -48,6 +48,9 @@ mkdir /var/mail
 echo /sbin/mdev > /proc/sys/kernel/hotplug
 /sbin/mdev -s
 
+# trigger the watchdog
+echo w > /dev/watchdog
+
 # video / drm device
 if [ ! -f "/dev/dri/card0" ]
 then
