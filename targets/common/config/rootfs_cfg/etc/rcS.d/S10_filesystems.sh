@@ -26,9 +26,14 @@ mkdir /var/run
 mkdir /var/run/wpa_supplicant
 mkdir /var/run/hostapd
 mkdir /var/log/lastlog
+mkdir /var/log/samba
 mkdir /var/tmp
 mkdir /var/local
 mkdir /var/lib
+mkdir /var/lib/samba/
+mkdir /var/lib/samba/private/
+mkdir /var/cache
+mkdir /var/cache/samba/
 mkdir /var/lock
 mkdir /var/spool
 mkdir /var/spool/cron
