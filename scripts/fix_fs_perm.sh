@@ -8,6 +8,8 @@
 
 source ${TARGET_CONFIG}/config.sh || exit 1
 
+cd ${TARGET_HOME}/output_objects/tmp_mount_point/ || exit 1
+
 if [[ ! -d "./etc" ]]
 then
 (
@@ -18,7 +20,7 @@ fi
 # root as default files owner
 sudo chown -R root ./*
 sudo chgrp -R root ./*
-sudo chmod -R go-w  /*
+sudo chmod -R go-w ./*
 
 # fix exec & r/w flags
 sudo chmod ugo-w   ./home
