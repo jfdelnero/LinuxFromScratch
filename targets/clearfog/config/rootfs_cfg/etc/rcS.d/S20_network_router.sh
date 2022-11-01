@@ -19,6 +19,8 @@ ifconfig eth2 hw ether 00:50:43:39:9C:E4
 
 brctl addbr br0
 
+ifconfig br0 hw ether  00:50:43:17:02:03
+
 brctl addif br0 lan1
 brctl addif br0 lan2
 brctl addif br0 lan3
