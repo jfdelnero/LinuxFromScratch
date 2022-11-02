@@ -99,6 +99,7 @@ chmod ugo+rw /dev/tty
 mount -t tmpfs -o size=64m  tmpfs /mnt
 cp -aR /home/* /mnt
 mount --move /mnt /home
+chmod og-w /home
 
 #######
 # /run
