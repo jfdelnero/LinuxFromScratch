@@ -24,6 +24,8 @@ sudo chmod -R go-w ./*
 
 # fix exec & r/w flags
 sudo chmod ugo-w   ./home
+sudo chmod ugo-w   ./home/anonymous
+sudo chmod go-rxw  ./home/*
 sudo chmod +x      ./bin/*.sh
 sudo chmod +x      ./etc/*.sh
 sudo chmod +x      ./etc/init.d/rcS
