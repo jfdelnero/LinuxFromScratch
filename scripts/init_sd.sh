@@ -189,14 +189,6 @@ then
 )
 fi
 
-if [ -f ${TARGET_CONFIG}/install_private_post_process.sh ]
-then
-(
-	echo Private Post install script available...
-	${TARGET_CONFIG}/install_private_post_process.sh || exit 1
-)
-fi
-
 ##########################################################################
 # Copy to Flash media !
 ##########################################################################
