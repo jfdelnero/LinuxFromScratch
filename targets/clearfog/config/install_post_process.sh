@@ -97,10 +97,6 @@ sudo mkdir data
 
 ${SCRIPTS_HOME}/fix_fs_perm.sh
 
-sudo chown 1001 ${TARGET_HOME}/output_objects/tmp_mount_point/ramdisk
-sudo chgrp 1001 ${TARGET_HOME}/output_objects/tmp_mount_point/ramdisk
-sudo chmod o+wr ${TARGET_HOME}/output_objects/tmp_mount_point/ramdisk
-
 if [ -f ${TARGET_CONFIG}/private/install_private_post_process.sh ]
 then
 (
@@ -108,6 +104,10 @@ then
 	${TARGET_CONFIG}/private/install_private_post_process.sh || exit 1
 )
 fi
+
+sudo chown 1001 ${TARGET_HOME}/output_objects/tmp_mount_point/ramdisk
+sudo chgrp 1001 ${TARGET_HOME}/output_objects/tmp_mount_point/ramdisk
+sudo chmod o+wr ${TARGET_HOME}/output_objects/tmp_mount_point/ramdisk
 
 sync
 
