@@ -11,7 +11,7 @@ mount -t proc none  /proc
 mount -t sysfs none /sys
 
 mount -t tmpfs -o size=256m tmpfs /root
-chmod go-r /root
+chmod go-rwx /root
 
 mount -t tmpfs -o size=64m  tmpfs /tmp
 
@@ -100,6 +100,7 @@ chmod og-w /home
 mount -t tmpfs -o size=64m  tmpfs /mnt
 cp -aR /run/* /mnt 2> /dev/null
 mount --move /mnt /run
+chmod og-w /run
 
 #######
 # /etc
