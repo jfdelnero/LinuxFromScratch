@@ -86,15 +86,6 @@ sudo cp -av ${TARGET_ROOTFS_MIRROR}/* ${TARGET_HOME}/output_objects/tmp_mount_po
 #sudo mkimage -A arm -T script -O linux -d ${TARGET_CONFIG}/boot_part/boot.script ${TARGET_HOME}/output_objects/tmp_mount_point/boot.scr
 sudo cp -av ${TARGET_CONFIG}/boot_part/boot.scr  ${TARGET_HOME}/output_objects/tmp_mount_point/  || exit 1
 
-if [ -f ${TARGET_CONFIG}/private/install_private_post_process.sh ]
-then
-(
-	echo Private Post install script available...
-	${TARGET_CONFIG}/private/install_private_post_process.sh || exit 1
-)
-fi
-
-
 #sudo cp -av ${TARGET_HOME}/output_objects/a_new_program  ${TARGET_HOME}/output_objects/tmp_mount_point/usr/sbin || exit 1
 
 ###############################################################################
@@ -109,6 +100,14 @@ ${SCRIPTS_HOME}/fix_fs_perm.sh
 sudo chown 1001 ${TARGET_HOME}/output_objects/tmp_mount_point/ramdisk
 sudo chgrp 1001 ${TARGET_HOME}/output_objects/tmp_mount_point/ramdisk
 sudo chmod o+wr ${TARGET_HOME}/output_objects/tmp_mount_point/ramdisk
+
+if [ -f ${TARGET_CONFIG}/private/install_private_post_process.sh ]
+then
+(
+	echo Private Post install script available...
+	${TARGET_CONFIG}/private/install_private_post_process.sh || exit 1
+)
+fi
 
 sync
 
