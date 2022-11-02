@@ -93,6 +93,7 @@ chmod ugo+rw /dev/tty
 mount -t tmpfs -o size=64m  tmpfs /mnt
 cp -aR /home/* /mnt
 mount --move /mnt /home
+chmod og-w /home
 
 #######
 # /run
@@ -111,5 +112,7 @@ mount -t tmpfs -o size=500m none /ramdisk
 chown ramdisk /ramdisk
 chgrp ramdisk /ramdisk
 chmod og-rwx /ramdisk
+
+chmod uog-w /home/anonymous
 
 mount -a
