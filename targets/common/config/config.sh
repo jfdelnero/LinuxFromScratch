@@ -117,6 +117,7 @@ SRC_PACKAGE_UMTPRD="@COMMON@""https://github.com/viveris/uMTP-Responder/archive/
 
 SRC_PACKAGE_LIBGMP="@COMMON@""https://gmplib.org/download/gmp/gmp-6.2.1.tar.xz"
 SRC_PACKAGE_MAILUTILS="@COMMON@""https://ftp.gnu.org/gnu/mailutils/mailutils-3.15.tar.xz"
+SRC_PACKAGE_RIPMIME="@COMMON@""https://github.com/inflex/ripMIME/archive/refs/tags/1.4.1.0.tar.gz"
 SRC_PACKAGE_NETTLE="@COMMON@""https://ftp.gnu.org/gnu/nettle/nettle-3.8.tar.gz"
 SRC_PACKAGE_GNUTLS="@COMMON@""https://www.gnupg.org/ftp/gcrypt/gnutls/v3.7/gnutls-3.7.8.tar.xz"
 SRC_PACKAGE_MSMTP="@COMMON@""https://marlam.de/msmtp/releases/msmtp-1.8.22.tar.xz"

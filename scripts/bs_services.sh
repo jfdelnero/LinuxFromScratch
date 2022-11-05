@@ -321,6 +321,32 @@ then
 fi
 
 ####################################################################
+# Ripmime
+####################################################################
+
+CUR_PACKAGE=${SRC_PACKAGE_RIPMIME:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
+	then
+	(
+		unpack ${CUR_PACKAGE} ""
+
+		cd ${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}  || exit 1
+
+		make CC=${TGT_MACH}-gcc || exit 1
+		make install LOCATION="${TARGET_ROOTFS}/usr" CC=${TGT_MACH}-gcc || exit 1
+
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
+
+	) || exit 1
+	fi
+) || exit 1
+fi
+
+####################################################################
 # Samba
 ####################################################################
 
