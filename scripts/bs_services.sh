@@ -336,6 +336,8 @@ then
 
 		cd ${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}  || exit 1
 
+		sed -i 's/strip/${TGT_MACH}-strip/g' Makefile
+
 		make CC=${TGT_MACH}-gcc || exit 1
 		make install LOCATION="${TARGET_ROOTFS}/usr" CC=${TGT_MACH}-gcc || exit 1
 
