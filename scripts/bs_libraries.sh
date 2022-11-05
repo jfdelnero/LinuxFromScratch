@@ -73,7 +73,7 @@ then
 		export AR=${TGT_MACH}-ar
 
 		make ${NBCORE}         || exit 1
-		make ${NBCORE} install || exit 1
+		make ${NBCORE} install DESTDIR=${TARGET_ROOTFS} || exit 1
 
 		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
 
