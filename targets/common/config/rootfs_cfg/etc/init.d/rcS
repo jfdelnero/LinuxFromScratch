@@ -3,7 +3,8 @@
 LD_LIBRARY_PATH=/lib:/lib64:/usr/lib
 export LD_LIBRARY_PATH
 
-PATH=/bin:/sbin:/usr/bin:/usr/sbin
+PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin
+
 export PATH
 
 for i in `ls -v /etc/rcS.d/S*.sh`; do sh $i; done;
