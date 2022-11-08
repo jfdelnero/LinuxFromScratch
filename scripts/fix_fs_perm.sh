@@ -44,6 +44,12 @@ sudo chmod go+r    ./etc/passwd
 sudo chmod ugo-rwx ./etc/shadow
 sudo chmod u+rw    ./etc/shadow
 
+# hostapd / wpa_supplicant
+sudo chmod ugo-rwx ./etc/wpa_supplicant.conf
+sudo chmod u+rw    ./etc/wpa_supplicant.conf
+sudo chmod ugo-rwx ./etc/hostapd.conf
+sudo chmod u+rw    ./etc/hostapd.conf
+
 sudo chown 1001    ./ramdisk # 1001 - ramdisk
 sudo chgrp 1001    ./ramdisk # 1001 - ramdisk
 sudo chmod u+rwx   ./ramdisk
