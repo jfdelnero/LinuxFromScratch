@@ -2,8 +2,9 @@ Checking simple C program: OK
 rpath library support: OK
 -Wl,--version-script support: OK
 Checking getconf LFS_CFLAGS: NO
-Checking for large file support without additional flags: OK
-Checking for -D_LARGE_FILES: OK
+Checking for large file support without additional flags: NO
+Checking for -D_FILE_OFFSET_BITS=64: OK
+Checking for -D_LARGE_FILES: NO
 Checking correct behavior of strtoll: NO
 Checking for working strptime: OK
 Checking for C99 vsnprintf: OK
@@ -31,8 +32,8 @@ Checking for ftruncate extend: OK
 vfs_fileid checking for statfs() and struct statfs.f_fsid: OK
 getcwd takes a NULL argument: OK
 Checking uname sysname type: "Linux"
-Checking uname release type: "3.0.0"
-Checking uname version type: "#1 Tue Nov 1 12:34:56 UTC 2013"
+Checking uname release type: "Linux"
+Checking uname version type: "Linux"
 Checking value of NSIG: "65"
 Checking value of _NSIG: "65"
 Checking value of SIGRTMAX: "64"
