@@ -88,6 +88,7 @@ then
 				--prefix="${TARGET_ROOTFS}" \
 				--build=$MACHTYPE \
 				--host=$TGT_MACH \
+				--enable-mpers=check \
 				CFLAGS=-DIOV_MAX=1024 \
 				--target=$TGT_MACH || exit 1
 
