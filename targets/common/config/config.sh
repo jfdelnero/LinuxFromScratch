@@ -55,7 +55,7 @@ if [ "$CUR_PART" != "UNDEF" ]
 then
 
 SRC_PACKAGE_GDB="@COMMON@""https://ftp.gnu.org/gnu/gdb/gdb-12.1.tar.xz"
-SRC_PACKAGE_STRACE="@COMMON@""https://github.com/strace/strace/releases/download/v5.19/strace-5.19.tar.xz"
+SRC_PACKAGE_STRACE="@COMMON@""https://github.com/strace/strace/releases/download/v6.0/strace-6.0.tar.xz"
 #SRC_PACKAGE_LTRACE="@COMMON@""https://fossies.org/linux/misc/ltrace-0.7.3.tar.gz"
 SRC_PACKAGE_VALGRIND="@COMMON@""ftp://sourceware.org/pub/valgrind/valgrind-3.19.0.tar.bz2"
 
