@@ -47,6 +47,8 @@ SRC_PACKAGE_LIBEVENT="@COMMON@""https://github.com/libevent/libevent/releases/do
 
 SRC_PACKAGE_LIBCAP="@COMMON@""https://cdn.kernel.org/pub/linux/libs/security/linux-privs/libcap2/libcap-2.66.tar.xz"
 
+SRC_PACKAGE_HAVEGED="@COMMON@""https://github.com/jirka-h/haveged/archive/refs/tags/v1.9.18.tar.gz"
+
 #
 # Debug support
 #
