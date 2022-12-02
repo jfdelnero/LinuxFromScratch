@@ -229,7 +229,7 @@ fi
 #SRC_PACKAGE_PYTHON="@COMMON@""https://www.python.org/ftp/python/3.9.5/Python-3.9.5.tar.xz"
 SRC_PACKAGE_PERL="@COMMON@""https://www.cpan.org/src/5.0/perl-5.36.0.tar.xz"
 SRC_PACKAGE_PERLCROSS="@COMMON@""https://github.com/arsv/perl-cross/releases/download/1.4/perl-cross-1.4.tar.gz"
-#SRC_PACKAGE_LIBUSB=libusb-1.0.21.tar.bz2
+SRC_PACKAGE_LIBUSB="@COMMON@""https://github.com/libusb/libusb/releases/download/v1.0.26/libusb-1.0.26.tar.bz2"
 #SRC_PACKAGE_LIBUSBGADGET=libusb-gadget.tar.gz
 
 SRC_PACKAGE_LIBNCURSES="@COMMON@""https://ftp.gnu.org/gnu/ncurses/ncurses-6.3.tar.gz"
@@ -240,6 +240,8 @@ SRC_PACKAGE_LIBCURL="@COMMON@""https://curl.se/download/curl-7.85.0.tar.xz"
 
 SRC_PACKAGE_E2FSPROGS="@COMMON@""https://mirrors.edge.kernel.org/pub/linux/kernel/people/tytso/e2fsprogs/v1.46.5/e2fsprogs-1.46.5.tar.xz"
 SRC_PACKAGE_EXFATPROGS="@COMMON@""https://github.com/exfatprogs/exfatprogs/releases/download/1.1.3/exfatprogs-1.1.3.tar.gz"
+
+SRC_PACKAGE_USBMODESWITCH="@COMMON@""https://www.draisberghof.de/usb_modeswitch/usb-modeswitch-2.6.0.tar.bz2"
 
 #
 # Target build system
