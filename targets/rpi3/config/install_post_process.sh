@@ -13,7 +13,7 @@ mkdir ${TARGET_HOME}/output_objects
 ###############################################################################
 # Create SD Card image
 
-dd if=/dev/zero of=${TARGET_HOME}/output_objects/sdcard.img iflag=fullblock bs=1M count=1024 && sync
+dd if=/dev/zero of=${TARGET_HOME}/output_objects/sdcard.img iflag=fullblock bs=1M count=2048 && sync
 sudo losetup loop6 --sector-size 512  ${TARGET_HOME}/output_objects/sdcard.img || exit 1
 sudo sfdisk -f /dev/loop6 < ${TARGET_CONFIG}/sfdisk.txt || exit 1
 sudo losetup -d /dev/loop6
@@ -110,6 +110,9 @@ fi
 sudo chown 1001 ${TARGET_HOME}/output_objects/tmp_mount_point/ramdisk
 sudo chgrp 1001 ${TARGET_HOME}/output_objects/tmp_mount_point/ramdisk
 sudo chmod o+wr ${TARGET_HOME}/output_objects/tmp_mount_point/ramdisk
+
+# Fix scripts carriage returns
+sudo find ${TARGET_HOME}/output_objects/tmp_mount_point/etc/ -type f -name "*.sh" -exec dos2unix {} \;
 
 sync
 
