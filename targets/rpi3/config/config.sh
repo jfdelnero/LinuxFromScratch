@@ -11,20 +11,26 @@ export TGT_MACH=aarch64-linux
 export SSL_ARCH=linux-aarch64
 export GCC_ADD_CONF="--enable-fix-cortex-a53-843419"
 
+export TARGET_BUILD_SUPPORT="1"
+
 export KERNEL_IMAGE_TYPE="Image"
+export KERNEL_DTBS="YES"
+export KERNEL_FIRMWARES="YES"
 
 export DEBUG_SUPPORT="1"
+
 export NETWORK_SUPPORT="1"
 export WIRELESS_SUPPORT="1"
-export GFX_SUPPORT="1"
-export LIBGFX_SUPPORT="1"
+#export GFX_SUPPORT="1"
+#export LIBGFX_SUPPORT="1"
 #export WAYLAND_SUPPORT="1"
-export AUDIO_SUPPORT="1"
+#export AUDIO_SUPPORT="1"
 export TARGET_BUILD_SUPPORT="1"
 #export GAMES_SUPPORT="1"
 
-export NETWORK_STATION_MODE="1"
-#export NETWORK_ROUTER_MODE="1"
+export HDD_SUPPORT="1"
+#export NETWORK_STATION_MODE="1"
+export NETWORK_ROUTER_MODE="1"
 
 source ${BASE_DIR}/targets/common/config/config.sh || exit 1
 
@@ -53,8 +59,7 @@ export SRC_PACKAGE_OPENOCD="https://downloads.sourceforge.net/project/openocd/op
 ###################################################
 # Kernel
 
-SRC_PACKAGE_KERNEL="https://github.com/raspberrypi/linux/archive/refs/tags/raspberrypi-kernel_1.20210430-1.tar.gz"
+#SRC_PACKAGE_KERNEL="https://github.com/raspberrypi/linux/archive/refs/tags/1.20221104.tar.gz"
+SRC_PACKAGE_KERNEL="https://github.com/raspberrypi/linux/archive/refs/tags/raspberrypi-kernel_1.20201126-1.tar.gz"
 
 SRC_PACKAGE_DIRECTFB=
-
-SRC_PACKAGE_STRACE=
