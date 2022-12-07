@@ -1,0 +1,23 @@
+# Loopback
+auto lo
+iface lo inet loopback
+
+#eth0
+iface eth0 inet static
+       address 192.168.105.1
+       netmask 255.255.255.0
+       network 192.168.105.0
+       broadcast 192.168.105.255
+       gateway 192.168.105.1
+       #dns-nameservers 1.1.1.1 1.0.0.1
+
+# wlan
+auto
+iface wlan0 inet static
+       address 192.168.106.1
+       netmask 255.255.255.0
+       network 192.168.106.0
+       broadcast 192.168.106.255
+       gateway 192.168.106.1
+       #dns-nameservers 1.1.1.1 1.0.0.1
+

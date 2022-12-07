@@ -1,0 +1,17 @@
+# /etc/profile: system-wide .profile file for the Bourne shells
+
+echo
+echo -n "Processing /etc/profile... "
+# no-op
+echo "Done"
+echo
+
+PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/sbin:/usr/local/samba/sbin/:/usr/local/samba/bin
+
+export LD_LIBRARY_PATH=/lib:/lib64:/usr/lib:/usr/local/samba/lib
+
+export PYTHONPATH=/usr/lib/python3.6:/usr/lib/python3.6/site-packages:/lib/python3.6/
+export PYTHONHOME=/
+
+export XDG_RUNTIME_DIR=/root
+
