@@ -15,7 +15,7 @@ SRC_PACKAGE_BUILD_GPERF="@COMMON@""https://ftp.gnu.org/pub/gnu/gperf/gperf-3.1.t
 SRC_PACKAGE_BUILD_LIBFFI="@COMMON@""https://www.mirrorservice.org/sites/sourceware.org/pub/libffi/libffi-3.4.3.tar.gz"
 SRC_PACKAGE_BUILD_XMLEXPAT="@COMMON@""https://github.com/libexpat/libexpat/releases/download/R_2_4_9/expat-2.4.9.tar.xz"
 SRC_PACKAGE_BUILD_LIBXML2="@COMMON@""http://xmlsoft.org/sources/libxml2-2.9.12.tar.gz"
-#SRC_PACKAGE_BUILD_CMAKE="@COMMON@""https://github.com/Kitware/CMake/releases/download/v3.23.4/cmake-3.23.4.tar.gz"
+SRC_PACKAGE_BUILD_CMAKE="@COMMON@""https://github.com/Kitware/CMake/archive/refs/tags/v3.25.1.tar.gz"
 SRC_PACKAGE_BUILD_MAKE="@COMMON@""https://ftp.gnu.org/gnu/make/make-4.3.tar.gz"
 
 SRC_PACKAGE_BINUTILS="@COMMON@""https://ftp.gnu.org/gnu/binutils/binutils-2.39.tar.xz"
@@ -242,6 +242,9 @@ SRC_PACKAGE_E2FSPROGS="@COMMON@""https://mirrors.edge.kernel.org/pub/linux/kerne
 SRC_PACKAGE_EXFATPROGS="@COMMON@""https://github.com/exfatprogs/exfatprogs/releases/download/1.1.3/exfatprogs-1.1.3.tar.gz"
 
 SRC_PACKAGE_USBMODESWITCH="@COMMON@""https://www.draisberghof.de/usb_modeswitch/usb-modeswitch-2.6.0.tar.bz2"
+
+SRC_PACKAGE_FFTW="@COMMON@""https://www.fftw.org/fftw-3.3.10.tar.gz"
+SRC_PACKAGE_HACKRF="@COMMON@""https://github.com/greatscottgadgets/hackrf/releases/download/v2022.09.1/hackrf-2022.09.1.tar.xz"
 
 #
 # Target build system
