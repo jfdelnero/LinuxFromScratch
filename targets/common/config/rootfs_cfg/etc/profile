@@ -8,7 +8,7 @@ echo
 
 PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin
 
-export LD_LIBRARY_PATH=/lib:/lib64:/usr/lib
+export LD_LIBRARY_PATH=/lib:/lib64:/usr/lib:/usr/local/lib
 
 export PYTHONPATH=/usr/lib/python3.6:/usr/lib/python3.6/site-packages:/lib/python3.6/
 export PYTHONHOME=/
