@@ -6,9 +6,9 @@ echo -n "Processing /etc/profile... "
 echo "Done"
 echo
 
-PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/sbin:/usr/local/samba/sbin/:/usr/local/samba/bin
+PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:/usr/local/samba/sbin/:/usr/local/samba/bin
 
-export LD_LIBRARY_PATH=/lib:/lib64:/usr/lib:/usr/local/samba/lib
+export LD_LIBRARY_PATH=/lib:/lib64:/usr/lib:/usr/local/lib:/usr/local/samba/lib
 
 export PYTHONPATH=/usr/lib/python3.6:/usr/lib/python3.6/site-packages:/lib/python3.6/
 export PYTHONHOME=/
