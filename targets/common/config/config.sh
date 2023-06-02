@@ -41,6 +41,7 @@ SRC_PACKAGE_ELFUTILS="@COMMON@""https://sourceware.org/elfutils/ftp/0.187/elfuti
 SRC_PACKAGE_LIBFFI="@COMMON@""https://www.mirrorservice.org/sites/sourceware.org/pub/libffi/libffi-3.4.3.tar.gz"
 SRC_PACKAGE_LIBXML2="@COMMON@""http://xmlsoft.org/sources/libxml2-2.9.12.tar.gz"
 SRC_PACKAGE_XMLEXPAT="@COMMON@""https://github.com/libexpat/libexpat/releases/download/R_2_4_9/expat-2.4.9.tar.xz"
+SRC_PACKAGE_LIBYAML="@COMMON@""https://github.com/yaml/libyaml/releases/download/0.2.5/yaml-0.2.5.tar.gz"
 SRC_PACKAGE_ZLIB="@COMMON@""http://zlib.net/zlib-1.2.13.tar.gz"
 SRC_PACKAGE_LZ4="@COMMON@""https://github.com/lz4/lz4/archive/refs/tags/v1.9.4.tar.gz"
 SRC_PACKAGE_LIBEVENT="@COMMON@""https://github.com/libevent/libevent/releases/download/release-2.1.12-stable/libevent-2.1.12-stable.tar.gz"
