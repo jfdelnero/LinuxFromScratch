@@ -161,6 +161,36 @@ then
 fi
 
 ####################################################################
+# OpenSSL
+####################################################################
+CUR_PACKAGE=${SRC_PACKAGE_BUILD_OPENSSL:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
+	then
+	(
+		unpack ${CUR_PACKAGE} ""
+
+		unset PKG_CONFIG_LIBDIR
+
+		cd ${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}  || exit 1
+
+		${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/Configure \
+				shared --prefix="${TARGET_CROSS_TOOLS}" || exit 1
+
+		make || exit 1
+		make install || exit 1
+
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
+
+	) || exit 1
+	fi
+) || exit 1
+fi
+
+####################################################################
 # CMAKE
 ####################################################################
 
@@ -231,6 +261,67 @@ then
 fi
 
 ####################################################################
+# NCURSES
+####################################################################
+
+CUR_PACKAGE=${SRC_PACKAGE_BUILD_LIBNCURSES:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
+	then
+	(
+		unpack ${CUR_PACKAGE} ""
+
+		unset PKG_CONFIG_LIBDIR
+
+		cd ${TARGET_BUILD} || exit 1
+		mkdir ncurses_local
+		cd ncurses_local || exit 1
+
+		${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure \
+				--prefix="${TARGET_CROSS_TOOLS}" \
+				--with-shared \
+				--without-normal \
+				--with-cxx-shared \
+				--without-debug \
+				--without-ada \
+				--without-manpages \
+				--with-curses-h \
+				--enable-pc-files \
+				--with-termlib \
+				--with-pkg-config-libdir=${TARGET_CROSS_TOOLS}/lib/pkgconfig || exit 1
+
+		make ${NBCORE} all     || exit 1
+		make ${NBCORE} install || exit 1
+
+		make ${NBCORE} clean   || exit 1
+
+		${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure \
+				--prefix="${TARGET_CROSS_TOOLS}" \
+				--disable-stripping STRIPPROG=strip \
+				--with-shared \
+				--without-normal \
+				--with-cxx-shared \
+				--without-debug \
+				--without-manpages \
+				--without-ada \
+				--with-curses-h \
+				--enable-pc-files \
+				--with-pkg-config-libdir=${TARGET_CROSS_TOOLS}/lib/pkgconfig || exit 1
+
+		make ${NBCORE} all     || exit 1
+		make ${NBCORE} install || exit 1
+
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
+
+	) || exit 1
+	fi
+) || exit 1
+fi
+
+####################################################################
 # heimdal
 ####################################################################
 
@@ -243,6 +334,9 @@ then
 	then
 	(
 		unpack ${CUR_PACKAGE} ""
+
+		export PKG_CONFIG_PATH=${TARGET_CROSS_TOOLS}/lib/pkgconfig
+		export LIBRARY_PATH=${TARGET_CROSS_TOOLS}/lib/
 
 		cd ${TARGET_BUILD} || exit 1
 		mkdir heimdal
