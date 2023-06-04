@@ -17,8 +17,9 @@ SRC_PACKAGE_BUILD_XMLEXPAT="@COMMON@""https://github.com/libexpat/libexpat/relea
 SRC_PACKAGE_BUILD_LIBXML2="@COMMON@""http://xmlsoft.org/sources/libxml2-2.9.12.tar.gz"
 SRC_PACKAGE_BUILD_CMAKE="@COMMON@""https://github.com/Kitware/CMake/archive/refs/tags/v3.25.1.tar.gz"
 SRC_PACKAGE_BUILD_MAKE="@COMMON@""https://ftp.gnu.org/gnu/make/make-4.3.tar.gz"
-SRC_PACKAGE_BUILD_LIBNCURSES="@COMMON@""https://ftp.gnu.org/gnu/ncurses/ncurses-6.3.tar.gz"
+SRC_PACKAGE_BUILD_LIBNCURSES="@COMMON@""https://ftp.gnu.org/gnu/ncurses/ncurses-6.4.tar.gz"
 SRC_PACKAGE_BUILD_OPENSSL="@COMMON@""https://www.openssl.org/source/openssl-3.0.7.tar.gz"
+SRC_PACKAGE_BUILD_TEXINFO="@COMMON@""https://ftp.gnu.org/gnu/texinfo/texinfo-7.0.tar.xz"
 
 SRC_PACKAGE_BINUTILS="@COMMON@""https://ftp.gnu.org/gnu/binutils/binutils-2.39.tar.xz"
 
@@ -235,7 +236,7 @@ SRC_PACKAGE_PERLCROSS="@COMMON@""https://github.com/arsv/perl-cross/releases/dow
 SRC_PACKAGE_LIBUSB="@COMMON@""https://github.com/libusb/libusb/releases/download/v1.0.26/libusb-1.0.26.tar.bz2"
 #SRC_PACKAGE_LIBUSBGADGET=libusb-gadget.tar.gz
 
-SRC_PACKAGE_LIBNCURSES="@COMMON@""https://ftp.gnu.org/gnu/ncurses/ncurses-6.3.tar.gz"
+SRC_PACKAGE_LIBNCURSES="@COMMON@""https://ftp.gnu.org/gnu/ncurses/ncurses-6.4.tar.gz"
 SRC_PACKAGE_NANOEDITOR="@COMMON@""https://www.nano-editor.org/dist/v6/nano-6.4.tar.xz"
 SRC_PACKAGE_LIBAIO="@COMMON@""https://releases.pagure.org/libaio/libaio-0.3.113.tar.gz"
 
