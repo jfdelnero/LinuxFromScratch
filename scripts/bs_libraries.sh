@@ -410,7 +410,7 @@ then
 				${SSL_ARCH} shared --prefix="${TARGET_ROOTFS}" || exit 1
 
 		make || exit 1
-		make install || exit 1
+		make install_sw || exit 1
 
 		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
 
@@ -532,7 +532,6 @@ then
 		cd ${TARGET_BUILD} || exit 1
 		mkdir libevent
 		cd libevent || exit 1
-
 
 		${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure \
 					--host=$TGT_MACH \
