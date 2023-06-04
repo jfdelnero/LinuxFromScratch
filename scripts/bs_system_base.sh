@@ -559,6 +559,10 @@ then
 		# (fix issue with ncurses -> ".config" not found error...)
 		unset PKG_CONFIG_LIBDIR
 
+		#Tell where is the host openssl ... TODO : Check if this doesn't affect the cross compiler too...
+		export LIBRARY_PATH=${TARGET_CROSS_TOOLS}/lib/:${TARGET_CROSS_TOOLS}/lib64/
+		export C_INCLUDE_PATH=${TARGET_CROSS_TOOLS}/include
+
 		make ${NBCORE} ARCH=${KERNEL_ARCH} CROSS_COMPILE=${TGT_MACH}- clean || exit 1
 
 		# use a predefined config if present.
