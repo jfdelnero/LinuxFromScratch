@@ -37,12 +37,13 @@ else
 		export COMMON_PATCHES="${COMMON_HOME}/patches"
 		export COMMON_DOWNLOAD="${COMMON_HOME}/download"
 
+		export LD_LIBRARY_PATH=${TARGET_CROSS_TOOLS}/lib:${TARGET_CROSS_TOOLS}/lib64:$LD_LIBRARY_PATH
+		export PATH="${TARGET_CROSS_TOOLS}/bin:${TARGET_CROSS_TOOLS}/usr/bin:${TARGET_CROSS_TOOLS}/sbin:${PATH}:${BASE_DIR}/scripts:"
+
 		source ${TARGET_CONFIG}/config.sh
 
 		export CROSS_BUILD_SIGN="CROSS_ENV_SET"
 
-
-		export PATH="${TARGET_CROSS_TOOLS}/bin:${PATH}:${BASE_DIR}/scripts:"
 		export BUILDMACH=$MACHTYPE
 
 		export NBCORE=-j`nproc`

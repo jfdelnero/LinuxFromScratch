@@ -310,7 +310,7 @@ CUR_PACKAGE="${CUR_PACKAGE##*/}"
 if [ "$CUR_PACKAGE" != "UNDEF" ]
 then
 (
-	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_BUILD_DONE ]
 	then
 	(
 		unpack ${CUR_PACKAGE} ""
@@ -355,7 +355,7 @@ then
 		make ${NBCORE} all     || exit 1
 		make ${NBCORE} install || exit 1
 
-		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_BUILD_DONE
 
 	) || exit 1
 	fi
@@ -366,12 +366,12 @@ fi
 # heimdal
 ####################################################################
 
-CUR_PACKAGE=${SRC_PACKAGE_HEIMDAL:-"UNDEF"}
+CUR_PACKAGE=${SRC_PACKAGE_BUILD_HEIMDAL:-"UNDEF"}
 CUR_PACKAGE="${CUR_PACKAGE##*/}"
 if [ "$CUR_PACKAGE" != "UNDEF" ]
 then
 (
-	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_BUILD_DONE ]
 	then
 	(
 		unpack ${CUR_PACKAGE} ""
@@ -411,10 +411,71 @@ then
 		ln -sf ${TARGET_CROSS_TOOLS}/libexec/heimdal/asn1_compile	${TARGET_CROSS_TOOLS}/bin/asn1_compile
 		ln -sf ${TARGET_CROSS_TOOLS}/bin/compile_et ${TARGET_CROSS_TOOLS}/libexec/heimdal/compile_et
 
-		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_BUILD_DONE
 
 	) || exit 1
 	fi
 ) || exit 1
 fi
 
+####################################################################
+# PYTHON
+####################################################################
+
+CUR_PACKAGE=${SRC_PACKAGE_BUILD_PYTHON:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_BUILD_DONE ]
+	then
+	(
+		unpack ${CUR_PACKAGE} ""
+
+		cd ${TARGET_BUILD} || exit 1
+
+		mkdir python_local
+		cd python_local || exit 1
+
+		${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure \
+				--prefix="${TARGET_CROSS_TOOLS}" \
+				--enable-ipv6 \
+				--enable-optimizations \
+				--enable-shared \
+				|| exit 1
+
+		make ${NBCORE} || exit 1
+		make ${NBCORE} altinstall DESTDIR=${TARGET_CROSS_TOOLS} || exit 1
+
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_BUILD_DONE
+
+	) || exit 1
+	fi
+) || exit 1
+fi
+
+####################################################################
+# dos2unix
+####################################################################
+
+CUR_PACKAGE=${SRC_PACKAGE_BUILD_DOS2UNIX:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_BUILD_DONE ]
+	then
+	(
+		unpack ${CUR_PACKAGE} ""
+
+		cd ${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER} || exit 1
+
+		make ${NBCORE} DESTDIR=${TARGET_CROSS_TOOLS}  || exit 1
+		make ${NBCORE} DESTDIR=${TARGET_CROSS_TOOLS} install  || exit 1
+
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_BUILD_DONE
+
+	) || exit 1
+	fi
+) || exit 1
+fi
