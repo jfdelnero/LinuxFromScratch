@@ -52,6 +52,43 @@ then
 fi
 
 ####################################################################
+# texinfo
+####################################################################
+
+CUR_PACKAGE=${SRC_PACKAGE_BUILD_TEXINFO:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_BUILD_DONE ]
+	then
+	(
+		echo "*****************"
+		echo "* Local texinfo *"
+		echo "*****************"
+
+		unpack ${CUR_PACKAGE} ""
+
+		unset PKG_CONFIG_LIBDIR
+
+		cd ${TARGET_BUILD} || exit 1
+		mkdir -pv texinfo_local
+		cd texinfo_local || exit 1
+
+		${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure \
+				--datarootdir="${TARGET_CROSS_TOOLS}" \
+				--exec-prefix="${TARGET_CROSS_TOOLS}" || exit 1
+
+		make all install || exit 1
+
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_BUILD_DONE
+	) || exit 1
+	fi
+
+) || exit 1
+fi
+
+####################################################################
 # LIBFFI
 ####################################################################
 
@@ -168,7 +205,7 @@ CUR_PACKAGE="${CUR_PACKAGE##*/}"
 if [ "$CUR_PACKAGE" != "UNDEF" ]
 then
 (
-	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_BUILD_DONE ]
 	then
 	(
 		unpack ${CUR_PACKAGE} ""
@@ -181,9 +218,13 @@ then
 				shared --prefix="${TARGET_CROSS_TOOLS}" || exit 1
 
 		make || exit 1
-		make install || exit 1
+		make install_sw || exit 1
+		make clean
+		cd ${TARGET_SOURCES}
 
-		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
+		rm -rf ${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}
+
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_BUILD_DONE
 
 	) || exit 1
 	fi
