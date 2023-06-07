@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # Cross compiler and Linux generation scripts
-# (c)2014-2018 Jean-François DEL NERO
+# (c)2014-2023 Jean-François DEL NERO
 #
 # Set env script
 #
@@ -37,7 +37,12 @@ else
 		export COMMON_PATCHES="${COMMON_HOME}/patches"
 		export COMMON_DOWNLOAD="${COMMON_HOME}/download"
 
-		export LD_LIBRARY_PATH=${TARGET_CROSS_TOOLS}/lib:${TARGET_CROSS_TOOLS}/lib64:$LD_LIBRARY_PATH
+		if [ -z "$LD_LIBRARY_PATH" ]; then
+			export LD_LIBRARY_PATH=${TARGET_CROSS_TOOLS}/lib:${TARGET_CROSS_TOOLS}/lib64
+		else
+			export LD_LIBRARY_PATH=${TARGET_CROSS_TOOLS}/lib:${TARGET_CROSS_TOOLS}/lib64:${LD_LIBRARY_PATH}
+		fi
+
 		export PATH="${TARGET_CROSS_TOOLS}/bin:${TARGET_CROSS_TOOLS}/usr/bin:${TARGET_CROSS_TOOLS}/sbin:${PATH}:${BASE_DIR}/scripts:"
 
 		source ${TARGET_CONFIG}/config.sh
