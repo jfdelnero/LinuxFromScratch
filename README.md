@@ -20,6 +20,8 @@ sudo apt-get install libssl-dev
 # autoconf is needed by samba...
 sudo apt-get install autoconf
 
+apt-get install gettext
+
 # Git is needed to checkout LinuxFromScratch
 sudo apt install git
 
