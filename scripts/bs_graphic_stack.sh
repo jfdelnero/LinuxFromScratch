@@ -1,13 +1,13 @@
 #!/bin/bash
 #
 # Cross compiler and Linux generation scripts
-# (c)2014-2018 Jean-François DEL NERO
+# (c)2014-2023 Jean-François DEL NERO
 #
 # Graphic stack
 #
 
 source ${SCRIPTS_HOME}/unpack.sh || exit 1
-
+source ${SCRIPTS_HOME}/utils.sh || exit 1
 source ${TARGET_CONFIG}/config.sh || exit 1
 
 echo "*****************"
@@ -26,19 +26,25 @@ then
 	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
 	then
 	(
+		create_src_dir
+		create_build_dir
+
 		unpack ${CUR_PACKAGE} ""
 
-		cd ${TARGET_BUILD} || exit 1
+		cd ${TMP_BUILD_FOLDER} || exit 1
 		mkdir libpng
 		cd libpng || exit 1
 
-		${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure \
+		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
 				--prefix="${TARGET_ROOTFS}" \
 				--host=$TGT_MACH CC=${TGT_MACH}-gcc \
 				|| exit 1
 
 		make ${NBCORE} all     || exit 1
 		make ${NBCORE} install || exit 1
+
+		delete_build_dir
+		delete_src_dir
 
 		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
 
@@ -59,19 +65,25 @@ then
 	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
 	then
 	(
+		create_src_dir
+		create_build_dir
+
 		unpack ${CUR_PACKAGE} ""
 
-		cd ${TARGET_BUILD} || exit 1
+		cd ${TMP_BUILD_FOLDER} || exit 1
 		mkdir libpciaccess
 		cd libpciaccess || exit 1
 
-		${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure \
+		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
 				--prefix="${TARGET_ROOTFS}" \
 				--host=$TGT_MACH CC=${TGT_MACH}-gcc \
 				|| exit 1
 
 		make ${NBCORE} all     || exit 1
 		make ${NBCORE} install || exit 1
+
+		delete_build_dir
+		delete_src_dir
 
 		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
 
@@ -92,17 +104,20 @@ then
 	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
 	then
 	(
+		create_src_dir
+		create_build_dir
+
 		unpack ${CUR_PACKAGE} ""
 
-		cd ${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER} || exit 1
+		cd ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER} || exit 1
 
 		sed -i s#-DDEBUG#-D__DEBUG__#g nouveau/Makefile.in || exit 1
 
-		cd ${TARGET_BUILD} || exit 1
+		cd ${TMP_BUILD_FOLDER} || exit 1
 		mkdir libdrm
 		cd libdrm || exit 1
 
-		${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure \
+		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
 				--prefix="${TARGET_ROOTFS}" \
 				--host=$TGT_MACH CC=${TGT_MACH}-gcc \
 				${DRM_SUPPORT} \
@@ -111,6 +126,9 @@ then
 
 		make ${NBCORE} all     || exit 1
 		make ${NBCORE} install || exit 1
+
+		delete_build_dir
+		delete_src_dir
 
 		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
 
@@ -131,25 +149,28 @@ then
 	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
 	then
 	(
+		create_src_dir
+		create_build_dir
+
 		unpack ${CUR_PACKAGE} ""
 
-		cd ${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER} || exit 1
+		cd ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER} || exit 1
 
 		unset PKG_CONFIG_LIBDIR
 		export PKG_CONFIG_PATH=${TARGET_CROSS_TOOLS}/lib/pkgconfig
 
 		sed -i s#\@USE_HOST_SCANNER_TRUE\@wayland_scanner\ =\ wayland-scanner#\@USE_HOST_SCANNER_TRUE\@wayland_scanner\ =\ \'\$\(top_builddir\)/..\\/wayland_scanner/wayland-scanner\'#g Makefile.in || exit 1
 
-		cd ${TARGET_BUILD} || exit 1
+		cd ${TMP_BUILD_FOLDER} || exit 1
 
 		# wayland_scanner build
 		mkdir wayland_scanner
 		cd wayland_scanner || exit 1
-		${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure --disable-static -disable-documentation || exit 1
+		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure --disable-static -disable-documentation || exit 1
 		make || exit 1
 
 		export PKG_CONFIG_PATH=
-		export WAYLAND_SCANNER_PATH=${TARGET_BUILD}/wayland_scanner/wayland-scanner
+		export WAYLAND_SCANNER_PATH=${TMP_BUILD_FOLDER}/wayland_scanner/wayland-scanner
 
 		cd ..
 
@@ -158,10 +179,13 @@ then
 		mkdir wayland_target
 		cd wayland_target || exit 1
 
-		${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure --prefix="${TARGET_ROOTFS}" --with-host-scanner=yes --disable-static -disable-documentation --host=$TGT_MACH || exit 1
+		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure --prefix="${TARGET_ROOTFS}" --with-host-scanner=yes --disable-static -disable-documentation --host=$TGT_MACH || exit 1
 
 		make || exit 1
 		make install || exit 1
+
+		delete_build_dir
+		delete_src_dir
 
 		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
 
@@ -182,21 +206,27 @@ then
 	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
 	then
 	(
+		create_src_dir
+		create_build_dir
+
 		unpack ${CUR_PACKAGE} ""
 
-		cd ${TARGET_BUILD} || exit 1
+		cd ${TMP_BUILD_FOLDER} || exit 1
 
 		mkdir wayland_protocols
 		cd wayland_protocols || exit 1
 
-		export WAYLAND_SCANNER_PATH=${TARGET_BUILD}/wayland_scanner/wayland-scanner
+		export WAYLAND_SCANNER_PATH=${TMP_BUILD_FOLDER}/wayland_scanner/wayland-scanner
 
-		${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure --prefix="${TARGET_ROOTFS}" --host=$TGT_MACH || exit 1
+		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure --prefix="${TARGET_ROOTFS}" --host=$TGT_MACH || exit 1
 
 		make || exit 1
 		make install || exit 1
 
 		mv  ${TARGET_ROOTFS}/share/pkgconfig/wayland-protocols.pc ${TARGET_ROOTFS}/lib/pkgconfig/wayland-protocols.pc  || exit 1
+
+		delete_build_dir
+		delete_src_dir
 
 		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
 
@@ -217,17 +247,20 @@ then
 	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
 	then
 	(
+		create_src_dir
+		create_build_dir
+
 		unpack ${CUR_PACKAGE} ""
 
 		# Fix x86-x86 cross compilation : temporary "hide" the target wayland scanner.
 		[[ -z "${SRC_PACKAGE_WAYLAND+x}" ]] && echo || mv ${TARGET_ROOTFS}/bin/wayland-scanner ${TARGET_ROOTFS}/bin/wayland-scanner_target
-		[[ -z "${SRC_PACKAGE_WAYLAND+x}" ]] && echo || ln -s ${TARGET_BUILD}/wayland_scanner/wayland-scanner ${TARGET_ROOTFS}/bin/wayland-scanner
+		[[ -z "${SRC_PACKAGE_WAYLAND+x}" ]] && echo || ln -s ${TMP_BUILD_FOLDER}/wayland_scanner/wayland-scanner ${TARGET_ROOTFS}/bin/wayland-scanner
 
-		export WAYLAND_SCANNER_PATH=${TARGET_BUILD}/wayland_scanner/wayland-scanner
+		export WAYLAND_SCANNER_PATH=${TMP_BUILD_FOLDER}/wayland_scanner/wayland-scanner
 
 		[[ -z "${SRC_PACKAGE_WAYLAND+x}" ]] && PLATEFORM_LIST="drm,surfaceless" || PLATEFORM_LIST="wayland,drm,surfaceless"
 
-		cd ${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER} || exit 1
+		cd ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER} || exit 1
 
 		if [ -f ${TARGET_CONFIG}/patches/mesa_configure_ac.patch ]
 		then
@@ -236,11 +269,11 @@ then
 		) || exit 1
 		fi
 
-		cd ${TARGET_BUILD} || exit 1
+		cd ${TMP_BUILD_FOLDER} || exit 1
 		mkdir mesa
 		cd mesa || exit 1
 
-		${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure \
+		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
 					--prefix="${TARGET_ROOTFS}" \
 					--host=$TGT_MACH \
 					--enable-opengl \
@@ -256,7 +289,7 @@ then
 					--with-platforms=${PLATEFORM_LIST} \
 					--with-dri-drivers=${MESA_DRI_DRV} \
 					--with-gallium-drivers=${MESA_GALLIUM_DRV} \
-					WAYLAND_SCANNER_PATH=${TARGET_BUILD}/wayland_scanner/wayland-scanner \
+					WAYLAND_SCANNER_PATH=${TMP_BUILD_FOLDER}/wayland_scanner/wayland-scanner \
 					CFLAGS="-DHAVE_PIPE_LOADER_DRI -DHAVE_PIPE_LOADER_KMS" || exit 1
 
 		make ${NBCORE} all     || exit 1
@@ -265,6 +298,9 @@ then
 		# Restore target wayland-scanner
 		[[ -z "${SRC_PACKAGE_WAYLAND+x}" ]] && echo || rm ${TARGET_ROOTFS}/bin/wayland-scanner
 		[[ -z "${SRC_PACKAGE_WAYLAND+x}" ]] && echo || mv ${TARGET_ROOTFS}/bin/wayland-scanner_target ${TARGET_ROOTFS}/bin/wayland-scanner
+
+		delete_build_dir
+		delete_src_dir
 
 		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
 
@@ -285,21 +321,27 @@ then
 	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
 	then
 	(
+		create_src_dir
+		create_build_dir
+
 		unpack ${CUR_PACKAGE} ""
 
-		cd ${TARGET_BUILD} || exit 1
+		cd ${TMP_BUILD_FOLDER} || exit 1
 
 		mkdir xkbcommon
 		cd xkbcommon || exit 1
 
-		export wayland_scanner=${TARGET_BUILD}/wayland_scanner/wayland-scanner
+		export wayland_scanner=${TMP_BUILD_FOLDER}/wayland_scanner/wayland-scanner
 
-		${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure --prefix="${TARGET_ROOTFS}" --host=$TGT_MACH --disable-x11 || exit 1
+		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure --prefix="${TARGET_ROOTFS}" --host=$TGT_MACH --disable-x11 || exit 1
 
 		sed -i s#wayland_scanner\ \=#wayland_scanner\ \=${wayland_scanner}\ \\##g Makefile || exit 1
 
 		make || exit 1
 		make install || exit 1
+
+		delete_build_dir
+		delete_src_dir
 
 		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
 
@@ -320,17 +362,23 @@ then
 	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
 	then
 	(
+		create_src_dir
+		create_build_dir
+
 		unpack ${CUR_PACKAGE} ""
 
-		cd ${TARGET_BUILD} || exit 1
+		cd ${TMP_BUILD_FOLDER} || exit 1
 
 		mkdir pixman
 		cd pixman || exit 1
 
-		${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure --prefix="${TARGET_ROOTFS}" --host=$TGT_MACH || exit 1
+		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure --prefix="${TARGET_ROOTFS}" --host=$TGT_MACH || exit 1
 
 		make || exit 1
 		make install || exit 1
+
+		delete_build_dir
+		delete_src_dir
 
 		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
 
@@ -351,18 +399,20 @@ then
 	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
 	then
 	(
+		create_src_dir
+		create_build_dir
 
 		unpack ${CUR_PACKAGE} ""
 
-		cd ${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER} || exit 1
+		cd ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER} || exit 1
 
 		./autogen.sh
 
-		cd ${TARGET_BUILD} || exit 1
+		cd ${TMP_BUILD_FOLDER} || exit 1
 		mkdir libepoxy
 		cd libepoxy || exit 1
 
-		${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure \
+		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
 				--prefix="${TARGET_ROOTFS}" \
 				--host=$TGT_MACH CC=${TGT_MACH}-gcc \
 				--disable-glx \
@@ -370,6 +420,9 @@ then
 
 		make ${NBCORE} all     || exit 1
 		make ${NBCORE} install || exit 1
+
+		delete_build_dir
+		delete_src_dir
 
 		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
 
@@ -390,17 +443,23 @@ then
 	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
 	then
 	(
+		create_src_dir
+		create_build_dir
+
 		unpack ${CUR_PACKAGE} ""
 
 		export GLEW_PREFIX=${TARGET_ROOTFS}/
 		export GLEW_DEST=${TARGET_ROOTFS}/
 
-		cd ${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER} || exit 1
+		cd ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER} || exit 1
 
 		sed -i s#\-Wl\,##g ./config/Makefile.linux || exit 1
 
 		make ${NBCORE} STRIP=${TGT_MACH}-strip CC=${TGT_MACH}-gcc LD=${TGT_MACH}-ld AR=${TGT_MACH}-ar AS=${TGT_MACH}-as  SYSTEM=linux-osmesa         || exit 1
 		make ${NBCORE} install STRIP=${TGT_MACH}-strip CC=${TGT_MACH}-gcc LD=${TGT_MACH}-ld AR=${TGT_MACH}-ar AS=${TGT_MACH}-as  SYSTEM=linux-osmesa || exit 1
+
+		delete_build_dir
+		delete_src_dir
 
 		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
 
@@ -421,21 +480,27 @@ then
 	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
 	then
 	(
+		create_src_dir
+		create_build_dir
+
 		unpack ${CUR_PACKAGE} ""
 
-		cd ${TARGET_BUILD} || exit 1
+		cd ${TMP_BUILD_FOLDER} || exit 1
 		mkdir glu
 		cd glu || exit 1
 
-		sed -i.bak 's/armv\[345\]\[lb\]/armv\[34567\]\[lba\]/g' ${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/config.sub
+		sed -i.bak 's/armv\[345\]\[lb\]/armv\[34567\]\[lba\]/g' ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/config.sub
 
-		${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure \
+		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
 			--prefix="${TARGET_ROOTFS}" \
 			--host=${TGT_MACH} \
 			--enable-osmesa || exit 1
 
 		make ${NBCORE}         || exit 1
 		make ${NBCORE} install || exit 1
+
+		delete_build_dir
+		delete_src_dir
 
 		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
 
@@ -456,13 +521,19 @@ then
 	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
 	then
 	(
+		create_src_dir
+		create_build_dir
+
 		unpack ${CUR_PACKAGE} ""
 
-		cd ${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER} || exit 1
+		cd ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER} || exit 1
 
 		make ${NBCORE} configure STRIP=${TGT_MACH}-strip CC=${TGT_MACH}-gcc LD=${TGT_MACH}-ld AR=${TGT_MACH}-ar AS=${TGT_MACH}-as  linux-osmesa || exit 1
 		make ${NBCORE} STRIP=${TGT_MACH}-strip CC=${TGT_MACH}-gcc LD=${TGT_MACH}-ld AR=${TGT_MACH}-ar AS=${TGT_MACH}-as  linux-osmesa           || exit 1
 		make ${NBCORE} install STRIP=${TGT_MACH}-strip CC=${TGT_MACH}-gcc LD=${TGT_MACH}-ld AR=${TGT_MACH}-ar AS=${TGT_MACH}-as  linux-osmesa   || exit 1
+
+		delete_build_dir
+		delete_src_dir
 
 		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
 
@@ -483,13 +554,16 @@ then
 	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
 	then
 	(
+		create_src_dir
+		create_build_dir
+
 		unpack ${CUR_PACKAGE} ""
 
-		cd ${TARGET_BUILD} || exit 1
+		cd ${TMP_BUILD_FOLDER} || exit 1
 		mkdir freetype
 		cd freetype || exit 1
 
-		${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure \
+		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
 				--prefix="${TARGET_ROOTFS}" \
 				--host=$TGT_MACH \
 				--with-harfbuzz=no \
@@ -497,6 +571,9 @@ then
 
 		make ${NBCORE}         || exit 1
 		make ${NBCORE} install || exit 1
+
+		delete_build_dir
+		delete_src_dir
 
 		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
 
@@ -517,9 +594,12 @@ then
 	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
 	then
 	(
+		create_src_dir
+		create_build_dir
+
 		unpack ${CUR_PACKAGE} ""
 
-		cd ${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER} || exit 1
+		cd ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER} || exit 1
 
 		#disable tests...
 		echo all: >./test/Makefile      || exit 1
@@ -528,11 +608,11 @@ then
 		# x86-x86 cross compilation : Force the cross compile mode !
 		sed -i s#cross_compiling\=no#cross_compiling\=yes#g configure || exit 1
 
-		cd ${TARGET_BUILD} || exit 1
+		cd ${TMP_BUILD_FOLDER} || exit 1
 		mkdir fontconfig
 		cd fontconfig || exit 1
 
-		${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure \
+		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
 			--prefix="${TARGET_ROOTFS}" \
 			--host=$TGT_MACH \
 			--without-python \
@@ -541,6 +621,9 @@ then
 
 		make ${NBCORE}         || exit 1
 		make ${NBCORE} install || exit 1
+
+		delete_build_dir
+		delete_src_dir
 
 		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
 
@@ -561,20 +644,23 @@ then
 	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
 	then
 	(
+		create_src_dir
+		create_build_dir
+
 		unpack ${CUR_PACKAGE} ""
 
-		cd ${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER} || exit 1
+		cd ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER} || exit 1
 
 		sed -i s#define\ RASPBERRY_PI#undef\ RASPBERRY_PI#g ./systems/egl/egl_system.c || exit 1
 
 		cd ./systems/mesa || exit 1
 		patch -Z < ${TARGET_CONFIG}/patches/mesa_surface_pool.patch  || exit 1
 
-		cd ${TARGET_BUILD} || exit 1
+		cd ${TMP_BUILD_FOLDER} || exit 1
 		mkdir directfb
 		cd directfb || exit 1
 
-		${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure \
+		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
 					--prefix="${TARGET_ROOTFS}" \
 					--host=$TGT_MACH \
 					CC=${TGT_MACH}-gcc \
@@ -607,6 +693,9 @@ then
 		make ${NBCORE}         || exit 1
 		make ${NBCORE} install || exit 1
 
+		delete_build_dir
+		delete_src_dir
+
 		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
 
 	) || exit 1
@@ -626,16 +715,19 @@ then
 	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
 	then
 	(
+		create_src_dir
+		create_build_dir
+
 		unpack ${CUR_PACKAGE} ""
 
-		cd ${TARGET_BUILD} || exit 1
+		cd ${TMP_BUILD_FOLDER} || exit 1
 		mkdir sdl2
 		cd sdl2 || exit 1
 
 		# Point to the host wayland scanner !
-		sed -i s#WAYLAND_SCANNER\=#WAYLAND_SCANNER\=${TARGET_BUILD}/wayland_scanner/wayland-scanner\ \\##g ${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure || exit 1
+		sed -i s#WAYLAND_SCANNER\=#WAYLAND_SCANNER\=${TMP_BUILD_FOLDER}/wayland_scanner/wayland-scanner\ \\##g ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure || exit 1
 
-		${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure \
+		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
 				--prefix="${TARGET_ROOTFS}" \
 				--host=$TGT_MACH \
 				--without-x \
@@ -668,14 +760,14 @@ then
 		make ${NBCORE} install || exit 1
 
 	#	SDL Test programs
-		cd ${TARGET_BUILD} || exit 1
+		cd ${TMP_BUILD_FOLDER} || exit 1
 		mkdir sdl2_tests
 		cd sdl2_tests || exit 1
 
 		# disable testshader...
-		sed -i s#testshader\$\(EXE\)\ #\ #g ${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/test/Makefile.in || exit 1
+		sed -i s#testshader\$\(EXE\)\ #\ #g ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/test/Makefile.in || exit 1
 
-		${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/test/configure \
+		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/test/configure \
 				--prefix="${TARGET_ROOTFS}" \
 				--host=$TGT_MACH \
 				--disable-testshader \
@@ -684,7 +776,10 @@ then
 		make ${NBCORE}         || exit 1
 
 		mkdir ${TARGET_ROOTFS}/sdltests
-		cp *  ${TARGET_ROOTFS}/sdltests 
+		cp *  ${TARGET_ROOTFS}/sdltests
+
+		delete_build_dir
+		delete_src_dir
 
 		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
 
@@ -705,17 +800,20 @@ then
 	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
 	then
 	(
+		create_src_dir
+		create_build_dir
+
 		unpack ${CUR_PACKAGE} ""
 
-		cd ${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER} || exit 1
+		cd ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER} || exit 1
 
 		sed -i s#SDL_opengl#SDL_opengll#g configure || exit 1
 
-		cd ${TARGET_BUILD} || exit 1
+		cd ${TMP_BUILD_FOLDER} || exit 1
 		mkdir sdl2ttf
 		cd sdl2ttf || exit 1
 
-		${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure \
+		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
 				--host=$TGT_MACH \
 				--prefix="${TARGET_ROOTFS}" \
 				--disable-sdltest \
@@ -725,6 +823,9 @@ then
 
 		make ${NBCORE}         || exit 1
 		make ${NBCORE} install || exit 1
+
+		delete_build_dir
+		delete_src_dir
 
 		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
 
@@ -745,13 +846,16 @@ then
 	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
 	then
 	(
+		create_src_dir
+		create_build_dir
+
 		unpack ${CUR_PACKAGE} ""
 
-		cd ${TARGET_BUILD} || exit 1
+		cd ${TMP_BUILD_FOLDER} || exit 1
 		mkdir sdlnet
 		cd sdlnet || exit 1
 
-		${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure \
+		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
 				--prefix="${TARGET_ROOTFS}" \
 				--build=$MACHTYPE \
 				--host=$TGT_MACH \
@@ -760,6 +864,9 @@ then
 
 		make ${NBCORE}         || exit 1
 		make ${NBCORE} install || exit 1
+
+		delete_build_dir
+		delete_src_dir
 
 		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
 
@@ -780,13 +887,16 @@ then
 	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
 	then
 	(
+		create_src_dir
+		create_build_dir
+
 		unpack ${CUR_PACKAGE} ""
 
-		cd ${TARGET_BUILD} || exit 1
+		cd ${TMP_BUILD_FOLDER} || exit 1
 		mkdir cairo
 		cd cairo || exit 1
 
-		${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure \
+		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
 				--prefix="${TARGET_ROOTFS}" \
 				--host=$TGT_MACH \
 				--with-x=no \
@@ -798,6 +908,9 @@ then
 
 		make ${NBCORE} all     || exit 1
 		make ${NBCORE} install || exit 1
+
+		delete_build_dir
+		delete_src_dir
 
 		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
 
@@ -818,17 +931,20 @@ then
 	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
 	then
 	(
+		create_src_dir
+		create_build_dir
+
 		unpack ${CUR_PACKAGE} ""
 
-		cd ${TARGET_BUILD} || exit 1
+		cd ${TMP_BUILD_FOLDER} || exit 1
 
 		mkdir wayland_weston
 		cd wayland_weston || exit 1
 
-		export WAYLAND_SCANNER_PATH=${TARGET_BUILD}/wayland_scanner/wayland-scanner
-		export wayland_scanner=${TARGET_BUILD}/wayland_scanner/wayland-scanner
+		export WAYLAND_SCANNER_PATH=${TMP_BUILD_FOLDER}/wayland_scanner/wayland-scanner
+		export wayland_scanner=${TMP_BUILD_FOLDER}/wayland_scanner/wayland-scanner
 
-		${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure --prefix=${TARGET_ROOTFS} --host=$TGT_MACH \
+		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure --prefix=${TARGET_ROOTFS} --host=$TGT_MACH \
 				--disable-x11-compositor \
 				--disable-xwayland \
 				--disable-setuid-install \
@@ -851,6 +967,9 @@ then
 		make install || exit 1
 		#make install DESTDIR=${TARGET_ROOTFS} || exit 1
 
+		delete_build_dir
+		delete_src_dir
+
 		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
 
 	) || exit 1
@@ -870,13 +989,16 @@ then
 	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
 	then
 	(
+		create_src_dir
+		create_build_dir
+
 		unpack ${CUR_PACKAGE} ""
 
-		cd ${TARGET_BUILD} || exit 1
+		cd ${TMP_BUILD_FOLDER} || exit 1
 		mkdir libgd
 		cd libgd || exit 1
 
-		${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure \
+		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
 				--prefix="${TARGET_ROOTFS}" \
 				--build=$MACHTYPE \
 				--host=$TGT_MACH \
@@ -885,6 +1007,9 @@ then
 
 		make ${NBCORE} || exit 1
 		make ${NBCORE} install || exit 1
+
+		delete_build_dir
+		delete_src_dir
 
 		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
 

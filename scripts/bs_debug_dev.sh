@@ -1,13 +1,13 @@
 #!/bin/bash
 #
 # Cross compiler and Linux generation scripts
-# (c)2014-2018 Jean-François DEL NERO
+# (c)2014-2023 Jean-François DEL NERO
 #
 # Debug & Devs tools
 #
 
 source ${SCRIPTS_HOME}/unpack.sh || exit 1
-
+source ${SCRIPTS_HOME}/utils.sh || exit 1
 source ${TARGET_CONFIG}/config.sh || exit 1
 
 echo "********************"
@@ -26,9 +26,12 @@ then
 	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
 	then
 	(
+		create_src_dir
+		create_build_dir
+
 		unpack ${CUR_PACKAGE} ""
 
-		cd ${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER} || exit 1
+		cd ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER} || exit 1
 
 		#fake makeinfo...
 		echo '#!/bin/sh'                          >makeinfo
@@ -36,7 +39,7 @@ then
 		chmod a+x makeinfo
 
 
-		cd ${TARGET_BUILD} || exit 1
+		cd ${TMP_BUILD_FOLDER} || exit 1
 		mkdir gdb
 		cd gdb || exit 1
 
@@ -45,13 +48,16 @@ then
 		export AS=${TGT_MACH}-as
 		export AR=${TGT_MACH}-ar
 
-		${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure \
+		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
 				--prefix="${TARGET_ROOTFS}" \
 				--host=$TGT_MACH \
-				MAKEINFO="${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/makeinfo" \
+				MAKEINFO="${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/makeinfo" \
 				|| exit 1
 		make ${NBCORE} all     || exit 1
 		make ${NBCORE} install || exit 1
+
+		delete_build_dir
+		delete_src_dir
 
 		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
 
@@ -72,9 +78,12 @@ then
 	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
 	then
 	(
+		create_src_dir
+		create_build_dir
+
 		unpack ${CUR_PACKAGE} ""
 
-		cd ${TARGET_BUILD}  || exit 1
+		cd ${TMP_BUILD_FOLDER}  || exit 1
 		mkdir strace
 		cd strace || exit 1
 
@@ -84,7 +93,7 @@ then
 		export AR=${TGT_MACH}-ar
 		export TARGET_DIR=${TARGET_ROOTFS}
 
-		${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure \
+		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
 				--prefix="${TARGET_ROOTFS}" \
 				--build=$MACHTYPE \
 				--host=$TGT_MACH \
@@ -94,6 +103,9 @@ then
 
 		make ${NBCORE} all     || exit 1
 		make ${NBCORE} install || exit 1
+
+		delete_build_dir
+		delete_src_dir
 
 		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
 
@@ -114,9 +126,12 @@ then
 	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
 	then
 	(
+		create_src_dir
+		create_build_dir
+
 		unpack ${CUR_PACKAGE} ""
 
-		cd ${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER} || exit 1
+		cd ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER} || exit 1
 
 		export CROSS_COMPILE=${TGT_MACH}-
 		export DESTDIR=${TARGET_ROOTFS}
@@ -124,6 +139,9 @@ then
 
 		make ${NBCORE} trace-cmd || exit 1
 		make ${NBCORE} install   || exit 1
+
+		delete_build_dir
+		delete_src_dir
 
 		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
 
@@ -144,9 +162,12 @@ then
 	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
 	then
 	(
+		create_src_dir
+		create_build_dir
+
 		unpack ${CUR_PACKAGE} ""
 
-		cd ${TARGET_BUILD}  || exit 1
+		cd ${TMP_BUILD_FOLDER}  || exit 1
 		mkdir ltrace
 		cd ltrace || exit 1
 
@@ -156,7 +177,7 @@ then
 		export AR=${TGT_MACH}-ar
 		export TARGET_DIR=${TARGET_ROOTFS}
 
-		${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure \
+		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
 				--prefix="${TARGET_ROOTFS}" \
 				--build=$MACHTYPE \
 				--host=$TGT_MACH \
@@ -165,6 +186,9 @@ then
 
 		make ${NBCORE} all     || exit 1
 		make ${NBCORE} install || exit 1
+
+		delete_build_dir
+		delete_src_dir
 
 		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
 
@@ -185,16 +209,19 @@ then
 	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
 	then
 	(
+		create_src_dir
+		create_build_dir
+
 		unpack ${CUR_PACKAGE} ""
 
-		cd ${TARGET_BUILD}  || exit 1
+		cd ${TMP_BUILD_FOLDER}  || exit 1
 		mkdir valgrind
 		cd valgrind || exit 1
 
 		# ArmV6 support.
-		sed -i 's/armv7\*)/armv[67]\*)/g' ${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure
+		sed -i 's/armv7\*)/armv[67]\*)/g' ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure
 
-		${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure \
+		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
 				--prefix="${TARGET_ROOTFS}" \
 				--build=$MACHTYPE \
 				--host=$TGT_MACH \
@@ -202,6 +229,9 @@ then
 
 		make ${NBCORE} all     || exit 1
 		make ${NBCORE} install || exit 1
+
+		delete_build_dir
+		delete_src_dir
 
 		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
 

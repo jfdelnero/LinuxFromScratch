@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # Cross compiler and Linux generation scripts
-# (c)2014-2018 Jean-François DEL NERO
+# (c)2014-2023 Jean-François DEL NERO
 #
 # Unpack function
 #
@@ -17,5 +17,5 @@ function unpack {
 
 	echo "Unpacking $1 (from common download folder)..."
 	export TMP_ARCHIVE_FOLDER=`tar tf ${DOWNLOAD_FOLDER}/$1 | sed -e 's@/.*@@' | uniq`
-	tar xvf ${DOWNLOAD_FOLDER}/$1 --directory=${TARGET_SOURCES}/$2  || exit 1
+	tar xvf ${DOWNLOAD_FOLDER}/$1 --directory=${TMP_SRC_FOLDER}/$2  || exit 1
 }

@@ -37,6 +37,8 @@ else
 		export COMMON_PATCHES="${COMMON_HOME}/patches"
 		export COMMON_DOWNLOAD="${COMMON_HOME}/download"
 
+		export BUILD_MODE="BUILD_MODE_SHM"
+
 		if [ -z "$LD_LIBRARY_PATH" ]; then
 			export LD_LIBRARY_PATH=${TARGET_CROSS_TOOLS}/lib:${TARGET_CROSS_TOOLS}/lib64
 		else

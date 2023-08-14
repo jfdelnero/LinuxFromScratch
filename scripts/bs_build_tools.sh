@@ -1,13 +1,13 @@
 #!/bin/bash
 #
 # Cross compiler and Linux generation scripts
-# (c)2014-2018 Jean-François DEL NERO
+# (c)2014-2023 Jean-François DEL NERO
 #
 # Local build tools
 #
 
 source ${SCRIPTS_HOME}/unpack.sh || exit 1
-
+source ${SCRIPTS_HOME}/utils.sh || exit 1
 source ${TARGET_CONFIG}/config.sh || exit 1
 
 echo "*******************"
@@ -30,19 +30,26 @@ then
 		echo "*  Local Gperf   *"
 		echo "******************"
 
+		create_src_dir
+
 		unpack ${CUR_PACKAGE} ""
 
 		unset PKG_CONFIG_LIBDIR
 
-		cd ${TARGET_BUILD} || exit 1
+		create_build_dir
+
+		cd ${TMP_BUILD_FOLDER} || exit 1
 		mkdir -pv gperf_local
 		cd gperf_local || exit 1
 
-		${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure \
+		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
 				--datarootdir="${TARGET_CROSS_TOOLS}" \
 				--exec-prefix="${TARGET_CROSS_TOOLS}" || exit 1
 
 		make all install || exit 1
+
+		delete_build_dir
+		delete_src_dir
 
 		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_BUILD_DONE
 	) || exit 1
@@ -67,19 +74,26 @@ then
 		echo "* Local texinfo *"
 		echo "*****************"
 
+		create_src_dir
+
 		unpack ${CUR_PACKAGE} ""
 
 		unset PKG_CONFIG_LIBDIR
 
-		cd ${TARGET_BUILD} || exit 1
+		create_build_dir
+
+		cd ${TMP_BUILD_FOLDER} || exit 1
 		mkdir -pv texinfo_local
 		cd texinfo_local || exit 1
 
-		${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure \
+		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
 				--datarootdir="${TARGET_CROSS_TOOLS}" \
 				--exec-prefix="${TARGET_CROSS_TOOLS}" || exit 1
 
 		make all install || exit 1
+
+		delete_build_dir
+		delete_src_dir
 
 		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_BUILD_DONE
 	) || exit 1
@@ -100,23 +114,28 @@ then
 	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_BUILD_DONE ]
 	then
 	(
+		create_src_dir
+
 		unpack ${CUR_PACKAGE} ""
 
 		unset PKG_CONFIG_LIBDIR
 
-		cd ${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER} || exit 1
+		create_build_dir
 
-		cd ${TARGET_BUILD} || exit 1
+		cd ${TMP_BUILD_FOLDER} || exit 1
 		mkdir libffi_local
 		cd libffi_local || exit 1
 
-		${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure \
+		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
 				--prefix="${TARGET_CROSS_TOOLS}" \
 				--datarootdir="${TARGET_CROSS_TOOLS}" \
 				--exec-prefix="${TARGET_CROSS_TOOLS}" || exit 1
 
 		make ${NBCORE}         || exit 1
 		make ${NBCORE} install || exit 1
+
+		delete_build_dir
+		delete_src_dir
 
 		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_BUILD_DONE
 
@@ -137,15 +156,19 @@ then
 	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_BUILD_DONE ]
 	then
 	(
+		create_src_dir
+
 		unpack ${CUR_PACKAGE} ""
 
 		unset PKG_CONFIG_LIBDIR
 
-		cd ${TARGET_BUILD} || exit 1
+		create_build_dir
+
+		cd ${TMP_BUILD_FOLDER} || exit 1
 		mkdir expat_local
 		cd expat_local || exit 1
 
-		${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure \
+		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
 				--without-docbook \
 				--prefix="${TARGET_CROSS_TOOLS}" \
 				--datarootdir="${TARGET_CROSS_TOOLS}" \
@@ -153,6 +176,9 @@ then
 
 		make ${NBCORE} all     || exit 1
 		make ${NBCORE} install || exit 1
+
+		delete_build_dir
+		delete_src_dir
 
 		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_BUILD_DONE
 
@@ -173,15 +199,19 @@ then
 	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_BUILD_DONE ]
 	then
 	(
+		create_src_dir
+
 		unpack ${CUR_PACKAGE} ""
 
 		unset PKG_CONFIG_LIBDIR
 
-		cd ${TARGET_BUILD} || exit 1
+		create_build_dir
+
+		cd ${TMP_BUILD_FOLDER} || exit 1
 		mkdir libxml2_local
 		cd libxml2_local || exit 1
 
-		${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure \
+		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
 					--prefix="${TARGET_CROSS_TOOLS}" \
 					--datarootdir="${TARGET_CROSS_TOOLS}" \
 					--exec-prefix="${TARGET_CROSS_TOOLS}" \
@@ -189,6 +219,9 @@ then
 
 		make ${NBCORE}         || exit 1
 		make ${NBCORE} install || exit 1
+
+		delete_build_dir
+		delete_src_dir
 
 		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_BUILD_DONE
 
@@ -208,21 +241,25 @@ then
 	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_BUILD_DONE ]
 	then
 	(
+		create_src_dir
+
 		unpack ${CUR_PACKAGE} ""
 
 		unset PKG_CONFIG_LIBDIR
 
-		cd ${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}  || exit 1
+		create_build_dir
 
-		${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/Configure \
+		cd ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}  || exit 1
+
+		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/Configure \
 				shared --prefix="${TARGET_CROSS_TOOLS}" || exit 1
 
 		make || exit 1
 		make install_sw || exit 1
 		make clean
-		cd ${TARGET_SOURCES}
 
-		rm -rf ${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}
+		delete_build_dir
+		delete_src_dir
 
 		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_BUILD_DONE
 
@@ -243,21 +280,26 @@ then
 	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_BUILD_DONE ]
 	then
 	(
+		create_src_dir
+
 		unpack ${CUR_PACKAGE} ""
 
 		unset PKG_CONFIG_LIBDIR
 
-		cd ${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER} || exit 1
+		create_build_dir
 
-		cd ${TARGET_BUILD} || exit 1
+		cd ${TMP_BUILD_FOLDER} || exit 1
 		mkdir cmake_local
 		cd cmake_local || exit 1
 
-		${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure \
+		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
 				--prefix="${TARGET_CROSS_TOOLS}" || exit 1
 
 		make ${NBCORE}         || exit 1
 		make ${NBCORE} install || exit 1
+
+		delete_build_dir
+		delete_src_dir
 
 		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_BUILD_DONE
 
@@ -278,21 +320,26 @@ then
 	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_BUILD_DONE ]
 	then
 	(
+		create_src_dir
+
 		unpack ${CUR_PACKAGE} ""
 
 		unset PKG_CONFIG_LIBDIR
 
-		cd ${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER} || exit 1
+		create_build_dir
 
-		cd ${TARGET_BUILD} || exit 1
+		cd ${TMP_BUILD_FOLDER} || exit 1
 		mkdir make_local
 		cd make_local || exit 1
 
-		${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure \
+		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
 				--prefix="${TARGET_CROSS_TOOLS}" || exit 1
 
 		make ${NBCORE}         || exit 1
 		make ${NBCORE} install || exit 1
+
+		delete_build_dir
+		delete_src_dir
 
 		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_BUILD_DONE
 
@@ -313,15 +360,19 @@ then
 	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_BUILD_DONE ]
 	then
 	(
+		create_src_dir
+
 		unpack ${CUR_PACKAGE} ""
 
 		unset PKG_CONFIG_LIBDIR
 
-		cd ${TARGET_BUILD} || exit 1
+		create_build_dir
+
+		cd ${TMP_BUILD_FOLDER} || exit 1
 		mkdir ncurses_local
 		cd ncurses_local || exit 1
 
-		${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure \
+		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
 				--prefix="${TARGET_CROSS_TOOLS}" \
 				--with-shared \
 				--without-normal \
@@ -339,7 +390,7 @@ then
 
 		make ${NBCORE} clean   || exit 1
 
-		${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure \
+		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
 				--prefix="${TARGET_CROSS_TOOLS}" \
 				--disable-stripping STRIPPROG=strip \
 				--with-shared \
@@ -354,6 +405,9 @@ then
 
 		make ${NBCORE} all     || exit 1
 		make ${NBCORE} install || exit 1
+
+		delete_build_dir
+		delete_src_dir
 
 		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_BUILD_DONE
 
@@ -374,16 +428,20 @@ then
 	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_BUILD_DONE ]
 	then
 	(
+		create_src_dir
+
 		unpack ${CUR_PACKAGE} ""
+
+		create_build_dir
 
 		export PKG_CONFIG_PATH=${TARGET_CROSS_TOOLS}/lib/pkgconfig
 		export LIBRARY_PATH=${TARGET_CROSS_TOOLS}/lib/
 
-		cd ${TARGET_BUILD} || exit 1
+		cd ${TMP_BUILD_FOLDER} || exit 1
 		mkdir heimdal
 		cd heimdal || exit 1
 
-		${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure \
+		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
 				--prefix="${TARGET_CROSS_TOOLS}" \
 				--disable-shared \
 				--enable-static \
@@ -411,6 +469,9 @@ then
 		ln -sf ${TARGET_CROSS_TOOLS}/libexec/heimdal/asn1_compile	${TARGET_CROSS_TOOLS}/bin/asn1_compile
 		ln -sf ${TARGET_CROSS_TOOLS}/bin/compile_et ${TARGET_CROSS_TOOLS}/libexec/heimdal/compile_et
 
+		delete_build_dir
+		delete_src_dir
+
 		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_BUILD_DONE
 
 	) || exit 1
@@ -430,14 +491,17 @@ then
 	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_BUILD_DONE ]
 	then
 	(
+		create_src_dir
+
 		unpack ${CUR_PACKAGE} ""
 
-		cd ${TARGET_BUILD} || exit 1
+		create_build_dir
 
+		cd ${TMP_BUILD_FOLDER} || exit 1
 		mkdir python_local
 		cd python_local || exit 1
 
-		${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure \
+		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
 				--prefix="${TARGET_CROSS_TOOLS}" \
 				--enable-ipv6 \
 				--enable-optimizations \
@@ -446,6 +510,9 @@ then
 
 		make ${NBCORE} || exit 1
 		make ${NBCORE} altinstall DESTDIR=${TARGET_CROSS_TOOLS} || exit 1
+
+		delete_build_dir
+		delete_src_dir
 
 		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_BUILD_DONE
 
@@ -466,14 +533,18 @@ then
 	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_BUILD_DONE ]
 	then
 	(
+		create_src_dir
+
 		unpack ${CUR_PACKAGE} ""
 
-		cd ${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER} || exit 1
+		cd ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER} || exit 1
 
 		make ${NBCORE} DESTDIR=${TARGET_CROSS_TOOLS}  || exit 1
 		make ${NBCORE} DESTDIR=${TARGET_CROSS_TOOLS} install  || exit 1
 
 		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_BUILD_DONE
+
+		delete_src_dir
 
 	) || exit 1
 	fi
