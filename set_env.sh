@@ -38,6 +38,7 @@ else
 		export COMMON_DOWNLOAD="${COMMON_HOME}/download"
 
 		export BUILD_MODE="BUILD_MODE_SHM"
+		export MAKE_FLAGS="-s"
 
 		if [ -z "$LD_LIBRARY_PATH" ]; then
 			export LD_LIBRARY_PATH=${TARGET_CROSS_TOOLS}/lib:${TARGET_CROSS_TOOLS}/lib64
