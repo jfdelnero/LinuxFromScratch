@@ -555,6 +555,7 @@ then
 		echo "**************"
 
 		create_src_dir
+		create_build_dir
 		unpack ${CUR_PACKAGE} ""
 
 		cd ${TMP_BUILD_FOLDER} || exit 1
