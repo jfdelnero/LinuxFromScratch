@@ -17,5 +17,5 @@ function unpack {
 
 	echo "Unpacking $1 (from common download folder)..."
 	export TMP_ARCHIVE_FOLDER=`tar tf ${DOWNLOAD_FOLDER}/$1 | sed -e 's@/.*@@' | uniq`
-	tar xvf ${DOWNLOAD_FOLDER}/$1 --directory=${TMP_SRC_FOLDER}/$2  || exit 1
+	tar xvf ${DOWNLOAD_FOLDER}/$1 --directory=${TMP_SRC_FOLDER}/$2 >/dev/null || exit 1
 }
