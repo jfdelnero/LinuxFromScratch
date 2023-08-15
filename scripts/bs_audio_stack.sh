@@ -43,8 +43,8 @@ then
 				--disable-alsamixer \
 				|| exit 1
 
-		make ${NBCORE}         || exit 1
-		make ${NBCORE} install || exit 1
+		make ${MAKE_FLAGS} ${NBCORE}         || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
 
 		delete_build_dir
 		delete_src_dir
@@ -85,8 +85,8 @@ then
 				--disable-alsamixer \
 				--with-udev-rules-dir=${TARGET_ROOTFS}/lib/udev/rules.d || exit 1
 
-		make ${NBCORE}         || exit 1
-		make ${NBCORE} install || exit 1
+		make ${MAKE_FLAGS} ${NBCORE}         || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
 
 		delete_build_dir
 		delete_src_dir
@@ -129,8 +129,8 @@ then
 				--target=$TGT_MACH \
 				|| exit 1
 
-		make ${NBCORE}         || exit 1
-		make ${NBCORE} install || exit 1
+		make ${MAKE_FLAGS} ${NBCORE}         || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
 
 		delete_build_dir
 		delete_src_dir

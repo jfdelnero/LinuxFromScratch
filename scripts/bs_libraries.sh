@@ -44,8 +44,8 @@ then
 					--prefix="${TARGET_ROOTFS}" \
 					|| exit 1
 
-		make ${NBCORE}         || exit 1
-		make ${NBCORE} install || exit 1
+		make ${MAKE_FLAGS} ${NBCORE}         || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
 
 		delete_build_dir
 		delete_src_dir
@@ -80,8 +80,8 @@ then
 		export AS=${TGT_MACH}-as
 		export AR=${TGT_MACH}-ar
 
-		make ${NBCORE}         || exit 1
-		make ${NBCORE} install DESTDIR=${TARGET_ROOTFS} || exit 1
+		make ${MAKE_FLAGS} ${NBCORE}         || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install DESTDIR=${TARGET_ROOTFS} || exit 1
 
 		delete_src_dir
 
@@ -119,8 +119,8 @@ then
 				--without-docbook \
 				CC=${TGT_MACH}-gcc || exit 1
 
-		make ${NBCORE} all     || exit 1
-		make ${NBCORE} install || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} all     || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
 
 		delete_build_dir
 		delete_src_dir
@@ -166,12 +166,13 @@ then
 				--with-curses-h \
 				--enable-pc-files \
 				--with-termlib \
+				--with-versioned-syms \
 				--with-pkg-config-libdir=${TARGET_ROOTFS}/lib/pkgconfig || exit 1
 
-		make ${NBCORE} all     || exit 1
-		make ${NBCORE} install || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} all     || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
 
-		make ${NBCORE} clean   || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} clean   || exit 1
 
 		# rebuild without termlib to fix the missing "cursrc" symbol issue with nano...
 
@@ -187,10 +188,11 @@ then
 				--without-ada \
 				--with-curses-h \
 				--enable-pc-files \
+				--with-versioned-syms \
 				--with-pkg-config-libdir=${TARGET_ROOTFS}/lib/pkgconfig || exit 1
 
-		make ${NBCORE} all     || exit 1
-		make ${NBCORE} install || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} all     || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
 
 		delete_build_dir
 		delete_src_dir
@@ -229,8 +231,8 @@ then
 					CC=${TGT_MACH}-gcc \
 					--without-python || exit 1
 
-		make ${NBCORE}         || exit 1
-		make ${NBCORE} install || exit 1
+		make ${MAKE_FLAGS} ${NBCORE}         || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
 
 		delete_build_dir
 		delete_src_dir
@@ -269,8 +271,8 @@ then
 			CC=${TGT_MACH}-gcc \
 			--without-python || exit 1
 
-		make ${NBCORE}         || exit 1
-		make ${NBCORE} install || exit 1
+		make ${MAKE_FLAGS} ${NBCORE}         || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
 
 		delete_build_dir
 		delete_src_dir
@@ -317,8 +319,8 @@ then
 					--host=$TGT_MACH \
 					--prefix="${TARGET_ROOTFS}" || exit 1
 
-		make ${NBCORE}         || exit 1
-		make ${NBCORE} install || exit 1
+		make ${MAKE_FLAGS} ${NBCORE}         || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
 
 		delete_build_dir
 		delete_src_dir
@@ -354,8 +356,8 @@ then
 					--prefix="${TARGET_ROOTFS}" \
 					--host=$TGT_MACH || exit 1
 
-		make ${NBCORE}         || exit 1
-		make ${NBCORE} install || exit 1
+		make ${MAKE_FLAGS} ${NBCORE}         || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
 
 		delete_build_dir
 		delete_src_dir
@@ -391,8 +393,8 @@ then
 					--prefix="${TARGET_ROOTFS}" \
 					--host=$TGT_MACH || exit 1
 
-		make ${NBCORE}         || exit 1
-		make ${NBCORE} install || exit 1
+		make ${MAKE_FLAGS} ${NBCORE}         || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
 
 		delete_build_dir
 		delete_src_dir
@@ -431,8 +433,8 @@ then
 					--with-included-unistring \
 					--without-p11-kit || exit 1
 
-		make ${NBCORE}         || exit 1
-		make ${NBCORE} install || exit 1
+		make ${MAKE_FLAGS} ${NBCORE}         || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
 
 		delete_build_dir
 		delete_src_dir
@@ -469,8 +471,8 @@ then
 		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/Configure \
 				${SSL_ARCH} shared --prefix="${TARGET_ROOTFS}" || exit 1
 
-		make || exit 1
-		make install_sw || exit 1
+		make ${MAKE_FLAGS} || exit 1
+		make ${MAKE_FLAGS} install_sw || exit 1
 
 		delete_src_dir
 
@@ -507,8 +509,8 @@ then
 					--prefix="${TARGET_ROOTFS}" \
 					--host=$TGT_MACH || exit 1
 
-		make ${NBCORE}         || exit 1
-		make ${NBCORE} install || exit 1
+		make ${MAKE_FLAGS} ${NBCORE}         || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
 
 		delete_build_dir
 		delete_src_dir
@@ -545,8 +547,8 @@ then
 					--host=$TGT_MACH \
 					--with-libgpg-error-prefix="${TARGET_ROOTFS}" || exit 1
 
-		make ${NBCORE}         || exit 1
-		make ${NBCORE} install || exit 1
+		make ${MAKE_FLAGS} ${NBCORE}         || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
 
 		delete_build_dir
 		delete_src_dir
@@ -582,8 +584,8 @@ then
 					--prefix="${TARGET_ROOTFS}" \
 					--host=$TGT_MACH || exit 1
 
-		make ${NBCORE}         || exit 1
-		make ${NBCORE} install || exit 1
+		make ${MAKE_FLAGS} ${NBCORE}         || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
 
 		delete_build_dir
 		delete_src_dir
@@ -620,8 +622,8 @@ then
 					--host=$TGT_MACH \
 					--prefix="${TARGET_ROOTFS}" || exit 1
 
-		make ${NBCORE}         || exit 1
-		make ${NBCORE} install || exit 1
+		make ${MAKE_FLAGS} ${NBCORE}         || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
 
 		delete_build_dir
 		delete_src_dir

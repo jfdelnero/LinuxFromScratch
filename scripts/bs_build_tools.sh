@@ -46,7 +46,7 @@ then
 				--datarootdir="${TARGET_CROSS_TOOLS}" \
 				--exec-prefix="${TARGET_CROSS_TOOLS}" || exit 1
 
-		make all install || exit 1
+		make ${MAKE_FLAGS} all install || exit 1
 
 		delete_build_dir
 		delete_src_dir
@@ -90,7 +90,7 @@ then
 				--datarootdir="${TARGET_CROSS_TOOLS}" \
 				--exec-prefix="${TARGET_CROSS_TOOLS}" || exit 1
 
-		make all install || exit 1
+		make ${MAKE_FLAGS} all install || exit 1
 
 		delete_build_dir
 		delete_src_dir
@@ -131,8 +131,8 @@ then
 				--datarootdir="${TARGET_CROSS_TOOLS}" \
 				--exec-prefix="${TARGET_CROSS_TOOLS}" || exit 1
 
-		make ${NBCORE}         || exit 1
-		make ${NBCORE} install || exit 1
+		make ${MAKE_FLAGS} ${NBCORE}         || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
 
 		delete_build_dir
 		delete_src_dir
@@ -174,8 +174,8 @@ then
 				--datarootdir="${TARGET_CROSS_TOOLS}" \
 				--exec-prefix="${TARGET_CROSS_TOOLS}" || exit 1
 
-		make ${NBCORE} all     || exit 1
-		make ${NBCORE} install || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} all     || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
 
 		delete_build_dir
 		delete_src_dir
@@ -217,8 +217,8 @@ then
 					--exec-prefix="${TARGET_CROSS_TOOLS}" \
 					--without-python || exit 1
 
-		make ${NBCORE}         || exit 1
-		make ${NBCORE} install || exit 1
+		make ${MAKE_FLAGS} ${NBCORE}         || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
 
 		delete_build_dir
 		delete_src_dir
@@ -254,9 +254,9 @@ then
 		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/Configure \
 				shared --prefix="${TARGET_CROSS_TOOLS}" || exit 1
 
-		make || exit 1
-		make install_sw || exit 1
-		make clean
+		make ${MAKE_FLAGS} || exit 1
+		make ${MAKE_FLAGS} install_sw || exit 1
+		make ${MAKE_FLAGS} clean
 
 		delete_build_dir
 		delete_src_dir
@@ -295,8 +295,8 @@ then
 		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
 				--prefix="${TARGET_CROSS_TOOLS}" || exit 1
 
-		make ${NBCORE}         || exit 1
-		make ${NBCORE} install || exit 1
+		make ${MAKE_FLAGS} ${NBCORE}         || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
 
 		delete_build_dir
 		delete_src_dir
@@ -335,8 +335,8 @@ then
 		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
 				--prefix="${TARGET_CROSS_TOOLS}" || exit 1
 
-		make ${NBCORE}         || exit 1
-		make ${NBCORE} install || exit 1
+		make ${MAKE_FLAGS} ${NBCORE}         || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
 
 		delete_build_dir
 		delete_src_dir
@@ -374,24 +374,6 @@ then
 
 		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
 				--prefix="${TARGET_CROSS_TOOLS}" \
-				--with-shared \
-				--without-normal \
-				--with-cxx-shared \
-				--without-debug \
-				--without-ada \
-				--without-manpages \
-				--with-curses-h \
-				--enable-pc-files \
-				--with-termlib \
-				--with-pkg-config-libdir=${TARGET_CROSS_TOOLS}/lib/pkgconfig || exit 1
-
-		make ${NBCORE} all     || exit 1
-		make ${NBCORE} install || exit 1
-
-		make ${NBCORE} clean   || exit 1
-
-		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
-				--prefix="${TARGET_CROSS_TOOLS}" \
 				--disable-stripping STRIPPROG=strip \
 				--with-shared \
 				--without-normal \
@@ -401,10 +383,30 @@ then
 				--without-ada \
 				--with-curses-h \
 				--enable-pc-files \
+				--with-versioned-syms \
 				--with-pkg-config-libdir=${TARGET_CROSS_TOOLS}/lib/pkgconfig || exit 1
 
-		make ${NBCORE} all     || exit 1
-		make ${NBCORE} install || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} all     || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
+
+		make ${MAKE_FLAGS} ${NBCORE} clean   || exit 1
+
+		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
+				--prefix="${TARGET_CROSS_TOOLS}" \
+				--with-shared \
+				--without-normal \
+				--with-cxx-shared \
+				--without-debug \
+				--without-ada \
+				--without-manpages \
+				--with-curses-h \
+				--enable-pc-files \
+				--with-termlib \
+				--with-versioned-syms \
+				--with-pkg-config-libdir=${TARGET_CROSS_TOOLS}/lib/pkgconfig || exit 1
+
+		make ${MAKE_FLAGS} ${NBCORE} all     || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
 
 		delete_build_dir
 		delete_src_dir
@@ -460,8 +462,8 @@ then
 				--disable-ndbm-db \
 				--disable-heimdal-documentation || exit 1
 
-		make ${NBCORE} || exit 1
-		make ${NBCORE} install || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
 
 		cp ./lib/com_err/compile_et ${TARGET_CROSS_TOOLS}/bin
 		cp -a ./lib/com_err/.libs ${TARGET_CROSS_TOOLS}/bin
@@ -508,8 +510,8 @@ then
 				--enable-shared \
 				|| exit 1
 
-		make ${NBCORE} || exit 1
-		make ${NBCORE} altinstall DESTDIR=${TARGET_CROSS_TOOLS} || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} altinstall DESTDIR=${TARGET_CROSS_TOOLS} || exit 1
 
 		delete_build_dir
 		delete_src_dir
@@ -539,12 +541,93 @@ then
 
 		cd ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER} || exit 1
 
-		make ${NBCORE} DESTDIR=${TARGET_CROSS_TOOLS}  || exit 1
-		make ${NBCORE} DESTDIR=${TARGET_CROSS_TOOLS} install  || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} DESTDIR=${TARGET_CROSS_TOOLS}  || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} DESTDIR=${TARGET_CROSS_TOOLS} install  || exit 1
 
 		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_BUILD_DONE
 
 		delete_src_dir
+
+	) || exit 1
+	fi
+) || exit 1
+fi
+
+####################################################################
+# Bash
+####################################################################
+
+CUR_PACKAGE=${SRC_PACKAGE_BUILD_BASH:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_BUILD_DONE ]
+	then
+	(
+		echo "*****************"
+		echo "*   Local bash  *"
+		echo "*****************"
+
+		create_src_dir
+
+		unpack ${CUR_PACKAGE} ""
+
+		unset PKG_CONFIG_LIBDIR
+
+		create_build_dir
+
+		cd ${TMP_BUILD_FOLDER} || exit 1
+		mkdir -pv bash_local
+		cd bash_local || exit 1
+
+		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
+				--datarootdir="${TARGET_CROSS_TOOLS}" \
+				--exec-prefix="${TARGET_CROSS_TOOLS}" || exit 1
+
+		make ${MAKE_FLAGS} all install || exit 1
+
+		delete_build_dir
+		delete_src_dir
+
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_BUILD_DONE
+	) || exit 1
+	fi
+
+) || exit 1
+fi
+
+####################################################################
+# Nano
+####################################################################
+CUR_PACKAGE=${SRC_PACKAGE_BUILD_NANOEDITOR:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_BUILD_DONE ]
+	then
+	(
+		create_src_dir
+		create_build_dir
+
+		unpack ${CUR_PACKAGE} ""
+
+		cd ${TMP_BUILD_FOLDER} || exit 1
+		mkdir nano_local
+		cd nano_local || exit 1
+
+		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
+				--prefix="${TARGET_CROSS_TOOLS}" \
+				|| exit 1
+
+		make ${MAKE_FLAGS} ${NBCORE} || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
+
+		delete_build_dir
+		delete_src_dir
+
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_BUILD_DONE
 
 	) || exit 1
 	fi

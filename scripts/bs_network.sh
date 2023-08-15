@@ -43,8 +43,8 @@ then
 				--host=$TGT_MACH \
 				--target=$TGT_MACH || exit 1
 
-		make ${NBCORE}         || exit 1
-		make ${NBCORE} install || exit 1
+		make ${MAKE_FLAGS} ${NBCORE}         || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
 
 		delete_build_dir
 		delete_src_dir
@@ -86,8 +86,8 @@ then
 				--host=$TGT_MACH \
 				--target=$TGT_MACH || exit 1
 
-		make ${NBCORE}         || exit 1
-		make ${NBCORE} install || exit 1
+		make ${MAKE_FLAGS} ${NBCORE}         || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
 
 		delete_build_dir
 		delete_src_dir
@@ -132,8 +132,8 @@ then
 				CFLAGS=-DPATH_MAX=4096 \
 				LDFLAGS="${TARGET_ROOTFS}/lib/libmnl.so  ${TARGET_ROOTFS}/lib/libnftnl.so"  || exit 1
 
-		make ${NBCORE}  || exit 1
-		make ${NBCORE} install || exit 1
+		make ${MAKE_FLAGS} ${NBCORE}  || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
 
 		delete_build_dir
 		delete_src_dir
@@ -178,8 +178,8 @@ then
 				CFLAGS="-DMAX_PATH=4096 -DMB_LEN_MAX=16"\
 				--with-yielding-select=yes || exit 1
 
-		make ${NBCORE}         || exit 1
-		make ${NBCORE} install || exit 1
+		make ${MAKE_FLAGS} ${NBCORE}         || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
 
 		delete_build_dir
 		delete_src_dir
@@ -215,8 +215,8 @@ then
 				--host=$TGT_MACH \
 				--target=$TGT_MACH || exit 1
 
-		make ${NBCORE}         || exit 1
-		make ${NBCORE} install DESTDIR=${TARGET_ROOTFS} || exit 1
+		make ${MAKE_FLAGS} ${NBCORE}         || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install DESTDIR=${TARGET_ROOTFS} || exit 1
 
 		delete_src_dir
 
@@ -283,8 +283,8 @@ then
 				BUILD_CC=gcc \
 				--with-randomdev=no || exit 1
 
-		make -j1         || exit 1
-		make -j1 install DESTDIR=${TARGET_ROOTFS} || exit 1
+		make ${MAKE_FLAGS} -j1         || exit 1
+		make ${MAKE_FLAGS} -j1 install DESTDIR=${TARGET_ROOTFS} || exit 1
 
 		touch ${TARGET_ROOTFS}/var/db/dhcpd.leases
 
@@ -327,8 +327,8 @@ then
 		export TARGET_DIR=${TARGET_ROOTFS}
 		export PREFIX=${TARGET_ROOTFS}
 
-		make ${NBCORE} CC=${TGT_MACH}-gcc         || exit 1
-		make ${NBCORE} install CC=${TGT_MACH}-gcc || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} CC=${TGT_MACH}-gcc         || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install CC=${TGT_MACH}-gcc || exit 1
 
 		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
 
@@ -364,8 +364,8 @@ then
 				|| exit 1
 
 
-		make ${NBCORE}           || exit 1
-		make ${NBCORE} install   || exit 1
+		make ${MAKE_FLAGS} ${NBCORE}           || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install   || exit 1
 
 		delete_src_dir
 
@@ -400,8 +400,8 @@ then
 				CFLAGS="-DNAME_MAX=255"\
 				|| exit 1
 
-		make ${NBCORE}           || exit 1
-		make ${NBCORE} install   || exit 1
+		make ${MAKE_FLAGS} ${NBCORE}           || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install   || exit 1
 
 		delete_src_dir
 
@@ -430,7 +430,7 @@ then
 
 		cd ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER} || exit 1
 
-		make ${NBCORE} CC=${TGT_MACH}-gcc                      || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} CC=${TGT_MACH}-gcc                      || exit 1
 		cp iw ${TARGET_ROOTFS}/sbin/                || exit 1
 
 		delete_src_dir
@@ -471,8 +471,8 @@ then
 		export INCDIR=/include/
 		export BINDIR=/sbin/
 
-		make ${NBCORE} CC=${TGT_MACH}-gcc LDFLAGS+=-ldl || exit 1
-		make ${NBCORE} install DESTDIR=${TARGET_ROOTFS} || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} CC=${TGT_MACH}-gcc LDFLAGS+=-ldl || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install DESTDIR=${TARGET_ROOTFS} || exit 1
 
 		delete_src_dir
 
@@ -509,8 +509,8 @@ then
 		export INCDIR=/include/
 		export BINDIR=/sbin/
 
-		make ${NBCORE} CC=${TGT_MACH}-gcc LDFLAGS+=-ldl || exit 1
-		make ${NBCORE} install DESTDIR=${TARGET_ROOTFS} || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} CC=${TGT_MACH}-gcc LDFLAGS+=-ldl || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install DESTDIR=${TARGET_ROOTFS} || exit 1
 
 		delete_src_dir
 
@@ -539,8 +539,8 @@ then
 
 		cd ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER} || exit 1
 
-		make ${NBCORE} CC=${TGT_MACH}-gcc              || exit 1
-		make ${NBCORE} install PREFIX=${TARGET_ROOTFS}
+		make ${MAKE_FLAGS} ${NBCORE} CC=${TGT_MACH}-gcc              || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install PREFIX=${TARGET_ROOTFS}
 
 		delete_src_dir
 
@@ -574,8 +574,8 @@ then
 				--host=$TGT_MACH \
 				|| exit 1
 
-		make ${NBCORE}           || exit 1
-		make ${NBCORE} install   || exit 1
+		make ${MAKE_FLAGS} ${NBCORE}           || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install   || exit 1
 
 		delete_src_dir
 
@@ -609,8 +609,8 @@ then
 				--host=$TGT_MACH \
 				|| exit 1
 
-		make ${NBCORE}           || exit 1
-		make ${NBCORE} install   || exit 1
+		make ${MAKE_FLAGS} ${NBCORE}           || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install   || exit 1
 
 		delete_src_dir
 
@@ -644,8 +644,8 @@ then
 				--host=$TGT_MACH \
 				|| exit 1
 
-		make ${NBCORE}           || exit 1
-		make ${NBCORE} install   || exit 1
+		make ${MAKE_FLAGS} ${NBCORE}           || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install   || exit 1
 
 		delete_src_dir
 
@@ -679,8 +679,8 @@ then
 				--host=$TGT_MACH \
 				|| exit 1
 
-		make ${NBCORE}           || exit 1
-		make ${NBCORE} install   || exit 1
+		make ${MAKE_FLAGS} ${NBCORE}           || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install   || exit 1
 
 		delete_src_dir
 
@@ -722,8 +722,8 @@ then
 				--host=$TGT_MACH \
 				|| exit 1
 
-		make ${NBCORE}           || exit 1
-		make ${NBCORE} install DESTDIR=${TARGET_ROOTFS} || exit 1
+		make ${MAKE_FLAGS} ${NBCORE}           || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install DESTDIR=${TARGET_ROOTFS} || exit 1
 
 		delete_src_dir
 

@@ -40,8 +40,8 @@ then
 				--host=$TGT_MACH CC=${TGT_MACH}-gcc \
 				|| exit 1
 
-		make ${NBCORE} all     || exit 1
-		make ${NBCORE} install || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} all     || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
 
 		delete_build_dir
 		delete_src_dir
@@ -79,8 +79,8 @@ then
 				--host=$TGT_MACH CC=${TGT_MACH}-gcc \
 				|| exit 1
 
-		make ${NBCORE} all     || exit 1
-		make ${NBCORE} install || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} all     || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
 
 		delete_build_dir
 		delete_src_dir
@@ -124,8 +124,8 @@ then
 				--enable-install-test-programs \
 				|| exit 1
 
-		make ${NBCORE} all     || exit 1
-		make ${NBCORE} install || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} all     || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
 
 		delete_build_dir
 		delete_src_dir
@@ -167,7 +167,7 @@ then
 		mkdir wayland_scanner
 		cd wayland_scanner || exit 1
 		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure --disable-static -disable-documentation || exit 1
-		make || exit 1
+		make ${MAKE_FLAGS} || exit 1
 
 		export PKG_CONFIG_PATH=
 		export WAYLAND_SCANNER_PATH=${TMP_BUILD_FOLDER}/wayland_scanner/wayland-scanner
@@ -181,8 +181,8 @@ then
 
 		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure --prefix="${TARGET_ROOTFS}" --with-host-scanner=yes --disable-static -disable-documentation --host=$TGT_MACH || exit 1
 
-		make || exit 1
-		make install || exit 1
+		make ${MAKE_FLAGS} || exit 1
+		make ${MAKE_FLAGS} install || exit 1
 
 		delete_build_dir
 		delete_src_dir
@@ -220,8 +220,8 @@ then
 
 		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure --prefix="${TARGET_ROOTFS}" --host=$TGT_MACH || exit 1
 
-		make || exit 1
-		make install || exit 1
+		make ${MAKE_FLAGS} || exit 1
+		make ${MAKE_FLAGS} install || exit 1
 
 		mv  ${TARGET_ROOTFS}/share/pkgconfig/wayland-protocols.pc ${TARGET_ROOTFS}/lib/pkgconfig/wayland-protocols.pc  || exit 1
 
@@ -292,8 +292,8 @@ then
 					WAYLAND_SCANNER_PATH=${TMP_BUILD_FOLDER}/wayland_scanner/wayland-scanner \
 					CFLAGS="-DHAVE_PIPE_LOADER_DRI -DHAVE_PIPE_LOADER_KMS" || exit 1
 
-		make ${NBCORE} all     || exit 1
-		make ${NBCORE} install || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} all     || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
 
 		# Restore target wayland-scanner
 		[[ -z "${SRC_PACKAGE_WAYLAND+x}" ]] && echo || rm ${TARGET_ROOTFS}/bin/wayland-scanner
@@ -337,8 +337,8 @@ then
 
 		sed -i s#wayland_scanner\ \=#wayland_scanner\ \=${wayland_scanner}\ \\##g Makefile || exit 1
 
-		make || exit 1
-		make install || exit 1
+		make ${MAKE_FLAGS} || exit 1
+		make ${MAKE_FLAGS} install || exit 1
 
 		delete_build_dir
 		delete_src_dir
@@ -374,8 +374,8 @@ then
 
 		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure --prefix="${TARGET_ROOTFS}" --host=$TGT_MACH || exit 1
 
-		make || exit 1
-		make install || exit 1
+		make ${MAKE_FLAGS} || exit 1
+		make ${MAKE_FLAGS} install || exit 1
 
 		delete_build_dir
 		delete_src_dir
@@ -418,8 +418,8 @@ then
 				--disable-glx \
 				|| exit 1
 
-		make ${NBCORE} all     || exit 1
-		make ${NBCORE} install || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} all     || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
 
 		delete_build_dir
 		delete_src_dir
@@ -455,8 +455,8 @@ then
 
 		sed -i s#\-Wl\,##g ./config/Makefile.linux || exit 1
 
-		make ${NBCORE} STRIP=${TGT_MACH}-strip CC=${TGT_MACH}-gcc LD=${TGT_MACH}-ld AR=${TGT_MACH}-ar AS=${TGT_MACH}-as  SYSTEM=linux-osmesa         || exit 1
-		make ${NBCORE} install STRIP=${TGT_MACH}-strip CC=${TGT_MACH}-gcc LD=${TGT_MACH}-ld AR=${TGT_MACH}-ar AS=${TGT_MACH}-as  SYSTEM=linux-osmesa || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} STRIP=${TGT_MACH}-strip CC=${TGT_MACH}-gcc LD=${TGT_MACH}-ld AR=${TGT_MACH}-ar AS=${TGT_MACH}-as  SYSTEM=linux-osmesa         || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install STRIP=${TGT_MACH}-strip CC=${TGT_MACH}-gcc LD=${TGT_MACH}-ld AR=${TGT_MACH}-ar AS=${TGT_MACH}-as  SYSTEM=linux-osmesa || exit 1
 
 		delete_build_dir
 		delete_src_dir
@@ -496,8 +496,8 @@ then
 			--host=${TGT_MACH} \
 			--enable-osmesa || exit 1
 
-		make ${NBCORE}         || exit 1
-		make ${NBCORE} install || exit 1
+		make ${MAKE_FLAGS} ${NBCORE}         || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
 
 		delete_build_dir
 		delete_src_dir
@@ -528,9 +528,9 @@ then
 
 		cd ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER} || exit 1
 
-		make ${NBCORE} configure STRIP=${TGT_MACH}-strip CC=${TGT_MACH}-gcc LD=${TGT_MACH}-ld AR=${TGT_MACH}-ar AS=${TGT_MACH}-as  linux-osmesa || exit 1
-		make ${NBCORE} STRIP=${TGT_MACH}-strip CC=${TGT_MACH}-gcc LD=${TGT_MACH}-ld AR=${TGT_MACH}-ar AS=${TGT_MACH}-as  linux-osmesa           || exit 1
-		make ${NBCORE} install STRIP=${TGT_MACH}-strip CC=${TGT_MACH}-gcc LD=${TGT_MACH}-ld AR=${TGT_MACH}-ar AS=${TGT_MACH}-as  linux-osmesa   || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} configure STRIP=${TGT_MACH}-strip CC=${TGT_MACH}-gcc LD=${TGT_MACH}-ld AR=${TGT_MACH}-ar AS=${TGT_MACH}-as  linux-osmesa || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} STRIP=${TGT_MACH}-strip CC=${TGT_MACH}-gcc LD=${TGT_MACH}-ld AR=${TGT_MACH}-ar AS=${TGT_MACH}-as  linux-osmesa           || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install STRIP=${TGT_MACH}-strip CC=${TGT_MACH}-gcc LD=${TGT_MACH}-ld AR=${TGT_MACH}-ar AS=${TGT_MACH}-as  linux-osmesa   || exit 1
 
 		delete_build_dir
 		delete_src_dir
@@ -569,8 +569,8 @@ then
 				--with-harfbuzz=no \
 				--without-png || exit 1
 
-		make ${NBCORE}         || exit 1
-		make ${NBCORE} install || exit 1
+		make ${MAKE_FLAGS} ${NBCORE}         || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
 
 		delete_build_dir
 		delete_src_dir
@@ -619,8 +619,8 @@ then
 			--disable-docs \
 			--enable-libxml2 || exit 1
 
-		make ${NBCORE}         || exit 1
-		make ${NBCORE} install || exit 1
+		make ${MAKE_FLAGS} ${NBCORE}         || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
 
 		delete_build_dir
 		delete_src_dir
@@ -690,8 +690,8 @@ then
 					CFLAGS="-DMESA_EGL_NO_X11_HEADERS" \
 					 || exit 1
 
-		make ${NBCORE}         || exit 1
-		make ${NBCORE} install || exit 1
+		make ${MAKE_FLAGS} ${NBCORE}         || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
 
 		delete_build_dir
 		delete_src_dir
@@ -756,8 +756,8 @@ then
  				--disable-pulseaudio \
  				CFLAGS="-DPATH_MAX=4096 -DMESA_EGL_NO_X11_HEADERS" || exit 1
 
-		make ${NBCORE}         || exit 1
-		make ${NBCORE} install || exit 1
+		make ${MAKE_FLAGS} ${NBCORE}         || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
 
 	#	SDL Test programs
 		cd ${TMP_BUILD_FOLDER} || exit 1
@@ -773,7 +773,7 @@ then
 				--disable-testshader \
 				CFLAGS="-DPATH_MAX=4096" || exit 1
 
-		make ${NBCORE}         || exit 1
+		make ${MAKE_FLAGS} ${NBCORE}         || exit 1
 
 		mkdir ${TARGET_ROOTFS}/sdltests
 		cp *  ${TARGET_ROOTFS}/sdltests
@@ -821,8 +821,8 @@ then
 				--with-freetype-prefix="${TARGET_ROOTFS}" \
 				CFLAGS="-DPATH_MAX=4096" || exit 1
 
-		make ${NBCORE}         || exit 1
-		make ${NBCORE} install || exit 1
+		make ${MAKE_FLAGS} ${NBCORE}         || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
 
 		delete_build_dir
 		delete_src_dir
@@ -862,8 +862,8 @@ then
 				--target=$TGT_MACH \
 				|| exit 1
 
-		make ${NBCORE}         || exit 1
-		make ${NBCORE} install || exit 1
+		make ${MAKE_FLAGS} ${NBCORE}         || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
 
 		delete_build_dir
 		delete_src_dir
@@ -906,8 +906,8 @@ then
 				--enable-directfb=no \
 				|| exit 1
 
-		make ${NBCORE} all     || exit 1
-		make ${NBCORE} install || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} all     || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
 
 		delete_build_dir
 		delete_src_dir
@@ -963,9 +963,9 @@ then
 				--libdir=${TARGET_ROOTFS}/lib \
 				--disable-silent-rules || exit 1
 
-		make || exit 1
-		make install || exit 1
-		#make install DESTDIR=${TARGET_ROOTFS} || exit 1
+		make ${MAKE_FLAGS} || exit 1
+		make ${MAKE_FLAGS} install || exit 1
+		#make ${MAKE_FLAGS} install DESTDIR=${TARGET_ROOTFS} || exit 1
 
 		delete_build_dir
 		delete_src_dir
@@ -1005,8 +1005,8 @@ then
 				--target=$TGT_MACH \
 				|| exit 1
 
-		make ${NBCORE} || exit 1
-		make ${NBCORE} install || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
 
 		delete_build_dir
 		delete_src_dir

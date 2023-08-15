@@ -49,7 +49,7 @@ then
 				--disable-multilib \
 				|| exit 1
 
-		make all install || exit 1
+		make ${MAKE_FLAGS} all install || exit 1
 
 		delete_build_dir
 		delete_src_dir
@@ -102,9 +102,9 @@ then
 
 		cd ${TMP_SRC_FOLDER}/linux-kernel || exit 1
 
-		make ${NBCORE} ARCH=${KERNEL_ARCH}  mrproper || exit 1
-		make ${NBCORE} ARCH=${KERNEL_ARCH}  distclean || exit 1
-		make ${NBCORE} ARCH=${KERNEL_ARCH}  clean || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} ARCH=${KERNEL_ARCH}  mrproper || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} ARCH=${KERNEL_ARCH}  distclean || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} ARCH=${KERNEL_ARCH}  clean || exit 1
 
 		# Generate the default config if needed.
 		TMP_VAR=${KERNEL_DEFCONF:-"UNDEF"}
@@ -112,7 +112,7 @@ then
 		if [ "$TMP_VAR" != "UNDEF" ]
 		then
 		(
-			make ${NBCORE} ARCH=${KERNEL_ARCH} CROSS_COMPILE=${TGT_MACH}- $TMP_VAR
+			make ${MAKE_FLAGS} ${NBCORE} ARCH=${KERNEL_ARCH} CROSS_COMPILE=${TGT_MACH}- $TMP_VAR
 		)
 		fi
 
@@ -124,9 +124,9 @@ then
 		)
 		fi
 
-		make ${NBCORE} ARCH=${KERNEL_ARCH}  olddefconfig || exit 1
-		#make ${NBCORE} ARCH=${KERNEL_ARCH}  headers_check || exit 1
-		make ${NBCORE} ARCH=${KERNEL_ARCH}  INSTALL_HDR_PATH="${TARGET_ROOTFS}" headers_install || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} ARCH=${KERNEL_ARCH}  olddefconfig || exit 1
+		#make ${MAKE_FLAGS} ${NBCORE} ARCH=${KERNEL_ARCH}  headers_check || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} ARCH=${KERNEL_ARCH}  INSTALL_HDR_PATH="${TARGET_ROOTFS}" headers_install || exit 1
 
 		delete_build_dir
 		delete_src_dir
@@ -212,8 +212,8 @@ then
 		echo > ${TARGET_ROOTFS}/include/limits.h
 		ln -s ${TARGET_ROOTFS}/include ${TARGET_ROOTFS}/sys-include
 
-		make ${NBCORE} all-gcc || exit 1
-		make ${NBCORE} install-gcc|| exit 1
+		make ${MAKE_FLAGS} ${NBCORE} all-gcc || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install-gcc|| exit 1
 
 		rm ${TARGET_ROOTFS}/sys-include
 
@@ -266,8 +266,8 @@ then
 				libc_cv_forced_unwind=yes \
 				libc_cv_c_cleanup=yes || exit 1
 
-		make ${NBCORE} install_root=${TARGET_ROOTFS} install-bootstrap-headers=yes install-headers  || exit 1
-		make ${NBCORE} install_root=${TARGET_ROOTFS} csu/subdir_lib                                 || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install_root=${TARGET_ROOTFS} install-bootstrap-headers=yes install-headers  || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install_root=${TARGET_ROOTFS} csu/subdir_lib                                 || exit 1
 		install csu/crt1.o csu/crti.o csu/crtn.o "${TARGET_ROOTFS}/lib"                             || exit 1
 
 		${TGT_MACH}-gcc -nostdlib -nostartfiles -shared -x c /dev/null -o "${TARGET_ROOTFS}/lib/libc.so"
@@ -300,8 +300,8 @@ then
 
 		cd  ${TMP_BUILD_FOLDER}/gcc || exit 1
 
-		make ${NBCORE} all-target-libgcc || exit 1
-		make ${NBCORE} install-target-libgcc || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} all-target-libgcc || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install-target-libgcc || exit 1
 
 		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_LIB_DONE
 
@@ -330,8 +330,8 @@ then
 
 		cd  ${TMP_BUILD_FOLDER}/glibc || exit 1
 
-		make ${NBCORE} install_root=${TARGET_ROOTFS}           || exit 1
-		make ${NBCORE} install_root=${TARGET_ROOTFS} install   || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install_root=${TARGET_ROOTFS}           || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install_root=${TARGET_ROOTFS} install   || exit 1
 
 		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_LIBC_DONE
 
@@ -359,8 +359,8 @@ then
 
 		cd  ${TMP_BUILD_FOLDER}/gcc || exit 1
 
-		make ${NBCORE} all   || exit 1
-		make ${NBCORE} install   || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} all   || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install   || exit 1
 
 		#FIXME ! C++ libs not in the root fs ?
 		cp  -aR  ${TARGET_CROSS_TOOLS}/${TGT_MACH}/lib64/*   ${TARGET_ROOTFS}/lib
@@ -406,8 +406,8 @@ then
 					--prefix="${TARGET_ROOTFS}" \
 					|| exit 1
 
-		make ${NBCORE}         || exit 1
-		make ${NBCORE} install || exit 1
+		make ${MAKE_FLAGS} ${NBCORE}         || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
 
 		delete_build_dir
 		delete_src_dir
@@ -444,8 +444,8 @@ then
 					--prefix="${TARGET_ROOTFS}" \
 					--host=$TGT_MACH || exit 1
 
-		make ${NBCORE}         || exit 1
-		make ${NBCORE} install || exit 1
+		make ${MAKE_FLAGS} ${NBCORE}         || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
 
 		delete_build_dir
 		delete_src_dir
@@ -481,8 +481,8 @@ then
 					--prefix="${TARGET_ROOTFS}" \
 					--host=$TGT_MACH || exit 1
 
-		make ${NBCORE}         || exit 1
-		make ${NBCORE} install || exit 1
+		make ${MAKE_FLAGS} ${NBCORE}         || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
 
 		delete_build_dir
 		delete_src_dir
@@ -525,8 +525,8 @@ then
 				--enable-elf64 \
 				--enable-compat || exit 1
 
-		make ${NBCORE}  || exit 1
-		make ${NBCORE} install || exit 1
+		make ${MAKE_FLAGS} ${NBCORE}  || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
 
 		delete_build_dir
 		delete_src_dir
@@ -567,8 +567,8 @@ then
 				--prefix="${TARGET_ROOTFS}" -host=$TGT_MACH \
 				--disable-libdebuginfod --disable-debuginfod || exit 1
 
-		make ${NBCORE}  || exit 1
-		make ${NBCORE} install || exit 1
+		make ${MAKE_FLAGS} ${NBCORE}  || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
 
 		delete_build_dir
 		delete_src_dir
@@ -616,9 +616,9 @@ then
 
 		cd ${TMP_SRC_FOLDER}/linux-kernel || exit 1
 
-		make ${NBCORE} ARCH=${KERNEL_ARCH}  mrproper || exit 1
-		make ${NBCORE} ARCH=${KERNEL_ARCH}  distclean || exit 1
-		make ${NBCORE} ARCH=${KERNEL_ARCH}  clean || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} ARCH=${KERNEL_ARCH}  mrproper || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} ARCH=${KERNEL_ARCH}  distclean || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} ARCH=${KERNEL_ARCH}  clean || exit 1
 
 		# Generate the default config if needed.
 		TMP_VAR=${KERNEL_DEFCONF:-"UNDEF"}
@@ -626,7 +626,7 @@ then
 		if [ "$TMP_VAR" != "UNDEF" ]
 		then
 		(
-			make ${NBCORE} ARCH=${KERNEL_ARCH} CROSS_COMPILE=${TGT_MACH}- $TMP_VAR
+			make ${MAKE_FLAGS} ${NBCORE} ARCH=${KERNEL_ARCH} CROSS_COMPILE=${TGT_MACH}- $TMP_VAR
 		)
 		fi
 
@@ -638,7 +638,7 @@ then
 		)
 		fi
 
-		#make ${NBCORE} ARCH=${KERNEL_ARCH} CROSS_COMPILE=${TGT_MACH}- menuconfig
+		#make ${MAKE_FLAGS} ${NBCORE} ARCH=${KERNEL_ARCH} CROSS_COMPILE=${TGT_MACH}- menuconfig
 
 		# Don't let the Linux kernel build system using the cross-compiled libraries
 		# (fix issue with ncurses -> ".config" not found error...)
@@ -648,7 +648,7 @@ then
 		export LIBRARY_PATH=${TARGET_CROSS_TOOLS}/lib/:${TARGET_CROSS_TOOLS}/lib64/
 		export C_INCLUDE_PATH=${TARGET_CROSS_TOOLS}/include
 
-		make ${NBCORE} ARCH=${KERNEL_ARCH} CROSS_COMPILE=${TGT_MACH}- clean || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} ARCH=${KERNEL_ARCH} CROSS_COMPILE=${TGT_MACH}- clean || exit 1
 
 		# use a predefined config if present.
 		#if [ -f ${TARGET_CONFIG}/kernel_config ]
@@ -658,27 +658,27 @@ then
 		#)
 		#fi
 
-		make ${NBCORE} ARCH=${KERNEL_ARCH} CROSS_COMPILE=${TGT_MACH}- olddefconfig || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} ARCH=${KERNEL_ARCH} CROSS_COMPILE=${TGT_MACH}- olddefconfig || exit 1
 
-		make ${NBCORE} ${KERNEL_IMAGE_TYPE} ARCH=${KERNEL_ARCH} CROSS_COMPILE=${TGT_MACH}- ${KERNEL_ADD_OPTIONS} || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} ${KERNEL_IMAGE_TYPE} ARCH=${KERNEL_ARCH} CROSS_COMPILE=${TGT_MACH}- ${KERNEL_ADD_OPTIONS} || exit 1
 
-		make ${NBCORE} modules              ARCH=${KERNEL_ARCH} CROSS_COMPILE=${TGT_MACH}- ${KERNEL_ADD_OPTIONS} || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} modules              ARCH=${KERNEL_ARCH} CROSS_COMPILE=${TGT_MACH}- ${KERNEL_ADD_OPTIONS} || exit 1
 
 		TMP_VAR=${KERNEL_DTBS:-"UNDEF"}
 		if [ "$TMP_VAR" = "YES" ]
 		then
 		(
-			make ${NBCORE} dtbs             ARCH=${KERNEL_ARCH} CROSS_COMPILE=${TGT_MACH}- ${KERNEL_ADD_OPTIONS} || exit 1
+			make ${MAKE_FLAGS} ${NBCORE} dtbs             ARCH=${KERNEL_ARCH} CROSS_COMPILE=${TGT_MACH}- ${KERNEL_ADD_OPTIONS} || exit 1
 		)
 		fi
 
-		make ${NBCORE} modules_install      ARCH=${KERNEL_ARCH} INSTALL_MOD_PATH=${TARGET_ROOTFS}  || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} modules_install      ARCH=${KERNEL_ARCH} INSTALL_MOD_PATH=${TARGET_ROOTFS}  || exit 1
 
 		TMP_VAR=${KERNEL_FIRMWARES:-"UNDEF"}
 		if [ "$TMP_VAR" = "YES" ]
 		then
 		(
-			make ${NBCORE} firmwares_install   ARCH=${KERNEL_ARCH} INSTALL_MOD_PATH=${TARGET_ROOTFS}  || exit 1
+			make ${MAKE_FLAGS} ${NBCORE} firmwares_install   ARCH=${KERNEL_ARCH} INSTALL_MOD_PATH=${TARGET_ROOTFS}  || exit 1
 		)
 		fi
 
@@ -686,7 +686,7 @@ then
 		if [ "$TMP_VAR" = "YES" ]
 		then
 		(
-			make ARCH=${KERNEL_ARCH} INSTALL_PATH=${TARGET_ROOTFS}/boot install  || exit 1
+			make ${MAKE_FLAGS} ARCH=${KERNEL_ARCH} INSTALL_PATH=${TARGET_ROOTFS}/boot install  || exit 1
 		)
 		fi
 
@@ -742,8 +742,8 @@ then
 				--build=$MACHTYPE \
 				--host=$TGT_MACH || exit 1
 
-		make ${NBCORE}  || exit 1
-		make ${NBCORE} install || exit 1
+		make ${MAKE_FLAGS} ${NBCORE}  || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
 
 		delete_build_dir
 		delete_src_dir
@@ -783,8 +783,8 @@ then
 				--prefix="${TARGET_ROOTFS}" \
 				--host=$TGT_MACH || exit 1
 
-		make ${NBCORE}  || exit 1
-		make ${NBCORE} install || exit 1
+		make ${MAKE_FLAGS} ${NBCORE}  || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
 
 		delete_build_dir
 		delete_src_dir
@@ -824,8 +824,8 @@ then
 				--build=$MACHTYPE \
 				--target=$TGT_MACH || exit 1
 
-		make ${NBCORE}  || exit 1
-		make ${NBCORE} install || exit 1
+		make ${MAKE_FLAGS} ${NBCORE}  || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
 
 		delete_build_dir
 		delete_src_dir
@@ -867,9 +867,9 @@ then
 		export PKGCONFIGDIR=/lib/pkgconfig
 		export lib=lib
 
-		make prefix="${TARGET_ROOTFS}" BUILD_CC=gcc CROSS_COMPILE=${TGT_MACH}- || exit 1
+		make ${MAKE_FLAGS} prefix="${TARGET_ROOTFS}" BUILD_CC=gcc CROSS_COMPILE=${TGT_MACH}- || exit 1
 
-		make install prefix="${TARGET_ROOTFS}" BUILD_CC=gcc CROSS_COMPILE=${TGT_MACH}- || exit 1
+		make ${MAKE_FLAGS} install prefix="${TARGET_ROOTFS}" BUILD_CC=gcc CROSS_COMPILE=${TGT_MACH}- || exit 1
 
 		delete_build_dir
 		delete_src_dir
@@ -909,8 +909,8 @@ then
 				--without-docbook \
 				|| exit 1
 
-		make ${NBCORE} all     || exit 1
-		make ${NBCORE} install || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} all     || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
 
 		delete_build_dir
 		delete_src_dir
@@ -953,8 +953,8 @@ then
 				--disable-ducktype-docs \
 				|| exit 1
 
-		make ${NBCORE}  || exit 1
-		make ${NBCORE} install || exit 1
+		make ${MAKE_FLAGS} ${NBCORE}  || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
 
 		delete_build_dir
 		delete_src_dir
@@ -1047,8 +1047,8 @@ then
 				--disable-eject      \
 				--with-bashcompletiondir=${TARGET_ROOTFS}/usr/share/bash-completion/completions/  || exit 1
 
-		make ${NBCORE}  || exit 1
-		make ${NBCORE} install || exit 1
+		make ${MAKE_FLAGS} ${NBCORE}  || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
 
 		delete_build_dir
 		delete_src_dir
@@ -1090,8 +1090,8 @@ then
 				--host=$TGT_MACH \
 				|| exit 1
 
-		make ${NBCORE} || exit 1
-		make ${NBCORE} install || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
 
 		delete_build_dir
 		delete_src_dir
@@ -1133,8 +1133,8 @@ then
 				--disable-nis \
 				|| exit 1
 
-		make ${NBCORE}  || exit 1
-		make ${NBCORE} install || exit 1
+		make ${MAKE_FLAGS} ${NBCORE}  || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
 
 		cp -a ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/libpam/include/ ${TARGET_ROOTFS} || exit 1
 		cp -a ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/libpamc/include/ ${TARGET_ROOTFS} || exit 1
@@ -1246,7 +1246,7 @@ then
 				PKG_CONFIG_PATH=${TARGET_ROOTFS}/lib/pkgconfig \
 				ac_cv_func_malloc_0_nonnull=yes ac_cv_func_realloc_0_nonnull=yes || exit 1
 
-		make ${NBCORE} install || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
 
 		delete_build_dir
 		delete_src_dir
@@ -1287,8 +1287,8 @@ then
 				--host=$TGT_MACH \
 				--disable-documentation --disable-debug-gui --disable-tests --disable-libwacom || exit 1
 
-		make ${NBCORE}  || exit 1
-		make ${NBCORE} install || exit 1
+		make ${MAKE_FLAGS} ${NBCORE}  || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
 
 		delete_build_dir
 		delete_src_dir
@@ -1328,8 +1328,8 @@ then
 				--prefix="${TARGET_ROOTFS}" \
 				--host=$TGT_MACH || exit 1
 
-		make ${NBCORE}  || exit 1
-		make ${NBCORE} install || exit 1
+		make ${MAKE_FLAGS} ${NBCORE}  || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
 
 		delete_build_dir
 		delete_src_dir

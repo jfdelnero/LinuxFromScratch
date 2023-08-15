@@ -43,7 +43,7 @@ then
 		#FIXME ! potential security vulnerability : stack-protector not available with ppc arch !
 		[[ $TGT_MACH == *@(ppc*) ]] && sed -i s#-fstack-protector##g Makefile
 
-		make ${NBCORE} CC=${TGT_MACH}-gcc   || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} CC=${TGT_MACH}-gcc   || exit 1
 		cp vsftpd ${TARGET_ROOTFS}/usr/sbin || exit 1
 		cp vsftpd.conf ${TARGET_ROOTFS}/etc || exit 1
 
@@ -87,8 +87,8 @@ then
 				--without-pcre2 \
 				--without-bzip2 || exit 1
 
-		make ${NBCORE}         || exit 1
-		make ${NBCORE} install || exit 1
+		make ${MAKE_FLAGS} ${NBCORE}         || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
 
 		delete_build_dir
 		delete_src_dir
@@ -127,8 +127,8 @@ then
 				--host=$TGT_MACH \
 				--target=$TGT_MACH || exit 1
 
-		make ${NBCORE}         || exit 1
-		make ${NBCORE} install || exit 1
+		make ${MAKE_FLAGS} ${NBCORE}         || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
 
 		delete_build_dir
 		delete_src_dir
@@ -167,8 +167,8 @@ then
 				--target=$TGT_MACH \
 				CFLAGS=-DMB_LEN_MAX=16 || exit 1
 
-		make ${NBCORE} LD=${TGT_MACH}-gcc                          || exit 1
-		make ${NBCORE} DESTDIR=${TARGET_ROOTFS} STRIP_OPT= install || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} LD=${TGT_MACH}-gcc                          || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} DESTDIR=${TARGET_ROOTFS} STRIP_OPT= install || exit 1
 
 		delete_build_dir
 		delete_src_dir
@@ -209,8 +209,8 @@ then
 		sed -i s#/usr/sbin#${TARGET_ROOTFS}/usr/sbin#g Makefile || exit 1
 		sed -i s#/etc/#${TARGET_ROOTFS}/etc/#g Makefile || exit 1
 
-		make ${NBCORE}         || exit 1
-		make ${NBCORE} install || exit 1
+		make ${MAKE_FLAGS} ${NBCORE}         || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
 
 		delete_build_dir
 		delete_src_dir
@@ -249,8 +249,8 @@ then
 				--host=$TGT_MACH \
 				--target=$TGT_MACH || exit 1
 
-		make ${NBCORE}         || exit 1
-		make ${NBCORE} install || exit 1
+		make ${MAKE_FLAGS} ${NBCORE}         || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
 
 		delete_build_dir
 		delete_src_dir
@@ -281,7 +281,7 @@ then
 
 		cd ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}  || exit 1
 
-		make  CC=${TGT_MACH}-gcc || exit 1
+		make ${MAKE_FLAGS}  CC=${TGT_MACH}-gcc || exit 1
 		cp    umtprd ${TARGET_ROOTFS}/sbin || exit 1
 		mkdir ${TARGET_ROOTFS}/etc/umtprd || exit 1
 		cp    conf/umtprd.conf ${TARGET_ROOTFS}/etc/umtprd || exit 1
@@ -323,8 +323,8 @@ then
 				--without-gssapi \
 				--target=$TGT_MACH || exit 1
 
-		make ${NBCORE}         || exit 1
-		make ${NBCORE} install || exit 1
+		make ${MAKE_FLAGS} ${NBCORE}         || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
 
 		delete_build_dir
 		delete_src_dir
@@ -361,8 +361,8 @@ then
 				--host=$TGT_MACH \
 				--target=$TGT_MACH || exit 1
 
-		make ${NBCORE}         || exit 1
-		make ${NBCORE} install || exit 1
+		make ${MAKE_FLAGS} ${NBCORE}         || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
 
 		delete_build_dir
 		delete_src_dir
@@ -395,8 +395,8 @@ then
 
 		sed -i 's/strip/${TGT_MACH}-strip/g' Makefile
 
-		make CC=${TGT_MACH}-gcc || exit 1
-		make install LOCATION="${TARGET_ROOTFS}/usr" CC=${TGT_MACH}-gcc || exit 1
+		make ${MAKE_FLAGS} CC=${TGT_MACH}-gcc || exit 1
+		make ${MAKE_FLAGS} install LOCATION="${TARGET_ROOTFS}/usr" CC=${TGT_MACH}-gcc || exit 1
 
 		delete_build_dir
 		delete_src_dir
@@ -459,8 +459,8 @@ then
 			--with-shared-modules='!vfs_snapper' \
 			--bundled-libraries='!asn1_compile,!compile_et' || exit 1
 
-		make ${NBCORE} CC=${TGT_MACH}-gcc || exit 1
-		make ${NBCORE} install DESTDIR=${TARGET_ROOTFS} || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} CC=${TGT_MACH}-gcc || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install DESTDIR=${TARGET_ROOTFS} || exit 1
 
 		delete_build_dir
 		delete_src_dir

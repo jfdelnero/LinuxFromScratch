@@ -51,7 +51,7 @@ then
 				--disable-multilib \
 				|| exit 1
 
-		make all install || exit 1
+		make ${MAKE_FLAGS} all install || exit 1
 
 		delete_build_dir
 		delete_src_dir
@@ -132,8 +132,8 @@ then
 		# echo > ${TARGET_ROOTFS}/include/limits.h
 		# ln -s ${TARGET_ROOTFS}/include ${TARGET_ROOTFS}/sys-include
 
-		make ${NBCORE} all-gcc || exit 1
-		make ${NBCORE} install-gcc|| exit 1
+		make ${MAKE_FLAGS} ${NBCORE} all-gcc || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install-gcc|| exit 1
 
 		# rm ${TARGET_ROOTFS}/sys-include
 
@@ -189,7 +189,7 @@ then
 				--disable-multilib \
 				|| exit 1
 
-		make all install || exit 1
+		make ${MAKE_FLAGS} all install || exit 1
 
 		delete_build_dir
 		delete_src_dir
@@ -298,14 +298,14 @@ then
 			echo > ${TARGET_CROSS_TOOLS}/bin/${CROSS_TGT_MACH}-gcc
 			chmod +x ${TARGET_CROSS_TOOLS}/bin/${CROSS_TGT_MACH}-gcc
 
-			make ${NBCORE} all-gcc || exit 1
-			make ${NBCORE} install-gcc|| exit 1
+			make ${MAKE_FLAGS} ${NBCORE} all-gcc || exit 1
+			make ${MAKE_FLAGS} ${NBCORE} install-gcc|| exit 1
 
 			rm ${TARGET_CROSS_TOOLS}/bin/${CROSS_TGT_MACH}-gcc
 		else
 
-			make ${NBCORE} all-gcc || exit 1
-			make ${NBCORE} install-gcc|| exit 1
+			make ${MAKE_FLAGS} ${NBCORE} all-gcc || exit 1
+			make ${MAKE_FLAGS} ${NBCORE} install-gcc|| exit 1
 
 		fi
 
@@ -353,7 +353,7 @@ then
 				--target=$TGT_MACH \
 				|| exit 1
 
-		make all install || exit 1
+		make ${MAKE_FLAGS} all install || exit 1
 
 		delete_build_dir
 		delete_src_dir

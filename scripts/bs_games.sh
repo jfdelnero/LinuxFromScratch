@@ -85,7 +85,7 @@ then
 
 		########################################################################################################################
 
-		make steamlink REGENIE=1 SOURCES=src/mame/drivers/pacman.cpp -j3  NO_USE_MIDI=1 NO_X11=1 || exit 1
+		make ${MAKE_FLAGS} steamlink REGENIE=1 SOURCES=src/mame/drivers/pacman.cpp -j3  NO_USE_MIDI=1 NO_X11=1 || exit 1
 
 		mkdir ${TARGET_ROOTFS}/mame
 		cp mame ${TARGET_ROOTFS}/mame || exit 1
@@ -128,8 +128,8 @@ then
 				--target=$TGT_MACH \
 				|| exit 1
 
-		make ${NBCORE} || exit 1
-		make ${NBCORE} install || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
 
 		delete_build_dir
 		delete_src_dir
@@ -165,7 +165,7 @@ then
 		export AS=${TGT_MACH}-as
 		export AR=${TGT_MACH}-ar
 
-		make ${NBCORE} -f Makefile COPYDIR="$BASEQ3_DIR" ARCH=arm \
+		make ${MAKE_FLAGS} ${NBCORE} -f Makefile COPYDIR="$BASEQ3_DIR" ARCH=arm \
 			CC="${TGT_MACH}-gcc" USE_SVN=0 USE_CURL=0 USE_OPENAL=0 \
 			CFLAGS="-DVCMODS_MISC -DVCMODS_OPENGLES -DVCMODS_DEPTH -DVCMODS_REPLACETRIG $INCLUDES -lSDL -lvchostif -lvcfiled_check -lbcm_host -lkhrn_static -lvchiq_arm -lopenmaxil -lEGL -lGLESv2 -lvcos -lrt" || exit 1
 

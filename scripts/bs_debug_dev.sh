@@ -53,8 +53,8 @@ then
 				--host=$TGT_MACH \
 				MAKEINFO="${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/makeinfo" \
 				|| exit 1
-		make ${NBCORE} all     || exit 1
-		make ${NBCORE} install || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} all     || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
 
 		delete_build_dir
 		delete_src_dir
@@ -101,8 +101,8 @@ then
 				CFLAGS=-DIOV_MAX=1024 \
 				--target=$TGT_MACH || exit 1
 
-		make ${NBCORE} all     || exit 1
-		make ${NBCORE} install || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} all     || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
 
 		delete_build_dir
 		delete_src_dir
@@ -137,8 +137,8 @@ then
 		export DESTDIR=${TARGET_ROOTFS}
 		export prefix=/usr
 
-		make ${NBCORE} trace-cmd || exit 1
-		make ${NBCORE} install   || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} trace-cmd || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install   || exit 1
 
 		delete_build_dir
 		delete_src_dir
@@ -184,8 +184,8 @@ then
 				CFLAGS=-DIOV_MAX=1024 \
 				--target=$TGT_MACH || exit 1
 
-		make ${NBCORE} all     || exit 1
-		make ${NBCORE} install || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} all     || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
 
 		delete_build_dir
 		delete_src_dir
@@ -227,8 +227,8 @@ then
 				--host=$TGT_MACH \
 				--target=$TGT_MACH || exit 1
 
-		make ${NBCORE} all     || exit 1
-		make ${NBCORE} install || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} all     || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
 
 		delete_build_dir
 		delete_src_dir
