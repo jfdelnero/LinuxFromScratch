@@ -62,6 +62,14 @@ mkdir -p ${TARGET_HOME}/build                || exit 1
 mkdir -p ${TARGET_HOME}/sources              || exit 1
 mkdir -p ${TARGET_ROOTFS}                    || exit 1
 
+MODE=${BUILD_MODE:-"UNDEF"}
+MODE="${MODE##*/}"
+if [ "$MODE" == "BUILD_MODE_SHM" ]
+then
+	rm -rf /dev/shm/LinuxFromScratch/tmp_src
+	rm -rf /dev/shm/LinuxFromScratch/tmp_build
+fi
+
 ####################################################################
 # Sources Download...
 ####################################################################
