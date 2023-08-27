@@ -14,12 +14,6 @@ As example here are the commands to prepare and build a system for the Raspberry
 # Install some missing build tools (C++ compiler,...)
 sudo apt install build-essential
 
-# libssl-dev is needed by the latest kernels...
-sudo apt-get install libssl-dev
-
-# autoconf is needed by samba...
-sudo apt-get install autoconf
-
 # Git is needed to checkout LinuxFromScratch
 sudo apt install git
 
@@ -61,24 +55,18 @@ The whole process can take from 15 minutes to some hours depending of your setup
 
 Once done you can find the root-fs in the folder "targets/TARGET_NAME/root-fs".
 
-To deploy the root-fs to a flash media/disk you can use the init_sd.sh script :
+To generate the disk image you can use the init_sd.sh script :
 
 ```c
-init_sd.sh [DEVICE_PATH]
+init_sd.sh
 ```
 
-example :
-
-```c
-init_sd.sh /dev/mmcblk0p2
-```
-
-The partition is then formatted and all files copied to the media.
+The boot and root partitions are then formatted and all files copied to the image.
 Please note that all binaries are stripped during the copy to the media.
 If you want to keep the debug informations, use the NOSTRIP argument:
 
 ```c
-init_sd.sh /dev/mmcblk0p2 NOSTRIP
+init_sd.sh NOSTRIP
 ```
 
 To clean up a target :
@@ -139,4 +127,4 @@ clean.sh
 
 - Solid-run ClearFog.
 
-(c) 2004-2021 Jean-François DEL NERO
+(c) 2004-2023 Jean-François DEL NERO
