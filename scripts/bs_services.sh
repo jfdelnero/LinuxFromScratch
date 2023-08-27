@@ -427,7 +427,59 @@ then
 
 		cd ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}  || exit 1
 
-		# cp ${COMMON_CONFIG}/../patches/samba4/samba_cross.py ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/buildtools/wafsamba
+# Native build just to get the right embedded asn1_compile and compile_et...
+ 
+		rm ${TARGET_CROSS_TOOLS}/bin/asn1_compile
+		rm ${TARGET_CROSS_TOOLS}/bin/compile_et
+
+		./configure \
+			--without-acl-support --disable-cups --disable-avahi --without-fam \
+			--prefix=/usr \
+			--sysconfdir=/etc \
+			--localstatedir=/var \
+			--with-libiconv=${TARGET_ROOTFS}/usr \
+			--enable-fhs \
+			--disable-rpath \
+			--disable-rpath-install \
+			--disable-iprint \
+			--without-pam \
+			--without-dmapi \
+			--without-gpgme \
+			--without-ldb-lmdb \
+			--without-json \
+			--without-ad-dc \
+			--without-libarchive \
+			--without-ldap \
+			--without-ads \
+			--without-regedit \
+			--without-libunwind \
+			--disable-glusterfs \
+			--disable-python \
+			--without-cluster-support \
+			--with-shared-modules='!vfs_snapper' || exit 1
+
+		make ${MAKE_FLAGS}
+
+# Get the host asn1_compile and compile_et...
+
+		cp ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/bin/default/third_party/heimdal_build/asn1_compile ${TARGET_CROSS_TOOLS}/bin || exit 1
+		cp ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/bin/compile_et ${TARGET_CROSS_TOOLS}/bin || exit 1
+
+		cd ${TMP_SRC_FOLDER}/..  || exit 1
+
+# And restart and build the cross compile version...
+
+		delete_build_dir
+		delete_src_dir
+
+		create_src_dir
+		create_build_dir
+
+		unpack ${CUR_PACKAGE} ""
+
+		cd ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}  || exit 1
+
+		#cp ${COMMON_CONFIG}/../patches/samba4/samba_cross.py ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/buildtools/wafsamba
 		cp ${COMMON_CONFIG}/../patches/samba4/cache.txt ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}
 		echo 'Checking uname machine type: "'$SAMBA_ARCH'"' >> ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/cache.txt;
 
@@ -448,19 +500,23 @@ then
 			--without-pam \
 			--without-dmapi \
 			--without-gpgme \
+			--without-ldb-lmdb \
 			--without-json \
 			--without-ad-dc \
 			--without-libarchive \
 			--without-ldap \
 			--without-ads \
+			--without-regedit \
+			--without-libunwind \
 			--disable-glusterfs \
 			--disable-python \
 			--with-cluster-support \
 			--with-shared-modules='!vfs_snapper' \
 			--bundled-libraries='!asn1_compile,!compile_et' || exit 1
 
+		#WAF_CMD_FORMAT=string PYTHONHASHSEED=1 WAF_MAKE=1  ./buildtools/bin/waf -v build
 		make ${MAKE_FLAGS} ${NBCORE} CC=${TGT_MACH}-gcc || exit 1
-		make ${MAKE_FLAGS} ${NBCORE} install DESTDIR=${TARGET_ROOTFS} || exit 1
+		make install DESTDIR=${TARGET_ROOTFS} || exit 1
 
 		delete_build_dir
 		delete_src_dir
