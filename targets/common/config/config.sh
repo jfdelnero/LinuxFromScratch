@@ -25,7 +25,7 @@ SRC_PACKAGE_BUILD_LIBXML2="@COMMON@""http://xmlsoft.org/sources/libxml2-2.9.12.t
 SRC_PACKAGE_BUILD_CMAKE="@COMMON@""https://github.com/Kitware/CMake/archive/refs/tags/v3.25.1.tar.gz"
 SRC_PACKAGE_BUILD_MAKE="@COMMON@""https://ftp.gnu.org/gnu/make/make-4.3.tar.gz"
 SRC_PACKAGE_BUILD_LIBNCURSES="@COMMON@""https://ftp.gnu.org/gnu/ncurses/ncurses-6.4.tar.gz"
-SRC_PACKAGE_BUILD_OPENSSL="@COMMON@""https://www.openssl.org/source/openssl-3.0.7.tar.gz"
+SRC_PACKAGE_BUILD_OPENSSL="@COMMON@""https://www.openssl.org/source/openssl-3.0.10.tar.gz"
 SRC_PACKAGE_BUILD_TEXINFO="@COMMON@""https://ftp.gnu.org/gnu/texinfo/texinfo-7.0.tar.xz"
 #SRC_PACKAGE_BUILD_HEIMDAL="@COMMON@""https://github.com/heimdal/heimdal/releases/download/heimdal-7.8.0/heimdal-7.8.0.tar.gz"
 #SRC_PACKAGE_BUILD_PYTHON="@COMMON@""https://www.python.org/ftp/python/3.11.3/Python-3.11.3.tar.xz"
@@ -126,8 +126,8 @@ fi
 SRC_PACKAGE_GPGERROR="@COMMON@""https://gnupg.org/ftp/gcrypt/libgpg-error/libgpg-error-1.46.tar.bz2"
 SRC_PACKAGE_LIBASSUAN="@COMMON@""https://gnupg.org/ftp/gcrypt/libassuan/libassuan-2.5.5.tar.bz2"
 SRC_PACKAGE_GPGME="@COMMON@""https://gnupg.org/ftp/gcrypt/gpgme/gpgme-1.18.0.tar.bz2"
-SRC_PACKAGE_OPENSSL="@COMMON@""https://www.openssl.org/source/openssl-3.0.7.tar.gz"
-SRC_PACKAGE_OPENSSH="@COMMON@""https://ftp.fr.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-9.1p1.tar.gz"
+SRC_PACKAGE_OPENSSL="@COMMON@""https://www.openssl.org/source/openssl-3.0.10.tar.gz"
+SRC_PACKAGE_OPENSSH="@COMMON@""https://ftp.fr.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-9.4p1.tar.gz"
 SRC_PACKAGE_NTP="@COMMON@""http://www.eecis.udel.edu/~ntp/ntp_spool/ntp4/ntp-4.2/ntp-4.2.8p15.tar.gz"
 SRC_PACKAGE_CHRONY="@COMMON@""https://download.tuxfamily.org/chrony/chrony-4.3.tar.gz"
 SRC_PACKAGE_VSFTPD="@COMMON@""https://security.appspot.com/downloads/vsftpd-3.0.5.tar.gz"
@@ -153,8 +153,9 @@ CUR_PART=${LIBGFX_SUPPORT:-"UNDEF"}
 if [ "$CUR_PART" != "UNDEF" ]
 then
 
-SRC_PACKAGE_LIBGD="@COMMON@""https://github.com/libgd/libgd/releases/download/gd-2.3.3/libgd-2.3.3.tar.xz"
+SRC_PACKAGE_LIBJPEG="@COMMON@""https://github.com/libjpeg-turbo/libjpeg-turbo/archive/refs/tags/3.0.0.tar.gz"
 SRC_PACKAGE_LIBPNG="@COMMON@""https://download.sourceforge.net/libpng/libpng-1.6.38.tar.xz"
+SRC_PACKAGE_LIBGD="@COMMON@""https://github.com/libgd/libgd/releases/download/gd-2.3.3/libgd-2.3.3.tar.xz"
 SRC_PACKAGE_FREETYPE="@COMMON@""https://downloads.sourceforge.net/project/freetype/freetype2/2.12.1/freetype-2.12.1.tar.xz"
 SRC_PACKAGE_FONTCONFIG="@COMMON@""https://www.freedesktop.org/software/fontconfig/release/fontconfig-2.13.96.tar.xz"
 
