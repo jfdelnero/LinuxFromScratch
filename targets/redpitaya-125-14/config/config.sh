@@ -35,6 +35,6 @@ SRC_PACKAGE_PERLCROSS=
 export UBOOT_DEFCONF=xilinx_zynq_config
 SRC_PACKAGE_UBOOT="https://github.com/RedPitaya/u-boot-xlnx/archive/refs/tags/redpitaya-v2022.2.tar.gz"
 
-SRC_PACKAGE_FTRACE="http://ftp.debian.org/debian/pool/main/t/trace-cmd/trace-cmd_2.4.0.orig.tar.gz"
+SRC_PACKAGE_FTRACE="https://ftp.debian.org/debian/pool/main/t/trace-cmd/trace-cmd_3.2.orig.tar.gz"
 SRC_PACKAGE_VALGRIND=
 
