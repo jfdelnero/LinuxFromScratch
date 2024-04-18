@@ -16,8 +16,8 @@ SRC_PACKAGE_BUILD_GCC="@COMMON@""https://ftp.gnu.org/gnu/gcc/gcc-12.2.0/gcc-12.2
 SRC_PACKAGE_BUILD_GCC_MPFR="@COMMON@""https://ftp.gnu.org/gnu/mpfr/mpfr-4.1.0.tar.xz"
 SRC_PACKAGE_BUILD_GCC_GMP="@COMMON@""https://gmplib.org/download/gmp/gmp-6.2.1.tar.xz"
 SRC_PACKAGE_BUILD_GCC_MPC="@COMMON@""https://ftp.gnu.org/gnu/mpc/mpc-1.2.1.tar.gz"
-SRC_PACKAGE_BUILD_GCC_ISL="@COMMON@""ftp://gcc.gnu.org/pub/gcc/infrastructure/isl-0.24.tar.bz2"
-SRC_PACKAGE_BUILD_GCC_CLOOG="@COMMON@""ftp://gcc.gnu.org/pub/gcc/infrastructure/cloog-0.18.1.tar.gz"
+SRC_PACKAGE_BUILD_GCC_ISL="@COMMON@""https://gcc.gnu.org/pub/gcc/infrastructure/isl-0.24.tar.bz2"
+SRC_PACKAGE_BUILD_GCC_CLOOG="@COMMON@""https://gcc.gnu.org/pub/gcc/infrastructure/cloog-0.18.1.tar.gz"
 SRC_PACKAGE_BUILD_GPERF="@COMMON@""https://ftp.gnu.org/pub/gnu/gperf/gperf-3.1.tar.gz"
 SRC_PACKAGE_BUILD_LIBFFI="@COMMON@""https://www.mirrorservice.org/sites/sourceware.org/pub/libffi/libffi-3.4.3.tar.gz"
 SRC_PACKAGE_BUILD_XMLEXPAT="@COMMON@""https://github.com/libexpat/libexpat/releases/download/R_2_4_9/expat-2.4.9.tar.xz"
@@ -42,8 +42,8 @@ SRC_PACKAGE_GCC="@COMMON@""https://ftp.gnu.org/gnu/gcc/gcc-12.2.0/gcc-12.2.0.tar
 SRC_PACKAGE_GCC_MPFR="@COMMON@""https://ftp.gnu.org/gnu/mpfr/mpfr-4.1.0.tar.xz"
 SRC_PACKAGE_GCC_GMP="@COMMON@""https://gmplib.org/download/gmp/gmp-6.2.1.tar.xz"
 SRC_PACKAGE_GCC_MPC="@COMMON@""https://ftp.gnu.org/gnu/mpc/mpc-1.2.1.tar.gz"
-SRC_PACKAGE_GCC_ISL="@COMMON@""ftp://gcc.gnu.org/pub/gcc/infrastructure/isl-0.24.tar.bz2"
-SRC_PACKAGE_GCC_CLOOG="@COMMON@""ftp://gcc.gnu.org/pub/gcc/infrastructure/cloog-0.18.1.tar.gz"
+SRC_PACKAGE_GCC_ISL="@COMMON@""https://gcc.gnu.org/pub/gcc/infrastructure/isl-0.24.tar.bz2"
+SRC_PACKAGE_GCC_CLOOG="@COMMON@""https://gcc.gnu.org/pub/gcc/infrastructure/cloog-0.18.1.tar.gz"
 
 SRC_PACKAGE_LIBTIRPC="@COMMON@""https://downloads.sourceforge.net/libtirpc/libtirpc-1.3.3.tar.bz2"
 SRC_PACKAGE_LIBNSL="@COMMON@""https://github.com/thkukuk/libnsl/releases/download/v1.3.0/libnsl-1.3.0.tar.xz"
@@ -78,7 +78,7 @@ then
 SRC_PACKAGE_GDB="@COMMON@""https://ftp.gnu.org/gnu/gdb/gdb-12.1.tar.xz"
 SRC_PACKAGE_STRACE="@COMMON@""https://github.com/strace/strace/releases/download/v6.0/strace-6.0.tar.xz"
 #SRC_PACKAGE_LTRACE="@COMMON@""https://fossies.org/linux/misc/ltrace-0.7.3.tar.gz"
-SRC_PACKAGE_VALGRIND="@COMMON@""ftp://sourceware.org/pub/valgrind/valgrind-3.19.0.tar.bz2"
+SRC_PACKAGE_VALGRIND="@COMMON@""https://sourceware.org/pub/valgrind/valgrind-3.19.0.tar.bz2"
 
 fi
 
@@ -93,7 +93,7 @@ then
 SRC_PACKAGE_LIBMNL="@COMMON@""http://netfilter.org/projects/libmnl/files/libmnl-1.0.5.tar.bz2"
 SRC_PACKAGE_LIBNFTNL="@COMMON@""https://www.netfilter.org/projects/libnftnl/files/libnftnl-1.2.3.tar.bz2"
 SRC_PACKAGE_IPTABLES="@COMMON@""https://www.netfilter.org/projects/iptables/files/iptables-1.8.8.tar.bz2"
-SRC_PACKAGE_DHCPSERVER="@COMMON@""ftp://ftp.isc.org/isc/dhcp/4.4.2/dhcp-4.4.2.tar.gz"
+SRC_PACKAGE_DHCPSERVER="@COMMON@""https://downloads.isc.org/isc/dhcp/4.4.2/dhcp-4.4.2.tar.gz"
 #SRC_PACKAGE_DHCPSERVER_PATCH_001="@COMMON@""http://wiki.beyondlogic.org/patches/dhcp-4.3.0b1.bind_arm-linux-gnueabi.patch"
 #SRC_PACKAGE_DHCPSERVER_PATCH_002="@COMMON@""http://wiki.beyondlogic.org/patches/bind-9.9.5rc1.gen_crosscompile.patch"
 SRC_PACKAGE_LIBPCAP="@COMMON@""https://www.tcpdump.org/release/libpcap-1.10.1.tar.gz"
@@ -181,7 +181,7 @@ then
 
 SRC_PACKAGE_MESA="@COMMON@""https://mesa.freedesktop.org/archive/mesa-22.2.1.tar.xz"
 SRC_PACKAGE_GLEW="@COMMON@""https://downloads.sourceforge.net/project/glew/glew/2.2.0/glew-2.2.0.tgz"
-SRC_PACKAGE_GLU="@COMMON@""ftp://ftp.freedesktop.org/pub/mesa/glu/glu-9.0.2.tar.xz"
+SRC_PACKAGE_GLU="@COMMON@""https://archive.mesa3d.org/glu/glu-9.0.3.tar.xz"
 #SRC_PACKAGE_GLUT=glut.tar.gz
 
 # Default Mesa 3D setting : software raster only.
@@ -198,8 +198,8 @@ CUR_PART=${AUDIO_SUPPORT:-"UNDEF"}
 if [ "$CUR_PART" != "UNDEF" ]
 then
 
-SRC_PACKAGE_ALSALIB="@COMMON@""ftp://ftp.alsa-project.org/pub/lib/alsa-lib-1.2.7.2.tar.bz2"
-SRC_PACKAGE_ALSAUTILS="@COMMON@""ftp://ftp.alsa-project.org/pub/utils/alsa-utils-1.2.7.tar.bz2"
+SRC_PACKAGE_ALSALIB="@COMMON@""https://www.alsa-project.org/files/pub/lib/alsa-lib-1.2.7.2.tar.bz2"
+SRC_PACKAGE_ALSAUTILS="@COMMON@""https://www.alsa-project.org/files/pub/utils/alsa-utils-1.2.7.tar.bz2"
 SRC_PACKAGE_SDLMIXER="@COMMON@""https://www.libsdl.org/projects/SDL_mixer/release/SDL2_mixer-2.6.2.tar.gz"
 fi
 
