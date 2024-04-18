@@ -37,7 +37,7 @@ SRC_PACKAGE_BUILD_PERLPARSEYAPP="@COMMON@""https://cpan.metacpan.org/authors/id/
 SRC_PACKAGE_BUILD_PERLJSON="@COMMON@""https://cpan.metacpan.org/authors/id/I/IS/ISHIGAKI/JSON-4.10.tar.gz"
 SRC_PACKAGE_BUILD_GNU_M4="@COMMON@""https://ftp.gnu.org/gnu/m4/m4-latest.tar.xz"
 SRC_PACKAGE_BUILD_BISON="@COMMON@""https://ftp.gnu.org/gnu/bison/bison-3.8.tar.xz"
-
+SRC_PACKAGE_BUILD_HELP2MAN="@COMMON@""https://ftp.gnu.org/gnu/help2man/help2man-1.49.3.tar.xz"
 SRC_PACKAGE_BINUTILS="@COMMON@""https://ftp.gnu.org/gnu/binutils/binutils-2.39.tar.xz"
 
 SRC_PACKAGE_GCC="@COMMON@""https://ftp.gnu.org/gnu/gcc/gcc-12.2.0/gcc-12.2.0.tar.xz"
