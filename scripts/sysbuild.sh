@@ -60,6 +60,7 @@ fi
 mkdir -p ${TARGET_HOME}/download             || exit 1
 mkdir -p ${TARGET_HOME}/build                || exit 1
 mkdir -p ${TARGET_HOME}/sources              || exit 1
+mkdir -p ${TARGET_HOME}/output_objects       || exit 1
 mkdir -p ${TARGET_ROOTFS}                    || exit 1
 
 MODE=${BUILD_MODE:-"UNDEF"}
