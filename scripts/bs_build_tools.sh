@@ -179,7 +179,8 @@ then
 				--datarootdir="${TARGET_CROSS_TOOLS}" \
 				--exec-prefix="${TARGET_CROSS_TOOLS}" || exit 1
 
-		make ${MAKE_FLAGS} ${NBCORE} all install || exit 1
+		make ${MAKE_FLAGS} all || exit 1
+		make ${MAKE_FLAGS} install || exit 1
 
 		delete_build_dir
 		delete_src_dir
