@@ -59,6 +59,51 @@ then
 fi
 
 ####################################################################
+# gnu m4
+####################################################################
+
+CUR_PACKAGE=${SRC_PACKAGE_BUILD_GNU_M4:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_BUILD_DONE ]
+	then
+	(
+		echo "*****************"
+		echo "* Local M4      *"
+		echo "*****************"
+
+		create_src_dir
+
+		unpack ${CUR_PACKAGE} ""
+
+		unset PKG_CONFIG_LIBDIR
+
+		create_build_dir
+
+		cd ${TMP_BUILD_FOLDER} || exit 1
+		mkdir -pv gnu_m4_local
+		cd gnu_m4_local || exit 1
+
+		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
+				--prefix="${TARGET_CROSS_TOOLS}" \
+				--datarootdir="${TARGET_CROSS_TOOLS}" \
+				--exec-prefix="${TARGET_CROSS_TOOLS}" || exit 1
+
+		make ${MAKE_FLAGS} all install || exit 1
+
+		delete_build_dir
+		delete_src_dir
+
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_BUILD_DONE
+	) || exit 1
+	fi
+
+) || exit 1
+fi
+
+####################################################################
 # bison
 ####################################################################
 
@@ -101,7 +146,6 @@ then
 
 ) || exit 1
 fi
-
 
 ####################################################################
 # Host Binutils
