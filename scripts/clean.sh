@@ -39,11 +39,12 @@ if [ $CROSS_BUILD_SIGN != "CROSS_ENV_SET" ]; then
 
 fi
 
+source ${SCRIPTS_HOME}/utils.sh || exit 1
 source ${TARGET_CONFIG}/config.sh || exit 1
 
 echo Cleanup target ${TARGET_NAME}
 
-rm -Rf ${TARGET_BUILD} ${TARGET_SOURCES} ${TARGET_HOME}/cross-tools ${TARGET_HOME}/root-fs ${TARGET_HOME}/fs_mirror
+rm -Rf ${TARGET_BUILD} ${TARGET_SOURCES} ${TARGET_HOME}/cross-tools ${TARGET_HOME}/root-fs ${TARGET_HOME}/fs_mirror ${TARGET_HOME}/output_objects
 
 FIRSTPARAM=${1:-"UNDEF"}
 FIRSTPARAM="${FIRSTPARAM##*/}"
@@ -51,3 +52,8 @@ FIRSTPARAM="${FIRSTPARAM##*/}"
 if [ $FIRSTPARAM = "MRPROPER" ]; then
 	rm -Rf ${TARGET_HOME}/download ${TARGET_HOME}/mount_point
 fi
+
+delete_tmprootfs_dir
+delete_build_dir
+delete_src_dir
+
