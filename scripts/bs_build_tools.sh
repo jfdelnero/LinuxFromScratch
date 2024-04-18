@@ -46,7 +46,7 @@ then
 				--datarootdir="${TARGET_CROSS_TOOLS}" \
 				--exec-prefix="${TARGET_CROSS_TOOLS}" || exit 1
 
-		make ${MAKE_FLAGS} all install || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} all install || exit 1
 
 		delete_build_dir
 		delete_src_dir
@@ -57,6 +57,51 @@ then
 
 ) || exit 1
 fi
+
+####################################################################
+# bison
+####################################################################
+
+CUR_PACKAGE=${SRC_PACKAGE_BUILD_BISON:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_BUILD_DONE ]
+	then
+	(
+		echo "*****************"
+		echo "* Local bison   *"
+		echo "*****************"
+
+		create_src_dir
+
+		unpack ${CUR_PACKAGE} ""
+
+		unset PKG_CONFIG_LIBDIR
+
+		create_build_dir
+
+		cd ${TMP_BUILD_FOLDER} || exit 1
+		mkdir -pv bison_local
+		cd bison_local || exit 1
+
+		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
+				--datarootdir="${TARGET_CROSS_TOOLS}" \
+				--exec-prefix="${TARGET_CROSS_TOOLS}" || exit 1
+
+		make ${MAKE_FLAGS} ${NBCORE} all install || exit 1
+
+		delete_build_dir
+		delete_src_dir
+
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_BUILD_DONE
+	) || exit 1
+	fi
+
+) || exit 1
+fi
+
 
 ####################################################################
 # Host Binutils
@@ -90,7 +135,7 @@ then
 				--disable-multilib \
 				|| exit 1
 
-		make ${MAKE_FLAGS} all install || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} all install || exit 1
 
 		delete_build_dir
 		delete_src_dir
@@ -178,6 +223,9 @@ then
 		make ${MAKE_FLAGS} ${NBCORE} all   || exit 1
 		make ${MAKE_FLAGS} ${NBCORE} install   || exit 1
 
+		# u-boot is using "cc"
+		ln -s ${TARGET_CROSS_TOOLS}/bin/gcc ${TARGET_CROSS_TOOLS}/bin/cc
+
 		delete_build_dir
 		delete_src_dir
 
@@ -221,7 +269,7 @@ then
 				--datarootdir="${TARGET_CROSS_TOOLS}" \
 				--exec-prefix="${TARGET_CROSS_TOOLS}" || exit 1
 
-		make ${MAKE_FLAGS} all install || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} all install || exit 1
 
 		delete_build_dir
 		delete_src_dir
@@ -265,7 +313,7 @@ then
 				--datarootdir="${TARGET_CROSS_TOOLS}" \
 				--exec-prefix="${TARGET_CROSS_TOOLS}" || exit 1
 
-		make ${MAKE_FLAGS} all install || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} all install || exit 1
 
 		delete_build_dir
 		delete_src_dir
@@ -429,9 +477,9 @@ then
 		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/Configure \
 				shared --prefix="${TARGET_CROSS_TOOLS}" || exit 1
 
-		make ${MAKE_FLAGS} || exit 1
-		make ${MAKE_FLAGS} install_sw || exit 1
-		make ${MAKE_FLAGS} clean
+		make ${MAKE_FLAGS} ${NBCORE} || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install_sw || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} clean
 
 		delete_build_dir
 		delete_src_dir
