@@ -15,6 +15,46 @@ echo "* Graphic stack *"
 echo "*****************"
 
 ####################################################################
+# LibJPEG
+####################################################################
+
+CUR_PACKAGE=${SRC_PACKAGE_LIBJPEG:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
+	then
+	(
+		create_src_dir
+		create_build_dir
+
+		unpack ${CUR_PACKAGE} ""
+
+		cd ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER} || exit 1
+
+		export CC=${TGT_MACH}-gcc
+		export LD=${TGT_MACH}-ld
+		export AS=${TGT_MACH}-as
+		export AR=${TGT_MACH}-ar
+		export DESTDIR=${TARGET_ROOTFS}
+
+		cmake -DCMAKE_INSTALL_PREFIX= -DCMAKE_SYSTEM_PREFIX_PATH=${TARGET_ROOTFS}
+
+		make ${MAKE_FLAGS} ${NBCORE} all     || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
+
+		delete_build_dir
+		delete_src_dir
+
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
+
+	) || exit 1
+	fi
+) || exit 1
+fi
+
+####################################################################
 # LibPNG
 ####################################################################
 
