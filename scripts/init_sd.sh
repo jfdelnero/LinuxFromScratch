@@ -6,6 +6,10 @@
 # SD init (to rework...)
 #
 
+source ${SCRIPTS_HOME}/unpack.sh || exit 1
+source ${SCRIPTS_HOME}/utils.sh || exit 1
+source ${TARGET_CONFIG}/config.sh || exit 1
+
 CROSS_BUILD_SIGN=${CROSS_BUILD_SIGN:-"UNDEF"}
 
 if [ $CROSS_BUILD_SIGN != "CROSS_ENV_SET" ]; then
@@ -29,12 +33,9 @@ ROOTFS_STRIP="${ROOTFS_STRIP##*/}"
 # Duplicate root fs
 ##########################################################################
 
-export TARGET_ROOTFS_MIRROR=${TARGET_HOME}/fs_mirror
+create_tmprootfs_dir || exit 1
 
-rm -Rf ${TARGET_ROOTFS_MIRROR}
-
-mkdir  ${TARGET_ROOTFS_MIRROR}
-cd     ${TARGET_ROOTFS_MIRROR}
+cd ${TARGET_ROOTFS_MIRROR} || exit 1
 
 cp -av ${TARGET_ROOTFS}/* .
 
@@ -219,6 +220,8 @@ if [ ! -f $1 ]; then
 
 	sudo umount $1
 fi
+
+delete_tmprootfs_dir
 
 echo  Done !
 
