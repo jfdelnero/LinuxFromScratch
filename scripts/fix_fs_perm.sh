@@ -59,3 +59,9 @@ sudo chmod g-rwx   ./ramdisk
 # if present, remove backup passwd / shadow files
 sudo rm            ./etc/passwd-
 sudo rm            ./etc/shadow-
+
+# ssh key
+sudo chmod ugo-rwx ./etc/ssh/ssh_host_rsa_key
+sudo chmod u+rw    ./etc/ssh/ssh_host_rsa_key
+sudo chmod ugo-rwx ./etc/ssh/ssh_host_dsa_key
+sudo chmod u+rw    ./etc/ssh/ssh_host_dsa_key
