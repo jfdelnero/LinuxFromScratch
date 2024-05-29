@@ -38,6 +38,9 @@ SRC_PACKAGE_BUILD_PERLJSON="@COMMON@""https://cpan.metacpan.org/authors/id/I/IS/
 SRC_PACKAGE_BUILD_GNU_M4="@COMMON@""https://ftp.gnu.org/gnu/m4/m4-latest.tar.xz"
 SRC_PACKAGE_BUILD_BISON="@COMMON@""https://ftp.gnu.org/gnu/bison/bison-3.8.tar.xz"
 SRC_PACKAGE_BUILD_HELP2MAN="@COMMON@""https://ftp.gnu.org/gnu/help2man/help2man-1.49.3.tar.xz"
+SRC_PACKAGE_BUILD_LIBTEXTSTYLE="@COMMON@""https://alpha.gnu.org/gnu/gettext/libtextstyle-0.20.5.tar.gz"
+SRC_PACKAGE_BUILD_GETTEXT="@COMMON@""https://ftp.gnu.org/pub/gnu/gettext/gettext-0.22.5.tar.xz"
+
 SRC_PACKAGE_BINUTILS="@COMMON@""https://ftp.gnu.org/gnu/binutils/binutils-2.39.tar.xz"
 
 SRC_PACKAGE_GCC="@COMMON@""https://ftp.gnu.org/gnu/gcc/gcc-12.2.0/gcc-12.2.0.tar.xz"

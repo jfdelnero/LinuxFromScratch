@@ -104,6 +104,83 @@ then
 fi
 
 ####################################################################
+# libtextstyle
+####################################################################
+CUR_PACKAGE=${SRC_PACKAGE_BUILD_LIBTEXTSTYLE:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_BUILD_DONE ]
+	then
+	(
+		create_src_dir
+
+		unpack ${CUR_PACKAGE} ""
+
+		unset PKG_CONFIG_LIBDIR
+
+		create_build_dir
+
+		cd ${TMP_BUILD_FOLDER} || exit 1
+		mkdir -pv libtextstyle_local
+		cd libtextstyle_local || exit 1
+
+		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
+				--prefix="${TARGET_CROSS_TOOLS}" || exit 1
+
+		make ${MAKE_FLAGS} ${NBCORE}   || exit 1
+		make ${MAKE_FLAGS} ${NBCORE}  install  || exit 1
+
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_BUILD_DONE
+
+		delete_src_dir
+
+	) || exit 1
+	fi
+) || exit 1
+fi
+
+####################################################################
+# gettext
+####################################################################
+
+CUR_PACKAGE=${SRC_PACKAGE_BUILD_GETTEXT:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_BUILD_DONE ]
+	then
+	(
+		create_src_dir
+
+		unpack ${CUR_PACKAGE} ""
+
+		unset PKG_CONFIG_LIBDIR
+
+		create_build_dir
+
+		cd ${TMP_BUILD_FOLDER} || exit 1
+		mkdir -pv gettext_local
+		cd gettext_local || exit 1
+
+		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
+				--prefix="${TARGET_CROSS_TOOLS}" || exit 1
+
+		make ${MAKE_FLAGS} ${NBCORE}   || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install  || exit 1
+
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_BUILD_DONE
+
+		delete_src_dir
+
+	) || exit 1
+	fi
+) || exit 1
+fi
+
+####################################################################
 # bison
 ####################################################################
 
@@ -225,7 +302,7 @@ then
 				--disable-multilib \
 				|| exit 1
 
-		make ${MAKE_FLAGS} ${NBCORE} all install || exit 1
+		make ${MAKE_FLAGS} all install || exit 1
 
 		delete_build_dir
 		delete_src_dir
@@ -854,8 +931,8 @@ then
 
 		cd ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER} || exit 1
 
-		make ${MAKE_FLAGS} ${NBCORE} DESTDIR=${TARGET_CROSS_TOOLS}  || exit 1
-		make ${MAKE_FLAGS} ${NBCORE} DESTDIR=${TARGET_CROSS_TOOLS} install  || exit 1
+		make ${MAKE_FLAGS} DESTDIR=${TARGET_CROSS_TOOLS}  || exit 1
+		make ${MAKE_FLAGS} DESTDIR=${TARGET_CROSS_TOOLS} install  || exit 1
 
 		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_BUILD_DONE
 
