@@ -181,6 +181,200 @@ then
 fi
 
 ####################################################################
+# gawk
+####################################################################
+
+CUR_PACKAGE=${SRC_PACKAGE_BUILD_GAWK:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_BUILD_DONE ]
+	then
+	(
+		create_src_dir
+
+		unpack ${CUR_PACKAGE} ""
+
+		unset PKG_CONFIG_LIBDIR
+
+		create_build_dir
+
+		cd ${TMP_BUILD_FOLDER} || exit 1
+		mkdir -pv gawk_local
+		cd gawk_local || exit 1
+
+		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
+				--prefix="${TARGET_CROSS_TOOLS}" || exit 1
+
+		make ${MAKE_FLAGS} ${NBCORE}   || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install  || exit 1
+
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_BUILD_DONE
+
+		delete_src_dir
+
+	) || exit 1
+	fi
+) || exit 1
+fi
+
+####################################################################
+# LIBTIRPC
+####################################################################
+CUR_PACKAGE=${SRC_PACKAGE_BUILD_LIBTIRPC:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_BUILD_DONE ]
+	then
+	(
+
+		create_src_dir
+		create_build_dir
+		unpack ${CUR_PACKAGE} ""
+
+		cd ${TMP_BUILD_FOLDER} || exit 1
+		mkdir libtirpc_local
+		cd libtirpc_local || exit 1
+
+		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
+					--disable-gssapi \
+					--prefix="${TARGET_CROSS_TOOLS}" || exit 1
+
+		make ${MAKE_FLAGS} ${NBCORE}         || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
+
+		delete_build_dir
+		delete_src_dir
+
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_BUILD_DONE
+
+	) || exit 1
+	fi
+) || exit 1
+fi
+
+####################################################################
+# libtool
+####################################################################
+
+CUR_PACKAGE=${SRC_PACKAGE_BUILD_LIBTOOL:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_BUILD_DONE ]
+	then
+	(
+		create_src_dir
+
+		unpack ${CUR_PACKAGE} ""
+
+		unset PKG_CONFIG_LIBDIR
+
+		create_build_dir
+
+		cd ${TMP_BUILD_FOLDER} || exit 1
+		mkdir -pv libtool_local
+		cd libtool_local || exit 1
+
+		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
+				--prefix="${TARGET_CROSS_TOOLS}" || exit 1
+
+		make ${MAKE_FLAGS} ${NBCORE}   || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install  || exit 1
+
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_BUILD_DONE
+
+		delete_src_dir
+
+	) || exit 1
+	fi
+) || exit 1
+fi
+
+####################################################################
+# autoconf
+####################################################################
+
+CUR_PACKAGE=${SRC_PACKAGE_BUILD_AUTOCONF:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_BUILD_DONE ]
+	then
+	(
+		create_src_dir
+
+		unpack ${CUR_PACKAGE} ""
+
+		unset PKG_CONFIG_LIBDIR
+
+		create_build_dir
+
+		cd ${TMP_BUILD_FOLDER} || exit 1
+		mkdir -pv autoconf_local
+		cd autoconf_local || exit 1
+
+		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
+				--prefix="${TARGET_CROSS_TOOLS}" || exit 1
+
+		make ${MAKE_FLAGS} ${NBCORE}   || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install  || exit 1
+
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_BUILD_DONE
+
+		delete_src_dir
+
+	) || exit 1
+	fi
+) || exit 1
+fi
+
+
+####################################################################
+# automake
+####################################################################
+
+CUR_PACKAGE=${SRC_PACKAGE_BUILD_AUTOMAKE:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_BUILD_DONE ]
+	then
+	(
+		create_src_dir
+
+		unpack ${CUR_PACKAGE} ""
+
+		unset PKG_CONFIG_LIBDIR
+
+		create_build_dir
+
+		cd ${TMP_BUILD_FOLDER} || exit 1
+		mkdir -pv automake_local
+		cd automake_local || exit 1
+
+		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
+				--prefix="${TARGET_CROSS_TOOLS}" || exit 1
+
+		make ${MAKE_FLAGS} ${NBCORE}   || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install  || exit 1
+
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_BUILD_DONE
+
+		delete_src_dir
+
+	) || exit 1
+	fi
+) || exit 1
+fi
+
+####################################################################
 # bison
 ####################################################################
 
@@ -480,7 +674,7 @@ then
 				--datarootdir="${TARGET_CROSS_TOOLS}" \
 				--exec-prefix="${TARGET_CROSS_TOOLS}" || exit 1
 
-		make ${MAKE_FLAGS} ${NBCORE} all install || exit 1
+		make ${MAKE_FLAGS} all install || exit 1
 
 		delete_build_dir
 		delete_src_dir
@@ -723,6 +917,47 @@ then
 		cd make_local || exit 1
 
 		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
+				--prefix="${TARGET_CROSS_TOOLS}" || exit 1
+
+		make ${MAKE_FLAGS} ${NBCORE}         || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
+
+		delete_build_dir
+		delete_src_dir
+
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_BUILD_DONE
+
+	) || exit 1
+	fi
+) || exit 1
+fi
+
+####################################################################
+# pkgconfig
+####################################################################
+
+CUR_PACKAGE=${SRC_PACKAGE_BUILD_PKGCONFIG:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_BUILD_DONE ]
+	then
+	(
+		create_src_dir
+
+		unpack ${CUR_PACKAGE} ""
+
+		unset PKG_CONFIG_LIBDIR
+
+		create_build_dir
+
+		cd ${TMP_BUILD_FOLDER} || exit 1
+		mkdir pkgconfig_local
+		cd pkgconfig_local || exit 1
+
+		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
+				--with-internal-glib \
 				--prefix="${TARGET_CROSS_TOOLS}" || exit 1
 
 		make ${MAKE_FLAGS} ${NBCORE}         || exit 1

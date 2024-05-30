@@ -40,6 +40,12 @@ SRC_PACKAGE_BUILD_BISON="@COMMON@""https://ftp.gnu.org/gnu/bison/bison-3.8.tar.x
 SRC_PACKAGE_BUILD_HELP2MAN="@COMMON@""https://ftp.gnu.org/gnu/help2man/help2man-1.49.3.tar.xz"
 SRC_PACKAGE_BUILD_LIBTEXTSTYLE="@COMMON@""https://alpha.gnu.org/gnu/gettext/libtextstyle-0.20.5.tar.gz"
 SRC_PACKAGE_BUILD_GETTEXT="@COMMON@""https://ftp.gnu.org/pub/gnu/gettext/gettext-0.22.5.tar.xz"
+SRC_PACKAGE_BUILD_GAWK="@COMMON@""https://ftp.gnu.org/gnu/gawk/gawk-5.3.0.tar.xz"
+SRC_PACKAGE_BUILD_LIBTOOL="@COMMON@""https://mirror.ibcp.fr/pub/gnu/libtool/libtool-2.4.7.tar.xz"
+SRC_PACKAGE_BUILD_AUTOCONF="@COMMON@""https://ftp.gnu.org/gnu/autoconf/autoconf-2.72.tar.xz"
+SRC_PACKAGE_BUILD_AUTOMAKE="@COMMON@""https://ftp.gnu.org/gnu/automake/automake-1.16.5.tar.xz"
+SRC_PACKAGE_BUILD_LIBTIRPC="@COMMON@""https://downloads.sourceforge.net/libtirpc/libtirpc-1.3.4.tar.bz2"
+#SRC_PACKAGE_BUILD_PKGCONFIG="@COMMON@""https://pkgconfig.freedesktop.org/releases/pkg-config-0.29.tar.gz"
 
 SRC_PACKAGE_BINUTILS="@COMMON@""https://ftp.gnu.org/gnu/binutils/binutils-2.39.tar.xz"
 
@@ -50,8 +56,8 @@ SRC_PACKAGE_GCC_MPC="@COMMON@""https://ftp.gnu.org/gnu/mpc/mpc-1.2.1.tar.gz"
 SRC_PACKAGE_GCC_ISL="@COMMON@""https://gcc.gnu.org/pub/gcc/infrastructure/isl-0.24.tar.bz2"
 SRC_PACKAGE_GCC_CLOOG="@COMMON@""https://gcc.gnu.org/pub/gcc/infrastructure/cloog-0.18.1.tar.gz"
 
-SRC_PACKAGE_LIBTIRPC="@COMMON@""https://downloads.sourceforge.net/libtirpc/libtirpc-1.3.3.tar.bz2"
-SRC_PACKAGE_LIBNSL="@COMMON@""https://github.com/thkukuk/libnsl/releases/download/v1.3.0/libnsl-1.3.0.tar.xz"
+SRC_PACKAGE_LIBTIRPC="@COMMON@""https://downloads.sourceforge.net/libtirpc/libtirpc-1.3.4.tar.bz2"
+#SRC_PACKAGE_LIBNSL="@COMMON@""https://github.com/thkukuk/libnsl/archive/refs/tags/v2.0.1.tar.gz"
 
 SRC_PACKAGE_GLIBC="@COMMON@""https://ftp.gnu.org/gnu/glibc/glibc-2.36.tar.xz"
 

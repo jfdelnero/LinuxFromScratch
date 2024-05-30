@@ -473,12 +473,21 @@ then
 		create_build_dir
 		unpack ${CUR_PACKAGE} ""
 
+		cd ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}   || exit 1
+
+		autoupdate
+		./autogen.sh
+
 		cd ${TMP_BUILD_FOLDER} || exit 1
 		mkdir libnsl
 		cd libnsl || exit 1
+		
+		export PKG_CONFIG_PATH=${TARGET_ROOTFS}/lib/pkgconfig
 
 		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
+					--with-sysroot="${TARGET_ROOTFS}/lib" \
 					--prefix="${TARGET_ROOTFS}" \
+					PKG_CONFIG_PATH=${TARGET_ROOTFS}/lib/pkgconfig \
 					--host=$TGT_MACH || exit 1
 
 		make ${MAKE_FLAGS} ${NBCORE}         || exit 1
