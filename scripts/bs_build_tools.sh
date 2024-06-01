@@ -463,6 +463,91 @@ then
 ) || exit 1
 fi
 
+####################################################################
+# flex (bootstrap -> the latest flex need flex to build...)
+####################################################################
+
+CUR_PACKAGE=${SRC_PACKAGE_BUILD_FLEXBOOTSTRAP:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_BUILD_DONE ]
+	then
+	(
+		create_src_dir
+
+		unpack ${CUR_PACKAGE} ""
+
+		unset PKG_CONFIG_LIBDIR
+
+		create_build_dir
+
+		cd ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER} || exit 1
+
+		./autogen.sh
+
+		cd ${TMP_BUILD_FOLDER} || exit 1
+		mkdir -pv flex_local
+		cd flex_local || exit 1
+
+		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
+				--prefix="${TARGET_CROSS_TOOLS}" || exit 1
+
+		make ${MAKE_FLAGS} ${NBCORE}   || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install  || exit 1
+
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_BUILD_DONE
+
+		delete_src_dir
+
+	) || exit 1
+	fi
+) || exit 1
+fi
+
+####################################################################
+# flex
+####################################################################
+
+CUR_PACKAGE=${SRC_PACKAGE_BUILD_FLEX:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_BUILD_DONE ]
+	then
+	(
+		create_src_dir
+
+		unpack ${CUR_PACKAGE} ""
+
+		unset PKG_CONFIG_LIBDIR
+
+		create_build_dir
+
+		cd ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER} || exit 1
+
+		./autogen.sh
+
+		cd ${TMP_BUILD_FOLDER} || exit 1
+		mkdir -pv flex_local
+		cd flex_local || exit 1
+
+		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
+				--prefix="${TARGET_CROSS_TOOLS}" || exit 1
+
+		make ${MAKE_FLAGS} ${NBCORE}   || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install  || exit 1
+
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_BUILD_DONE
+
+		delete_src_dir
+
+	) || exit 1
+	fi
+) || exit 1
+fi
 
 ####################################################################
 # Host Binutils

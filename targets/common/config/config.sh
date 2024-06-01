@@ -45,7 +45,10 @@ SRC_PACKAGE_BUILD_LIBTOOL="@COMMON@""https://mirror.ibcp.fr/pub/gnu/libtool/libt
 SRC_PACKAGE_BUILD_AUTOCONF="@COMMON@""https://ftp.gnu.org/gnu/autoconf/autoconf-2.72.tar.xz"
 SRC_PACKAGE_BUILD_AUTOMAKE="@COMMON@""https://ftp.gnu.org/gnu/automake/automake-1.16.5.tar.xz"
 SRC_PACKAGE_BUILD_LIBTIRPC="@COMMON@""https://downloads.sourceforge.net/libtirpc/libtirpc-1.3.4.tar.bz2"
-#SRC_PACKAGE_BUILD_PKGCONFIG="@COMMON@""https://pkgconfig.freedesktop.org/releases/pkg-config-0.29.tar.gz"
+SRC_PACKAGE_BUILD_PKGCONFIG="@COMMON@""https://pkgconfig.freedesktop.org/releases/pkg-config-0.29.2.tar.gz"
+SRC_PACKAGE_BUILD_FLEXBOOTSTRAP="@COMMON@""https://src.fedoraproject.org/repo/pkgs/flex/flex-2.5.33.tar.bz2/343374a00b38d9e39d1158b71af37150/flex-2.5.33.tar.bz2"
+SRC_PACKAGE_BUILD_FLEX="@COMMON@""https://github.com/westes/flex/archive/refs/tags/v2.6.4.tar.gz"
+
 
 SRC_PACKAGE_BINUTILS="@COMMON@""https://ftp.gnu.org/gnu/binutils/binutils-2.39.tar.xz"
 
@@ -57,7 +60,7 @@ SRC_PACKAGE_GCC_ISL="@COMMON@""https://gcc.gnu.org/pub/gcc/infrastructure/isl-0.
 SRC_PACKAGE_GCC_CLOOG="@COMMON@""https://gcc.gnu.org/pub/gcc/infrastructure/cloog-0.18.1.tar.gz"
 
 SRC_PACKAGE_LIBTIRPC="@COMMON@""https://downloads.sourceforge.net/libtirpc/libtirpc-1.3.4.tar.bz2"
-#SRC_PACKAGE_LIBNSL="@COMMON@""https://github.com/thkukuk/libnsl/archive/refs/tags/v2.0.1.tar.gz"
+SRC_PACKAGE_LIBNSL="@COMMON@""https://github.com/thkukuk/libnsl/archive/refs/tags/v2.0.1.tar.gz"
 
 SRC_PACKAGE_GLIBC="@COMMON@""https://ftp.gnu.org/gnu/glibc/glibc-2.36.tar.xz"
 
@@ -140,7 +143,7 @@ SRC_PACKAGE_GPGME="@COMMON@""https://gnupg.org/ftp/gcrypt/gpgme/gpgme-1.18.0.tar
 SRC_PACKAGE_OPENSSL="@COMMON@""https://www.openssl.org/source/openssl-3.0.10.tar.gz"
 SRC_PACKAGE_OPENSSH="@COMMON@""https://ftp.fr.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-9.6p1.tar.gz"
 SRC_PACKAGE_NTP="@COMMON@""http://www.eecis.udel.edu/~ntp/ntp_spool/ntp4/ntp-4.2/ntp-4.2.8p15.tar.gz"
-SRC_PACKAGE_CHRONY="@COMMON@""https://download.tuxfamily.org/chrony/chrony-4.3.tar.gz"
+SRC_PACKAGE_CHRONY="@COMMON@""https://chrony-project.org/releases/chrony-4.5.tar.gz"
 SRC_PACKAGE_VSFTPD="@COMMON@""https://security.appspot.com/downloads/vsftpd-3.0.5.tar.gz"
 SRC_PACKAGE_LIGHTTPD="@COMMON@""https://download.lighttpd.net/lighttpd/releases-1.4.x/lighttpd-1.4.67.tar.xz"
 #SRC_PACKAGE_CVS=cvs-1.11.23.tar.gz

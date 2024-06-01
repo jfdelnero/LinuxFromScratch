@@ -349,8 +349,8 @@ then
 		unpack ${CUR_PACKAGE} ""
 
 		cd ${TMP_BUILD_FOLDER} || exit 1
-		mkdir libnettle
-		cd libnettle || exit 1
+		mkdir libgmp
+		cd libgmp || exit 1
 
 		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
 					--prefix="${TARGET_ROOTFS}" \
