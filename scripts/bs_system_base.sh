@@ -1133,6 +1133,11 @@ then
 		create_build_dir
 		unpack ${CUR_PACKAGE} ""
 
+		cd ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}   || exit 1
+
+		#autoupdate
+		./autogen.sh
+
 		cd ${TMP_BUILD_FOLDER} || exit 1
 		mkdir -pv libpam || exit 1
 		cd libpam || exit 1
@@ -1141,6 +1146,7 @@ then
 				--prefix="${TARGET_ROOTFS}" \
 				--host=$TGT_MACH \
 				--disable-nis \
+				--disable-doc \
 				|| exit 1
 
 		make ${MAKE_FLAGS} ${NBCORE}  || exit 1

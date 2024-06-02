@@ -170,6 +170,7 @@ then
 		create_src_dir
 		create_build_dir
 
+		mkdir ${TMP_SRC_FOLDER}/target_devtools
 		mkdir ${TMP_SRC_FOLDER}/target_devtools/crosscompiler
 		unpack ${CUR_PACKAGE} "target_devtools/crosscompiler"
 
@@ -219,6 +220,7 @@ then
 		create_src_dir
 		create_build_dir
 
+		mkdir ${TMP_SRC_FOLDER}/target_devtools
 		mkdir ${TMP_SRC_FOLDER}/target_devtools/crosscompiler
 		unpack ${CUR_PACKAGE} "target_devtools/crosscompiler"
 

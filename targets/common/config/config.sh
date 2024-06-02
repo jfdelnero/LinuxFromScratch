@@ -36,7 +36,7 @@ SRC_PACKAGE_BUILD_PERL="@COMMON@""https://www.cpan.org/src/5.0/perl-5.36.0.tar.x
 SRC_PACKAGE_BUILD_PERLPARSEYAPP="@COMMON@""https://cpan.metacpan.org/authors/id/W/WB/WBRASWELL/Parse-Yapp-1.21.tar.gz"
 SRC_PACKAGE_BUILD_PERLJSON="@COMMON@""https://cpan.metacpan.org/authors/id/I/IS/ISHIGAKI/JSON-4.10.tar.gz"
 SRC_PACKAGE_BUILD_GNU_M4="@COMMON@""https://ftp.gnu.org/gnu/m4/m4-latest.tar.xz"
-SRC_PACKAGE_BUILD_BISON="@COMMON@""https://ftp.gnu.org/gnu/bison/bison-3.8.tar.xz"
+SRC_PACKAGE_BUILD_BISON="@COMMON@""https://ftp.gnu.org/gnu/bison/bison-3.8.2.tar.xz"
 SRC_PACKAGE_BUILD_HELP2MAN="@COMMON@""https://ftp.gnu.org/gnu/help2man/help2man-1.49.3.tar.xz"
 SRC_PACKAGE_BUILD_LIBTEXTSTYLE="@COMMON@""https://alpha.gnu.org/gnu/gettext/libtextstyle-0.20.5.tar.gz"
 SRC_PACKAGE_BUILD_GETTEXT="@COMMON@""https://ftp.gnu.org/pub/gnu/gettext/gettext-0.22.5.tar.xz"
@@ -237,7 +237,7 @@ SRC_PACKAGE_LIBINPUT="@COMMON@""https://www.freedesktop.org/software/libinput/li
 SRC_PACKAGE_LIBXKBCOMMON="@COMMON@""https://xkbcommon.org/download/libxkbcommon-1.1.0.tar.xz"
 SRC_PACKAGE_PIXMAN="@COMMON@""https://cairographics.org/releases/pixman-0.40.0.tar.gz"
 SRC_PACKAGE_CAIRO="@COMMON@""https://www.cairographics.org/releases/cairo-1.16.0.tar.xz"
-SRC_PACKAGE_LIBPAM="@COMMON@""http://www.linux-pam.org/library/Linux-PAM-1.3.0.tar.gz"
+SRC_PACKAGE_LIBPAM="@COMMON@""https://github.com/linux-pam/linux-pam/archive/refs/tags/v1.6.1.tar.gz"
 SRC_PACKAGE_DBUS="@COMMON@""https://dbus.freedesktop.org/releases/dbus/dbus-1.13.18.tar.xz"
 
 SRC_PACKAGE_WAYLAND="@COMMON@""https://wayland.freedesktop.org/releases/wayland-1.19.0.tar.xz"
