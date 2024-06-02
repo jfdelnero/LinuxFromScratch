@@ -28,7 +28,8 @@ SRC_PACKAGE_BUILD_LIBNCURSES="@COMMON@""https://ftp.gnu.org/gnu/ncurses/ncurses-
 SRC_PACKAGE_BUILD_OPENSSL="@COMMON@""https://www.openssl.org/source/openssl-3.0.13.tar.gz"
 SRC_PACKAGE_BUILD_TEXINFO="@COMMON@""https://ftp.gnu.org/gnu/texinfo/texinfo-7.1.tar.xz"
 #SRC_PACKAGE_BUILD_HEIMDAL="@COMMON@""https://github.com/heimdal/heimdal/releases/download/heimdal-7.8.0/heimdal-7.8.0.tar.gz"
-#SRC_PACKAGE_BUILD_PYTHON="@COMMON@""https://www.python.org/ftp/python/3.11.3/Python-3.11.3.tar.xz"
+SRC_PACKAGE_BUILD_PYTHON="@COMMON@""https://www.python.org/ftp/python/3.12.3/Python-3.12.3.tar.xz"
+SRC_PACKAGE_BUILD_PYTHON_SETUPTOOLS="@COMMON@""https://files.pythonhosted.org/packages/aa/60/5db2249526c9b453c5bb8b9f6965fcab0ddb7f40ad734420b3b421f7da44/setuptools-70.0.0.tar.gz"
 SRC_PACKAGE_BUILD_DOS2UNIX="@COMMON@""https://freefr.dl.sourceforge.net/project/dos2unix/dos2unix/7.5.0/dos2unix-7.5.0.tar.gz"
 #SRC_PACKAGE_BUILD_BASH="@COMMON@""https://ftp.gnu.org/gnu/bash/bash-5.2.tar.gz"
 #SRC_PACKAGE_BUILD_NANOEDITOR="@COMMON@""https://www.nano-editor.org/dist/v6/nano-6.4.tar.xz"
@@ -48,6 +49,11 @@ SRC_PACKAGE_BUILD_LIBTIRPC="@COMMON@""https://downloads.sourceforge.net/libtirpc
 SRC_PACKAGE_BUILD_PKGCONFIG="@COMMON@""https://pkgconfig.freedesktop.org/releases/pkg-config-0.29.2.tar.gz"
 SRC_PACKAGE_BUILD_FLEXBOOTSTRAP="@COMMON@""https://src.fedoraproject.org/repo/pkgs/flex/flex-2.5.33.tar.bz2/343374a00b38d9e39d1158b71af37150/flex-2.5.33.tar.bz2"
 SRC_PACKAGE_BUILD_FLEX="@COMMON@""https://github.com/westes/flex/archive/refs/tags/v2.6.4.tar.gz"
+SRC_PACKAGE_BUILD_ZLIB="@COMMON@""https://zlib.net/current/zlib.tar.gz"
+SRC_PACKAGE_BUILD_LIBTIRPC="@COMMON@""https://downloads.sourceforge.net/libtirpc/libtirpc-1.3.4.tar.bz2"
+SRC_PACKAGE_BUILD_LIBNSL="@COMMON@""https://github.com/thkukuk/libnsl/archive/refs/tags/v2.0.1.tar.gz"
+SRC_PACKAGE_BUILD_UTILLINUX="@COMMON@""https://mirrors.edge.kernel.org/pub/linux/utils/util-linux/v2.38/util-linux-2.38.tar.xz"
+SRC_PACKAGE_BUILD_MESON="@COMMON@""https://github.com/mesonbuild/meson/releases/download/1.4.1/meson-1.4.1.tar.gz"
 
 
 SRC_PACKAGE_BINUTILS="@COMMON@""https://ftp.gnu.org/gnu/binutils/binutils-2.39.tar.xz"
@@ -230,7 +236,7 @@ SRC_PACKAGE_LIBEVDEV="@COMMON@""https://www.freedesktop.org/software/libevdev/li
 
 SRC_PACKAGE_ATTR="@COMMON@""https://download-mirror.savannah.gnu.org/releases/attr/attr-2.5.1.tar.xz"
 SRC_PACKAGE_UTILLINUX="@COMMON@""http://ftp.free.fr/mirrors/ftp.kernel.org/linux/utils/util-linux/v2.36/util-linux-2.36.tar.xz"
-SRC_PACKAGE_SYSTEMD="@COMMON@""https://www.freedesktop.org/software/systemd/systemd-221.tar.xz"
+SRC_PACKAGE_SYSTEMD="@COMMON@""https://github.com/systemd/systemd/archive/refs/tags/v255.tar.gz"
 
 SRC_PACKAGE_EUDEV="@COMMON@""https://dev.gentoo.org/~blueness/eudev/eudev-3.2.9.tar.gz"
 SRC_PACKAGE_LIBINPUT="@COMMON@""https://www.freedesktop.org/software/libinput/libinput-1.17.0.tar.xz"

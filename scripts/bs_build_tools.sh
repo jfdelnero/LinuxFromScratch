@@ -1059,6 +1059,174 @@ then
 fi
 
 ####################################################################
+# Util linux
+####################################################################
+CUR_PACKAGE=${SRC_PACKAGE_BUILD_UTILLINUX:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_BUILD_DONE ]
+	then
+	(
+		echo "****************"
+		echo "*  util linux  *"
+		echo "****************"
+
+		create_src_dir
+		create_build_dir
+		unpack ${CUR_PACKAGE} ""
+
+		mkdir ${TARGET_CROSS_TOOLS}/usr/share
+		mkdir ${TARGET_CROSS_TOOLS}/usr/share/bash-completion
+		mkdir ${TARGET_CROSS_TOOLS}/usr/share/bash-completion/completions
+
+		cd ${TMP_BUILD_FOLDER} || exit 1
+		mkdir -pv util-linux_local || exit 1
+		cd util-linux_local || exit 1
+
+		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
+				--prefix="${TARGET_CROSS_TOOLS}" \
+				--without-systemdsystemunitdir \
+				--disable-makeinstall-chown \
+				--disable-makeinstall-setuid \
+				--enable-nologin     \
+				--without-python     \
+				--disable-login      \
+				--disable-su         \
+				--disable-schedutils \
+				--without-ncurses    \
+				--without-selinux    \
+				--without-tinfo      \
+				--disable-nls        \
+				--enable-libuuid     \
+				--enable-libblkid    \
+				--enable-libmount    \
+				--disable-mount      \
+				--disable-losetup    \
+				--enable-fsck        \
+				--disable-partx      \
+				--enable-uuidd       \
+				--disable-mountpoint \
+				--disable-fallocate  \
+				--disable-unshare    \
+				--disable-arch       \
+				--disable-ddate      \
+				--disable-agetty     \
+				--disable-cramfs     \
+				--disable-switch_root\
+				--disable-pivot_root \
+				--disable-elvtune    \
+				--disable-kill       \
+				--disable-last       \
+				--disable-line       \
+				--disable-mesg       \
+				--disable-raw        \
+				--disable-rename     \
+				--disable-reset      \
+				--disable-login-utils\
+				--disable-schedutils \
+				--disable-wall       \
+				--disable-write      \
+				--disable-chsh-only-listed \
+				--disable-eject      \
+				--with-bashcompletiondir=${TARGET_CROSS_TOOLS}/usr/share/bash-completion/completions/  || exit 1
+
+		make ${MAKE_FLAGS} ${NBCORE}  || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
+
+		delete_build_dir
+		delete_src_dir
+
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_BUILD_DONE
+
+	) || exit 1
+	fi
+
+) || exit 1
+fi
+
+####################################################################
+# LIBNSL
+####################################################################
+CUR_PACKAGE=${SRC_PACKAGE_BUILD_LIBNSL:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_BUILD_DONE ]
+	then
+	(
+
+		create_src_dir
+		create_build_dir
+		unpack ${CUR_PACKAGE} ""
+
+		cd ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}   || exit 1
+
+		autoupdate
+		./autogen.sh
+
+		cd ${TMP_BUILD_FOLDER} || exit 1
+		mkdir libnsl_local
+		cd libnsl_local || exit 1
+
+		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
+					--prefix="${TARGET_CROSS_TOOLS}" \
+					PKG_CONFIG_PATH=${TARGET_CROSS_TOOLS}/lib/pkgconfig || exit 1
+
+		make ${MAKE_FLAGS} ${NBCORE}         || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
+
+		delete_build_dir
+		delete_src_dir
+
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_BUILD_DONE
+
+	) || exit 1
+	fi
+) || exit 1
+fi
+
+####################################################################
+# ZLIB
+####################################################################
+
+CUR_PACKAGE=${SRC_PACKAGE_BUILD_ZLIB:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_BUILD_DONE ]
+	then
+	(
+		create_src_dir
+		create_build_dir
+
+		unpack ${CUR_PACKAGE} ""
+
+		cd ${TMP_BUILD_FOLDER} || exit 1
+		mkdir zlib_local
+		cd zlib_local || exit 1
+
+		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
+					--prefix="${TARGET_CROSS_TOOLS}" \
+					|| exit 1
+
+		make ${MAKE_FLAGS} ${NBCORE}         || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
+
+		delete_build_dir
+		delete_src_dir
+
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_BUILD_DONE
+
+	) || exit 1
+	fi
+) || exit 1
+fi
+
+####################################################################
 # NCURSES
 ####################################################################
 
@@ -1221,9 +1389,44 @@ then
 				|| exit 1
 
 		make ${MAKE_FLAGS} ${NBCORE} || exit 1
-		make ${MAKE_FLAGS} ${NBCORE} altinstall DESTDIR=${TARGET_CROSS_TOOLS} || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
+
+		cd ${TMP_SRC_FOLDER} || exit 1
+
+		unpack "${SRC_PACKAGE_BUILD_PYTHON_SETUPTOOLS##*/}" ""
+		cd ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}
+		python3 setup.py install
 
 		delete_build_dir
+		delete_src_dir
+
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_BUILD_DONE
+
+	) || exit 1
+	fi
+) || exit 1
+fi
+
+####################################################################
+# MESON
+####################################################################
+
+CUR_PACKAGE=${SRC_PACKAGE_BUILD_MESON:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_BUILD_DONE ]
+	then
+	(
+		create_src_dir
+
+		unpack ${CUR_PACKAGE} ""
+
+		cd ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER} || exit 1
+
+		python3 ./setup.py install
+
 		delete_src_dir
 
 		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_BUILD_DONE
