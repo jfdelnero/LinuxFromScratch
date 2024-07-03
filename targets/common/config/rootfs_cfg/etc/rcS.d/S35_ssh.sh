@@ -2,4 +2,4 @@
 
 echo "---> Starting sshd..."
 
-/sbin/sshd
+/sbin/sshd -f /etc/sshd_config
