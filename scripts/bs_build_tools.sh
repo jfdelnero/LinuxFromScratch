@@ -1360,6 +1360,45 @@ then
 fi
 
 ####################################################################
+# readline
+####################################################################
+
+CUR_PACKAGE=${SRC_PACKAGE_BUILD_READLINE:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_BUILD_DONE ]
+	then
+	(
+		create_src_dir
+		create_build_dir
+
+		unpack ${CUR_PACKAGE} ""
+
+		cd ${TMP_BUILD_FOLDER} || exit 1
+		mkdir readline_local
+		cd readline_local || exit 1
+
+		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
+					--with-curses \
+					--prefix="${TARGET_CROSS_TOOLS}" \
+					|| exit 1
+
+		make ${MAKE_FLAGS} ${NBCORE} SHLIB_LIBS="-lncursesw"         || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} SHLIB_LIBS="-lncursesw" install || exit 1
+
+		delete_build_dir
+		delete_src_dir
+
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_BUILD_DONE
+
+	) || exit 1
+	fi
+) || exit 1
+fi
+
+####################################################################
 # PYTHON
 ####################################################################
 
