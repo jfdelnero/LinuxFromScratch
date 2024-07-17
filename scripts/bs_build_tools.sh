@@ -1253,7 +1253,7 @@ then
 		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
 				--prefix="${TARGET_CROSS_TOOLS}" \
 				--with-shared \
-				--without-normal \
+				--enable-widec \
 				--with-cxx-shared \
 				--without-debug \
 				--without-ada \
@@ -1273,7 +1273,7 @@ then
 				--prefix="${TARGET_CROSS_TOOLS}" \
 				--disable-stripping STRIPPROG=strip \
 				--with-shared \
-				--without-normal \
+				--enable-widec \
 				--with-cxx-shared \
 				--without-debug \
 				--without-manpages \
