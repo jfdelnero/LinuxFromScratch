@@ -33,7 +33,7 @@ SRC_PACKAGE_BUILD_PYTHON="@COMMON@""https://www.python.org/ftp/python/3.12.4/Pyt
 SRC_PACKAGE_BUILD_PYTHON_SETUPTOOLS="@COMMON@""https://files.pythonhosted.org/packages/aa/60/5db2249526c9b453c5bb8b9f6965fcab0ddb7f40ad734420b3b421f7da44/setuptools-70.0.0.tar.gz"
 SRC_PACKAGE_BUILD_DOS2UNIX="@COMMON@""https://freefr.dl.sourceforge.net/project/dos2unix/dos2unix/7.5.0/dos2unix-7.5.0.tar.gz"
 #SRC_PACKAGE_BUILD_BASH="@COMMON@""https://ftp.gnu.org/gnu/bash/bash-5.2.tar.gz"
-#SRC_PACKAGE_BUILD_NANOEDITOR="@COMMON@""https://www.nano-editor.org/dist/v6/nano-6.4.tar.xz"
+SRC_PACKAGE_BUILD_NANOEDITOR="@COMMON@""https://www.nano-editor.org/dist/v8/nano-8.1.tar.xz"
 SRC_PACKAGE_BUILD_PERL="@COMMON@""https://www.cpan.org/src/5.0/perl-5.36.0.tar.xz"
 SRC_PACKAGE_BUILD_PERLPARSEYAPP="@COMMON@""https://cpan.metacpan.org/authors/id/W/WB/WBRASWELL/Parse-Yapp-1.21.tar.gz"
 SRC_PACKAGE_BUILD_PERLJSON="@COMMON@""https://cpan.metacpan.org/authors/id/I/IS/ISHIGAKI/JSON-4.10.tar.gz"
@@ -273,7 +273,7 @@ SRC_PACKAGE_LIBUSB="@COMMON@""https://github.com/libusb/libusb/releases/download
 #SRC_PACKAGE_LIBUSBGADGET=libusb-gadget.tar.gz
 
 SRC_PACKAGE_LIBNCURSES="@COMMON@""https://ftp.gnu.org/gnu/ncurses/ncurses-6.4.tar.gz"
-SRC_PACKAGE_NANOEDITOR="@COMMON@""https://www.nano-editor.org/dist/v6/nano-6.4.tar.xz"
+SRC_PACKAGE_NANOEDITOR="@COMMON@""https://www.nano-editor.org/dist/v8/nano-8.1.tar.xz"
 SRC_PACKAGE_LIBAIO="@COMMON@""https://releases.pagure.org/libaio/libaio-0.3.113.tar.gz"
 
 SRC_PACKAGE_LIBCURL="@COMMON@""https://curl.se/download/curl-7.85.0.tar.xz"
