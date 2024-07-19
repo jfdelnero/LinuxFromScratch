@@ -528,6 +528,8 @@ then
 
 		export CC=${TGT_MACH}-gcc
 
+		sed -i s#main\(\)\{return\(0\)\;\}#int\ main\(\)\{return\(0\)\;\}#g ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure || exit 1
+
 		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
 				--prefix="${TARGET_ROOTFS}" \
 				--target=$TGT_MACH \
@@ -1070,7 +1072,6 @@ then
 
 ) || exit 1
 fi
-
 
 ####################################################################
 # EUDEV
