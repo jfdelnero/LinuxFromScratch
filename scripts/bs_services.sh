@@ -239,9 +239,12 @@ then
 
 		unpack ${CUR_PACKAGE} ""
 
-		cd ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}  || exit 1
+		cd ${TMP_SRC_FOLDER} || exit 1
+		cd ${TMP_ARCHIVE_FOLDER}
 
-		sed -i s#sigjmp_buf\ toplevel#extern\ sigjmp_buf\ toplevel#g tftp/tftp.c || exit 1
+		#sed -i s#sigjmp_buf\ toplevel#extern\ sigjmp_buf\ toplevel#g tftp/tftp.c || exit 1
+
+		./autogen.sh
 
 		./configure \
 				--prefix="${TARGET_ROOTFS}" \
