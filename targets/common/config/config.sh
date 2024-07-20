@@ -11,15 +11,15 @@
 #
 
 # "Local" build tools/libs
-SRC_PACKAGE_BUILD_BINUTILS="@COMMON@""https://ftp.gnu.org/gnu/binutils/binutils-2.39.tar.xz"
-SRC_PACKAGE_BUILD_GCC="@COMMON@""https://ftp.gnu.org/gnu/gcc/gcc-12.2.0/gcc-12.2.0.tar.xz"
-SRC_PACKAGE_BUILD_GCC_MPFR="@COMMON@""https://ftp.gnu.org/gnu/mpfr/mpfr-4.1.0.tar.xz"
-SRC_PACKAGE_BUILD_GCC_GMP="@COMMON@""https://gmplib.org/download/gmp/gmp-6.2.1.tar.xz"
-SRC_PACKAGE_BUILD_GCC_MPC="@COMMON@""https://ftp.gnu.org/gnu/mpc/mpc-1.2.1.tar.gz"
+SRC_PACKAGE_BUILD_BINUTILS="@COMMON@""https://ftp.gnu.org/gnu/binutils/binutils-2.42.tar.xz"
+SRC_PACKAGE_BUILD_GCC="@COMMON@""https://ftp.gnu.org/gnu/gcc/gcc-14.1.0/gcc-14.1.0.tar.gz"
+SRC_PACKAGE_BUILD_GCC_MPFR="@COMMON@""https://ftp.gnu.org/gnu/mpfr/mpfr-4.2.1.tar.xz"
+SRC_PACKAGE_BUILD_GCC_GMP="@COMMON@""https://gmplib.org/download/gmp/gmp-6.3.0.tar.xz"
+SRC_PACKAGE_BUILD_GCC_MPC="@COMMON@""https://ftp.gnu.org/gnu/mpc/mpc-1.3.1.tar.gz"
 SRC_PACKAGE_BUILD_GCC_ISL="@COMMON@""https://gcc.gnu.org/pub/gcc/infrastructure/isl-0.24.tar.bz2"
 SRC_PACKAGE_BUILD_GCC_CLOOG="@COMMON@""https://gcc.gnu.org/pub/gcc/infrastructure/cloog-0.18.1.tar.gz"
 SRC_PACKAGE_BUILD_GPERF="@COMMON@""https://ftp.gnu.org/pub/gnu/gperf/gperf-3.1.tar.gz"
-SRC_PACKAGE_BUILD_LIBFFI="@COMMON@""https://www.mirrorservice.org/sites/sourceware.org/pub/libffi/libffi-3.4.3.tar.gz"
+SRC_PACKAGE_BUILD_LIBFFI="@COMMON@""https://github.com/libffi/libffi/releases/download/v3.4.6/libffi-3.4.6.tar.gz"
 SRC_PACKAGE_BUILD_XMLEXPAT="@COMMON@""https://github.com/libexpat/libexpat/releases/download/R_2_4_9/expat-2.4.9.tar.xz"
 SRC_PACKAGE_BUILD_LIBXML2="@COMMON@""http://xmlsoft.org/sources/libxml2-2.9.12.tar.gz"
 SRC_PACKAGE_BUILD_CMAKE="@COMMON@""https://github.com/Kitware/CMake/archive/refs/tags/v3.25.1.tar.gz"
@@ -57,19 +57,19 @@ SRC_PACKAGE_BUILD_UTILLINUX="@COMMON@""https://mirrors.edge.kernel.org/pub/linux
 SRC_PACKAGE_BUILD_MESON="@COMMON@""https://github.com/mesonbuild/meson/releases/download/1.4.1/meson-1.4.1.tar.gz"
 
 
-SRC_PACKAGE_BINUTILS="@COMMON@""https://ftp.gnu.org/gnu/binutils/binutils-2.39.tar.xz"
+SRC_PACKAGE_BINUTILS="@COMMON@""https://ftp.gnu.org/gnu/binutils/binutils-2.42.tar.xz"
 
-SRC_PACKAGE_GCC="@COMMON@""https://ftp.gnu.org/gnu/gcc/gcc-12.2.0/gcc-12.2.0.tar.xz"
-SRC_PACKAGE_GCC_MPFR="@COMMON@""https://ftp.gnu.org/gnu/mpfr/mpfr-4.1.0.tar.xz"
-SRC_PACKAGE_GCC_GMP="@COMMON@""https://gmplib.org/download/gmp/gmp-6.2.1.tar.xz"
-SRC_PACKAGE_GCC_MPC="@COMMON@""https://ftp.gnu.org/gnu/mpc/mpc-1.2.1.tar.gz"
+SRC_PACKAGE_GCC="@COMMON@""https://ftp.gnu.org/gnu/gcc/gcc-14.1.0/gcc-14.1.0.tar.gz"
+SRC_PACKAGE_GCC_MPFR="@COMMON@""https://ftp.gnu.org/gnu/mpfr/mpfr-4.2.1.tar.xz"
+SRC_PACKAGE_GCC_GMP="@COMMON@""https://gmplib.org/download/gmp/gmp-6.3.0.tar.xz"
+SRC_PACKAGE_GCC_MPC="@COMMON@""https://ftp.gnu.org/gnu/mpc/mpc-1.3.1.tar.gz"
 SRC_PACKAGE_GCC_ISL="@COMMON@""https://gcc.gnu.org/pub/gcc/infrastructure/isl-0.24.tar.bz2"
 SRC_PACKAGE_GCC_CLOOG="@COMMON@""https://gcc.gnu.org/pub/gcc/infrastructure/cloog-0.18.1.tar.gz"
 
 SRC_PACKAGE_LIBTIRPC="@COMMON@""https://downloads.sourceforge.net/libtirpc/libtirpc-1.3.4.tar.bz2"
 SRC_PACKAGE_LIBNSL="@COMMON@""https://github.com/thkukuk/libnsl/archive/refs/tags/v2.0.1.tar.gz"
 
-SRC_PACKAGE_GLIBC="@COMMON@""https://ftp.gnu.org/gnu/glibc/glibc-2.36.tar.xz"
+SRC_PACKAGE_GLIBC="@COMMON@""https://ftp.gnu.org/gnu/glibc/glibc-2.39.tar.xz"
 
 SRC_PACKAGE_BUSYBOX="@COMMON@""https://busybox.net/downloads/busybox-1.35.0.tar.bz2"
 SRC_PACKAGE_UTILLINUX="@COMMON@""https://mirrors.edge.kernel.org/pub/linux/utils/util-linux/v2.38/util-linux-2.38.tar.xz"
@@ -77,7 +77,7 @@ SRC_PACKAGE_UTILLINUX="@COMMON@""https://mirrors.edge.kernel.org/pub/linux/utils
 SRC_PACKAGE_LIBELF="@COMMON@""https://fossies.org/linux/misc/old/libelf-0.8.13.tar.gz"
 SRC_PACKAGE_ELFUTILS="@COMMON@""https://gcc.gnu.org/pub/elfutils/0.189/elfutils-0.189.tar.bz2"
 
-SRC_PACKAGE_LIBFFI="@COMMON@""https://www.mirrorservice.org/sites/sourceware.org/pub/libffi/libffi-3.4.3.tar.gz"
+SRC_PACKAGE_LIBFFI="@COMMON@""https://github.com/libffi/libffi/releases/download/v3.4.6/libffi-3.4.6.tar.gz"
 SRC_PACKAGE_LIBXML2="@COMMON@""http://xmlsoft.org/sources/libxml2-2.9.12.tar.gz"
 SRC_PACKAGE_XMLEXPAT="@COMMON@""https://github.com/libexpat/libexpat/releases/download/R_2_4_9/expat-2.4.9.tar.xz"
 SRC_PACKAGE_LIBYAML="@COMMON@""https://github.com/yaml/libyaml/releases/download/0.2.5/yaml-0.2.5.tar.gz"
@@ -89,6 +89,8 @@ SRC_PACKAGE_LIBCAP="@COMMON@""https://cdn.kernel.org/pub/linux/libs/security/lin
 
 SRC_PACKAGE_HAVEGED="@COMMON@""https://github.com/jirka-h/haveged/archive/refs/tags/v1.9.18.tar.gz"
 
+SRC_PACKAGE_LIBXCRYPT="@COMMON@""https://github.com/besser82/libxcrypt/releases/download/v4.4.36/libxcrypt-4.4.36.tar.xz"
+
 #
 # Debug support
 #
@@ -97,7 +99,7 @@ if [ "$CUR_PART" != "UNDEF" ]
 then
 
 SRC_PACKAGE_GDB="@COMMON@""https://ftp.gnu.org/gnu/gdb/gdb-12.1.tar.xz"
-SRC_PACKAGE_STRACE="@COMMON@""https://github.com/strace/strace/releases/download/v6.0/strace-6.0.tar.xz"
+SRC_PACKAGE_STRACE="@COMMON@""https://github.com/strace/strace/releases/download/v6.9/strace-6.9.tar.xz"
 #SRC_PACKAGE_LTRACE="@COMMON@""https://fossies.org/linux/misc/ltrace-0.7.3.tar.gz"
 SRC_PACKAGE_VALGRIND="@COMMON@""https://sourceware.org/pub/valgrind/valgrind-3.19.0.tar.bz2"
 
@@ -113,7 +115,7 @@ then
 
 SRC_PACKAGE_LIBMNL="@COMMON@""http://netfilter.org/projects/libmnl/files/libmnl-1.0.5.tar.bz2"
 SRC_PACKAGE_LIBNFTNL="@COMMON@""https://www.netfilter.org/projects/libnftnl/files/libnftnl-1.2.3.tar.bz2"
-SRC_PACKAGE_IPTABLES="@COMMON@""https://www.netfilter.org/projects/iptables/files/iptables-1.8.8.tar.bz2"
+SRC_PACKAGE_IPTABLES="@COMMON@""https://www.netfilter.org/projects/iptables/files/iptables-1.8.9.tar.xz"
 SRC_PACKAGE_DHCPSERVER="@COMMON@""https://downloads.isc.org/isc/dhcp/4.4.2/dhcp-4.4.2.tar.gz"
 #SRC_PACKAGE_DHCPSERVER_PATCH_001="@COMMON@""http://wiki.beyondlogic.org/patches/dhcp-4.3.0b1.bind_arm-linux-gnueabi.patch"
 #SRC_PACKAGE_DHCPSERVER_PATCH_002="@COMMON@""http://wiki.beyondlogic.org/patches/bind-9.9.5rc1.gen_crosscompile.patch"
@@ -149,13 +151,13 @@ SRC_PACKAGE_LIBASSUAN="@COMMON@""https://gnupg.org/ftp/gcrypt/libassuan/libassua
 SRC_PACKAGE_GPGME="@COMMON@""https://gnupg.org/ftp/gcrypt/gpgme/gpgme-1.18.0.tar.bz2"
 SRC_PACKAGE_OPENSSL="@COMMON@""https://www.openssl.org/source/openssl-3.0.10.tar.gz"
 SRC_PACKAGE_OPENSSH="@COMMON@""https://ftp.fr.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-9.8p1.tar.gz"
-SRC_PACKAGE_NTP="@COMMON@""http://www.eecis.udel.edu/~ntp/ntp_spool/ntp4/ntp-4.2/ntp-4.2.8p15.tar.gz"
+SRC_PACKAGE_NTP="@COMMON@""https://downloads.nwtime.org/ntp/ntp-4.2.8p18.tar.gz"
 SRC_PACKAGE_CHRONY="@COMMON@""https://chrony-project.org/releases/chrony-4.5.tar.gz"
 SRC_PACKAGE_VSFTPD="@COMMON@""https://security.appspot.com/downloads/vsftpd-3.0.5.tar.gz"
 SRC_PACKAGE_LIGHTTPD="@COMMON@""https://download.lighttpd.net/lighttpd/releases-1.4.x/lighttpd-1.4.67.tar.xz"
 #SRC_PACKAGE_CVS=cvs-1.11.23.tar.gz
 SRC_PACKAGE_PXESERVER="@COMMON@""https://github.com/jfdelnero/pxe-server/releases/download/PXE_1_4_2/pxe-1.4.2.tar.gz"
-SRC_PACKAGE_TFTPD="@COMMON@""https://kernel.org/pub/software/network/tftp/tftp-hpa/tftp-hpa-5.2.tar.gz"
+SRC_PACKAGE_TFTPD="@COMMON@""https://kernel.googlesource.com/pub/scm/network/tftp/tftp-hpa/+archive/refs/heads/master.tar.gz"
 SRC_PACKAGE_UMTPRD="@COMMON@""https://github.com/viveris/uMTP-Responder/archive/refs/tags/umtprd-1.6.2.tar.gz"
 
 SRC_PACKAGE_LIBGMP="@COMMON@""https://gmplib.org/download/gmp/gmp-6.3.0.tar.xz"
