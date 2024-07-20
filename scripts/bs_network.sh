@@ -170,6 +170,10 @@ then
 		mkdir ntp
 		cd ntp || exit 1
 
+		# gcc 14 support workaround patch ... should be removed with version > ntp-4.2.8p18
+		sed -i s#ol_cv_func_pthread_detach\=no#ol_cv_func_pthread_detach\=yes#g ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure || exit 1
+		sed -i s#ol_cv_func_pthread_detach\=no#ol_cv_func_pthread_detach\=yes#g ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/sntp/configure || exit 1
+
 		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
 				--prefix="${TARGET_ROOTFS}" \
 				--build=$MACHTYPE \
