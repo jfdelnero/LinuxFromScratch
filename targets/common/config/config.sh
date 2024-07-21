@@ -275,7 +275,7 @@ SRC_PACKAGE_HDIDLE="@COMMON@""https://freefr.dl.sourceforge.net/project/hd-idle/
 
 fi
 
-#SRC_PACKAGE_PYTHON="@COMMON@""https://www.python.org/ftp/python/3.9.5/Python-3.9.5.tar.xz"
+SRC_PACKAGE_PYTHON="@COMMON@""https://www.python.org/ftp/python/3.12.4/Python-3.12.4.tar.xz"
 SRC_PACKAGE_PERL="@COMMON@""https://www.cpan.org/src/5.0/perl-5.40.0.tar.gz"
 SRC_PACKAGE_PERLCROSS="@COMMON@""https://github.com/arsv/perl-cross/raw/releases/perl-cross-1.5.3.tar.gz"
 SRC_PACKAGE_LIBUSB="@COMMON@""https://github.com/libusb/libusb/releases/download/v1.0.26/libusb-1.0.26.tar.bz2"
