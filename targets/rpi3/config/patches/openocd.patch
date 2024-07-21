@@ -1,68 +1,146 @@
-diff -ruN ocd/openocd-0.11.0/src/flash/nor/numicro.c openocd-0.11.0/src/flash/nor/numicro.c
---- src/flash/nor/numicro.c	2020-12-09 20:43:09.000000000 +0100
-+++ src/flash/nor/numicro.c	2021-05-29 11:23:07.299280135 +0200
-@@ -1148,6 +1148,7 @@
- 		return retval;
+diff --git src/flash/nor/ambiqmicro.c src/flash/nor/ambiqmicro.c
+index 2b458bc8fd..bb893778ce 100644
+--- src/flash/nor/ambiqmicro.c
++++ src/flash/nor/ambiqmicro.c
+@@ -124,7 +124,7 @@ FLASH_BANK_COMMAND_HANDLER(ambiqmicro_flash_bank_command)
+ 	if (CMD_ARGC < 6)
+ 		return ERROR_COMMAND_SYNTAX_ERROR;
  
- 	LOG_DEBUG("protected = 0x%08" PRIx32 "", is_protected);
-+
- 	if (is_protected == 0) {	/* means protected - so unlock it */
- 		/* unlock flash registers */
- 		retval = target_write_u32(target, NUMICRO_SYS_WRPROT, REG_KEY1);
-@@ -1243,7 +1244,9 @@
- 		retval = target_read_u32(target, NUMICRO_FLASH_ISPTRG, &status);
- 		if (retval != ERROR_OK)
- 			return retval;
--			LOG_DEBUG("status: 0x%" PRIx32 "", status);
-+
-+		LOG_DEBUG("status: 0x%" PRIx32 "", status);
-+
- 		if ((status & (ISPTRG_ISPGO)) == 0)
- 			break;
- 		if (timeout-- <= 0) {
-@@ -1512,7 +1515,9 @@
- 			retval = target_read_u32(target, NUMICRO_FLASH_ISPTRG, &status);
- 			if (retval != ERROR_OK)
- 				return retval;
--				LOG_DEBUG("status: 0x%" PRIx32 "", status);
-+
-+			LOG_DEBUG("status: 0x%" PRIx32 "", status);
-+
- 			if (status == 0)
- 				break;
- 			if (timeout-- <= 0) {
-@@ -1601,7 +1606,9 @@
- 				retval = target_read_u32(target, NUMICRO_FLASH_ISPTRG, &status);
- 				if (retval != ERROR_OK)
- 					return retval;
--					LOG_DEBUG("status: 0x%" PRIx32 "", status);
-+
-+				LOG_DEBUG("status: 0x%" PRIx32 "", status);
-+
- 				if (status == 0)
- 					break;
- 				if (timeout-- <= 0) {
-diff -ruN ocd/openocd-0.11.0/src/target/arm920t.c openocd-0.11.0/src/target/arm920t.c
---- src/target/arm920t.c	2020-12-09 20:43:09.000000000 +0100
-+++ src/target/arm920t.c	2021-05-29 11:29:08.994571425 +0200
-@@ -245,8 +245,8 @@
- 	uint32_t cp15_opcode, uint32_t address, uint32_t *value)
+-	ambiqmicro_info = calloc(sizeof(struct ambiqmicro_flash_bank), 1);
++	ambiqmicro_info = calloc(1, sizeof(struct ambiqmicro_flash_bank));
+ 
+ 	bank->driver_priv = ambiqmicro_info;
+ 
+diff --git src/flash/nor/kinetis.c src/flash/nor/kinetis.c
+index e8074e35bb..fee36444e6 100644
+--- src/flash/nor/kinetis.c
++++ src/flash/nor/kinetis.c
+@@ -930,7 +930,7 @@ FLASH_BANK_COMMAND_HANDLER(kinetis_flash_bank_command)
+ 	k_chip = kinetis_get_chip(target);
+ 
+ 	if (!k_chip) {
+-		k_chip = calloc(sizeof(struct kinetis_chip), 1);
++		k_chip = calloc(1, sizeof(struct kinetis_chip));
+ 		if (!k_chip) {
+ 			LOG_ERROR("No memory");
+ 			return ERROR_FAIL;
+@@ -1031,7 +1031,7 @@ static int kinetis_create_missing_banks(struct kinetis_chip *k_chip)
+ 					 bank_idx - k_chip->num_pflash_blocks);
+ 		}
+ 
+-		bank = calloc(sizeof(struct flash_bank), 1);
++		bank = calloc(1, sizeof(struct flash_bank));
+ 		if (!bank)
+ 			return ERROR_FAIL;
+ 
+diff --git src/flash/nor/max32xxx.c src/flash/nor/max32xxx.c
+index 51d6ae271a..59a14af8b8 100644
+--- src/flash/nor/max32xxx.c
++++ src/flash/nor/max32xxx.c
+@@ -87,7 +87,7 @@ FLASH_BANK_COMMAND_HANDLER(max32xxx_flash_bank_command)
+ 		return ERROR_FLASH_BANK_INVALID;
+ 	}
+ 
+-	info = calloc(sizeof(struct max32xxx_flash_bank), 1);
++	info = calloc(1, sizeof(struct max32xxx_flash_bank));
+ 	COMMAND_PARSE_NUMBER(uint, CMD_ARGV[2], info->flash_size);
+ 	COMMAND_PARSE_NUMBER(uint, CMD_ARGV[6], info->flc_base);
+ 	COMMAND_PARSE_NUMBER(uint, CMD_ARGV[7], info->sector_size);
+diff --git src/flash/nor/msp432.c src/flash/nor/msp432.c
+index 5e2935d02b..b5e2b0bf86 100644
+--- src/flash/nor/msp432.c
++++ src/flash/nor/msp432.c
+@@ -937,7 +937,7 @@ static int msp432_probe(struct flash_bank *bank)
+ 
+ 	if (is_main && MSP432P4 == msp432_bank->family_type) {
+ 		/* Create the info flash bank needed by MSP432P4 variants */
+-		struct flash_bank *info = calloc(sizeof(struct flash_bank), 1);
++		struct flash_bank *info = calloc(1, sizeof(struct flash_bank));
+ 		if (!info)
+ 			return ERROR_FAIL;
+ 
+diff --git src/flash/nor/stellaris.c src/flash/nor/stellaris.c
+index 972686e3f3..eab6244d43 100644
+--- src/flash/nor/stellaris.c
++++ src/flash/nor/stellaris.c
+@@ -453,7 +453,7 @@ FLASH_BANK_COMMAND_HANDLER(stellaris_flash_bank_command)
+ 	if (CMD_ARGC < 6)
+ 		return ERROR_COMMAND_SYNTAX_ERROR;
+ 
+-	stellaris_info = calloc(sizeof(struct stellaris_flash_bank), 1);
++	stellaris_info = calloc(1, sizeof(struct stellaris_flash_bank));
+ 	bank->base = 0x0;
+ 	bank->driver_priv = stellaris_info;
+ 
+diff --git src/flash/nor/stm32f2x.c src/flash/nor/stm32f2x.c
+index 4e0f731827..3bafde56f8 100644
+--- src/flash/nor/stm32f2x.c
++++ src/flash/nor/stm32f2x.c
+@@ -1020,7 +1020,7 @@ static int stm32x_probe(struct flash_bank *bank)
+ 		assert(num_sectors > 0);
+ 
+ 		bank->num_sectors = num_sectors;
+-		bank->sectors = calloc(sizeof(struct flash_sector), num_sectors);
++		bank->sectors = calloc(num_sectors, sizeof(struct flash_sector));
+ 
+ 		if (stm32x_otp_is_f7(bank))
+ 			bank->size = STM32F7_OTP_SIZE;
+
+diff --git src/jtag/drivers/ulink.c src/jtag/drivers/ulink.c
+index 4f23c6c7fa..0fe8989b9d 100644
+--- src/jtag/drivers/ulink.c
++++ src/jtag/drivers/ulink.c
+@@ -1473,7 +1473,7 @@ static int ulink_queue_scan(struct ulink *device, struct jtag_command *cmd)
+ 
+ 	/* Allocate TDO buffer if required */
+ 	if ((type == SCAN_IN) || (type == SCAN_IO)) {
+-		tdo_buffer_start = calloc(sizeof(uint8_t), scan_size_bytes);
++		tdo_buffer_start = calloc(scan_size_bytes, sizeof(uint8_t));
+ 
+ 		if (!tdo_buffer_start)
+ 			return ERROR_FAIL;
+diff --git src/target/arc_jtag.c src/target/arc_jtag.c
+index ddb4f62322..a186709c61 100644
+--- src/target/arc_jtag.c
++++ src/target/arc_jtag.c
+@@ -298,7 +298,7 @@ static int arc_jtag_read_registers(struct arc_jtag *jtag_info, uint32_t type,
+ 			ARC_JTAG_READ_FROM_CORE_REG : ARC_JTAG_READ_FROM_AUX_REG);
+ 	arc_jtag_enque_set_transaction(jtag_info, transaction, TAP_DRPAUSE);
+ 
+-	uint8_t *data_buf = calloc(sizeof(uint8_t), count * 4);
++	uint8_t *data_buf = calloc(count * 4, sizeof(uint8_t));
+ 
+ 	arc_jtag_enque_register_rw(jtag_info, addr, data_buf, NULL, count);
+ 
+@@ -498,7 +498,7 @@ int arc_jtag_read_memory(struct arc_jtag *jtag_info, uint32_t addr,
+ 	if (!count)
+ 		return ERROR_OK;
+ 
+-	data_buf = calloc(sizeof(uint8_t), count * 4);
++	data_buf = calloc(count * 4, sizeof(uint8_t));
+ 	arc_jtag_enque_reset_transaction(jtag_info);
+ 
+ 	/* We are reading from memory. */
+
+diff -Naru src/target/nds32.c src/target/nds32.c
+--- src/target/nds32.c	2022-09-18 15:46:16.000000000 +0200
++++ src/target/nds32.p	2024-07-21 15:55:45.496959503 +0200
+@@ -381,7 +381,7 @@
+ static struct reg_cache *nds32_build_reg_cache(struct target *target,
+ 		struct nds32 *nds32)
  {
- 	struct arm *arm = target_to_arm(target);
--	uint32_t *regs_p[1];
--	uint32_t regs[2];
-+	uint32_t *regs_p[16];
-+	uint32_t regs[16];
- 	uint32_t cp15c15 = 0x0;
- 	struct reg *r = arm->core_cache->reg_list;
+-	struct reg_cache *cache = calloc(sizeof(struct reg_cache), 1);
++	struct reg_cache *cache = calloc(1,sizeof(struct reg_cache));
+ 	struct reg *reg_list = calloc(TOTAL_REG_NUM, sizeof(struct reg));
+ 	struct nds32_reg *reg_arch_info = calloc(TOTAL_REG_NUM, sizeof(struct nds32_reg));
+ 	int i;
+@@ -409,7 +409,7 @@
+ 		reg_list[i].size = nds32_reg_size(i);
+ 		reg_list[i].arch_info = &reg_arch_info[i];
  
-@@ -295,7 +295,7 @@
- {
- 	uint32_t cp15c15 = 0x0;
- 	struct arm *arm = target_to_arm(target);
--	uint32_t regs[2];
-+	uint32_t regs[16];
- 	struct reg *r = arm->core_cache->reg_list;
+-		reg_list[i].reg_data_type = calloc(sizeof(struct reg_data_type), 1);
++		reg_list[i].reg_data_type = calloc(1,sizeof(struct reg_data_type));
  
- 	/* load value, address into R0, R1 */
+ 		if (reg_arch_info[i].num >= FD0 && reg_arch_info[i].num <= FD31) {
+ 			reg_list[i].value = reg_arch_info[i].value;
 
