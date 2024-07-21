@@ -34,7 +34,7 @@ SRC_PACKAGE_BUILD_PYTHON_SETUPTOOLS="@COMMON@""https://files.pythonhosted.org/pa
 SRC_PACKAGE_BUILD_DOS2UNIX="@COMMON@""https://freefr.dl.sourceforge.net/project/dos2unix/dos2unix/7.5.0/dos2unix-7.5.0.tar.gz"
 #SRC_PACKAGE_BUILD_BASH="@COMMON@""https://ftp.gnu.org/gnu/bash/bash-5.2.tar.gz"
 SRC_PACKAGE_BUILD_NANOEDITOR="@COMMON@""https://www.nano-editor.org/dist/v8/nano-8.1.tar.xz"
-SRC_PACKAGE_BUILD_PERL="@COMMON@""https://www.cpan.org/src/5.0/perl-5.36.0.tar.xz"
+SRC_PACKAGE_BUILD_PERL="@COMMON@""https://www.cpan.org/src/5.0/perl-5.40.0.tar.gz"
 SRC_PACKAGE_BUILD_PERLPARSEYAPP="@COMMON@""https://cpan.metacpan.org/authors/id/W/WB/WBRASWELL/Parse-Yapp-1.21.tar.gz"
 SRC_PACKAGE_BUILD_PERLJSON="@COMMON@""https://cpan.metacpan.org/authors/id/I/IS/ISHIGAKI/JSON-4.10.tar.gz"
 SRC_PACKAGE_BUILD_GNU_M4="@COMMON@""https://ftp.gnu.org/gnu/m4/m4-latest.tar.xz"
@@ -55,7 +55,12 @@ SRC_PACKAGE_BUILD_LIBTIRPC="@COMMON@""https://downloads.sourceforge.net/libtirpc
 SRC_PACKAGE_BUILD_LIBNSL="@COMMON@""https://github.com/thkukuk/libnsl/archive/refs/tags/v2.0.1.tar.gz"
 SRC_PACKAGE_BUILD_UTILLINUX="@COMMON@""https://mirrors.edge.kernel.org/pub/linux/utils/util-linux/v2.38/util-linux-2.38.tar.xz"
 SRC_PACKAGE_BUILD_MESON="@COMMON@""https://github.com/mesonbuild/meson/releases/download/1.4.1/meson-1.4.1.tar.gz"
-
+SRC_PACKAGE_BUILD_LIBGMP="@COMMON@""https://gmplib.org/download/gmp/gmp-6.3.0.tar.xz"
+SRC_PACKAGE_BUILD_MPFR="@COMMON@""https://ftp.gnu.org/gnu/mpfr/mpfr-4.2.1.tar.xz"
+SRC_PACKAGE_BUILD_MPC="@COMMON@""https://ftp.gnu.org/gnu/mpc/mpc-1.3.1.tar.gz"
+SRC_PACKAGE_BUILD_XZ="@COMMON@""https://github.com/tukaani-project/xz/releases/download/v5.6.2/xz-5.6.2.tar.gz"
+SRC_PACKAGE_BUILD_BZIP2="@COMMON@""https://sourceware.org/pub/bzip2/bzip2-1.0.8.tar.gz"
+SRC_PACKAGE_BUILD_LIBGDM="@COMMON@""https://ftp.gnu.org/gnu/gdbm/gdbm-1.24.tar.gz"
 
 SRC_PACKAGE_BINUTILS="@COMMON@""https://ftp.gnu.org/gnu/binutils/binutils-2.42.tar.xz"
 
@@ -98,7 +103,7 @@ CUR_PART=${DEBUG_SUPPORT:-"UNDEF"}
 if [ "$CUR_PART" != "UNDEF" ]
 then
 
-SRC_PACKAGE_GDB="@COMMON@""https://ftp.gnu.org/gnu/gdb/gdb-12.1.tar.xz"
+SRC_PACKAGE_GDB="@COMMON@""https://ftp.gnu.org/gnu/gdb/gdb-15.1.tar.xz"
 SRC_PACKAGE_STRACE="@COMMON@""https://github.com/strace/strace/releases/download/v6.9/strace-6.9.tar.xz"
 #SRC_PACKAGE_LTRACE="@COMMON@""https://fossies.org/linux/misc/ltrace-0.7.3.tar.gz"
 SRC_PACKAGE_VALGRIND="@COMMON@""https://sourceware.org/pub/valgrind/valgrind-3.19.0.tar.bz2"
@@ -161,6 +166,8 @@ SRC_PACKAGE_TFTPD="@COMMON@""https://kernel.googlesource.com/pub/scm/network/tft
 SRC_PACKAGE_UMTPRD="@COMMON@""https://github.com/viveris/uMTP-Responder/archive/refs/tags/umtprd-1.6.2.tar.gz"
 
 SRC_PACKAGE_LIBGMP="@COMMON@""https://gmplib.org/download/gmp/gmp-6.3.0.tar.xz"
+SRC_PACKAGE_MPFR="@COMMON@""https://ftp.gnu.org/gnu/mpfr/mpfr-4.2.1.tar.xz"
+SRC_PACKAGE_MPC="@COMMON@""https://ftp.gnu.org/gnu/mpc/mpc-1.3.1.tar.gz"
 SRC_PACKAGE_MAILUTILS="@COMMON@""https://ftp.gnu.org/gnu/mailutils/mailutils-3.15.tar.xz"
 SRC_PACKAGE_RIPMIME="@COMMON@""https://github.com/inflex/ripMIME/archive/refs/tags/1.4.1.0.tar.gz"
 SRC_PACKAGE_NETTLE="@COMMON@""https://ftp.gnu.org/gnu/nettle/nettle-3.9.1.tar.gz"
@@ -269,8 +276,8 @@ SRC_PACKAGE_HDIDLE="@COMMON@""https://freefr.dl.sourceforge.net/project/hd-idle/
 fi
 
 #SRC_PACKAGE_PYTHON="@COMMON@""https://www.python.org/ftp/python/3.9.5/Python-3.9.5.tar.xz"
-SRC_PACKAGE_PERL="@COMMON@""https://www.cpan.org/src/5.0/perl-5.36.0.tar.xz"
-SRC_PACKAGE_PERLCROSS="@COMMON@""https://github.com/arsv/perl-cross/releases/download/1.4/perl-cross-1.4.tar.gz"
+SRC_PACKAGE_PERL="@COMMON@""https://www.cpan.org/src/5.0/perl-5.40.0.tar.gz"
+SRC_PACKAGE_PERLCROSS="@COMMON@""https://github.com/arsv/perl-cross/raw/releases/perl-cross-1.5.3.tar.gz"
 SRC_PACKAGE_LIBUSB="@COMMON@""https://github.com/libusb/libusb/releases/download/v1.0.26/libusb-1.0.26.tar.bz2"
 #SRC_PACKAGE_LIBUSBGADGET=libusb-gadget.tar.gz
 

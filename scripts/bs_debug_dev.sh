@@ -34,10 +34,9 @@ then
 		cd ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER} || exit 1
 
 		#fake makeinfo...
-		echo '#!/bin/sh'                          >makeinfo
-		echo 'echo "makeinfo (GNU texinfo) 5.2"' >>makeinfo
-		chmod a+x makeinfo
-
+		#echo '#!/bin/sh'                          >makeinfo
+		#echo 'echo "makeinfo (GNU texinfo) 5.2"' >>makeinfo
+		#chmod a+x makeinfo
 
 		cd ${TMP_BUILD_FOLDER} || exit 1
 		mkdir gdb
@@ -51,8 +50,11 @@ then
 		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
 				--prefix="${TARGET_ROOTFS}" \
 				--host=$TGT_MACH \
-				MAKEINFO="${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/makeinfo" \
+				--with-mpc="${TARGET_ROOTFS}" \
+				--with-libgmp-prefix="${TARGET_ROOTFS}" \
+				--with-mpfr-prefix="${TARGET_ROOTFS}" \
 				|| exit 1
+
 		make ${MAKE_FLAGS} ${NBCORE} all     || exit 1
 		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
 
