@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # Cross compiler and Linux generation scripts
-# (c)2014-2018 Jean-François DEL NERO
+# (c)2014-2024 Jean-François DEL NERO
 #
 # Clearfog Pro target setup
 #
@@ -49,5 +49,4 @@ source ${BASE_DIR}/targets/common/config/config.sh || exit 1
 
 # Kernel
 
-SRC_PACKAGE_KERNEL="https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.19.17.tar.xz"
-
+SRC_PACKAGE_KERNEL="https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.15.163.tar.xz"
