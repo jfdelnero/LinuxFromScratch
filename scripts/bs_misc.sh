@@ -340,6 +340,11 @@ then
 		mkdir xz
 		cd xz || exit 1
 
+		export CC=${TGT_MACH}-gcc
+		export LD=${TGT_MACH}-ld
+		export AS=${TGT_MACH}-as
+		export AR=${TGT_MACH}-ar
+
 		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
 					--prefix="${TARGET_ROOTFS}" \
 					|| exit 1
