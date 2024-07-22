@@ -312,6 +312,7 @@ then
 				--build=$MACHTYPE \
 				--host=$TGT_MACH \
 				--target=$TGT_MACH \
+				--with-build-python="${TARGET_CROSS_TOOLS}/bin/python3" \
 				--enable-ipv6 \
 				--enable-optimizations \
 				--enable-shared \
