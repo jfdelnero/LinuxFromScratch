@@ -282,6 +282,122 @@ then
 fi
 
 ####################################################################
+# readline
+####################################################################
+
+CUR_PACKAGE=${SRC_PACKAGE_READLINE:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
+	then
+	(
+		create_src_dir
+		create_build_dir
+
+		unpack ${CUR_PACKAGE} ""
+
+		cd ${TMP_BUILD_FOLDER} || exit 1
+		mkdir readline
+		cd readline || exit 1
+
+		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
+					--with-curses \
+					--prefix="${TARGET_ROOTFS}" \
+					|| exit 1
+
+		make ${MAKE_FLAGS} ${NBCORE} SHLIB_LIBS="-lncursesw"         || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} SHLIB_LIBS="-lncursesw" install || exit 1
+
+		delete_build_dir
+		delete_src_dir
+
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
+
+	) || exit 1
+	fi
+) || exit 1
+fi
+
+####################################################################
+# XZ
+####################################################################
+CUR_PACKAGE=${SRC_PACKAGE_XZ:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
+	then
+	(
+		create_src_dir
+		create_build_dir
+
+		unpack ${CUR_PACKAGE} ""
+
+		cd ${TMP_BUILD_FOLDER} || exit 1
+		mkdir xz
+		cd xz || exit 1
+
+		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
+					--prefix="${TARGET_ROOTFS}" \
+					|| exit 1
+
+		make ${MAKE_FLAGS} ${NBCORE}         || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
+
+		delete_build_dir
+		delete_src_dir
+
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
+
+	) || exit 1
+	fi
+) || exit 1
+fi
+
+####################################################################
+# BZIP2
+####################################################################
+CUR_PACKAGE=${SRC_PACKAGE_BZIP2:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
+	then
+	(
+		create_src_dir
+		create_build_dir
+
+		unpack ${CUR_PACKAGE} ""
+
+		cd ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER} || exit 
+
+		export CC=${TGT_MACH}-gcc
+		export LD=${TGT_MACH}-ld
+		export AS=${TGT_MACH}-as
+		export AR=${TGT_MACH}-ar
+
+		make ${MAKE_FLAGS} -f Makefile-libbz2_so      || exit 1
+		make ${MAKE_FLAGS} || exit 1
+		make ${MAKE_FLAGS} -n install PREFIX="${TARGET_ROOTFS}" || exit 1
+		cp -v bzip2-shared ${TARGET_ROOTFS}/bin/bzip2
+		cp -av libbz2.so* ${TARGET_ROOTFS}/lib
+		ln -sv libbz2.so.1.0 ${TARGET_ROOTFS}/lib/libbz2.so
+
+		delete_build_dir
+		delete_src_dir
+
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
+
+	) || exit 1
+	fi
+) || exit 1
+fi
+
+####################################################################
 # PYTHON
 ####################################################################
 
