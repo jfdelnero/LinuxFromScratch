@@ -353,6 +353,7 @@ then
 		cd libgdm || exit 1
 
 		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
+					--host=$TGT_MACH \
 					--prefix="${TARGET_ROOTFS}" \
 					--disable-static \
 					--enable-libgdbm-compat \
