@@ -302,6 +302,11 @@ then
 		mkdir readline
 		cd readline || exit 1
 
+		export CC=${TGT_MACH}-gcc
+		export LD=${TGT_MACH}-ld
+		export AS=${TGT_MACH}-as
+		export AR=${TGT_MACH}-ar
+
 		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
 					--build=$MACHTYPE \
 					--host=$TGT_MACH \
