@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # Cross compiler and Linux generation scripts
-# (c)2014-2023 Jean-François DEL NERO
+# (c)2014-2024 Jean-François DEL NERO
 #
 # Local build tools
 #
@@ -1562,15 +1562,14 @@ then
 
 		unpack ${CUR_PACKAGE} ""
 
-		cd ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER} || exit 1
+		cd ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER} || exit 
 
-		export CC=${TGT_MACH}-gcc
-		export LD=${TGT_MACH}-ld
-		export AS=${TGT_MACH}-as
-		export AR=${TGT_MACH}-ar
-
-		make ${MAKE_FLAGS} ${NBCORE}         || exit 1
-		make ${MAKE_FLAGS} ${NBCORE} install PREFIX="${TARGET_CROSS_TOOLS}" || exit 1
+		make ${MAKE_FLAGS} -f Makefile-libbz2_so      || exit 1
+		make ${MAKE_FLAGS} || exit 1
+		make ${MAKE_FLAGS} -n install PREFIX="${TARGET_CROSS_TOOLS}" || exit 1
+		cp -v bzip2-shared ${TARGET_CROSS_TOOLS}/bin/bzip2
+		cp -av libbz2.so* ${TARGET_CROSS_TOOLS}/lib
+		ln -sv libbz2.so.1.0 ${TARGET_CROSS_TOOLS}/lib/libbz2.so
 
 		delete_build_dir
 		delete_src_dir
@@ -1604,6 +1603,8 @@ then
 
 		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
 					--prefix="${TARGET_CROSS_TOOLS}" \
+					--disable-static \
+					--enable-libgdbm-compat \
 					|| exit 1
 
 		make ${MAKE_FLAGS} ${NBCORE}         || exit 1
