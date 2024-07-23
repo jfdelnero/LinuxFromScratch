@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # Cross compiler and Linux generation scripts
-# (c)2014-2023 Jean-François DEL NERO
+# (c)2014-2024 Jean-François DEL NERO
 #
 # system librairies
 #
@@ -152,13 +152,14 @@ then
 		cd ${TMP_BUILD_FOLDER} || exit 1
 		mkdir ncurses
 		cd ncurses || exit 1
-
+		# wide version
 		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
 				--prefix="${TARGET_ROOTFS}" \
 				--host=$TGT_MACH CC=${TGT_MACH}-gcc \
 				--disable-stripping STRIPPROG=${TGT_MACH}-strip \
 				--with-shared \
 				--enable-widec \
+				--without-normal \
 				--with-cxx-shared \
 				--without-debug \
 				--without-ada \
@@ -174,14 +175,36 @@ then
 
 		make ${MAKE_FLAGS} ${NBCORE} clean   || exit 1
 
-		# rebuild without termlib to fix the missing "cursrc" symbol issue with nano...
+		# standard version
+		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
+				--prefix="${TARGET_ROOTFS}" \
+				--host=$TGT_MACH CC=${TGT_MACH}-gcc \
+				--disable-stripping STRIPPROG=${TGT_MACH}-strip \
+				--with-shared \
+				--without-normal \
+				--with-cxx-shared \
+				--without-debug \
+				--without-ada \
+				--without-manpages \
+				--with-curses-h \
+				--enable-pc-files \
+				--with-termlib \
+				--with-versioned-syms \
+				--with-pkg-config-libdir=${TARGET_ROOTFS}/lib/pkgconfig || exit 1
+
+		make ${MAKE_FLAGS} ${NBCORE} all     || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
+
+		make ${MAKE_FLAGS} ${NBCORE} clean   || exit 1
+
+		# rebuild standard version without termlib to fix the missing "cursrc" symbol issue with nano...
 
 		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
 				--prefix="${TARGET_ROOTFS}" \
 				--host=$TGT_MACH CC=${TGT_MACH}-gcc \
 				--disable-stripping STRIPPROG=${TGT_MACH}-strip \
 				--with-shared \
-				--enable-widec \
+				--without-normal \
 				--with-cxx-shared \
 				--without-debug \
 				--without-manpages \
@@ -800,3 +823,4 @@ then
 	fi
 ) || exit 1
 fi
+
