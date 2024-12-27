@@ -17,7 +17,7 @@ export DEBUG_SUPPORT="1"
 export NETWORK_SUPPORT="1"
 export WIRELESS_SUPPORT="1"
 export GFX_SUPPORT="1"
-export WAYLAND_SUPPORT="1"
+#export WAYLAND_SUPPORT="1"
 export AUDIO_SUPPORT="1"
 
 source ${BASE_DIR}/targets/common/config/config.sh || exit 1
@@ -30,9 +30,12 @@ export DRM_SUPPORT="--enable-intel --enable-radeon --enable-amdgpu --enable-nouv
 SRC_PACKAGE_LIBPCIACCESS="https://www.x.org/archive/individual/lib/libpciaccess-0.14.tar.gz"
 SRC_PACKAGE_GRUB="https://ftp.gnu.org/gnu/grub/grub-2.02.tar.xz"
 
+#SRC_PACKAGE_SYSLINUX="https://mirrors.edge.kernel.org/pub/linux/utils/boot/syslinux/syslinux-6.03.tar.xz"
+#SRC_PACKAGE_LILO=https://www.joonet.de/sources/lilo/lilo-24.2.tar.gz
+
 # Kernel
 
-SRC_PACKAGE_KERNEL="https://mirrors.edge.kernel.org/pub/linux/kernel/v4.x/linux-4.15.9.tar.xz"
+SRC_PACKAGE_KERNEL="https://cdn.kernel.org/pub/linux/kernel/v4.x/linux-4.19.325.tar.xz"
 
 SRC_PACKAGE_DIRECTFB=
 SRC_PACKAGE_PYTHON=

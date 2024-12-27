@@ -11,8 +11,8 @@
 #
 
 # "Local" build tools/libs
-SRC_PACKAGE_BUILD_BINUTILS="@COMMON@""https://ftp.gnu.org/gnu/binutils/binutils-2.42.tar.xz"
-SRC_PACKAGE_BUILD_GCC="@COMMON@""https://ftp.gnu.org/gnu/gcc/gcc-14.1.0/gcc-14.1.0.tar.gz"
+SRC_PACKAGE_BUILD_BINUTILS="@COMMON@""https://ftp.gnu.org/gnu/binutils/binutils-2.43.tar.xz"
+SRC_PACKAGE_BUILD_GCC="@COMMON@""https://ftp.gnu.org/gnu/gcc/gcc-14.2.0/gcc-14.2.0.tar.gz"
 SRC_PACKAGE_BUILD_GCC_MPFR="@COMMON@""https://ftp.gnu.org/gnu/mpfr/mpfr-4.2.1.tar.xz"
 SRC_PACKAGE_BUILD_GCC_GMP="@COMMON@""https://gmplib.org/download/gmp/gmp-6.3.0.tar.xz"
 SRC_PACKAGE_BUILD_GCC_MPC="@COMMON@""https://ftp.gnu.org/gnu/mpc/mpc-1.3.1.tar.gz"
@@ -25,12 +25,13 @@ SRC_PACKAGE_BUILD_LIBXML2="@COMMON@""http://xmlsoft.org/sources/libxml2-2.9.12.t
 SRC_PACKAGE_BUILD_CMAKE="@COMMON@""https://github.com/Kitware/CMake/archive/refs/tags/v3.25.1.tar.gz"
 SRC_PACKAGE_BUILD_MAKE="@COMMON@""https://ftp.gnu.org/gnu/make/make-4.3.tar.gz"
 SRC_PACKAGE_BUILD_LIBNCURSES="@COMMON@""https://ftp.gnu.org/gnu/ncurses/ncurses-6.4.tar.gz"
-SRC_PACKAGE_BUILD_OPENSSL="@COMMON@""https://www.openssl.org/source/openssl-3.0.14.tar.gz"
+SRC_PACKAGE_BUILD_OPENSSL="@COMMON@""https://github.com/openssl/openssl/releases/download/openssl-3.1.7/openssl-3.1.7.tar.gz"
 SRC_PACKAGE_BUILD_TEXINFO="@COMMON@""https://ftp.gnu.org/gnu/texinfo/texinfo-7.1.tar.xz"
 SRC_PACKAGE_BUILD_READLINE="@COMMON@""http://git.savannah.gnu.org/cgit/readline.git/snapshot/readline-8.2.tar.gz"
 #SRC_PACKAGE_BUILD_HEIMDAL="@COMMON@""https://github.com/heimdal/heimdal/releases/download/heimdal-7.8.0/heimdal-7.8.0.tar.gz"
 SRC_PACKAGE_BUILD_PYTHON="@COMMON@""https://www.python.org/ftp/python/3.12.4/Python-3.12.4.tar.xz"
 SRC_PACKAGE_BUILD_PYTHON_SETUPTOOLS="@COMMON@""https://files.pythonhosted.org/packages/aa/60/5db2249526c9b453c5bb8b9f6965fcab0ddb7f40ad734420b3b421f7da44/setuptools-70.0.0.tar.gz"
+SRC_PACKAGE_BUILD_PYTHON_JINJA2="@COMMON@""https://files.pythonhosted.org/packages/af/92/b3130cbbf5591acf9ade8708c365f3238046ac7cb8ccba6e81abccb0ccff/jinja2-3.1.5.tar.gz"
 SRC_PACKAGE_BUILD_DOS2UNIX="@COMMON@""https://freefr.dl.sourceforge.net/project/dos2unix/dos2unix/7.5.0/dos2unix-7.5.0.tar.gz"
 #SRC_PACKAGE_BUILD_BASH="@COMMON@""https://ftp.gnu.org/gnu/bash/bash-5.2.tar.gz"
 SRC_PACKAGE_BUILD_NANOEDITOR="@COMMON@""https://www.nano-editor.org/dist/v8/nano-8.1.tar.xz"
@@ -53,18 +54,21 @@ SRC_PACKAGE_BUILD_FLEX="@COMMON@""https://github.com/westes/flex/archive/refs/ta
 SRC_PACKAGE_BUILD_ZLIB="@COMMON@""https://zlib.net/current/zlib.tar.gz"
 SRC_PACKAGE_BUILD_LIBTIRPC="@COMMON@""https://downloads.sourceforge.net/libtirpc/libtirpc-1.3.4.tar.bz2"
 SRC_PACKAGE_BUILD_LIBNSL="@COMMON@""https://github.com/thkukuk/libnsl/archive/refs/tags/v2.0.1.tar.gz"
-SRC_PACKAGE_BUILD_UTILLINUX="@COMMON@""https://mirrors.edge.kernel.org/pub/linux/utils/util-linux/v2.38/util-linux-2.38.tar.xz"
-SRC_PACKAGE_BUILD_MESON="@COMMON@""https://github.com/mesonbuild/meson/releases/download/1.4.1/meson-1.4.1.tar.gz"
+SRC_PACKAGE_BUILD_UTILLINUX="@COMMON@""https://cdn.kernel.org/pub/linux/utils/util-linux/v2.40/util-linux-2.40.2.tar.xz"
+SRC_PACKAGE_BUILD_MESON="@COMMON@""https://github.com/mesonbuild/meson/releases/download/1.6.1/meson-1.6.1.tar.gz"
+SRC_PACKAGE_BUILD_NINJA="@COMMON@""https://github.com/ninja-build/ninja/archive/refs/tags/v1.12.1.tar.gz"
 SRC_PACKAGE_BUILD_LIBGMP="@COMMON@""https://gmplib.org/download/gmp/gmp-6.3.0.tar.xz"
 SRC_PACKAGE_BUILD_MPFR="@COMMON@""https://ftp.gnu.org/gnu/mpfr/mpfr-4.2.1.tar.xz"
 SRC_PACKAGE_BUILD_MPC="@COMMON@""https://ftp.gnu.org/gnu/mpc/mpc-1.3.1.tar.gz"
-SRC_PACKAGE_BUILD_XZ="@COMMON@""https://github.com/tukaani-project/xz/releases/download/v5.6.2/xz-5.6.2.tar.gz"
+SRC_PACKAGE_BUILD_XZ="@COMMON@""https://github.com/tukaani-project/xz/releases/download/v5.6.3/xz-5.6.3.tar.xz"
 SRC_PACKAGE_BUILD_BZIP2="@COMMON@""https://sourceware.org/pub/bzip2/bzip2-1.0.8.tar.gz"
 SRC_PACKAGE_BUILD_LIBGDM="@COMMON@""https://ftp.gnu.org/gnu/gdbm/gdbm-1.24.tar.gz"
+SRC_PACKAGE_BUILD_DEV86="@COMMON@""https://sources.archlinux.org/other/packages/dev86/Dev86src-0.16.21.tar.gz"
+SRC_PACKAGE_BUILD_SHARUTILS="@COMMON@""https://ftp.gnu.org/gnu/sharutils/sharutils-4.15.tar.xz"
 
-SRC_PACKAGE_BINUTILS="@COMMON@""https://ftp.gnu.org/gnu/binutils/binutils-2.42.tar.xz"
+SRC_PACKAGE_BINUTILS="@COMMON@""https://ftp.gnu.org/gnu/binutils/binutils-2.43.tar.xz"
 
-SRC_PACKAGE_GCC="@COMMON@""https://ftp.gnu.org/gnu/gcc/gcc-14.1.0/gcc-14.1.0.tar.gz"
+SRC_PACKAGE_GCC="@COMMON@""https://ftp.gnu.org/gnu/gcc/gcc-14.2.0/gcc-14.2.0.tar.gz"
 SRC_PACKAGE_GCC_MPFR="@COMMON@""https://ftp.gnu.org/gnu/mpfr/mpfr-4.2.1.tar.xz"
 SRC_PACKAGE_GCC_GMP="@COMMON@""https://gmplib.org/download/gmp/gmp-6.3.0.tar.xz"
 SRC_PACKAGE_GCC_MPC="@COMMON@""https://ftp.gnu.org/gnu/mpc/mpc-1.3.1.tar.gz"
@@ -74,13 +78,13 @@ SRC_PACKAGE_GCC_CLOOG="@COMMON@""https://gcc.gnu.org/pub/gcc/infrastructure/cloo
 SRC_PACKAGE_LIBTIRPC="@COMMON@""https://downloads.sourceforge.net/libtirpc/libtirpc-1.3.4.tar.bz2"
 SRC_PACKAGE_LIBNSL="@COMMON@""https://github.com/thkukuk/libnsl/archive/refs/tags/v2.0.1.tar.gz"
 
-SRC_PACKAGE_GLIBC="@COMMON@""https://ftp.gnu.org/gnu/glibc/glibc-2.39.tar.xz"
+SRC_PACKAGE_GLIBC="@COMMON@""https://ftp.gnu.org/gnu/glibc/glibc-2.40.tar.xz"
 
 SRC_PACKAGE_BUSYBOX="@COMMON@""https://busybox.net/downloads/busybox-1.35.0.tar.bz2"
-SRC_PACKAGE_UTILLINUX="@COMMON@""https://mirrors.edge.kernel.org/pub/linux/utils/util-linux/v2.38/util-linux-2.38.tar.xz"
+SRC_PACKAGE_UTILLINUX="@COMMON@""https://cdn.kernel.org/pub/linux/utils/util-linux/v2.40/util-linux-2.40.2.tar.xz"
 
-SRC_PACKAGE_LIBELF="@COMMON@""https://fossies.org/linux/misc/old/libelf-0.8.13.tar.gz"
-SRC_PACKAGE_ELFUTILS="@COMMON@""https://gcc.gnu.org/pub/elfutils/0.189/elfutils-0.189.tar.bz2"
+#SRC_PACKAGE_LIBELF="@COMMON@""https://fossies.org/linux/misc/old/libelf-0.8.13.tar.gz"
+SRC_PACKAGE_ELFUTILS="@COMMON@""https://gcc.gnu.org/pub/elfutils/0.192/elfutils-0.192.tar.bz2"
 
 SRC_PACKAGE_LIBFFI="@COMMON@""https://github.com/libffi/libffi/releases/download/v3.4.6/libffi-3.4.6.tar.gz"
 SRC_PACKAGE_LIBXML2="@COMMON@""http://xmlsoft.org/sources/libxml2-2.9.12.tar.gz"
@@ -154,11 +158,11 @@ fi
 SRC_PACKAGE_GPGERROR="@COMMON@""https://gnupg.org/ftp/gcrypt/libgpg-error/libgpg-error-1.46.tar.bz2"
 SRC_PACKAGE_LIBASSUAN="@COMMON@""https://gnupg.org/ftp/gcrypt/libassuan/libassuan-2.5.5.tar.bz2"
 SRC_PACKAGE_GPGME="@COMMON@""https://gnupg.org/ftp/gcrypt/gpgme/gpgme-1.18.0.tar.bz2"
-SRC_PACKAGE_OPENSSL="@COMMON@""https://www.openssl.org/source/openssl-3.0.10.tar.gz"
+SRC_PACKAGE_OPENSSL="@COMMON@""https://github.com/openssl/openssl/releases/download/openssl-3.1.7/openssl-3.1.7.tar.gz"
 SRC_PACKAGE_OPENSSH="@COMMON@""https://ftp.fr.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-9.8p1.tar.gz"
 SRC_PACKAGE_NTP="@COMMON@""https://downloads.nwtime.org/ntp/ntp-4.2.8p18.tar.gz"
 SRC_PACKAGE_CHRONY="@COMMON@""https://chrony-project.org/releases/chrony-4.5.tar.gz"
-SRC_PACKAGE_VSFTPD="@COMMON@""https://security.appspot.com/downloads/vsftpd-3.0.5.tar.gz"
+#SRC_PACKAGE_VSFTPD="@COMMON@""https://security.appspot.com/downloads/vsftpd-3.0.5.tar.gz"
 SRC_PACKAGE_LIGHTTPD="@COMMON@""https://download.lighttpd.net/lighttpd/releases-1.4.x/lighttpd-1.4.67.tar.xz"
 #SRC_PACKAGE_CVS=cvs-1.11.23.tar.gz
 SRC_PACKAGE_PXESERVER="@COMMON@""https://github.com/jfdelnero/pxe-server/releases/download/PXE_1_4_2/pxe-1.4.2.tar.gz"
@@ -170,7 +174,7 @@ SRC_PACKAGE_MPFR="@COMMON@""https://ftp.gnu.org/gnu/mpfr/mpfr-4.2.1.tar.xz"
 SRC_PACKAGE_MPC="@COMMON@""https://ftp.gnu.org/gnu/mpc/mpc-1.3.1.tar.gz"
 SRC_PACKAGE_MAILUTILS="@COMMON@""https://ftp.gnu.org/gnu/mailutils/mailutils-3.15.tar.xz"
 SRC_PACKAGE_RIPMIME="@COMMON@""https://github.com/inflex/ripMIME/archive/refs/tags/1.4.1.0.tar.gz"
-SRC_PACKAGE_NETTLE="@COMMON@""https://ftp.gnu.org/gnu/nettle/nettle-3.9.1.tar.gz"
+SRC_PACKAGE_NETTLE="@COMMON@""https://ftp.gnu.org/gnu/nettle/nettle-3.10.tar.gz"
 SRC_PACKAGE_GNUTLS="@COMMON@""https://www.gnupg.org/ftp/gcrypt/gnutls/v3.7/gnutls-3.7.8.tar.xz"
 SRC_PACKAGE_MSMTP="@COMMON@""https://marlam.de/msmtp/releases/msmtp-1.8.22.tar.xz"
 SRC_PACKAGE_SAMBA="@COMMON@""https://download.samba.org/pub/samba/stable/samba-4.18.6.tar.gz" 
@@ -228,9 +232,9 @@ CUR_PART=${AUDIO_SUPPORT:-"UNDEF"}
 if [ "$CUR_PART" != "UNDEF" ]
 then
 
-SRC_PACKAGE_ALSALIB="@COMMON@""https://www.alsa-project.org/files/pub/lib/alsa-lib-1.2.7.2.tar.bz2"
-SRC_PACKAGE_ALSAUTILS="@COMMON@""https://www.alsa-project.org/files/pub/utils/alsa-utils-1.2.7.tar.bz2"
-SRC_PACKAGE_SDLMIXER="@COMMON@""https://www.libsdl.org/projects/SDL_mixer/release/SDL2_mixer-2.6.2.tar.gz"
+SRC_PACKAGE_ALSALIB="@COMMON@""https://www.alsa-project.org/files/pub/lib/alsa-lib-1.2.13.tar.bz2"
+SRC_PACKAGE_ALSAUTILS="@COMMON@""https://www.alsa-project.org/files/pub/utils/alsa-utils-1.2.13.tar.bz2"
+SRC_PACKAGE_SDLMIXER="@COMMON@""https://www.libsdl.org/projects/SDL_mixer/release/SDL2_mixer-2.8.0.tar.gz"
 fi
 
 #
@@ -245,20 +249,20 @@ SRC_PACKAGE_MTDEV="@COMMON@""https://bitmath.org/code/mtdev/mtdev-1.1.6.tar.bz2"
 SRC_PACKAGE_LIBEVDEV="@COMMON@""https://www.freedesktop.org/software/libevdev/libevdev-1.11.0.tar.xz"
 
 SRC_PACKAGE_ATTR="@COMMON@""https://download-mirror.savannah.gnu.org/releases/attr/attr-2.5.1.tar.xz"
-SRC_PACKAGE_UTILLINUX="@COMMON@""http://ftp.free.fr/mirrors/ftp.kernel.org/linux/utils/util-linux/v2.36/util-linux-2.36.tar.xz"
-SRC_PACKAGE_SYSTEMD="@COMMON@""https://github.com/systemd/systemd/archive/refs/tags/v255.tar.gz"
+SRC_PACKAGE_UTILLINUX="@COMMON@""https://cdn.kernel.org/pub/linux/utils/util-linux/v2.40/util-linux-2.40.2.tar.xz"
+#SRC_PACKAGE_SYSTEMD="@COMMON@""https://github.com/systemd/systemd-stable/archive/refs/tags/v255.tar.gz"
 
 SRC_PACKAGE_EUDEV="@COMMON@""https://dev.gentoo.org/~blueness/eudev/eudev-3.2.9.tar.gz"
-SRC_PACKAGE_LIBINPUT="@COMMON@""https://www.freedesktop.org/software/libinput/libinput-1.17.0.tar.xz"
-SRC_PACKAGE_LIBXKBCOMMON="@COMMON@""https://xkbcommon.org/download/libxkbcommon-1.1.0.tar.xz"
+SRC_PACKAGE_LIBINPUT="@COMMON@""https://www.freedesktop.org/software/libinput/libinput-1.19.4.tar.xz"
+#SRC_PACKAGE_LIBXKBCOMMON="@COMMON@""https://xkbcommon.org/download/libxkbcommon-1.7.0.tar.xz"
 SRC_PACKAGE_PIXMAN="@COMMON@""https://cairographics.org/releases/pixman-0.40.0.tar.gz"
 SRC_PACKAGE_CAIRO="@COMMON@""https://www.cairographics.org/releases/cairo-1.16.0.tar.xz"
-SRC_PACKAGE_LIBPAM="@COMMON@""https://github.com/linux-pam/linux-pam/archive/refs/tags/v1.6.1.tar.gz"
+SRC_PACKAGE_LIBPAM="@COMMON@""https://github.com/linux-pam/linux-pam/archive/refs/tags/v1.7.0.tar.gz"
 SRC_PACKAGE_DBUS="@COMMON@""https://dbus.freedesktop.org/releases/dbus/dbus-1.13.18.tar.xz"
 
-SRC_PACKAGE_WAYLAND="@COMMON@""https://wayland.freedesktop.org/releases/wayland-1.19.0.tar.xz"
-SRC_PACKAGE_WAYLANDPROTOCOLS="@COMMON@""https://wayland.freedesktop.org/releases/wayland-protocols-1.20.tar.xz"
-SRC_PACKAGE_WAYLANDWESTON="@COMMON@""https://wayland.freedesktop.org/releases/weston-8.0.91.tar.xz"
+#SRC_PACKAGE_WAYLAND="@COMMON@""https://gitlab.freedesktop.org/wayland/wayland/-/releases/1.23.0/downloads/wayland-1.23.0.tar.xz"
+#SRC_PACKAGE_WAYLANDPROTOCOLS="@COMMON@""https://gitlab.freedesktop.org/wayland/wayland-protocols/-/releases/1.39/downloads/wayland-protocols-1.39.tar.xz"
+#SRC_PACKAGE_WAYLANDWESTON="@COMMON@""https://gitlab.freedesktop.org/wayland/weston/-/releases/14.0.1/downloads/weston-14.0.1.tar.xz"
 
 fi
 
@@ -276,13 +280,13 @@ SRC_PACKAGE_HDIDLE="@COMMON@""https://freefr.dl.sourceforge.net/project/hd-idle/
 fi
 
 SRC_PACKAGE_READLINE="@COMMON@""http://git.savannah.gnu.org/cgit/readline.git/snapshot/readline-8.2.tar.gz"
-SRC_PACKAGE_XZ="@COMMON@""https://github.com/tukaani-project/xz/releases/download/v5.6.2/xz-5.6.2.tar.gz"
+SRC_PACKAGE_XZ="@COMMON@""https://github.com/tukaani-project/xz/releases/download/v5.6.3/xz-5.6.3.tar.xz"
 SRC_PACKAGE_BZIP2="@COMMON@""https://sourceware.org/pub/bzip2/bzip2-1.0.8.tar.gz"
 SRC_PACKAGE_LIBGDM="@COMMON@""https://ftp.gnu.org/gnu/gdbm/gdbm-1.24.tar.gz"
 SRC_PACKAGE_PYTHON="@COMMON@""https://www.python.org/ftp/python/3.12.4/Python-3.12.4.tar.xz"
 
-SRC_PACKAGE_PERL="@COMMON@""https://www.cpan.org/src/5.0/perl-5.40.0.tar.gz"
-SRC_PACKAGE_PERLCROSS="@COMMON@""https://github.com/arsv/perl-cross/raw/releases/perl-cross-1.5.3.tar.gz"
+SRC_PACKAGE_PERL="@COMMON@""https://www.cpan.org/src/5.0/perl-5.41.1.tar.gz"
+SRC_PACKAGE_PERLCROSS="@COMMON@""https://github.com/arsv/perl-cross/raw/releases/perl-cross-1.6.tar.gz"
 SRC_PACKAGE_LIBUSB="@COMMON@""https://github.com/libusb/libusb/releases/download/v1.0.26/libusb-1.0.26.tar.bz2"
 #SRC_PACKAGE_LIBUSBGADGET=libusb-gadget.tar.gz
 

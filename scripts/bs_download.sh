@@ -22,14 +22,15 @@ echo "**********************************"
 echo "*   Starting Download packages   *"
 echo "**********************************"
 
-mkdir -p ${TARGET_HOME}/download || exit 1
-echo >${TARGET_DOWNLOAD}/download_list.txt
-set | grep SRC_PACKAGE_ | grep -v "@COMMON@" | cut -f2 -d"=" > ${TARGET_DOWNLOAD}/download_list.txt
-download_list ${TARGET_DOWNLOAD}/download_list.txt ${TARGET_DOWNLOAD}
-
 mkdir -p ${COMMON_HOME}/download || exit 1
 echo >${COMMON_DOWNLOAD}/download_list.txt
-set | grep SRC_PACKAGE_ | grep "@COMMON@" | sed s#@COMMON@##g | cut -f2 -d"=" > ${COMMON_DOWNLOAD}/download_list.txt
+set | grep SRC_PACKAGE_BUILD_ | grep "@COMMON@" | sed s#@COMMON@##g | cut -f2 -d"=" > ${COMMON_DOWNLOAD}/download_list.txt
+set | grep SRC_PACKAGE_ | grep -v SRC_PACKAGE_BUILD_ | grep "@COMMON@" | sed s#@COMMON@##g | cut -f2 -d"=" > ${COMMON_DOWNLOAD}/download_list.txt
 download_list ${COMMON_DOWNLOAD}/download_list.txt ${COMMON_DOWNLOAD}
+
+mkdir -p ${TARGET_HOME}/download || exit 1
+echo >${TARGET_DOWNLOAD}/download_list.txt
+set | grep SRC_PACKAGE_ | grep -v SRC_PACKAGE_BUILD_ |grep -v "@COMMON@" | cut -f2 -d"=" > ${TARGET_DOWNLOAD}/download_list.txt
+download_list ${TARGET_DOWNLOAD}/download_list.txt ${TARGET_DOWNLOAD}
 
 exit 0

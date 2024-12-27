@@ -481,7 +481,7 @@ then
 		cd ${TMP_BUILD_FOLDER} || exit 1
 		mkdir libnsl
 		cd libnsl || exit 1
-		
+
 		export PKG_CONFIG_PATH=${TARGET_ROOTFS}/lib/pkgconfig
 
 		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
@@ -527,6 +527,7 @@ then
 		cd libelf || exit 1
 
 		export CC=${TGT_MACH}-gcc
+		autoupdate
 
 		sed -i s#main\(\)\{return\(0\)\;\}#int\ main\(\)\{return\(0\)\;\}#g ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure || exit 1
 
@@ -932,6 +933,43 @@ then
 fi
 
 ####################################################################
+# LIBXCRYPT
+####################################################################
+CUR_PACKAGE=${SRC_PACKAGE_LIBXCRYPT:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
+	then
+	(
+		create_src_dir
+		create_build_dir
+
+		unpack ${CUR_PACKAGE} ""
+
+		cd ${TMP_BUILD_FOLDER} || exit 1
+		mkdir libxcrypt
+		cd libxcrypt || exit 1
+
+		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
+					--prefix="${TARGET_ROOTFS}" \
+					--host=$TGT_MACH || exit 1
+
+		make ${MAKE_FLAGS} ${NBCORE}         || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
+
+		delete_build_dir
+		delete_src_dir
+
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
+
+	) || exit 1
+	fi
+) || exit 1
+fi
+
+####################################################################
 # XML EXPAT
 ####################################################################
 
@@ -1094,6 +1132,7 @@ then
 				--disable-write      \
 				--disable-chsh-only-listed \
 				--disable-eject      \
+				--disable-liblastlog2 \
 				--with-bashcompletiondir=${TARGET_ROOTFS}/usr/share/bash-completion/completions/  || exit 1
 
 		make ${MAKE_FLAGS} ${NBCORE}  || exit 1
@@ -1171,24 +1210,18 @@ then
 		create_build_dir
 		unpack ${CUR_PACKAGE} ""
 
-		cd ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}   || exit 1
-
-		#autoupdate
-		./autogen.sh
-
 		cd ${TMP_BUILD_FOLDER} || exit 1
 		mkdir -pv libpam || exit 1
 		cd libpam || exit 1
 
-		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
-				--prefix="${TARGET_ROOTFS}" \
-				--host=$TGT_MACH \
-				--disable-nis \
-				--disable-doc \
-				|| exit 1
+		create_meson_crossfile meson_cross.txt
 
-		make ${MAKE_FLAGS} ${NBCORE}  || exit 1
-		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
+		meson setup ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER} --prefix=${TARGET_ROOTFS}/usr --buildtype=release --cross-file meson_cross.txt \
+		-D docs=disabled \
+		|| exit 1
+
+		ninja || exit 1
+		ninja install || exit 1
 
 		cp -a ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/libpam/include/ ${TARGET_ROOTFS} || exit 1
 		cp -a ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/libpamc/include/ ${TARGET_ROOTFS} || exit 1
@@ -1204,7 +1237,6 @@ then
 
 ) || exit 1
 fi
-
 ####################################################################
 # SystemD
 ####################################################################
@@ -1228,79 +1260,69 @@ then
 		mkdir -pv systemd || exit 1
 		cd systemd || exit 1
 
-		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
-				--prefix="${TARGET_ROOTFS}" \
-				--host=$TGT_MACH            \
-				--disable-python-devel      \
-				--enable-dbus               \
-				--disable-utmp              \
-				--disable-compat-libs       \
-				--disable-coverage          \
-				--disable-kmod              \
-				--disable-xkbcommon         \
-				--enable-blkid              \
-				--disable-seccomp           \
-				--disable-ima               \
-				--disable-selinux           \
-				--disable-apparmor          \
-				--disable-xz                \
-				--disable-zlib              \
-				--enable-bzip2              \
-				--disable-lz4               \
-				--enable-pam                \
-				--disable-acl               \
-				--disable-smack             \
-				--disable-gcrypt            \
-				--disable-audit             \
-				--disable-elfutils          \
-				--disable-libcryptsetup     \
-				--disable-qrencode          \
-				--disable-microhttpd        \
-				--disable-gnutls            \
-				--disable-libcurl           \
-				--disable-libidn            \
-				--disable-libiptc           \
-				--disable-binfmt            \
-				--disable-vconsole          \
-				--disable-bootchart         \
-				--disable-quotacheck        \
-				--disable-tmpfiles          \
-				--disable-sysusers          \
-				--disable-firstboot         \
-				--disable-randomseed        \
-				--disable-backlight         \
-				--disable-rfkill            \
-				--enable-logind             \
-				--disable-machined          \
-				--disable-importd           \
-				--disable-hostnamed         \
-				--disable-timedated         \
-				--disable-timesyncd         \
-				--disable-localed           \
-				--disable-coredump          \
-				--disable-polkit            \
-				--disable-resolved          \
-				--disable-networkd          \
-				--disable-efi               \
-				--disable-gnuefi            \
-				--disable-terminal          \
-				--disable-kdbus             \
-				--disable-myhostname        \
-				--disable-hwdb              \
-				--disable-manpages          \
-				--disable-hibernate         \
-				--disable-ldconfig          \
-				--enable-split-usr          \
-				--disable-tests             \
-				--without-python            \
-				--with-bashcompletiondir="${TARGET_ROOTFS}/share/bash-completions/completions" \
-				--with-rootprefix="${TARGET_ROOTFS}" \
-				--with-sysvinit-path="${TARGET_ROOTFS}"/etc/init.d \
-				--with-sysvrcnd-path="${TARGET_ROOTFS}"/etc \
-				PKG_CONFIG_PATH=${TARGET_ROOTFS}/lib/pkgconfig \
-				ac_cv_func_malloc_0_nonnull=yes ac_cv_func_realloc_0_nonnull=yes || exit 1
+		create_meson_crossfile meson_cross.txt
 
-		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
+		meson setup ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER} --prefix=${TARGET_ROOTFS}/usr --buildtype=release --cross-file meson_cross.txt \
+		-D utmp=false               \
+		-D kmod=false               \
+		-D xkbcommon=false          \
+		-D seccomp=false            \
+		-D ima=false                \
+		-D selinux=false            \
+		-D apparmor=false           \
+		-D xz=false                 \
+		-D zlib=false               \
+		-D lz4=false                \
+		-D acl=false                \
+		-D smack=false              \
+		-D gcrypt=false             \
+		-D audit=false              \
+		-D elfutils=false           \
+		-D libcryptsetup=false      \
+		-D qrencode=false           \
+		-D microhttpd=false         \
+		-D gnutls=false             \
+		-D libcurl=false            \
+		-D libidn=false             \
+		-D libiptc=false            \
+		-D binfmt=false             \
+		-D vconsole=false           \
+		-D quotacheck=false         \
+		-D tmpfiles=false           \
+		-D sysusers=false           \
+		-D firstboot=false          \
+		-D randomseed=false         \
+		-D backlight=false          \
+		-D rfkill=false             \
+		-D machined=false           \
+		-D importd=false            \
+		-D hostnamed=false          \
+		-D timedated=false          \
+		-D timesyncd=false          \
+		-D localed=false            \
+		-D coredump=false           \
+		-D polkit=false             \
+		-D networkd=false           \
+		-D efi=false                \
+		-D hwdb=false               \
+		-D hibernate=false          \
+		-D ldconfig=false           \
+		-D tests=false              \
+		-D split-usr=false           \
+		-D dbus=false                \
+		-D blkid=false               \
+		-D bzip2=false              \
+		-D pam=false                 \
+		-D logind=false              \
+		-D mode=release             \
+		-D pamconfdir=no            \
+		-D dev-kvm-mode=0660        \
+		-D nobody-group=nogroup     \
+		-D sysupdate=false          \
+		 || exit 1
+
+		ninja || exit 1
+		ninja install || exit 1
 
 		delete_build_dir
 		delete_src_dir
@@ -1336,13 +1358,17 @@ then
 		mkdir -pv libinput || exit 1
 		cd libinput || exit 1
 
-		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
-				--prefix="${TARGET_ROOTFS}" \
-				--host=$TGT_MACH \
-				--disable-documentation --disable-debug-gui --disable-tests --disable-libwacom || exit 1
+		create_meson_crossfile meson_cross.txt
 
-		make ${MAKE_FLAGS} ${NBCORE}  || exit 1
-		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
+		meson setup ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER} --prefix=${TARGET_ROOTFS}/usr --buildtype=release --cross-file meson_cross.txt \
+			-D documentation=false \
+			-D debug-gui=false \
+			-D tests=false \
+			-D libwacom=false \
+		|| exit 1
+
+		ninja || exit 1
+		ninja install || exit 1
 
 		delete_build_dir
 		delete_src_dir

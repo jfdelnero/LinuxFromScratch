@@ -8,6 +8,8 @@
 
 mkdir -p ${TARGET_ROOTFS}               || exit 1
 mkdir -p ${TARGET_CROSS_TOOLS}          || exit 1
+mkdir -p ${BUILDTOOLS_HOME}             || exit 1
+mkdir -p ${BUILDTOOLS_BUILD}            || exit 1
 
 mkdir -p ${TARGET_ROOTFS}               || exit 1
 mkdir -p ${TARGET_ROOTFS}/bin           || exit 1

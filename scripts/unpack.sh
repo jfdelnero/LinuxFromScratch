@@ -19,3 +19,12 @@ function unpack {
 	export TMP_ARCHIVE_FOLDER=`tar tf ${DOWNLOAD_FOLDER}/$1 | sed -e 's@/.*@@' | uniq`
 	tar xvf ${DOWNLOAD_FOLDER}/$1 --directory=${TMP_SRC_FOLDER}/$2 >/dev/null || exit 1
 }
+
+function unpack_buildtools {
+
+	export DOWNLOAD_FOLDER=${COMMON_DOWNLOAD}
+
+	echo "Unpacking $1 (from common download folder)..."
+	export TMP_ARCHIVE_FOLDER=`tar tf ${DOWNLOAD_FOLDER}/$1 | sed -e 's@/.*@@' | uniq`
+	tar xvf ${DOWNLOAD_FOLDER}/$1 --directory=${TMP_SRC_FOLDER}/$2 >/dev/null || exit 1
+}

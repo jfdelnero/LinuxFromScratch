@@ -85,6 +85,7 @@ then
 						--enable-mount \
 						--enable-libmount \
 						--enable-libblkid \
+						--disable-liblastlog2 \
 						--with-bashcompletiondir=${TARGET_ROOTFS}/usr/share/bash-completion/completions/ \
 						--disable-makeinstall-chown \
 						--disable-makeinstall-setuid \

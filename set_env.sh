@@ -32,21 +32,27 @@ else
 		export TARGET_DOWNLOAD="${TARGET_HOME}/download"
 		export TARGET_CROSS_TOOLS="${TARGET_HOME}/cross-tools"
 
+		export BUILDTOOLS_HOME="${BASE_DIR}/build-tools/"
+		export BUILDTOOLS_CONFIG="${BUILDTOOLS_HOME}/config"
+		export BUILDTOOLS_BUILD="${BUILDTOOLS_HOME}/build"
+
 		export COMMON_HOME="${BASE_DIR}/targets/common"
 		export COMMON_CONFIG="${COMMON_HOME}/config"
 		export COMMON_PATCHES="${COMMON_HOME}/patches"
 		export COMMON_DOWNLOAD="${COMMON_HOME}/download"
 
 		export BUILD_MODE="BUILD_MODE_SHM"
+		export BUILD_TMP_OBJ_BASEFOLDER="/dev/shm"
+
 		export MAKE_FLAGS="-s"
 
 		if [ -z "$LD_LIBRARY_PATH" ]; then
-			export LD_LIBRARY_PATH=${TARGET_CROSS_TOOLS}/lib:${TARGET_CROSS_TOOLS}/lib64
+			export LD_LIBRARY_PATH=${BUILDTOOLS_HOME}/lib:${BUILDTOOLS_HOME}/lib64:${TARGET_CROSS_TOOLS}/lib:${TARGET_CROSS_TOOLS}/lib64
 		else
-			export LD_LIBRARY_PATH=${TARGET_CROSS_TOOLS}/lib:${TARGET_CROSS_TOOLS}/lib64:${LD_LIBRARY_PATH}
+			export LD_LIBRARY_PATH=${BUILDTOOLS_HOME}/lib:${BUILDTOOLS_HOME}/lib64:${TARGET_CROSS_TOOLS}/lib:${TARGET_CROSS_TOOLS}/lib64:${LD_LIBRARY_PATH}
 		fi
 
-		export PATH="${TARGET_CROSS_TOOLS}/bin:${TARGET_CROSS_TOOLS}/usr/bin:${TARGET_CROSS_TOOLS}/sbin:${PATH}:${BASE_DIR}/scripts:"
+		export PATH="${BUILDTOOLS_HOME}/bin:${BUILDTOOLS_HOME}/usr/bin:${BUILDTOOLS_HOME}/sbin:${TARGET_CROSS_TOOLS}/bin:${TARGET_CROSS_TOOLS}/usr/bin:${TARGET_CROSS_TOOLS}/sbin:${PATH}:${BASE_DIR}/scripts:"
 
 		source ${TARGET_CONFIG}/config.sh
 

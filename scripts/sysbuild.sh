@@ -53,7 +53,7 @@ then
 	stage_network="no"
 	stage_miscellaneous="no"
 	stage_games="no"
-	stage_buildtools="no"
+	stage_buildtools="yes"
 	stage_target_compiler="no"
 fi
 
@@ -67,8 +67,8 @@ MODE=${BUILD_MODE:-"UNDEF"}
 MODE="${MODE##*/}"
 if [ "$MODE" == "BUILD_MODE_SHM" ]
 then
-	rm -rf /dev/shm/LinuxFromScratch/tmp_src
-	rm -rf /dev/shm/LinuxFromScratch/tmp_build
+	rm -rf ${BUILD_TMP_OBJ_BASEFOLDER}/LinuxFromScratch/tmp_src
+	rm -rf ${BUILD_TMP_OBJ_BASEFOLDER}/LinuxFromScratch/tmp_build
 fi
 
 ####################################################################

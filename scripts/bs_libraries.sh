@@ -542,6 +542,9 @@ then
 		mkdir libnettle
 		cd libnettle || exit 1
 
+		# Force cross compiling ...
+		sed -i "s/cross_compiling\=no/cross_compiling\=yes/g" ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure
+
 		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
 					--prefix="${TARGET_ROOTFS}" \
 					--host=$TGT_MACH || exit 1

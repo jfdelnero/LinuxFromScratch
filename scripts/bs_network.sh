@@ -39,7 +39,7 @@ then
 
 		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
 				--prefix="${TARGET_ROOTFS}" \
- 				--build=$MACHTYPE \
+				--build=$MACHTYPE \
 				--host=$TGT_MACH \
 				--target=$TGT_MACH || exit 1
 

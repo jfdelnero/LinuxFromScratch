@@ -431,7 +431,7 @@ then
 		cd ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}  || exit 1
 
 # Native build just to get the right embedded asn1_compile and compile_et...
- 
+
 		rm ${TARGET_CROSS_TOOLS}/bin/asn1_compile
 		rm ${TARGET_CROSS_TOOLS}/bin/compile_et
 

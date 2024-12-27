@@ -156,6 +156,14 @@ then
 
 		cd ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER} || exit 1
 
+		if [ -f ${TARGET_CONFIG}/patches/lilo.patch ]
+		then
+		(
+			cd src || exit 1
+			patch -Zf < ${TARGET_CONFIG}/patches/lilo.patch  || exit 1
+		) || exit 1
+		fi
+
 		export CC=${TGT_MACH}-gcc
 		export LD=${TGT_MACH}-ld
 		export AS=${TGT_MACH}-as
@@ -384,7 +392,7 @@ then
 
 		unpack ${CUR_PACKAGE} ""
 
-		cd ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER} || exit 
+		cd ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER} || exit
 
 		export CC=${TGT_MACH}-gcc
 		export LD=${TGT_MACH}-ld
@@ -439,7 +447,7 @@ then
 				--build=$MACHTYPE \
 				--host=$TGT_MACH \
 				--target=$TGT_MACH \
-				--with-build-python="${TARGET_CROSS_TOOLS}/bin/python3" \
+				--with-build-python="${BUILDTOOLS_HOME}/bin/python3" \
 				--enable-ipv6 \
 				--enable-optimizations \
 				--enable-shared \

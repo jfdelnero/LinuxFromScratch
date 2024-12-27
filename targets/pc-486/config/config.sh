@@ -36,7 +36,7 @@ SRC_PACKAGE_LIBPCIACCESS="https://www.x.org/archive/individual/lib/libpciaccess-
 SRC_PACKAGE_SYSLINUX="https://mirrors.edge.kernel.org/pub/linux/utils/boot/syslinux/Testing/6.04/syslinux-6.04-pre1.tar.gz"
 
 # Kernel
-SRC_PACKAGE_KERNEL="https://git.kernel.org/torvalds/t/linux-5.12-rc5.tar.gz"
+SRC_PACKAGE_KERNEL="https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.15.175.tar.xz"
 
 SRC_PACKAGE_DIRECTFB=
 SRC_PACKAGE_PYTHON=
