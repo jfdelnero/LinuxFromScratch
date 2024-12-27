@@ -73,9 +73,7 @@ then
 
 		unpack ${CUR_PACKAGE} ""
 
-		cd ${TMP_BUILD_FOLDER} || exit 1
-		mkdir utilsalsa
-		cd utilsalsa || exit 1
+		cd ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER} || exit 1
 
 		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
 				--prefix="${TARGET_ROOTFS}" \
