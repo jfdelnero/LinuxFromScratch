@@ -13,7 +13,7 @@ cd ${TARGET_HOME}/output_objects/tmp_mount_point/ || exit 1
 if [[ ! -d "./etc" ]]
 then
 (
-    exit 1
+	exit 1
 )
 fi
 
