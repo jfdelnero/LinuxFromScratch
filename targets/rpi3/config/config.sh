@@ -59,7 +59,6 @@ export SRC_PACKAGE_OPENOCD="https://freefr.dl.sourceforge.net/project/openocd/op
 ###################################################
 # Kernel
 
-#SRC_PACKAGE_KERNEL="https://github.com/raspberrypi/linux/archive/refs/tags/1.20221104.tar.gz"
-SRC_PACKAGE_KERNEL="https://github.com/raspberrypi/linux/archive/refs/tags/raspberrypi-kernel_1.20201126-1.tar.gz"
+SRC_PACKAGE_KERNEL="https://github.com/raspberrypi/linux/archive/refs/tags/stable_20241008.tar.gz"
 
 SRC_PACKAGE_DIRECTFB=

@@ -29,5 +29,5 @@ export DRM_SUPPORT="--enable-vc4"
 
 # Kernel
 
-SRC_PACKAGE_KERNEL="https://github.com/raspberrypi/linux/archive/raspberrypi-kernel_1.20171029-1.tar.gz"
+SRC_PACKAGE_KERNEL="https://github.com/raspberrypi/linux/archive/refs/tags/stable_20241008.tar.gz"
 
