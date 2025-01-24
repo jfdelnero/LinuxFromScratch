@@ -1,0 +1,10 @@
+--- Makefile.extra-dist	2025-01-24 17:57:47.264225519 +0100
++++ Makefile.extra-dist	2025-01-24 18:00:40.704234782 +0100
+@@ -27,6 +27,7 @@
+ EXTRA_DIST += grub-core/gensymlist.sh
+ EXTRA_DIST += grub-core/genemuinit.sh
+ EXTRA_DIST += grub-core/genemuinitheader.sh
++EXTRA_DIST += grub-core/extra-deps.lst
+ 
+ EXTRA_DIST += grub-core/lib/gnulib-patches/fix-width.patch
+ 

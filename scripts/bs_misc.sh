@@ -109,25 +109,42 @@ then
 	then
 	(
 		create_src_dir
-		create_build_dir
 
 		unpack ${CUR_PACKAGE} ""
 
-		cd ${TMP_BUILD_FOLDER} || exit 1
-		mkdir grub
-		cd grub || exit 1
+		cd ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER} || exit 1
+
+		if [ -f ${TARGET_CONFIG}/patches/grub.patch ]
+		then
+		(
+			cd conf || exit 1
+			patch -Zf < ${TARGET_CONFIG}/patches/grub.patch  || exit 1
+		) || exit 1
+		fi
+
+		cd ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER} || exit 1
+
+		unset PKG_CONFIG_LIBDIR
+
+		export GRUB_AUTORECONF=1
+		export GRUB_AUTOGEN=1
+
+		echo depends bli part_gpt > ./grub-core/extra_deps.lst || exit 1
 
 		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
 				--prefix="${TARGET_ROOTFS}" \
 				--build=$MACHTYPE \
 				--host=$TGT_MACH \
 				--target=$TGT_MACH \
+				--disable-werror \
+				--disable-efiemu \
 				|| exit 1
+
+		./autogen.sh ||  exit 1
 
 		make ${MAKE_FLAGS} ${NBCORE}         || exit 1
 		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
 
-		delete_build_dir
 		delete_src_dir
 
 		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
