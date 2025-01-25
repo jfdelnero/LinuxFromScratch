@@ -9,4 +9,4 @@
 
 source ${TARGET_CONFIG}/config.sh || exit 1
 
-cp arch/${KERNEL_ARCH}/boot/Image ${TARGET_ROOTFS}/boot/Image || exit 1
+cp arch/${KERNEL_ARCH}/boot/*Image ${TARGET_ROOTFS}/boot/ || exit 1

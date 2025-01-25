@@ -29,6 +29,8 @@ export DRM_SUPPORT="--enable-intel --enable-radeon --enable-amdgpu --enable-nouv
 
 SRC_PACKAGE_LIBPCIACCESS="https://www.x.org/archive/individual/lib/libpciaccess-0.14.tar.gz"
 SRC_PACKAGE_GRUB="https://ftp.gnu.org/gnu/grub/grub-2.12.tar.xz"
+SRC_PACKAGE_GRUB_BIOS="https://ftp.gnu.org/gnu/grub/grub-2.12.tar.xz"
+SRC_PACKAGE_GRUB_EFI="https://ftp.gnu.org/gnu/grub/grub-2.12.tar.xz"
 
 #SRC_PACKAGE_SYSLINUX="https://mirrors.edge.kernel.org/pub/linux/utils/boot/syslinux/syslinux-6.03.tar.xz"
 #SRC_PACKAGE_LILO=https://www.joonet.de/sources/lilo/lilo-24.2.tar.gz
