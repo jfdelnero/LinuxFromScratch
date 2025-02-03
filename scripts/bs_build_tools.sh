@@ -1567,7 +1567,7 @@ then
 
 		make ${MAKE_FLAGS} -f Makefile-libbz2_so      || exit 1
 		make ${MAKE_FLAGS} || exit 1
-		make ${MAKE_FLAGS} -n install PREFIX="${BUILDTOOLS_HOME}" || exit 1
+		make ${MAKE_FLAGS} install PREFIX="${BUILDTOOLS_HOME}" || exit 1
 		cp -v bzip2-shared ${BUILDTOOLS_HOME}/bin/bzip2
 		cp -av libbz2.so* ${BUILDTOOLS_HOME}/lib
 		ln -sv libbz2.so.1.0 ${BUILDTOOLS_HOME}/lib/libbz2.so
@@ -2028,3 +2028,167 @@ then
 	fi
 ) || exit 1
 fi
+
+####################################################################
+# USERSPACE RCU
+####################################################################
+
+CUR_PACKAGE=${SRC_PACKAGE_BUILD_USERSPACE_RCU:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${BUILDTOOLS_BUILD}/${CUR_PACKAGE}_BUILD_DONE ]
+	then
+	(
+		create_src_dir
+		create_build_dir
+
+		unpack_buildtools ${CUR_PACKAGE} ""
+
+		cd ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER} || exit 1
+
+		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/bootstrap
+
+		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
+				--prefix="${BUILDTOOLS_HOME}" \
+				|| exit 1
+
+		make ${MAKE_FLAGS} ${NBCORE} || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
+
+		delete_build_dir
+		delete_src_dir
+
+		echo "" > ${BUILDTOOLS_BUILD}/${CUR_PACKAGE}_BUILD_DONE
+
+	) || exit 1
+	fi
+) || exit 1
+fi
+
+####################################################################
+# NTIRPC
+####################################################################
+
+CUR_PACKAGE=${SRC_PACKAGE_BUILD_NTIRPC:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${BUILDTOOLS_BUILD}/${CUR_PACKAGE}_BUILD_DONE ]
+	then
+	(
+		create_src_dir
+		create_build_dir
+
+		unpack_buildtools ${CUR_PACKAGE} ""
+
+		cd ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER} || exit 1
+
+		cmake .  -DCMAKE_INSTALL_PREFIX=${BUILDTOOLS_HOME} -DCMAKE_SYSTEM_PREFIX_PATH=${BUILDTOOLS_HOME} || exit 1
+
+		make ${MAKE_FLAGS} ${NBCORE} || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
+
+		cp -av ${BUILDTOOLS_HOME}/include/tirpc/* ${BUILDTOOLS_HOME}/include/  || exit 1
+
+		delete_build_dir
+		delete_src_dir
+
+		echo "" > ${BUILDTOOLS_BUILD}/${CUR_PACKAGE}_BUILD_DONE
+
+	) || exit 1
+	fi
+) || exit 1
+fi
+
+
+####################################################################
+# libelf
+####################################################################
+CUR_PACKAGE=${SRC_PACKAGE_BUILD_LIBELF:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_BUILD_DONE ]
+	then
+	(
+		echo "*******************"
+		echo "*  local libelf   *"
+		echo "*******************"
+
+		create_src_dir
+		create_build_dir
+		unpack_buildtools ${CUR_PACKAGE} ""
+
+		cd ${TMP_BUILD_FOLDER} || exit 1
+		mkdir -pv libelf_local || exit 1
+		cd libelf_local || exit 1
+
+		autoupdate
+
+		sed -i s#main\(\)\{return\(0\)\;\}#int\ main\(\)\{return\(0\)\;\}#g ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure || exit 1
+
+		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
+				--prefix="${BUILDTOOLS_HOME}" \
+				--target=$TGT_MACH \
+				--enable-elf64 \
+				--enable-compat || exit 1
+
+		make ${MAKE_FLAGS} ${NBCORE}  || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
+
+		delete_build_dir
+		delete_src_dir
+
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
+
+	) || exit 1
+	fi
+
+) || exit 1
+fi
+
+####################################################################
+# local elfutils
+####################################################################
+CUR_PACKAGE=${SRC_PACKAGE_BUILD_ELFUTILS:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_BUILD_DONE ]
+	then
+	(
+		echo "*********************"
+		echo "*  local elfutils   *"
+		echo "*********************"
+
+		create_src_dir
+		create_build_dir
+		unpack_buildtools ${CUR_PACKAGE} ""
+
+		cd ${TMP_BUILD_FOLDER} || exit 1
+		mkdir -pv elfutils_local || exit 1
+		cd elfutils_local || exit 1
+
+		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
+				--prefix="${BUILDTOOLS_HOME}" \
+				--disable-libdebuginfod --disable-debuginfod || exit 1
+
+		make ${MAKE_FLAGS} ${NBCORE}  || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} -C libelf install || exit 1
+
+		delete_build_dir
+		delete_src_dir
+
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
+
+	) || exit 1
+	fi
+
+) || exit 1
+fi
+
