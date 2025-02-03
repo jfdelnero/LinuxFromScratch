@@ -282,6 +282,91 @@ then
 fi
 
 ####################################################################
+# UCLIBC headers
+####################################################################
+CUR_PACKAGE=${SRC_PACKAGE_UCLIBC:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_LIBC_DONE ]
+	then
+	(
+		echo "*********************"
+		echo "*   uclibC headers  *"
+		echo "*********************"
+
+		create_src_dir
+		unpack ${CUR_PACKAGE} ""
+
+		cd  ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER} || exit 1
+
+		make clean || exit 1
+		make defconfig || exit 1
+
+		# use a predefined config if present.
+		if [ -f ${TARGET_CONFIG}/uclibc_config ]
+		then
+		(
+			cp ${TARGET_CONFIG}/uclibc_config .config || exit 1
+		)
+		fi
+
+		make PREFIX=${TARGET_ROOTFS} install_headers || exit 1
+
+	) || exit 1
+	fi
+) || exit 1
+fi
+
+####################################################################
+# UCLIB C libraries
+####################################################################
+CUR_PACKAGE=${SRC_PACKAGE_UCLIBC:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_LIBC_DONE ]
+	then
+	(
+		echo "*************"
+		echo "*   uclibC   *"
+		echo "*************"
+
+		create_src_dir
+		unpack ${CUR_PACKAGE} ""
+
+		cd  ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER} || exit 1
+
+		export CC=${TGT_MACH}-gcc
+		export LD=${TGT_MACH}-ld
+		export AS=${TGT_MACH}-as
+		export AR=${TGT_MACH}-ar
+
+		make clean || exit 1
+
+		# use a predefined config if present.
+		if [ -f ${TARGET_CONFIG}/uclibc_config ]
+		then
+		(
+			cp ${TARGET_CONFIG}/uclibc_config .config || exit 1
+		)
+		fi
+
+		make oldconfig || exit 1
+
+		make PREFIX=${TARGET_ROOTFS} CROSS_COMPILE=${TGT_MACH}- || exit 1
+		make PREFIX=${TARGET_ROOTFS} install || exit 1
+
+		#echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_LIBC_DONE
+
+	) || exit 1
+	fi
+) || exit 1
+fi
+
+####################################################################
 # Gcc lib
 ####################################################################
 CUR_PACKAGE=${SRC_PACKAGE_GCC:-"UNDEF"}
@@ -308,6 +393,54 @@ then
 	) || exit 1
 	fi
 
+) || exit 1
+fi
+
+
+####################################################################
+# UCLIB C libraries
+####################################################################
+CUR_PACKAGE=${SRC_PACKAGE_UCLIBC:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_LIBC_DONE ]
+	then
+	(
+		echo "*************"
+		echo "*   uclibC   *"
+		echo "*************"
+
+		create_src_dir
+		unpack ${CUR_PACKAGE} ""
+
+		cd  ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER} || exit 1
+
+		export CC=${TGT_MACH}-gcc
+		export LD=${TGT_MACH}-ld
+		export AS=${TGT_MACH}-as
+		export AR=${TGT_MACH}-ar
+
+		make clean || exit 1
+
+		# use a predefined config if present.
+		if [ -f ${TARGET_CONFIG}/uclibc_config ]
+		then
+		(
+			cp ${TARGET_CONFIG}/uclibc_config .config || exit 1
+		)
+		fi
+
+		make oldconfig || exit 1
+
+		make PREFIX=${TARGET_ROOTFS} CROSS_COMPILE=${TGT_MACH}- || exit 1
+		make PREFIX=${TARGET_ROOTFS} install || exit 1
+
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_LIBC_DONE
+
+	) || exit 1
+	fi
 ) || exit 1
 fi
 
@@ -369,6 +502,47 @@ then
 		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_LIBCPP_DONE
 
 		delete_build_dir
+		delete_src_dir
+
+	) || exit 1
+	fi
+) || exit 1
+fi
+
+####################################################################
+# Newlib
+####################################################################
+CUR_PACKAGE=${SRC_PACKAGE_NEWLIB:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_LIBC_DONE ]
+	then
+	(
+		echo "*************"
+		echo "*   newlib  *"
+		echo "*************"
+
+		create_src_dir
+		unpack ${CUR_PACKAGE} ""
+
+		cd  ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER} || exit 1
+
+		export CC=${TGT_MACH}-gcc
+		export LD=${TGT_MACH}-ld
+		export AS=${TGT_MACH}-as
+		export AR=${TGT_MACH}-ar
+
+		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
+					--prefix="${TARGET_ROOTFS}" \
+					--target=$TGT_MACH \
+					--disable-newlib-supplied-syscalls \
+					|| exit 1
+
+		make ${MAKE_FLAGS} ${NBCORE}         || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
+
 		delete_src_dir
 
 	) || exit 1
@@ -577,11 +751,11 @@ then
 		export CC=${TGT_MACH}-gcc
 
 		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
-				--prefix="${TARGET_ROOTFS}" -host=$TGT_MACH \
+				--prefix="${TARGET_ROOTFS}" --host=$TGT_MACH \
 				--disable-libdebuginfod --disable-debuginfod || exit 1
 
 		make ${MAKE_FLAGS} ${NBCORE}  || exit 1
-		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} -C libelf install || exit 1
 
 		delete_build_dir
 		delete_src_dir
