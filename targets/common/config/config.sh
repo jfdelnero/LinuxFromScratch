@@ -26,7 +26,7 @@ SRC_PACKAGE_BUILD_CMAKE="@COMMON@""https://github.com/Kitware/CMake/archive/refs
 SRC_PACKAGE_BUILD_MAKE="@COMMON@""https://ftp.gnu.org/gnu/make/make-4.3.tar.gz"
 SRC_PACKAGE_BUILD_LIBNCURSES="@COMMON@""https://ftp.gnu.org/gnu/ncurses/ncurses-6.4.tar.gz"
 SRC_PACKAGE_BUILD_OPENSSL="@COMMON@""https://github.com/openssl/openssl/releases/download/openssl-3.1.7/openssl-3.1.7.tar.gz"
-SRC_PACKAGE_BUILD_TEXINFO="@COMMON@""https://ftp.gnu.org/gnu/texinfo/texinfo-7.1.tar.xz"
+SRC_PACKAGE_BUILD_TEXINFO="@COMMON@""https://ftp.gnu.org/gnu/texinfo/texinfo-7.2.tar.xz"
 SRC_PACKAGE_BUILD_READLINE="@COMMON@""http://git.savannah.gnu.org/cgit/readline.git/snapshot/readline-8.2.tar.gz"
 #SRC_PACKAGE_BUILD_HEIMDAL="@COMMON@""https://github.com/heimdal/heimdal/releases/download/heimdal-7.8.0/heimdal-7.8.0.tar.gz"
 SRC_PACKAGE_BUILD_PYTHON="@COMMON@""https://www.python.org/ftp/python/3.12.4/Python-3.12.4.tar.xz"
@@ -65,6 +65,10 @@ SRC_PACKAGE_BUILD_BZIP2="@COMMON@""https://sourceware.org/pub/bzip2/bzip2-1.0.8.
 SRC_PACKAGE_BUILD_LIBGDM="@COMMON@""https://ftp.gnu.org/gnu/gdbm/gdbm-1.24.tar.gz"
 SRC_PACKAGE_BUILD_DEV86="@COMMON@""https://sources.archlinux.org/other/packages/dev86/Dev86src-0.16.21.tar.gz"
 SRC_PACKAGE_BUILD_SHARUTILS="@COMMON@""https://ftp.gnu.org/gnu/sharutils/sharutils-4.15.tar.xz"
+SRC_PACKAGE_BUILD_USERSPACE_RCU="@COMMON@""https://github.com/urcu/userspace-rcu/archive/refs/tags/v0.15.0.tar.gz"
+SRC_PACKAGE_BUILD_NTIRPC="@COMMON@""http://ftp.debian.org/debian/pool/main/n/ntirpc/ntirpc_5.8.orig.tar.gz"
+#SRC_PACKAGE_BUILD_LIBELF="@COMMON@""https://fossies.org/linux/misc/old/libelf-0.8.13.tar.gz"
+SRC_PACKAGE_BUILD_ELFUTILS="@COMMON@""https://gcc.gnu.org/pub/elfutils/0.192/elfutils-0.192.tar.bz2"
 
 SRC_PACKAGE_BINUTILS="@COMMON@""https://ftp.gnu.org/gnu/binutils/binutils-2.43.tar.xz"
 
@@ -79,6 +83,8 @@ SRC_PACKAGE_LIBTIRPC="@COMMON@""https://downloads.sourceforge.net/libtirpc/libti
 SRC_PACKAGE_LIBNSL="@COMMON@""https://github.com/thkukuk/libnsl/archive/refs/tags/v2.0.1.tar.gz"
 
 SRC_PACKAGE_GLIBC="@COMMON@""https://ftp.gnu.org/gnu/glibc/glibc-2.40.tar.xz"
+#SRC_PACKAGE_UCLIBC="@COMMON@""https://downloads.uclibc-ng.org/releases/1.0.50/uClibc-ng-1.0.50.tar.xz"
+#SRC_PACKAGE_NEWLIB="@COMMON@""https://sources.buildroot.net/newlib-bare-metal/newlib-4.4.0.20231231.tar.gz"
 
 SRC_PACKAGE_BUSYBOX="@COMMON@""https://busybox.net/downloads/busybox-1.35.0.tar.bz2"
 SRC_PACKAGE_UTILLINUX="@COMMON@""https://cdn.kernel.org/pub/linux/utils/util-linux/v2.40/util-linux-2.40.2.tar.xz"
@@ -108,7 +114,7 @@ if [ "$CUR_PART" != "UNDEF" ]
 then
 
 SRC_PACKAGE_GDB="@COMMON@""https://ftp.gnu.org/gnu/gdb/gdb-15.1.tar.xz"
-SRC_PACKAGE_STRACE="@COMMON@""https://github.com/strace/strace/releases/download/v6.9/strace-6.9.tar.xz"
+SRC_PACKAGE_STRACE="@COMMON@""https://github.com/strace/strace/releases/download/v6.13/strace-6.13.tar.xz"
 #SRC_PACKAGE_LTRACE="@COMMON@""https://fossies.org/linux/misc/ltrace-0.7.3.tar.gz"
 SRC_PACKAGE_VALGRIND="@COMMON@""https://sourceware.org/pub/valgrind/valgrind-3.19.0.tar.bz2"
 
@@ -303,6 +309,8 @@ SRC_PACKAGE_USBMODESWITCH="@COMMON@""https://www.draisberghof.de/usb_modeswitch/
 
 SRC_PACKAGE_FFTW="@COMMON@""https://www.fftw.org/fftw-3.3.10.tar.gz"
 SRC_PACKAGE_HACKRF="@COMMON@""https://github.com/greatscottgadgets/hackrf/releases/download/v2022.09.1/hackrf-2022.09.1.tar.xz"
+#SRC_PACKAGE_PCMCIAUTILS="@COMMON@""https://www.kernel.org/pub/linux/utils/kernel/pcmcia/pcmciautils-018.tar.xz"
+#SRC_PACKAGE_SYSFSUTILS="@COMMON@""https://github.com/linux-ras/sysfsutils/archive/refs/tags/v2.1.1.tar.gz"
 
 #
 # Target build system
