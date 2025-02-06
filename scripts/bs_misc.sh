@@ -256,8 +256,8 @@ then
 
 		cd ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER} || exit 1
 
-		make ${MAKE_FLAGS} ${NBCORE} CROSS_COMPILE=${TGT_MACH}- PREFIX=${TARGET_ROOTFS} HOST=${TARGET_ROOTFS} || exit 1
-		make ${MAKE_FLAGS} ${NBCORE} CROSS_COMPILE=${TGT_MACH}- PREFIX=${TARGET_ROOTFS} HOST=${TARGET_ROOTFS} STRIP="-s --strip-program=${TGT_MACH}-strip"  install  || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} CROSS_COMPILE=${TGT_MACH}- PREFIX=${TARGET_ROOTFS} HOST=${TGT_MACH}-linux || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} CROSS_COMPILE=${TGT_MACH}- PREFIX=${TARGET_ROOTFS} HOST=${TGT_MACH}-linux STRIP="-s --strip-program=${TGT_MACH}-strip"  install  || exit 1
 
 		delete_build_dir
 		delete_src_dir
