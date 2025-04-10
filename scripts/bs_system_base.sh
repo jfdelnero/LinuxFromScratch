@@ -1091,9 +1091,9 @@ then
 		export PKGCONFIGDIR=/lib/pkgconfig
 		export lib=lib
 
-		make ${MAKE_FLAGS} prefix="${TARGET_ROOTFS}" BUILD_CC=gcc CROSS_COMPILE=${TGT_MACH}- || exit 1
+		make ${MAKE_FLAGS} PAM_CAP=no prefix="${TARGET_ROOTFS}" BUILD_CC=gcc CROSS_COMPILE=${TGT_MACH}-  || exit 1
 
-		make ${MAKE_FLAGS} install prefix="${TARGET_ROOTFS}" BUILD_CC=gcc CROSS_COMPILE=${TGT_MACH}- || exit 1
+		make ${MAKE_FLAGS} PAM_CAP=no install prefix="${TARGET_ROOTFS}" BUILD_CC=gcc CROSS_COMPILE=${TGT_MACH}- || exit 1
 
 		delete_build_dir
 		delete_src_dir
