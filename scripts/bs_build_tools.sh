@@ -1715,27 +1715,27 @@ CUR_PACKAGE="${CUR_PACKAGE##*/}"
 if [ "$CUR_PACKAGE" != "UNDEF" ]
 then
 (
-		if [ ! -f ${BUILDTOOLS_BUILD}/${CUR_PACKAGE}_BUILD_DONE ]
-		then
-		(
-				create_src_dir
+	if [ ! -f ${BUILDTOOLS_BUILD}/${CUR_PACKAGE}_BUILD_DONE ]
+	then
+	(
+		create_src_dir
 
-				unpack_buildtools ${CUR_PACKAGE} ""
+		unpack_buildtools ${CUR_PACKAGE} ""
 
-				cd ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER} || exit 1
+		cd ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER} || exit 1
 
-				python3 configure.py --bootstrap
+		python3 configure.py --bootstrap
 
-				install -vm755 ninja ${BUILDTOOLS_HOME}/bin/
-				install -vDm644 misc/bash-completion ${BUILDTOOLS_HOME}/usr/share/bash-completion/completions/ninja
-				install -vDm644 misc/zsh-completion  ${BUILDTOOLS_HOME}/usr/share/zsh/site-functions/_ninja
+		install -vm755 ninja ${BUILDTOOLS_HOME}/bin/
+		install -vDm644 misc/bash-completion ${BUILDTOOLS_HOME}/usr/share/bash-completion/completions/ninja
+		install -vDm644 misc/zsh-completion  ${BUILDTOOLS_HOME}/usr/share/zsh/site-functions/_ninja
 
-				delete_src_dir
+		delete_src_dir
 
-				echo "" > ${BUILDTOOLS_BUILD}/${CUR_PACKAGE}_BUILD_DONE
+		echo "" > ${BUILDTOOLS_BUILD}/${CUR_PACKAGE}_BUILD_DONE
 
-		) || exit 1
-		fi
+	) || exit 1
+	fi
 ) || exit 1
 fi
 
