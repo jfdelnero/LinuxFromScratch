@@ -367,3 +367,42 @@ then
 ) || exit 1
 fi
 
+####################################################################
+# CMAKE
+####################################################################
+
+CUR_PACKAGE=${SRC_PACKAGE_TARGET_CMAKE:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_TARGET_DONE ]
+	then
+	(
+		create_src_dir
+
+		unpack ${CUR_PACKAGE} ""
+
+		unset PKG_CONFIG_LIBDIR
+
+		create_build_dir
+
+		cd ${TMP_BUILD_FOLDER} || exit 1
+		mkdir cmake
+		cd cmake || exit 1
+
+		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
+				--prefix="${TARGET_ROOTFS}" || exit 1
+
+		make ${MAKE_FLAGS} ${NBCORE}         || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
+
+		delete_build_dir
+		delete_src_dir
+
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_TARGET_DONE
+
+	) || exit 1
+	fi
+) || exit 1
+fi

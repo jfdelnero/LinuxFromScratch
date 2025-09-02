@@ -1065,3 +1065,45 @@ then
 	fi
 ) || exit 1
 fi
+
+####################################################################
+# V4L Utils
+####################################################################
+
+CUR_PACKAGE=${SRC_PACKAGE_V4LUTILS:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
+	then
+	(
+		create_src_dir
+		create_build_dir
+
+		unpack ${CUR_PACKAGE} ""
+
+		cd ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER} || exit 1
+
+		create_meson_crossfile meson_cross.txt
+
+		cd ${TMP_BUILD_FOLDER} || exit 1
+		mkdir libdrm
+		cd libdrm || exit 1
+
+		meson setup ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER} --prefix=${TARGET_ROOTFS} --buildtype=release --cross-file ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/meson_cross.txt \
+		|| exit 1
+
+		ninja || exit 1
+		ninja install || exit 1
+
+		delete_build_dir
+		delete_src_dir
+
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
+
+	) || exit 1
+	fi
+) || exit 1
+fi
+

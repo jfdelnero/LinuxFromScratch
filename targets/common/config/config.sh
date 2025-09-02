@@ -212,6 +212,7 @@ SRC_PACKAGE_DIRECTFB="@COMMON@""https://github.com/Distrotech/DirectFB/archive/D
 SRC_PACKAGE_SDL="@COMMON@""https://www.libsdl.org/release/SDL2-2.0.22.tar.gz"
 SRC_PACKAGE_SDL_TTF="@COMMON@""https://www.libsdl.org/projects/SDL_ttf/release/SDL2_ttf-2.0.18.tar.gz"
 SRC_PACKAGE_SDL_NET="@COMMON@""https://www.libsdl.org/projects/SDL_net/release/SDL2_net-2.2.0.tar.gz"
+SRC_PACKAGE_V4LUTILS="@COMMON@""https://www.linuxtv.org/downloads/v4l-utils/v4l-utils-1.30.1.tar.xz"
 
 fi
 
@@ -331,6 +332,7 @@ SRC_PACKAGE_TARGET_GCC_ISL=${SRC_PACKAGE_GCC_ISL}
 SRC_PACKAGE_TARGET_GCC_CLOOG=${SRC_PACKAGE_GCC_CLOOG}
 
 SRC_PACKAGE_TARGET_MAKE="@COMMON@""https://ftp.gnu.org/gnu/make/make-4.3.tar.gz"
+SRC_PACKAGE_TARGET_CMAKE="@COMMON@""https://github.com/Kitware/CMake/archive/refs/tags/v3.25.1.tar.gz"
 
 fi
 
