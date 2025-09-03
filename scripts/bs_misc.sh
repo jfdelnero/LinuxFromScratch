@@ -416,8 +416,19 @@ then
 		export AS=${TGT_MACH}-as
 		export AR=${TGT_MACH}-ar
 
+		sed -i -e 's/CC=gcc/CC\ ?=\ gcc/g' Makefile
+		sed -i -e 's/AR=ar/AR\ ?=\ ar/g' Makefile
+		sed -i -e 's/RANLIB=ranlib/RANLIB\ ?=\ ranlib/g' Makefile
+		sed -i -e 's/CFLAGS=/CFLAGS\ ?=/g' Makefile
+		sed -i -e 's/LDFLAGS=/LDFLAGS\ ?=/g' Makefile
+		sed -i -e 's/PREFIX=/PREFIX\ ?=/g' Makefile
+
+		sed -i -e 's/CC=gcc/CC\ ?=\ gcc/g' Makefile-libbz2_so
+		sed -i -e 's/CFLAGS=/CFLAGS\ ?=/g' Makefile-libbz2_so
+
 		make ${MAKE_FLAGS} -f Makefile-libbz2_so      || exit 1
-		make ${MAKE_FLAGS} || exit 1
+		make ${MAKE_FLAGS} libbz2.a bzip2 bzip2recover || exit 1
+
 		make ${MAKE_FLAGS} -n install PREFIX="${TARGET_ROOTFS}" || exit 1
 		cp -v bzip2-shared ${TARGET_ROOTFS}/bin/bzip2
 		cp -av libbz2.so* ${TARGET_ROOTFS}/lib
