@@ -140,6 +140,28 @@ then
 		# Install the GCC libraries
 		cp  -aR  ${TARGET_CROSS_TOOLS}/lib/gcc/${TGT_MACH} ${TARGET_ROOTFS}/usr/lib/gcc/
 
+		echo "********************"
+		echo "*   GCC Libs ...   *"
+		echo "********************"
+
+		cd  ${TMP_BUILD_FOLDER}/target_gcc || exit 1
+
+		make ${MAKE_FLAGS} ${NBCORE} all-target-libgcc || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install-target-libgcc || exit 1
+
+		echo "************************"
+		echo "*   GCC C++ Libs ...   *"
+		echo "************************"
+
+		cd  ${TMP_BUILD_FOLDER}/target_gcc || exit 1
+
+		make ${MAKE_FLAGS} ${NBCORE} all   || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install   || exit 1
+
+		#FIXME ! C++ libs not in the root fs ?
+		#cp  -aR  ${TARGET_CROSS_TOOLS}/${TGT_MACH}/lib64/*   ${TARGET_ROOTFS}/lib
+		#cp  -aR  ${TARGET_CROSS_TOOLS}/${TGT_MACH}/lib/*   ${TARGET_ROOTFS}/lib
+
 		delete_build_dir
 		delete_src_dir
 
