@@ -1088,10 +1088,10 @@ then
 		create_meson_crossfile meson_cross.txt
 
 		cd ${TMP_BUILD_FOLDER} || exit 1
-		mkdir libdrm
-		cd libdrm || exit 1
+		mkdir v4lutils
+		cd v4lutils || exit 1
 
-		meson setup ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER} --prefix=${TARGET_ROOTFS} --buildtype=release --cross-file ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/meson_cross.txt \
+		meson setup ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER} -D gconv=disabled -D doxygen-doc=disabled -D udevdir=${TARGET_ROOTFS}/lib/udev/ --prefix=${TARGET_ROOTFS} --buildtype=release --cross-file ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/meson_cross.txt \
 		|| exit 1
 
 		ninja || exit 1
@@ -1106,4 +1106,3 @@ then
 	fi
 ) || exit 1
 fi
-
