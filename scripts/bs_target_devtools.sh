@@ -380,22 +380,24 @@ then
 	then
 	(
 		create_src_dir
+		create_build_dir
 
 		unpack ${CUR_PACKAGE} ""
 
-		unset PKG_CONFIG_LIBDIR
+		cd ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/ || exit 1
 
-		create_build_dir
+		export CC=${TGT_MACH}-gcc
+		export LD=${TGT_MACH}-ld
+		export AS=${TGT_MACH}-as
+		export AR=${TGT_MACH}-ar
+		export DESTDIR=${TARGET_ROOTFS}
 
-		cd ${TMP_BUILD_FOLDER} || exit 1
-		mkdir cmake
-		cd cmake || exit 1
+		cmake -DCMAKE_SYSTEM_PREFIX_PATH=${TARGET_ROOTFS} -DCMAKE_CROSSCOMPILING=1 .
 
-		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
-				--prefix="${TARGET_ROOTFS}" || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} clean DESTDIR=${TARGET_ROOTFS} prefix=${TARGET_ROOTFS} || exit 1
 
-		make ${MAKE_FLAGS} ${NBCORE}         || exit 1
-		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} DESTDIR=${TARGET_ROOTFS} prefix=${TARGET_ROOTFS} CMAKE_CROSSCOMPILING=1  || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} DESTDIR=${TARGET_ROOTFS} prefix=${TARGET_ROOTFS} install  CMAKE_CROSSCOMPILING=1  || exit 1
 
 		delete_build_dir
 		delete_src_dir
