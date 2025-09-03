@@ -86,7 +86,7 @@ function create_tmprootfs_dir {
 			rm -rf ${BUILD_TMP_OBJ_BASEFOLDER}/LinuxFromScratch/tmp_rootfs
 		fi
 
-		mkdir ${TARGET_BUILD}/tmp_rootfs s-pv || exit 1
+		mkdir ${TARGET_BUILD}/tmp_rootfs -pv || exit 1
 	fi
 
 	cd ${TARGET_ROOTFS_MIRROR} || exit 1
