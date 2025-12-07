@@ -47,12 +47,12 @@ export SRC_PACKAGE_OPENOCD="https://freefr.dl.sourceforge.net/project/openocd/op
 #export CROSS_TGT_CPU=cortex-m3
 #export CROSS_TGT_CPUMODE=thumb
 
-#SRC_PACKAGE_TARGET_CROSS_BINUTILS="http://ftp.gnu.org/gnu/binutils/binutils-2.28.tar.gz"
+#SRC_PACKAGE_TARGET_CROSS_BINUTILS="https://ftpmirror.gnu.org/gnu/binutils/binutils-2.28.tar.gz"
 
-#SRC_PACKAGE_TARGET_CROSS_GCC="http://ftp.gnu.org/gnu/gcc/gcc-6.4.0/gcc-6.4.0.tar.gz"
-#SRC_PACKAGE_TARGET_CROSS_GCC_MPFR="http://ftp.gnu.org/gnu/mpfr/mpfr-3.1.2.tar.xz"
-#SRC_PACKAGE_TARGET_CROSS_GCC_GMP="http://ftp.gnu.org/gnu/gmp/gmp-6.0.0a.tar.xz"
-#SRC_PACKAGE_TARGET_CROSS_GCC_MPC="http://ftp.gnu.org/gnu/mpc/mpc-1.0.3.tar.gz"
+#SRC_PACKAGE_TARGET_CROSS_GCC="https://ftpmirror.gnu.org/gnu/gcc/gcc-6.4.0/gcc-6.4.0.tar.gz"
+#SRC_PACKAGE_TARGET_CROSS_GCC_MPFR="https://ftpmirror.gnu.org/gnu/mpfr/mpfr-3.1.2.tar.xz"
+#SRC_PACKAGE_TARGET_CROSS_GCC_GMP="https://ftpmirror.gnu.org/gnu/gmp/gmp-6.0.0a.tar.xz"
+#SRC_PACKAGE_TARGET_CROSS_GCC_MPC="https://ftpmirror.gnu.org/gnu/mpc/mpc-1.0.3.tar.gz"
 #SRC_PACKAGE_TARGET_CROSS_GCC_ISL="ftp://gcc.gnu.org/pub/gcc/infrastructure/isl-0.15.tar.bz2"
 #SRC_PACKAGE_TARGET_CROSS_GCC_CLOOG="ftp://gcc.gnu.org/pub/gcc/infrastructure/cloog-0.18.1.tar.gz"
 

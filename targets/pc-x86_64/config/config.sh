@@ -36,9 +36,9 @@ export NETWORK_STATION_MODE="1"
 
 SRC_PACKAGE_PCIUTILS="@COMMON@""https://github.com/pciutils/pciutils/releases/download/v3.13.0/pciutils-3.13.0.tar.gz"
 SRC_PACKAGE_LIBPCIACCESS="https://www.x.org/archive/individual/lib/libpciaccess-0.14.tar.gz"
-SRC_PACKAGE_GRUB="https://ftp.gnu.org/gnu/grub/grub-2.12.tar.xz"
-SRC_PACKAGE_GRUB_BIOS="https://ftp.gnu.org/gnu/grub/grub-2.12.tar.xz"
-SRC_PACKAGE_GRUB_EFI="https://ftp.gnu.org/gnu/grub/grub-2.12.tar.xz"
+SRC_PACKAGE_GRUB="https://ftpmirror.gnu.org/gnu/grub/grub-2.12.tar.xz"
+SRC_PACKAGE_GRUB_BIOS="https://ftpmirror.gnu.org/gnu/grub/grub-2.12.tar.xz"
+SRC_PACKAGE_GRUB_EFI="https://ftpmirror.gnu.org/gnu/grub/grub-2.12.tar.xz"
 
 #SRC_PACKAGE_SYSLINUX="https://mirrors.edge.kernel.org/pub/linux/utils/boot/syslinux/syslinux-6.03.tar.xz"
 #SRC_PACKAGE_LILO=https://www.joonet.de/sources/lilo/lilo-24.2.tar.gz
