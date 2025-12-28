@@ -191,6 +191,7 @@ then
 			ln -sfv ${TARGET_ROOTFS}/lib/lib${lib}w.a ${TARGET_ROOTFS}/lib/lib${lib}.a
 		done
 
+		cp ${TARGET_ROOTFS}/include/ncursesw/* ${TARGET_ROOTFS}/include/
 
 		delete_build_dir
 		delete_src_dir

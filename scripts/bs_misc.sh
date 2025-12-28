@@ -411,6 +411,8 @@ then
 
 		cd ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER} || exit
 
+		make clean
+
 		export CC=${TGT_MACH}-gcc
 		export LD=${TGT_MACH}-ld
 		export AS=${TGT_MACH}-as
