@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # Cross compiler and Linux generation scripts
-# (c)2014-2024 Jean-François DEL NERO
+# (c)2014-2026 Jean-François DEL NERO
 #
 # system librairies
 #
@@ -152,15 +152,17 @@ then
 		cd ${TMP_BUILD_FOLDER} || exit 1
 		mkdir ncurses
 		cd ncurses || exit 1
+
 		# wide version
 		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
+				CFLAGS="-std=gnu17" \
 				--prefix="${TARGET_ROOTFS}" \
 				--host=$TGT_MACH CC=${TGT_MACH}-gcc \
 				--disable-stripping STRIPPROG=${TGT_MACH}-strip \
+				--with-normal \
 				--with-shared \
+				--with-cxx-shared \
 				--enable-widec \
-				--without-normal \
-				--with-cxx-shared \
 				--without-debug \
 				--without-ada \
 				--without-manpages \
@@ -171,51 +173,24 @@ then
 				--with-pkg-config-libdir=${TARGET_ROOTFS}/lib/pkgconfig || exit 1
 
 		make ${MAKE_FLAGS} ${NBCORE} all     || exit 1
+
+		for lib in ncurses\+\+ ncurses form panel menu tinfo ; do
+			rm -vf                    ${TARGET_ROOTFS}/lib/lib${lib}.so
+			rm -vf                    ${TARGET_ROOTFS}/lib/lib${lib}w.so
+			rm -vf                    ${TARGET_ROOTFS}/lib/lib${lib}.a
+			rm -vf                    ${TARGET_ROOTFS}/lib/lib${lib}w.a
+			rm -vf                    ${TARGET_ROOTFS}/lib/pkgconfig/${lib}.pc
+			rm -vf                    ${TARGET_ROOTFS}/lib/pkgconfig/${lib}w.pc
+		done
+
 		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
 
-		make ${MAKE_FLAGS} ${NBCORE} clean   || exit 1
+		for lib in ncurses\+\+ ncurses form panel menu tinfo ; do
+			ln -sfv ${TARGET_ROOTFS}/lib/lib${lib}w.so ${TARGET_ROOTFS}/lib/lib${lib}.so
+			ln -sfv ${TARGET_ROOTFS}/lib/pkgconfig/${lib}w.pc ${TARGET_ROOTFS}/lib/pkgconfig/${lib}.pc
+			ln -sfv ${TARGET_ROOTFS}/lib/lib${lib}w.a ${TARGET_ROOTFS}/lib/lib${lib}.a
+		done
 
-		# standard version
-		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
-				--prefix="${TARGET_ROOTFS}" \
-				--host=$TGT_MACH CC=${TGT_MACH}-gcc \
-				--disable-stripping STRIPPROG=${TGT_MACH}-strip \
-				--with-shared \
-				--without-normal \
-				--with-cxx-shared \
-				--without-debug \
-				--without-ada \
-				--without-manpages \
-				--with-curses-h \
-				--enable-pc-files \
-				--with-termlib \
-				--with-versioned-syms \
-				--with-pkg-config-libdir=${TARGET_ROOTFS}/lib/pkgconfig || exit 1
-
-		make ${MAKE_FLAGS} ${NBCORE} all     || exit 1
-		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
-
-		make ${MAKE_FLAGS} ${NBCORE} clean   || exit 1
-
-		# rebuild standard version without termlib to fix the missing "cursrc" symbol issue with nano...
-
-		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
-				--prefix="${TARGET_ROOTFS}" \
-				--host=$TGT_MACH CC=${TGT_MACH}-gcc \
-				--disable-stripping STRIPPROG=${TGT_MACH}-strip \
-				--with-shared \
-				--without-normal \
-				--with-cxx-shared \
-				--without-debug \
-				--without-manpages \
-				--without-ada \
-				--with-curses-h \
-				--enable-pc-files \
-				--with-versioned-syms \
-				--with-pkg-config-libdir=${TARGET_ROOTFS}/lib/pkgconfig || exit 1
-
-		make ${MAKE_FLAGS} ${NBCORE} all     || exit 1
-		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
 
 		delete_build_dir
 		delete_src_dir
@@ -424,6 +399,10 @@ then
 		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
 					--prefix="${TARGET_ROOTFS}" \
 					--host=$TGT_MACH || exit 1
+
+		# gcc 15 support patch
+		sed -i 's/void g(){}/void g(int a,t1 const*b,t1 c,t2 d,t1 const*e,int f){}/' ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/acinclude.m4
+		sed -i 's/void g(){}/void g(int a,t1 const*b,t1 c,t2 d,t1 const*e,int f){}/' ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure
 
 		make ${MAKE_FLAGS} ${NBCORE}         || exit 1
 		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
@@ -772,7 +751,10 @@ then
 		mkdir libgpgme
 		cd libgpgme || exit 1
 
+		export YAT2M=${BUILDTOOLS_HOME}/bin/yat2m
+
 		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
+					--without-doc \
 					--prefix="${TARGET_ROOTFS}" \
 					--host=$TGT_MACH || exit 1
 

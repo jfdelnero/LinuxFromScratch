@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # Cross compiler and Linux generation scripts
-# (c)2014-2023 Jean-François DEL NERO
+# (c)2014-2026 Jean-François DEL NERO
 #
 # Debug & Devs tools
 #
@@ -41,11 +41,6 @@ then
 		cd ${TMP_BUILD_FOLDER} || exit 1
 		mkdir gdb
 		cd gdb || exit 1
-
-		export CC=${TGT_MACH}-gcc
-		export LD=${TGT_MACH}-ld
-		export AS=${TGT_MACH}-as
-		export AR=${TGT_MACH}-ar
 
 		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
 				--prefix="${TARGET_ROOTFS}" \
@@ -227,9 +222,12 @@ then
 				--prefix="${TARGET_ROOTFS}" \
 				--build=$MACHTYPE \
 				--host=$TGT_MACH \
-				--target=$TGT_MACH || exit 1
+				--target=$TGT_MACH \
+				--without-mpicc \
+				--disable-ubsan \
+				|| exit 1
 
-		make ${MAKE_FLAGS} ${NBCORE} all     || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} all   LD=${TGT_MACH}-ld  || exit 1
 		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
 
 		delete_build_dir

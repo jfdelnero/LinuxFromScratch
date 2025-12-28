@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # Cross compiler and Linux generation scripts
-# (c)2014-2023 Jean-François DEL NERO
+# (c)2014-2026 Jean-François DEL NERO
 #
 # Target compiler
 # Binutils + GCC + GCC Libs
@@ -414,14 +414,14 @@ then
 		export AR=${TGT_MACH}-ar
 		export DESTDIR=${TARGET_ROOTFS}
 
-		cmake -DCMAKE_SYSTEM_PREFIX_PATH=${TARGET_ROOTFS} -DCMAKE_INSTALL_PREFIX=/usr/ -DCMAKE_CROSSCOMPILING=1 .
+		cmake -DCMAKE_POLICY_VERSION_MINIMUM=3.5 -DCMAKE_SYSTEM_PREFIX_PATH=${TARGET_ROOTFS} -DCMAKE_INSTALL_PREFIX=/usr/ -DCMAKE_CROSSCOMPILING=1 .
 
 		make ${MAKE_FLAGS} ${NBCORE} clean DESTDIR=${TARGET_ROOTFS} prefix=${TARGET_ROOTFS} || exit 1
 
 		make ${MAKE_FLAGS} ${NBCORE} DESTDIR=${TARGET_ROOTFS} prefix=${TARGET_ROOTFS} CMAKE_CROSSCOMPILING=1  || exit 1
 		make ${MAKE_FLAGS} ${NBCORE} DESTDIR=${TARGET_ROOTFS} prefix=${TARGET_ROOTFS} preinstall  CMAKE_CROSSCOMPILING=1 CMAKE_INSTALL_PREFIX=/usr/ || exit 1
 		#make ${MAKE_FLAGS} ${NBCORE} DESTDIR=${TARGET_ROOTFS} prefix=${TARGET_ROOTFS} install  CMAKE_CROSSCOMPILING=1  || exit 1
-		cmake -P cmake_install.cmake -DCMAKE_INSTALL_PREFIX=/usr/ || exit 1
+		cmake -DCMAKE_POLICY_VERSION_MINIMUM=3.5 -P cmake_install.cmake -DCMAKE_INSTALL_PREFIX=/usr/ || exit 1
 
 		delete_build_dir
 		delete_src_dir

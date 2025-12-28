@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # Cross compiler and Linux generation scripts
-# (c)2014-2023 Jean-François DEL NERO
+# (c)2014-2026 Jean-François DEL NERO
 #
 # Cross compiler + System base
 # GCC + GCC Libs + GLIBC + Kernel
@@ -101,6 +101,10 @@ then
 		unset PKG_CONFIG_LIBDIR
 
 		cd ${TMP_SRC_FOLDER}/linux-kernel || exit 1
+
+		export KBUILD_CFLAGS="-std=gnu17"
+		export KCFLAGS="-std=gnu17" 
+		export KCPPFLAGS="-std=gnu17"
 
 		make ${MAKE_FLAGS} ${NBCORE} ARCH=${KERNEL_ARCH}  mrproper || exit 1
 		make ${MAKE_FLAGS} ${NBCORE} ARCH=${KERNEL_ARCH}  distclean || exit 1
@@ -257,6 +261,7 @@ then
 		cd glibc || exit 1
 
 		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
+				CFLAGS=" -std=gnu17 -O3" \
 				--prefix="/" \
 				--build=$MACHTYPE \
 				--host=$TGT_MACH \
@@ -463,6 +468,7 @@ then
 
 		cd  ${TMP_BUILD_FOLDER}/glibc || exit 1
 
+		export  CFLAGS=" -std=gnu17 -O3 "
 		make ${MAKE_FLAGS} ${NBCORE} install_root=${TARGET_ROOTFS}           || exit 1
 		make ${MAKE_FLAGS} ${NBCORE} install_root=${TARGET_ROOTFS} install   || exit 1
 
@@ -609,17 +615,27 @@ then
 		create_build_dir
 		unpack ${CUR_PACKAGE} ""
 
+		if [ -f ${COMMON_PATCHES}/libtirpc/libtirpc.patch ]
+		then
+		(
+			echo ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/ || exit 1
+			patch -Zf -p1 --directory=${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER} -i ${COMMON_PATCHES}/libtirpc/libtirpc.patch  || exit 1
+		) || exit 1
+		fi
+
 		cd ${TMP_BUILD_FOLDER} || exit 1
 		mkdir libtirpc
 		cd libtirpc || exit 1
 
 		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
+					CFLAGS="-std=gnu17 -O3" \
 					--disable-gssapi \
+					--disable-static \
 					--prefix="${TARGET_ROOTFS}" \
 					--host=$TGT_MACH || exit 1
 
-		make ${MAKE_FLAGS} ${NBCORE}         || exit 1
-		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
+		make ${MAKE_FLAGS} CFLAGS="-std=gnu17 -O3" ${NBCORE}         || exit 1
+		make ${MAKE_FLAGS} CFLAGS="-std=gnu17 -O3" ${NBCORE} install || exit 1
 
 		delete_build_dir
 		delete_src_dir
@@ -751,6 +767,7 @@ then
 		export CC=${TGT_MACH}-gcc
 
 		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
+				CFLAGS="-O3 -Wno-error=unused-but-set-variable" \
 				--prefix="${TARGET_ROOTFS}" --host=$TGT_MACH \
 				--disable-libdebuginfod --disable-debuginfod || exit 1
 
@@ -787,6 +804,10 @@ then
 		cd ${TMP_BUILD_FOLDER} || exit 1
 		mkdir libgmp
 		cd libgmp || exit 1
+
+		# gcc 15 support patch
+		sed -i 's/void g(){}/void g(int a,t1 const*b,t1 c,t2 d,t1 const*e,int f){}/' ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/acinclude.m4
+		sed -i 's/void g(){}/void g(int a,t1 const*b,t1 c,t2 d,t1 const*e,int f){}/' ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure
 
 		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
 					--prefix="${TARGET_ROOTFS}" \
@@ -839,6 +860,10 @@ then
 		unset PKG_CONFIG_LIBDIR
 
 		cd ${TMP_SRC_FOLDER}/linux-kernel || exit 1
+
+		export KBUILD_CFLAGS="-std=gnu17"
+		export KCFLAGS="-std=gnu17" 
+		export KCPPFLAGS="-std=gnu17"
 
 		make ${MAKE_FLAGS} ${NBCORE} ARCH=${KERNEL_ARCH}  mrproper || exit 1
 		make ${MAKE_FLAGS} ${NBCORE} ARCH=${KERNEL_ARCH}  distclean || exit 1
@@ -1579,6 +1604,7 @@ then
 		cd haveged || exit 1
 
 		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
+				CFLAGS="-std=gnu17 -O3" \
 				--prefix="${TARGET_ROOTFS}" \
 				--host=$TGT_MACH || exit 1
 

@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # Cross compiler and Linux generation scripts
-# (c)2014-2023 Jean-François DEL NERO
+# (c)2014-2026 Jean-François DEL NERO
 #
 # Network support
 #
@@ -260,12 +260,12 @@ then
 		# x86-x86 cross compilation : Force the cross compile mode !
 		cd bind
 		tar -xvzf bind.tar.gz
-		sed -i s#cross_compiling\=no#cross_compiling\=yes#g bind-9.11.14/configure || exit 1
-		sed -i s#=\ val\;#=\ value\;#g bind-9.11.14/lib/isc/stats.c || exit 1
+		sed -i s#cross_compiling\=no#cross_compiling\=yes#g bind-9.11.36/configure || exit 1
+		sed -i s#=\ val\;#=\ value\;#g bind-9.11.36/lib/isc/stats.c || exit 1
 
 		rm bind.tar.gz
-		tar -cvzf bind.tar.gz bind-9.11.14
-		rm -R bind-9.11.14
+		tar -cvzf bind.tar.gz bind-9.11.36
+		rm -R bind-9.11.36
 		cd ..
 
 		sed -i s#u_int16_t\ local_port#u_int16_t\ local_port____#g client/dhclient.c || exit 1
@@ -275,6 +275,7 @@ then
 		sed -i s#omapi_object_type_t#//omapi_object_type_t#g server/mdb.c || exit 1
 
 		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
+				CFLAGS=" -std=gnu17 -O3" \
 				--prefix= \
 				--sysconfdir=${TARGET_ROOTFS}/etc/dhcp \
 				--localstatedir=/var \

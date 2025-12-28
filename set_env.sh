@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # Cross compiler and Linux generation scripts
-# (c)2014-2023 Jean-François DEL NERO
+# (c)2014-2026 Jean-François DEL NERO
 #
 # Set env script
 #
@@ -41,8 +41,10 @@ else
 		export COMMON_PATCHES="${COMMON_HOME}/patches"
 		export COMMON_DOWNLOAD="${COMMON_HOME}/download"
 
-		export BUILD_MODE="BUILD_MODE_SHM"
-		export BUILD_TMP_OBJ_BASEFOLDER="/dev/shm"
+		# uncomment these lines to use shm/ramdisk as a temporary build folder
+		# (require >= 32GB of RAM) 
+		#export BUILD_MODE="BUILD_MODE_SHM"
+		#export BUILD_TMP_OBJ_BASEFOLDER="/dev/shm"
 
 		export MAKE_FLAGS="-s"
 
@@ -96,6 +98,8 @@ else
 			echo
 
 			bash
+
+			tset
 
 			echo "************************************************************"
 			echo "* You just leaved the "${TARGET_NAME}" build Environment"

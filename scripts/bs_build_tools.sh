@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # Cross compiler and Linux generation scripts
-# (c)2014-2024 Jean-François DEL NERO
+# (c)2014-2026 Jean-François DEL NERO
 #
 # Local build tools
 #
@@ -234,6 +234,14 @@ then
 		create_src_dir
 		create_build_dir
 		unpack_buildtools ${CUR_PACKAGE} ""
+
+		if [ -f ${COMMON_PATCHES}/libtirpc/libtirpc.patch ]
+		then
+		(
+			echo ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/ || exit 1
+			patch -Zf -p1 --directory=${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER} -i ${COMMON_PATCHES}/libtirpc/libtirpc.patch  || exit 1
+		) || exit 1
+		fi
 
 		cd ${TMP_BUILD_FOLDER} || exit 1
 		mkdir libtirpc_local
@@ -703,6 +711,10 @@ then
 		mkdir libgmp_local
 		cd libgmp_local || exit 1
 
+		# gcc 15 support patch
+		sed -i 's/void g(){}/void g(int a,t1 const*b,t1 c,t2 d,t1 const*e,int f){}/' ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/acinclude.m4
+		sed -i 's/void g(){}/void g(int a,t1 const*b,t1 c,t2 d,t1 const*e,int f){}/' ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure
+
 		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
 					--prefix="${BUILDTOOLS_HOME}" \
 					|| exit 1
@@ -737,8 +749,8 @@ then
 		unpack_buildtools ${CUR_PACKAGE} ""
 
 		cd ${TMP_BUILD_FOLDER} || exit 1
-		mkdir mpc_local
-		cd mpc_local || exit 1
+		mkdir mpfr_local
+		cd mpfr_local || exit 1
 
 		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
 					--prefix="${BUILDTOOLS_HOME}" \
@@ -1152,6 +1164,10 @@ then
 		mkdir pkgconfig_local
 		cd pkgconfig_local || exit 1
 
+		# gcc 15 support patch
+		sed -i 's/gboolean bool/gboolean boolean/' ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/glib/glib/goption.c
+		sed -i 's/prev.bool/prev.boolean/' ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/glib/glib/goption.c
+
 		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
 				--with-internal-glib \
 				--prefix="${BUILDTOOLS_HOME}" || exit 1
@@ -1363,6 +1379,7 @@ then
 		cd ncurses_local || exit 1
 
 		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
+				CFLAGS="-std=gnu17 -O3" \
 				--prefix="${BUILDTOOLS_HOME}" \
 				--with-shared \
 				--enable-widec \
@@ -1382,6 +1399,7 @@ then
 		make ${MAKE_FLAGS} ${NBCORE} clean   || exit 1
 
 		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
+				CFLAGS="-std=gnu17" \
 				--prefix="${BUILDTOOLS_HOME}" \
 				--disable-stripping STRIPPROG=strip \
 				--with-shared \
@@ -1397,6 +1415,8 @@ then
 
 		make ${MAKE_FLAGS} ${NBCORE} all     || exit 1
 		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
+
+		cp ${BUILDTOOLS_HOME}/include/ncursesw/* ${BUILDTOOLS_HOME}/include/
 
 		delete_build_dir
 		delete_src_dir
@@ -1644,6 +1664,7 @@ then
 		cd python_local || exit 1
 
 		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
+				CFLAGS="-std=gnu17 -O3 -Wno-error=implicit-function-declaration" \
 				--prefix="${BUILDTOOLS_HOME}" \
 				--enable-ipv6 \
 				--enable-optimizations \
@@ -2013,8 +2034,9 @@ then
 		cd sharutils_local || exit 1
 
 		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
-				--prefix="${BUILDTOOLS_HOME}" \
-				|| exit 1
+			CFLAGS="-std=gnu17" \
+			--prefix="${BUILDTOOLS_HOME}" \
+			|| exit 1
 
 		make ${MAKE_FLAGS} ${NBCORE} || exit 1
 		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
@@ -2086,7 +2108,7 @@ then
 
 		cd ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER} || exit 1
 
-		cmake .  -DCMAKE_INSTALL_PREFIX=${BUILDTOOLS_HOME} -DCMAKE_SYSTEM_PREFIX_PATH=${BUILDTOOLS_HOME} || exit 1
+		cmake .  -DCMAKE_INSTALL_PREFIX=${BUILDTOOLS_HOME} -DCMAKE_SYSTEM_PREFIX_PATH=${BUILDTOOLS_HOME} -DCMAKE_POLICY_VERSION_MINIMUM=3.5 || exit 1
 
 		make ${MAKE_FLAGS} ${NBCORE} || exit 1
 		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
@@ -2189,6 +2211,43 @@ then
 	) || exit 1
 	fi
 
+) || exit 1
+fi
+
+####################################################################
+# local gpg-error
+####################################################################
+CUR_PACKAGE=${SRC_PACKAGE_BUILD_GPGERROR:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_BUILD_DONE ]
+	then
+	(
+		create_src_dir
+		create_build_dir
+
+		unpack_buildtools ${CUR_PACKAGE} ""
+
+		cd ${TMP_BUILD_FOLDER} || exit 1
+		mkdir libgpgerror_local
+		cd libgpgerror_local || exit 1
+
+		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
+					--enable-install-gpg-error-config \
+					--prefix="${BUILDTOOLS_HOME}" || exit 1
+
+		make ${MAKE_FLAGS} ${NBCORE}         || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
+
+		delete_build_dir
+		delete_src_dir
+
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_BUILD_DONE
+
+	) || exit 1
+	fi
 ) || exit 1
 fi
 

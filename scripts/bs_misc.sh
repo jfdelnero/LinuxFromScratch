@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # Cross compiler and Linux generation scripts
-# (c)2014-2023 Jean-François DEL NERO
+# (c)2014-2026 Jean-François DEL NERO
 #
 # Miscellaneous stuffs
 #
@@ -468,20 +468,20 @@ then
 
 		echo ac_cv_file__dev_ptmx=no > ./config.site
 		echo ac_cv_file__dev_ptc=no >> ./config.site
+		echo ac_cv_buggy_getaddrinfo=no >> ./config.site
+
 		export CONFIG_SITE=config.site
 
 		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
 				--prefix= \
 				--build=$MACHTYPE \
 				--host=$TGT_MACH \
-				--target=$TGT_MACH \
 				--with-build-python="${BUILDTOOLS_HOME}/bin/python3" \
 				--enable-ipv6 \
-				--enable-optimizations \
 				--enable-shared \
 				|| exit 1
 
-		make ${MAKE_FLAGS} ${NBCORE} || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} build_all || exit 1
 		make ${MAKE_FLAGS} ${NBCORE} altinstall DESTDIR=${TARGET_ROOTFS} || exit 1
 
 		delete_build_dir
@@ -840,7 +840,10 @@ then
 		mkdir e2fsprogs
 		cd e2fsprogs || exit 1
 
+		sed -e 's/HAVE_LINUX_FSVERITY_H/HAVE_LINUX_FSVERITY__H__/g'  -i ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure
+
 		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
+				CFLAGS=" -std=gnu17 -O3" \
 				--prefix="${TARGET_ROOTFS}" \
 				--build=$MACHTYPE \
 				--host=$TGT_MACH \
@@ -1150,7 +1153,7 @@ then
 		export AR=${TGT_MACH}-ar
 		export DESTDIR=${TARGET_ROOTFS}
 
-		cmake -DCMAKE_SYSTEM_PREFIX_PATH=${TARGET_ROOTFS} -DFFTW_LIBRARIES=${TARGET_ROOTFS}/lib/libfftw3.a .
+		cmake -DCMAKE_POLICY_VERSION_MINIMUM=3.5 -DCMAKE_SYSTEM_PREFIX_PATH=${TARGET_ROOTFS} -DFFTW_LIBRARIES=${TARGET_ROOTFS}/lib/libfftw3.a .
 
 		make ${MAKE_FLAGS} ${NBCORE} clean DESTDIR=${TARGET_ROOTFS} prefix=${TARGET_ROOTFS} || exit 1
 

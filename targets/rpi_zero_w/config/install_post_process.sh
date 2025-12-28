@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # Cross compiler and Linux generation scripts
-# (c)2014-2021 Jean-François DEL NERO
+# (c)2014-2026 Jean-François DEL NERO
 #
 # Raspberry Pi Zero W target post install process
 #
