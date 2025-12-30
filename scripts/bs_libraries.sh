@@ -15,6 +15,46 @@ echo "*  Librairies  *"
 echo "****************"
 
 ####################################################################
+# LOG4CPLUS
+####################################################################
+
+CUR_PACKAGE=${SRC_PACKAGE_LOG4CPLUS:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
+	then
+	(
+		create_src_dir
+		create_build_dir
+
+		unpack ${CUR_PACKAGE} ""
+
+		cd ${TMP_BUILD_FOLDER} || exit 1
+		mkdir log4cplus
+		cd log4cplus || exit 1
+
+		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
+					--prefix="${TARGET_ROOTFS}" \
+					--host=$TGT_MACH \
+					|| exit 1
+
+		make ${MAKE_FLAGS} ${NBCORE}         || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
+
+		delete_build_dir
+		delete_src_dir
+
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
+
+	) || exit 1
+	fi
+) || exit 1
+fi
+
+
+####################################################################
 # ZLIB
 ####################################################################
 
@@ -809,4 +849,41 @@ then
 	fi
 ) || exit 1
 fi
+
+
+####################################################################
+# BOOST
+####################################################################
+
+CUR_PACKAGE=${SRC_PACKAGE_BOOST:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
+	then
+	(
+		create_src_dir
+		create_build_dir
+
+		unpack ${CUR_PACKAGE} ""
+
+		cd ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER} || exit 1
+
+		echo "using gcc : arm : "$TGT_MACH-g++ ";" > user-config.jam
+
+		./bootstrap.sh link=shared,static --prefix="${TARGET_ROOTFS}" || exit 1
+
+		./b2 install toolset=gcc-arm --without-python --user-config=user-config.jam || exit 1
+
+		delete_build_dir
+		delete_src_dir
+
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
+
+	) || exit 1
+	fi
+) || exit 1
+fi
+
 

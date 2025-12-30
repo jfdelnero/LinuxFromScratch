@@ -303,6 +303,83 @@ then
 fi
 
 ####################################################################
+# kea server
+####################################################################
+CUR_PACKAGE=${SRC_PACKAGE_KEADHCPSERVER:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
+	then
+	(
+		create_src_dir
+
+		unpack ${CUR_PACKAGE} ""
+
+		cd ${TMP_BUILD_FOLDER} || exit 1
+		mkdir -pv keadhcp || exit 1
+		cd keadhcp || exit 1
+
+		create_meson_crossfile meson_cross.txt
+
+		meson setup ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER} --prefix=${TARGET_ROOTFS}/usr --buildtype=release --cross-file meson_cross.txt \
+			-D tests=disabled \
+			-D fuzz=disabled \
+		|| exit 1
+
+		ninja || exit 1
+		ninja install || exit 1
+
+		delete_build_dir
+		delete_src_dir
+
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
+
+	) || exit 1
+	fi
+) || exit 1
+fi
+
+####################################################################
+# DNSMASQ
+####################################################################
+
+CUR_PACKAGE=${SRC_PACKAGE_DNSMASQ:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
+	then
+	(
+		create_src_dir
+
+		unpack ${CUR_PACKAGE} ""
+
+		cd ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER} || exit 1
+
+		export CROSS=${TGT_MACH}
+		export CC=${TGT_MACH}-gcc
+		export LD=${TGT_MACH}-ld
+		export AS=${TGT_MACH}-as
+		export AR=${TGT_MACH}-ar
+		export DESTDIR=${TARGET_ROOTFS}
+		export PREFIX=${TARGET_ROOTFS}
+
+		make ${MAKE_FLAGS} ${NBCORE} DESTDIR=${TARGET_ROOTFS} CC=${TGT_MACH}-gcc         || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} DESTDIR=${TARGET_ROOTFS} install CC=${TGT_MACH}-gcc || exit 1
+
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
+
+		delete_src_dir
+
+	) || exit 1
+	fi
+) || exit 1
+fi
+
+####################################################################
 #              ----------- Wifi Stack -----------
 ####################################################################
 

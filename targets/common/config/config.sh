@@ -108,6 +108,11 @@ SRC_PACKAGE_HAVEGED="@COMMON@""https://github.com/jirka-h/haveged/archive/refs/h
 
 SRC_PACKAGE_LIBXCRYPT="@COMMON@""https://github.com/besser82/libxcrypt/releases/download/v4.5.2/libxcrypt-4.5.2.tar.xz"
 
+#SRC_PACKAGE_LOG4CPLUS="@COMMON@""https://github.com/log4cplus/log4cplus/releases/download/REL_2_1_2/log4cplus-2.1.2.tar.xz"
+
+#SRC_PACKAGE_BOOST="@COMMON@""https://archives.boost.io/release/1.90.0/source/boost_1_90_0.tar.bz2"
+
+
 #
 # Debug support
 #
@@ -133,7 +138,10 @@ then
 SRC_PACKAGE_LIBMNL="@COMMON@""http://netfilter.org/projects/libmnl/files/libmnl-1.0.5.tar.bz2"
 SRC_PACKAGE_LIBNFTNL="@COMMON@""https://www.netfilter.org/projects/libnftnl/files/libnftnl-1.2.3.tar.bz2"
 SRC_PACKAGE_IPTABLES="@COMMON@""https://www.netfilter.org/projects/iptables/files/iptables-1.8.9.tar.xz"
-SRC_PACKAGE_DHCPSERVER="@COMMON@""https://downloads.isc.org/isc/dhcp/4.4.3-P1/dhcp-4.4.3-P1.tar.gz"
+#SRC_PACKAGE_DHCPSERVER="@COMMON@""https://downloads.isc.org/isc/dhcp/4.4.3-P1/dhcp-4.4.3-P1.tar.gz"
+#SRC_PACKAGE_KEADHCPSERVER="@COMMON@""https://downloads.isc.org/isc/kea/3.1.4/kea-3.1.4.tar.xz"
+SRC_PACKAGE_DNSMASQ="@COMMON@""https://thekelleys.org.uk/dnsmasq/dnsmasq-2.91.tar.xz"
+
 #SRC_PACKAGE_DHCPSERVER_PATCH_001="@COMMON@""http://wiki.beyondlogic.org/patches/dhcp-4.3.0b1.bind_arm-linux-gnueabi.patch"
 #SRC_PACKAGE_DHCPSERVER_PATCH_002="@COMMON@""http://wiki.beyondlogic.org/patches/bind-9.9.5rc1.gen_crosscompile.patch"
 SRC_PACKAGE_LIBPCAP="@COMMON@""https://www.tcpdump.org/release/libpcap-1.10.1.tar.gz"
