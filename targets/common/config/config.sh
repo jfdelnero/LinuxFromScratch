@@ -72,6 +72,29 @@ SRC_PACKAGE_BUILD_NTIRPC="@COMMON@""https://mirrors.ircam.fr/pub/debian/pool/mai
 #SRC_PACKAGE_BUILD_LIBELF="@COMMON@""https://fossies.org/linux/misc/old/libelf-0.8.13.tar.gz"
 SRC_PACKAGE_BUILD_ELFUTILS="@COMMON@""https://gcc.gnu.org/pub/elfutils/0.192/elfutils-0.192.tar.bz2"
 
+CUR_PART=${GOLANG_SUPPORT:-"UNDEF"}
+if [ "$CUR_PART" != "UNDEF" ]
+then
+
+############
+# Go support
+############
+# Go bootstrap : 
+# gccgo 15.2 
+# go1.18.10.tar.gz
+# go1.19.13
+# go1.21.12.tar.gz
+# go1.22.11.tar.gz
+# go1.25.5.tar.gz
+SRC_PACKAGE_BUILD_GCCGO="@COMMON@""https://ftpmirror.gnu.org/gnu/gcc/gcc-15.2.0/gcc-15.2.0.tar.xz"
+SRC_PACKAGE_BUILD_GO_BOOTSTRAP_001="@COMMON@""https://github.com/golang/go/archive/refs/tags/go1.18.10.tar.gz"
+SRC_PACKAGE_BUILD_GO_BOOTSTRAP_002="@COMMON@""https://github.com/golang/go/archive/refs/tags/go1.19.13.tar.gz"
+SRC_PACKAGE_BUILD_GO_BOOTSTRAP_003="@COMMON@""https://github.com/golang/go/archive/refs/tags/go1.21.12.tar.gz"
+SRC_PACKAGE_BUILD_GO_BOOTSTRAP_004="@COMMON@""https://github.com/golang/go/archive/refs/tags/go1.22.11.tar.gz"
+SRC_PACKAGE_BUILD_GO="@COMMON@""https://github.com/golang/go/archive/refs/tags/go1.25.5.tar.gz"
+
+fi
+
 SRC_PACKAGE_BINUTILS="@COMMON@""https://ftpmirror.gnu.org/gnu/binutils/binutils-2.45.tar.xz"
 
 SRC_PACKAGE_GCC="@COMMON@""https://ftpmirror.gnu.org/gnu/gcc/gcc-15.2.0/gcc-15.2.0.tar.xz"
