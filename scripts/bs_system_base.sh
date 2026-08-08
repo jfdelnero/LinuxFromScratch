@@ -153,9 +153,9 @@ then
 	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
 	then
 	(
-		echo "**************"
-		echo "*   GCC...   *"
-		echo "**************"
+		echo "***********************"
+		echo "*   GCC STAGE 1 ...   *"
+		echo "***********************"
 
 		create_src_dir
 		create_build_dir
@@ -193,27 +193,31 @@ then
 
 		TMP_ARCHIVE_FOLDER=$CUR_SRC_MAIN_FOLDER
 
+		sed -i 's/<limits.h>/<linux\/limits.h>/g' ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/libsanitizer/asan/asan_linux.cpp
+
 		if [ "$CROSSCOMPILERONLY_TMP" = "1" ];
 		then
 			${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
 				--prefix="${TARGET_CROSS_TOOLS}" \
 				--target=$TGT_MACH          \
-				--enable-languages=c,c++   \
-				--disable-multilib         \
+				--enable-languages=c,c++    \
+				--disable-libatomic \
+				--disable-multilib \
 				${GCC_ADD_CONF} || exit 1
 		else
 			${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
 				--prefix="${TARGET_CROSS_TOOLS}" \
 				--target=$TGT_MACH          \
-				--enable-languages=c,c++   \
-				--disable-multilib         \
+				--enable-languages=c,c++    \
+				--disable-libatomic \
+				--disable-multilib \
 				--with-sysroot=${TARGET_ROOTFS} \
 				--with-native-system-header-dir=/include \
 				${GCC_ADD_CONF} || exit 1
 		fi
 
 		# To force the fixed limits.h generation...
-		echo > ${TARGET_ROOTFS}/include/limits.h
+		#echo > ${TARGET_ROOTFS}/include/limits.h
 		ln -s ${TARGET_ROOTFS}/include ${TARGET_ROOTFS}/sys-include
 
 		make ${MAKE_FLAGS} ${NBCORE} all-gcc || exit 1
@@ -277,6 +281,8 @@ then
 
 		${TGT_MACH}-gcc -nostdlib -nostartfiles -shared -x c /dev/null -o "${TARGET_ROOTFS}/lib/libc.so"
 		touch ${TARGET_ROOTFS}/include/gnu/stubs.h
+
+		cp ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/include/limits.h  ${TARGET_ROOTFS}/include/
 
 		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
 
@@ -507,7 +513,7 @@ then
 
 		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_LIBCPP_DONE
 
-		delete_build_dir
+		#delete_build_dir
 		delete_src_dir
 
 	) || exit 1
@@ -549,6 +555,138 @@ then
 		make ${MAKE_FLAGS} ${NBCORE}         || exit 1
 		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
 
+		delete_src_dir
+
+	) || exit 1
+	fi
+) || exit 1
+fi
+
+####################################################################
+# GCC Stage 2
+####################################################################
+
+CUR_PACKAGE=${SRC_PACKAGE_GCC:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_STAGE2_DONE ]
+	then
+	(
+		echo "************************"
+		echo "*   GCC STAGE 2        *"
+		echo "************************"
+
+		create_build_dir
+		create_src_dir
+
+
+		unpack ${CUR_PACKAGE} ""
+
+		unset PKG_CONFIG_LIBDIR
+
+		CUR_SRC_MAIN_FOLDER=$TMP_ARCHIVE_FOLDER
+
+		cd ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}   || exit 1
+
+	if [ ! -d mpfr ]
+	then
+	(
+		TMP_PACKAGE="${SRC_PACKAGE_GCC_MPFR##*/}"
+		unpack ${TMP_PACKAGE} ${CUR_SRC_MAIN_FOLDER}
+		mv -v ${TMP_ARCHIVE_FOLDER} mpfr || exit 1
+	) || exit 1
+	fi
+
+
+	if [ ! -d gmp ]
+	then
+	(
+		TMP_PACKAGE="${SRC_PACKAGE_GCC_GMP##*/}"
+		unpack ${TMP_PACKAGE} ${CUR_SRC_MAIN_FOLDER}
+		mv -v ${TMP_ARCHIVE_FOLDER} gmp || exit 1
+	) || exit 1
+	fi
+
+	if [ ! -d mpc ]
+	then
+	(
+		TMP_PACKAGE="${SRC_PACKAGE_GCC_MPC##*/}"
+		unpack ${TMP_PACKAGE} ${CUR_SRC_MAIN_FOLDER}
+		mv -v ${TMP_ARCHIVE_FOLDER} mpc || exit 1
+	) || exit 1
+	fi
+
+	if [ ! -d isl ]
+	then
+	(
+		TMP_PACKAGE="${SRC_PACKAGE_GCC_ISL##*/}"
+		unpack ${TMP_PACKAGE} ${CUR_SRC_MAIN_FOLDER}
+		mv -v ${TMP_ARCHIVE_FOLDER} isl || exit 1
+	) || exit 1
+	fi
+
+		#TMP_PACKAGE="${SRC_PACKAGE_GCC_CLOOG##*/}"
+		#unpack ${TMP_PACKAGE} ${CUR_SRC_MAIN_FOLDER}
+		#mv -v ${TMP_ARCHIVE_FOLDER} cloog || exit 1
+
+ 		cd ${TMP_BUILD_FOLDER} || exit 1
+		rm -rf gcc
+		mkdir -pv gcc || exit 1
+		cd gcc || exit 1
+
+		TMP_ARCHIVE_FOLDER=$CUR_SRC_MAIN_FOLDER
+
+		sed -i 's/<limits.h>/<linux\/limits.h>/g' ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/libsanitizer/asan/asan_linux.cpp
+
+		cd  ${TMP_BUILD_FOLDER}/gcc || exit 1
+
+		if [ "$CROSSCOMPILERONLY_TMP" = "1" ];
+		then
+			${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
+				--prefix="${TARGET_CROSS_TOOLS}" \
+				--target=$TGT_MACH          \
+				--enable-languages=c,c++    \
+				--disable-multilib \
+				--enable-libatomic      \
+				${GCC_ADD_CONF} || exit 1
+		else
+			${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
+				--prefix="${TARGET_CROSS_TOOLS}" \
+				--target=$TGT_MACH          \
+				--enable-languages=c,c++    \
+				--disable-multilib \
+				--enable-libatomic      \
+				--with-sysroot=${TARGET_ROOTFS} \
+				--with-native-system-header-dir=/include \
+				${GCC_ADD_CONF} || exit 1
+		fi
+
+		# To force the fixed limits.h generation...
+		#echo > ${TARGET_ROOTFS}/include/limits.h
+	
+		make ${MAKE_FLAGS} ${NBCORE} all-gcc || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install-gcc || exit 1
+
+		make ${MAKE_FLAGS} ${NBCORE} all-target-libgcc || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install-target-libgcc || exit 1
+
+		rm ${TARGET_ROOTFS}/sys-include
+
+	
+
+		make ${MAKE_FLAGS} ${NBCORE} all   || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install   || exit 1
+
+		#FIXME ! C++ libs not in the root fs ?
+		cp  -aR  ${TARGET_CROSS_TOOLS}/${TGT_MACH}/lib64/*   ${TARGET_ROOTFS}/lib
+		cp  -aR  ${TARGET_CROSS_TOOLS}/${TGT_MACH}/lib/*   ${TARGET_ROOTFS}/lib
+
+
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_STAGE2_DONE
+
+		delete_build_dir
 		delete_src_dir
 
 	) || exit 1
@@ -1146,6 +1284,11 @@ then
 		create_build_dir
 
 		unpack ${CUR_PACKAGE} ""
+
+
+		cd ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER} || exit 1
+
+		./autogen.sh
 
 		cd ${TMP_BUILD_FOLDER} || exit 1
 		mkdir libxcrypt

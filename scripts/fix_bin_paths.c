@@ -1,6 +1,6 @@
 /*
   Cross compiler and Linux generation scripts
-  (c)2014-2018 Jean-François DEL NERO
+  (c)2014-2026 Jean-François DEL NERO
 
   Quick & dirty post process path fixer.
   This shouldn't be needed...
@@ -20,6 +20,7 @@ int main(int argc, char *argv[])
 	int ret;
 
 	altered = 0;
+	ret = 0;
 
 	if ( argc > 2 )
 	{
@@ -37,16 +38,20 @@ int main(int argc, char *argv[])
 
 				if ( !buffer )
 				{
-					printf("Malloc error ! (%d bytes)\n",filesize);
+					fprintf(stderr,"Malloc error ! (%d bytes)\n",filesize);
 					fclose(f);
 					exit(-1);
 				}
 
 				memset((void*)buffer,0,filesize);
-				fread(buffer,filesize,1,f);
-
-				printf("File %s,%d bytes read\n",argv[1],filesize);
-				printf("Path to suppress : %s\n",argv[2]);
+				if( fread(buffer,filesize,1,f) != 1 )
+				{
+					ret = -3;
+					fprintf(stderr,"Error, Couldn't read %s...\n",argv[1]);
+					free(buffer);
+					fclose(f);
+					exit(ret);
+				}
 
 				fclose(f);
 
@@ -62,7 +67,9 @@ int main(int argc, char *argv[])
 							// Matching string found
 							// Patching the leading part of the path...
 
+							#ifdef DBG
 							printf("Path found at offset %d\n",i);
+							#endif
 							j = stringsize;
 
 							l = strlen(replaceseq);
@@ -100,7 +107,7 @@ int main(int argc, char *argv[])
 									}
 								}
 							}
-							altered = 1;
+							altered++;
 						}
 					}
 
@@ -110,13 +117,25 @@ int main(int argc, char *argv[])
 						f = fopen(argv[1],"w");
 						if ( f )
 						{
-							fwrite(buffer,filesize,1,f);
-							printf("Patched...\n");
+							printf("File %s,%d bytes, ",argv[1],filesize);
+							printf("%d Path(s) found ... ",altered);
+
+							if( fwrite(buffer,filesize,1,f) == 1 )
+							{
+								printf("Patched !\n");
+							}
+							else
+							{
+								ret = -2;
+								fprintf(stderr,"Error, Patch Failed !!!\n");
+							}
 							fclose(f);
 						}
 					}
 					else
-						printf("nothing to patch...\n");
+					{
+						//printf("nothing to patch...\n");
+					}
 
 				}
 
@@ -125,13 +144,14 @@ int main(int argc, char *argv[])
 		}
 		else
 		{
-			printf("Error, Couldn't open %s...\n",argv[1]);
+			ret = -1;
+			fprintf(stderr,"Error, Couldn't open %s...\n",argv[1]);
 		}
 	}
 	else
 	{
-		printf("Syntax : %s [FILE NAME] [PATH TO PATCH]\n",argv[0]);
+		fprintf(stderr,"Syntax : %s [FILE NAME] [PATH TO PATCH]\n",argv[0]);
 	}
 
-	exit(0);
+	exit(ret);
 }

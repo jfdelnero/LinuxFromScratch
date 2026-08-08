@@ -1,6 +1,6 @@
 #! /bin/sh
 
-LD_LIBRARY_PATH=/lib:/lib64:/usr/lib
+LD_LIBRARY_PATH=/lib:/lib64:/usr/lib:/usr/lib64
 export LD_LIBRARY_PATH
 
 PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin

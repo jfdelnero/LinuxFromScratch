@@ -98,6 +98,42 @@ then
 fi
 
 ####################################################################
+# ZSTD
+####################################################################
+CUR_PACKAGE=${SRC_PACKAGE_ZSTD:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
+	then
+	(
+		create_src_dir
+		create_build_dir
+
+		unpack ${CUR_PACKAGE} ""
+
+		export CC=${TGT_MACH}-gcc
+		export LD=${TGT_MACH}-ld
+		export AS=${TGT_MACH}-as
+		export AR=${TGT_MACH}-ar
+
+		cd ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER} || exit
+
+		make ${MAKE_FLAGS} || exit 1
+		make ${MAKE_FLAGS} install PREFIX="${TARGET_ROOTFS}" || exit 1
+
+		delete_build_dir
+		delete_src_dir
+
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
+
+	) || exit 1
+	fi
+) || exit 1
+fi
+
+####################################################################
 # LZ4
 ####################################################################
 
@@ -209,7 +245,9 @@ then
 				--with-curses-h \
 				--enable-pc-files \
 				--with-termlib \
+				--without-terminfo \
 				--with-versioned-syms \
+				--with-tic-path=${BUILDTOOLS_HOME}/bin/tic \
 				--with-pkg-config-libdir=${TARGET_ROOTFS}/lib/pkgconfig || exit 1
 
 		make ${MAKE_FLAGS} ${NBCORE} all     || exit 1
@@ -583,6 +621,44 @@ then
 fi
 
 ####################################################################
+# P11 kit
+####################################################################
+CUR_PACKAGE=${SRC_PACKAGE_P11KIT:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${BUILDTOOLS_BUILD}/${CUR_PACKAGE}_DONE ]
+	then
+	(
+		create_src_dir
+		create_build_dir
+
+		unpack_buildtools ${CUR_PACKAGE} ""
+
+		cd ${TMP_BUILD_FOLDER} || exit 1
+		mkdir -pv p11kit || exit 1
+		cd p11kit || exit 1
+
+		create_meson_crossfile meson_cross.txt
+		meson setup -Dpkg_config_path=${TARGET_ROOTFS}/lib/pkgconfig ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER} --prefix=${TARGET_ROOTFS}/ --buildtype=release --cross-file meson_cross.txt || exit 1
+
+		ninja || exit 1
+		ninja install || exit 1
+
+		cp meson-private/p11-kit-1.pc ${TARGET_ROOTFS}/lib/pkgconfig
+
+		delete_build_dir
+		delete_src_dir
+
+		echo "" > ${BUILDTOOLS_BUILD}/${CUR_PACKAGE}_DONE
+
+	) || exit 1
+	fi
+) || exit 1
+fi
+
+####################################################################
 # GnuTLS
 ####################################################################
 CUR_PACKAGE=${SRC_PACKAGE_GNUTLS:-"UNDEF"}
@@ -606,8 +682,9 @@ then
 					--prefix="${TARGET_ROOTFS}" \
 					--host=$TGT_MACH \
 					--with-included-libtasn1 \
-					--with-included-unistring \
-					--without-p11-kit || exit 1
+					--disable-tests \
+					--disable-maintainer-mode \
+					--with-included-unistring || exit 1
 
 		make ${MAKE_FLAGS} ${NBCORE}         || exit 1
 		make ${MAKE_FLAGS} ${NBCORE} install || exit 1

@@ -11,6 +11,8 @@ source ${SCRIPTS_HOME}/unpack.sh || exit 1
 source ${SCRIPTS_HOME}/utils.sh || exit 1
 source ${TARGET_CONFIG}/config.sh || exit 1
 
+source ${SCRIPTS_HOME}/apply_patches.sh || exit 1
+
 echo "******************"
 echo "*   Target GCC   *"
 echo "******************"
@@ -37,6 +39,10 @@ then
 		mkdir ${TMP_SRC_FOLDER}/target_devtools
 		unpack ${CUR_PACKAGE} "target_devtools"
 
+		cd ${TMP_SRC_FOLDER}/target_devtools/${TMP_ARCHIVE_FOLDER} || exit 1
+
+		apply_patches ${COMMON_PATCHES}/binutils
+
 		unset PKG_CONFIG_LIBDIR
 
 		cd ${TMP_BUILD_FOLDER} || exit 1
@@ -49,7 +55,7 @@ then
 				--target=$TGT_MACH \
 				--with-sysroot=${TARGET_ROOTFS} \
 				--disable-multilib \
-				|| exit 1
+				|| exit 1 
 
 		make ${MAKE_FLAGS} all install || exit 1
 
@@ -195,6 +201,10 @@ then
 		mkdir ${TMP_SRC_FOLDER}/target_devtools
 		mkdir ${TMP_SRC_FOLDER}/target_devtools/crosscompiler
 		unpack ${CUR_PACKAGE} "target_devtools/crosscompiler"
+
+		cd ${TMP_SRC_FOLDER}/target_devtools/crosscompiler/${TMP_ARCHIVE_FOLDER} || exit 1
+
+		apply_patches ${COMMON_PATCHES}/binutils
 
 		unset PKG_CONFIG_LIBDIR
 

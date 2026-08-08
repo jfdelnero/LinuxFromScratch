@@ -32,7 +32,7 @@ else
 		export TARGET_DOWNLOAD="${TARGET_HOME}/download"
 		export TARGET_CROSS_TOOLS="${TARGET_HOME}/cross-tools"
 
-		export BUILDTOOLS_HOME="${BASE_DIR}/build-tools/"
+		export BUILDTOOLS_HOME="${BASE_DIR}/build-tools"
 		export BUILDTOOLS_CONFIG="${BUILDTOOLS_HOME}/config"
 		export BUILDTOOLS_BUILD="${BUILDTOOLS_HOME}/build"
 

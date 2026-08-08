@@ -21,5 +21,5 @@ source ${BASE_DIR}/targets/common/config/config.sh || exit 1
 
 # Kernel
 
-SRC_PACKAGE_KERNEL="https://mirrors.edge.kernel.org/pub/linux/kernel/v4.x/linux-4.17.tar.xz"
+SRC_PACKAGE_KERNEL="https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.18.32.tar.xz"
 

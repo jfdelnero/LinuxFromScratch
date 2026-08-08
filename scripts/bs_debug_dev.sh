@@ -95,7 +95,7 @@ then
 				--build=$MACHTYPE \
 				--host=$TGT_MACH \
 				--enable-mpers=check \
-				CFLAGS=-DIOV_MAX=1024 \
+				CFLAGS="-DIOV_MAX=1024 -std=gnu17" \
 				--target=$TGT_MACH || exit 1
 
 		make ${MAKE_FLAGS} ${NBCORE} all     || exit 1

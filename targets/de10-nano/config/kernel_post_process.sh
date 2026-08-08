@@ -8,3 +8,6 @@
 #
 
 source ${TARGET_CONFIG}/config.sh || exit 1
+
+cp ${TMP_SRC_FOLDER}/linux-kernel/arch/arm/boot/zImage ${TARGET_HOME}/output_objects/  || exit 1
+cp ${TMP_SRC_FOLDER}/linux-kernel/arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb ${TARGET_HOME}/output_objects/soc_system.dtb  || exit 1

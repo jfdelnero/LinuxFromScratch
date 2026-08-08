@@ -179,7 +179,7 @@ then
 				--build=$MACHTYPE \
 				--host=$TGT_MACH \
 				--target=$TGT_MACH \
-				CFLAGS="-DMAX_PATH=4096 -DMB_LEN_MAX=16"\
+				CFLAGS="-std=gnu17 -DMAX_PATH=4096 -DMB_LEN_MAX=16"\
 				--with-yielding-select=yes || exit 1
 
 		make ${MAKE_FLAGS} ${NBCORE}         || exit 1
@@ -211,13 +211,16 @@ then
 
 		unpack ${CUR_PACKAGE} ""
 
+		export CROSS=${TGT_MACH}
+		export CC=${TGT_MACH}-gcc
+		export LD=${TGT_MACH}-ld
+		export AS=${TGT_MACH}-as
+		export AR=${TGT_MACH}-ar
+
 		cd ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER} || exit 1
 
 		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
-				--prefix= \
-				--build=$MACHTYPE \
-				--host=$TGT_MACH \
-				--target=$TGT_MACH || exit 1
+				--prefix="${TARGET_ROOTFS}" || exit 1
 
 		make ${MAKE_FLAGS} ${NBCORE}         || exit 1
 		make ${MAKE_FLAGS} ${NBCORE} install DESTDIR=${TARGET_ROOTFS} || exit 1
@@ -512,8 +515,8 @@ then
 
 		cd ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER} || exit 1
 
-		make ${MAKE_FLAGS} ${NBCORE} CC=${TGT_MACH}-gcc                      || exit 1
-		cp iw ${TARGET_ROOTFS}/sbin/                || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} CC=${TGT_MACH}-gcc       || exit 1
+		cp iw ${TARGET_ROOTFS}/sbin/                          || exit 1
 
 		delete_src_dir
 

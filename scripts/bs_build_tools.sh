@@ -10,6 +10,8 @@ source ${SCRIPTS_HOME}/unpack.sh || exit 1
 source ${SCRIPTS_HOME}/utils.sh || exit 1
 source ${TARGET_CONFIG}/config.sh || exit 1
 
+export PKG_CONFIG_LIBDIR=${BUILDTOOLS_HOME}/lib/pkgconfig/:${BUILDTOOLS_HOME}/lib64/pkgconfig/
+
 echo "*******************"
 echo "*   Build Tools   *"
 echo "*******************"
@@ -659,13 +661,13 @@ then
 				--prefix="${BUILDTOOLS_HOME}" \
 				--enable-languages=c,c++   \
 				--disable-multilib         \
-				${GCC_ADD_CONF} || exit 1
+				|| exit 1
 		else
 			${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
 				--prefix="${BUILDTOOLS_HOME}" \
 				--enable-languages=c,c++   \
 				--disable-multilib         \
-				${GCC_ADD_CONF} || exit 1
+				|| exit 1
 		fi
 
 		make ${MAKE_FLAGS} ${NBCORE} all-gcc || exit 1
@@ -1023,6 +1025,127 @@ then
 fi
 
 ####################################################################
+# NETTLE
+####################################################################
+CUR_PACKAGE=${SRC_PACKAGE_BUILD_NETTLE:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${BUILDTOOLS_BUILD}/${CUR_PACKAGE}_BUILD_DONE ]
+	then
+	(
+		create_src_dir
+		create_build_dir
+
+		unset PKG_CONFIG_LIBDIR
+
+		unpack_buildtools ${CUR_PACKAGE} ""
+
+		cd ${TMP_BUILD_FOLDER} || exit 1
+		mkdir libnettle_local
+		cd libnettle_local || exit 1
+
+		# Force cross compiling ...
+		#sed -i "s/cross_compiling\=no/cross_compiling\=yes/g" ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure
+
+		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
+					--prefix="${BUILDTOOLS_HOME}" \
+					|| exit 1
+
+		make ${MAKE_FLAGS} ${NBCORE}         || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
+
+		delete_build_dir
+		delete_src_dir
+
+		echo "" > ${BUILDTOOLS_BUILD}/${CUR_PACKAGE}_BUILD_DONE
+
+	) || exit 1
+	fi
+) || exit 1
+fi
+
+
+####################################################################
+# P11 kit
+####################################################################
+CUR_PACKAGE=${SRC_PACKAGE_BUILD_P11KIT:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${BUILDTOOLS_BUILD}/${CUR_PACKAGE}_BUILD_DONE ]
+	then
+	(
+		create_src_dir
+		create_build_dir
+
+		unpack_buildtools ${CUR_PACKAGE} ""
+
+		cd ${TMP_BUILD_FOLDER} || exit 1
+		mkdir -pv p11kit_local || exit 1
+		cd p11kit_local || exit 1
+
+		#create_meson_crossfile meson_cross.txt
+		meson setup -Dpkg_config_path=${BUILDTOOLS_HOME}/lib/pkgconfig ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER} --prefix=${BUILDTOOLS_HOME}/ --buildtype=release || exit 1
+
+		ninja || exit 1
+		ninja install || exit 1
+
+		cp meson-private/p11-kit-1.pc ${BUILDTOOLS_HOME}/lib/pkgconfig
+
+		delete_build_dir
+		delete_src_dir
+
+		echo "" > ${BUILDTOOLS_BUILD}/${CUR_PACKAGE}_BUILD_DONE
+
+	) || exit 1
+	fi
+) || exit 1
+fi
+
+####################################################################
+# GnuTLS
+####################################################################
+CUR_PACKAGE=${SRC_PACKAGE_BUILD_GNUTLS:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${BUILDTOOLS_BUILD}/${CUR_PACKAGE}_BUILD_DONE ]
+	then
+	(
+		create_src_dir
+		create_build_dir
+
+		unpack_buildtools ${CUR_PACKAGE} ""
+
+        export PKG_CONFIG_LIBDIR=${BUILDTOOLS_HOME}/lib/pkgconfig/:${BUILDTOOLS_HOME}/lib64/pkgconfig/
+
+		cd ${TMP_BUILD_FOLDER} || exit 1
+		mkdir libgnutls_local
+		cd libgnutls_local || exit 1
+
+		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
+					--prefix="${BUILDTOOLS_HOME}" \
+					--with-included-libtasn1 \
+					--with-included-unistring || exit 1
+
+		make ${MAKE_FLAGS} ${NBCORE}         || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
+
+		delete_build_dir
+		delete_src_dir
+
+		echo "" > ${BUILDTOOLS_BUILD}/${CUR_PACKAGE}_BUILD_DONE
+
+	) || exit 1
+	fi
+) || exit 1
+fi
+
+####################################################################
 # OpenSSL
 ####################################################################
 CUR_PACKAGE=${SRC_PACKAGE_BUILD_OPENSSL:-"UNDEF"}
@@ -1084,8 +1207,8 @@ then
 		mkdir cmake_local
 		cd cmake_local || exit 1
 
-		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
-				--prefix="${BUILDTOOLS_HOME}" || exit 1
+		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure --no-qt-gui --no-system-libs \
+				--prefix="${BUILDTOOLS_HOME}"  -- -DCMAKE_USE_OPENSSL=OFF || exit 1
 
 		make ${MAKE_FLAGS} ${NBCORE}         || exit 1
 		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
@@ -1603,6 +1726,37 @@ then
 fi
 
 ####################################################################
+# ZSTD
+####################################################################
+CUR_PACKAGE=${SRC_PACKAGE_BUILD_ZSTD:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${BUILDTOOLS_BUILD}/${CUR_PACKAGE}_BUILD_DONE ]
+	then
+	(
+		create_src_dir
+		create_build_dir
+
+		unpack_buildtools ${CUR_PACKAGE} ""
+
+		cd ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER} || exit
+
+		make ${MAKE_FLAGS} || exit 1
+		make ${MAKE_FLAGS} install PREFIX="${BUILDTOOLS_HOME}" || exit 1
+
+		delete_build_dir
+		delete_src_dir
+
+		echo "" > ${BUILDTOOLS_BUILD}/${CUR_PACKAGE}_BUILD_DONE
+
+	) || exit 1
+	fi
+) || exit 1
+fi
+
+####################################################################
 # LIBGDM
 ####################################################################
 CUR_PACKAGE=${SRC_PACKAGE_BUILD_LIBGDM:-"UNDEF"}
@@ -1668,6 +1822,7 @@ then
 				--prefix="${BUILDTOOLS_HOME}" \
 				--enable-ipv6 \
 				--enable-optimizations \
+				--with-openssl="${BUILDTOOLS_HOME}/" \
 				--enable-shared \
 				|| exit 1
 
@@ -2134,7 +2289,7 @@ CUR_PACKAGE="${CUR_PACKAGE##*/}"
 if [ "$CUR_PACKAGE" != "UNDEF" ]
 then
 (
-	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_BUILD_DONE ]
+	if [ ! -f ${BUILDTOOLS_BUILD}/${CUR_PACKAGE}_BUILD_DONE ]
 	then
 	(
 		echo "*******************"
@@ -2165,7 +2320,7 @@ then
 		delete_build_dir
 		delete_src_dir
 
-		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_BUILD_DONE
+		echo "" > ${BUILDTOOLS_BUILD}/${CUR_PACKAGE}_BUILD_DONE
 
 	) || exit 1
 	fi
@@ -2181,7 +2336,7 @@ CUR_PACKAGE="${CUR_PACKAGE##*/}"
 if [ "$CUR_PACKAGE" != "UNDEF" ]
 then
 (
-	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_BUILD_DONE ]
+	if [ ! -f ${BUILDTOOLS_BUILD}/${CUR_PACKAGE}_BUILD_DONE ]
 	then
 	(
 		echo "*********************"
@@ -2206,7 +2361,7 @@ then
 		delete_build_dir
 		delete_src_dir
 
-		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_BUILD_DONE
+		echo "" > ${BUILDTOOLS_BUILD}/${CUR_PACKAGE}_BUILD_DONE
 
 	) || exit 1
 	fi
@@ -2222,7 +2377,7 @@ CUR_PACKAGE="${CUR_PACKAGE##*/}"
 if [ "$CUR_PACKAGE" != "UNDEF" ]
 then
 (
-	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_BUILD_DONE ]
+	if [ ! -f ${BUILDTOOLS_BUILD}/${CUR_PACKAGE}_BUILD_DONE ]
 	then
 	(
 		create_src_dir
@@ -2244,10 +2399,51 @@ then
 		delete_build_dir
 		delete_src_dir
 
-		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_BUILD_DONE
+		echo "" > ${BUILDTOOLS_BUILD}/${CUR_PACKAGE}_BUILD_DONE
 
 	) || exit 1
 	fi
+) || exit 1
+fi
+
+####################################################################
+# local dtc
+####################################################################
+CUR_PACKAGE=${SRC_PACKAGE_BUILD_DTC:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${BUILDTOOLS_BUILD}/${CUR_PACKAGE}_BUILD_DONE ]
+	then
+	(
+		echo "****************"
+		echo "*  local dtc   *"
+		echo "****************"
+
+		create_src_dir
+		create_build_dir
+		unpack_buildtools ${CUR_PACKAGE} ""
+
+		cd ${TMP_BUILD_FOLDER} || exit 1
+		mkdir -pv dtc_local || exit 1
+		cd dtc_local || exit 1
+
+		#create_meson_crossfile meson_cross.txt
+
+		meson setup ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER} --prefix=${BUILDTOOLS_HOME}/ --buildtype=release || exit 1
+
+		ninja || exit 1
+		ninja install || exit 1
+
+		delete_build_dir
+		delete_src_dir
+
+		echo "" > ${BUILDTOOLS_BUILD}/${CUR_PACKAGE}_BUILD_DONE
+
+	) || exit 1
+	fi
+
 ) || exit 1
 fi
 

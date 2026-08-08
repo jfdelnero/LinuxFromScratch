@@ -1,12 +1,7 @@
-echo -- Programming FPGA --
-fatload mmc 0:1 $fpgadata soc_system.rbf;
-fpga load 0 $fpgadata $filesize;
-run bridge_enable_handoff;
-echo -- Setting Env Variables --
-setenv fdtimage soc_system.dtb;
-setenv mmcroot /dev/mmcblk0p2;
-setenv mmcload 'mmc rescan;${mmcloadcmd} mmc 0:${mmcloadpart} ${loadaddr} ${bootimage};${mmcloadcmd} mmc 0:${mmcloadpart} ${fdtaddr} ${fdtimage};';
-setenv mmcboot 'setenv bootargs console=ttyS0,115200 root=${mmcroot} rw rootwait quiet; bootz ${loadaddr} - ${fdtaddr}';
-run mmcload;
-run mmcboot;
+mmc rescan
+if fatload mmc 0:1 $kernel_addr_r soc_system.rbf; then echo -- Programming FPGA -- ;fpga load 0 $fileaddr $filesize; bridge enable; fi
+
+mmc rescan
+setenv bootargs 'console=ttyS0,115200 root=/dev/mmcblk0p2 rw rootwait' 
+if fatload mmc 0:1 $kernel_addr_r zImage ; then if fatload mmc 0:1 $fdt_addr_r    soc_system.dtb; then bootz $kernel_addr_r - $fdt_addr_r; fi ; fi
 

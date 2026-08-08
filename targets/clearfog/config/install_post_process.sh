@@ -22,7 +22,7 @@ mkdir ${TARGET_HOME}/output_objects
 # Create SD Card image
 rm ${TARGET_HOME}/output_objects/sdcard.img
 
-dd if=/dev/zero of=${TARGET_HOME}/output_objects/sdcard.img iflag=fullblock bs=1M count=1024 && sync
+dd if=/dev/zero of=${TARGET_HOME}/output_objects/sdcard.img iflag=fullblock bs=1M count=2048 && sync
 
 cd ${TARGET_CONFIG}/boot_part
 rm clearfog_sd_uboot.bin
