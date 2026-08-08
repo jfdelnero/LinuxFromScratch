@@ -1,0 +1,30 @@
+--- a/binutils/prdbg.c	2026-02-08 01:00:00.000000000 +0100
++++ b/binutils/prdbg.c	2026-05-11 22:56:41.602668134 +0200
+@@ -2642,22 +2642,24 @@
+   if (dname != NULL)
+     {
+       char *sep;
++      char *mutable_name;
+       sep = strstr (dname, "::");
+       if (sep)
+ 	{
+ 	  info->stack->method = dname;
+ 	  dname = NULL;
+ 	  *sep = 0;
+-	  name = sep + 2;
++	  mutable_name = sep + 2;
+ 	}
+       else
+ 	{
+ 	  info->stack->method = xstrdup ("");
+-	  name = dname;
++	  mutable_name = dname;
+ 	}
+-      sep = strchr (name, '(');
++      sep = strchr (mutable_name, '(');
+       if (sep)
+ 	*sep = 0;
++      name = mutable_name;
+       /* Obscure functions as type_info function.  */
+     }
+

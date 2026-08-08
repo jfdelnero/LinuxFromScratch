@@ -1,0 +1,11 @@
+--- a/binutils/nm.c	2026-02-08 01:00:00.000000000 +0100
++++ b/binutils/nm.c	2026-05-11 22:56:41.602668134 +0200
+@@ -686,7 +686,7 @@
+   if (!with_symbol_versions
+       && bfd_get_flavour (abfd) == bfd_target_elf_flavour)
+     {
+-      char *atver = strchr (name, '@');
++      const char *atver = strchr (name, '@');
+ 
+       if (atver)
+ 	{
