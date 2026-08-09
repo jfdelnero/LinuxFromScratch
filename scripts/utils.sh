@@ -126,3 +126,13 @@ function create_meson_crossfile {
 	echo "needs_exe_wrapper = false"          >> $1
 }
 
+function create_cmake_crossfile {
+	echo "set(CMAKE_SYSTEM_NAME Linux)"                   > $1
+	echo "set(CMAKE_SYSTEM_PROCESSOR ${KERNEL_ARCH})"    >> $1
+	echo "set(CMAKE_C_COMPILER   ${TGT_MACH}-gcc)"       >> $1
+	echo "set(CMAKE_CXX_COMPILER ${TGT_MACH}-g++)"       >> $1
+	echo "set(CMAKE_FIND_ROOT_PATH ${TARGET_ROOTFS})"    >> $1
+	echo "set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)"  >> $1
+	echo "set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)"   >> $1
+	echo "set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)"   >> $1
+}

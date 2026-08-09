@@ -32,14 +32,9 @@ then
 		unpack ${CUR_PACKAGE} ""
 
 		cd ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER} || exit 1
+		create_cmake_crossfile cross.cmake
 
-		export CC=${TGT_MACH}-gcc
-		export LD=${TGT_MACH}-ld
-		export AS=${TGT_MACH}-as
-		export AR=${TGT_MACH}-ar
-		export DESTDIR=${TARGET_ROOTFS}
-
-		cmake -DCMAKE_INSTALL_PREFIX= -DCMAKE_SYSTEM_PREFIX_PATH=${TARGET_ROOTFS}
+		cmake -DCMAKE_TOOLCHAIN_FILE=cross.cmake -DCMAKE_INSTALL_PREFIX=${TARGET_ROOTFS}
 
 		make ${MAKE_FLAGS} ${NBCORE} all     || exit 1
 		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
