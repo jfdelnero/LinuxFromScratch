@@ -30,6 +30,28 @@ sysbuild.sh
 ```
 
 
+## Building on Termux (Android)
+
+It is possible to build the system directly on an Android device using Termux and PRoot.
+
+1.  Clone this repository in Termux.
+2.  Run the setup script to install `proot-distro`, `debian`, and build dependencies:
+    ```bash
+    ./setup_termux.sh
+    ```
+3.  Enter the build environment (follow the instructions printed by the setup script):
+    ```bash
+    proot-distro login debian --bind ".:/root/LinuxFromScratch" --cwd /root/LinuxFromScratch
+    ```
+4.  Proceed with the build as usual inside the PRoot environment:
+    ```bash
+    ./set_env.sh [TARGET_NAME]
+    sysbuild.sh
+    ```
+
+Note: Generating the SD card image (`init_sd.sh`) inside Termux is not supported due to lack of root privileges and loop device support. You can copy the generated `root-fs` to a PC to create the image.
+
+
 ## Usage
 
 To setup the build environnement run from the repository root folder
