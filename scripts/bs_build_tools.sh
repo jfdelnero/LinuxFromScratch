@@ -1066,85 +1066,6 @@ then
 ) || exit 1
 fi
 
-
-####################################################################
-# P11 kit
-####################################################################
-CUR_PACKAGE=${SRC_PACKAGE_BUILD_P11KIT:-"UNDEF"}
-CUR_PACKAGE="${CUR_PACKAGE##*/}"
-if [ "$CUR_PACKAGE" != "UNDEF" ]
-then
-(
-	if [ ! -f ${BUILDTOOLS_BUILD}/${CUR_PACKAGE}_BUILD_DONE ]
-	then
-	(
-		create_src_dir
-		create_build_dir
-
-		unpack_buildtools ${CUR_PACKAGE} ""
-
-		cd ${TMP_BUILD_FOLDER} || exit 1
-		mkdir -pv p11kit_local || exit 1
-		cd p11kit_local || exit 1
-
-		#create_meson_crossfile meson_cross.txt
-		meson setup -Dpkg_config_path=${BUILDTOOLS_HOME}/lib/pkgconfig ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER} --prefix=${BUILDTOOLS_HOME}/ --buildtype=release || exit 1
-
-		ninja || exit 1
-		ninja install || exit 1
-
-		cp meson-private/p11-kit-1.pc ${BUILDTOOLS_HOME}/lib/pkgconfig
-
-		delete_build_dir
-		delete_src_dir
-
-		echo "" > ${BUILDTOOLS_BUILD}/${CUR_PACKAGE}_BUILD_DONE
-
-	) || exit 1
-	fi
-) || exit 1
-fi
-
-####################################################################
-# GnuTLS
-####################################################################
-CUR_PACKAGE=${SRC_PACKAGE_BUILD_GNUTLS:-"UNDEF"}
-CUR_PACKAGE="${CUR_PACKAGE##*/}"
-if [ "$CUR_PACKAGE" != "UNDEF" ]
-then
-(
-	if [ ! -f ${BUILDTOOLS_BUILD}/${CUR_PACKAGE}_BUILD_DONE ]
-	then
-	(
-		create_src_dir
-		create_build_dir
-
-		unpack_buildtools ${CUR_PACKAGE} ""
-
-        export PKG_CONFIG_LIBDIR=${BUILDTOOLS_HOME}/lib/pkgconfig/:${BUILDTOOLS_HOME}/lib64/pkgconfig/
-
-		cd ${TMP_BUILD_FOLDER} || exit 1
-		mkdir libgnutls_local
-		cd libgnutls_local || exit 1
-
-		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
-					--prefix="${BUILDTOOLS_HOME}" \
-					--with-included-libtasn1 \
-					--with-included-unistring || exit 1
-
-		make ${MAKE_FLAGS} ${NBCORE}         || exit 1
-		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
-
-		delete_build_dir
-		delete_src_dir
-
-		echo "" > ${BUILDTOOLS_BUILD}/${CUR_PACKAGE}_BUILD_DONE
-
-	) || exit 1
-	fi
-) || exit 1
-fi
-
 ####################################################################
 # OpenSSL
 ####################################################################
@@ -2407,6 +2328,84 @@ then
 fi
 
 ####################################################################
+# P11 kit
+####################################################################
+CUR_PACKAGE=${SRC_PACKAGE_BUILD_P11KIT:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${BUILDTOOLS_BUILD}/${CUR_PACKAGE}_BUILD_DONE ]
+	then
+	(
+		create_src_dir
+		create_build_dir
+
+		unpack_buildtools ${CUR_PACKAGE} ""
+
+		cd ${TMP_BUILD_FOLDER} || exit 1
+		mkdir -pv p11kit_local || exit 1
+		cd p11kit_local || exit 1
+
+		#create_meson_crossfile meson_cross.txt
+		meson setup -Dpkg_config_path=${BUILDTOOLS_HOME}/lib/pkgconfig ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER} --prefix=${BUILDTOOLS_HOME}/ --buildtype=release || exit 1
+
+		ninja || exit 1
+		ninja install || exit 1
+
+		cp meson-private/p11-kit-1.pc ${BUILDTOOLS_HOME}/lib/pkgconfig
+
+		delete_build_dir
+		delete_src_dir
+
+		echo "" > ${BUILDTOOLS_BUILD}/${CUR_PACKAGE}_BUILD_DONE
+
+	) || exit 1
+	fi
+) || exit 1
+fi
+
+####################################################################
+# GnuTLS
+####################################################################
+CUR_PACKAGE=${SRC_PACKAGE_BUILD_GNUTLS:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${BUILDTOOLS_BUILD}/${CUR_PACKAGE}_BUILD_DONE ]
+	then
+	(
+		create_src_dir
+		create_build_dir
+
+		unpack_buildtools ${CUR_PACKAGE} ""
+
+		export PKG_CONFIG_LIBDIR=${BUILDTOOLS_HOME}/lib/pkgconfig/:${BUILDTOOLS_HOME}/lib64/pkgconfig/
+
+		cd ${TMP_BUILD_FOLDER} || exit 1
+		mkdir libgnutls_local
+		cd libgnutls_local || exit 1
+
+		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
+					--prefix="${BUILDTOOLS_HOME}" \
+					--with-included-libtasn1 \
+					--with-included-unistring || exit 1
+
+		make ${MAKE_FLAGS} ${NBCORE}         || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
+
+		delete_build_dir
+		delete_src_dir
+
+		echo "" > ${BUILDTOOLS_BUILD}/${CUR_PACKAGE}_BUILD_DONE
+
+	) || exit 1
+	fi
+) || exit 1
+fi
+
+####################################################################
 # local dtc
 ####################################################################
 CUR_PACKAGE=${SRC_PACKAGE_BUILD_DTC:-"UNDEF"}
@@ -2444,6 +2443,76 @@ then
 	) || exit 1
 	fi
 
+) || exit 1
+fi
+
+####################################################################
+# local f2fs-tools
+####################################################################
+CUR_PACKAGE=${SRC_PACKAGE_BUILD_F2FSTOOLS:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${BUILDTOOLS_BUILD}/${CUR_PACKAGE}_BUILD_DONE ]
+	then
+	(
+		create_src_dir
+		create_build_dir
+
+		unpack_buildtools ${CUR_PACKAGE} ""
+
+		cd ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER} || exit 1
+
+		./autogen.sh
+
+		./configure --prefix="${BUILDTOOLS_HOME}" || exit 1
+
+		make ${MAKE_FLAGS} ${NBCORE}         || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
+
+		make clean
+
+		delete_build_dir
+		delete_src_dir
+
+		echo "" > ${BUILDTOOLS_BUILD}/${CUR_PACKAGE}_BUILD_DONE
+
+	) || exit 1
+	fi
+) || exit 1
+fi
+
+####################################################################
+# local Squashfs-Tools
+####################################################################
+CUR_PACKAGE=${SRC_PACKAGE_BUILD_SQUASHFSTOOLS:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${BUILDTOOLS_BUILD}/${CUR_PACKAGE}_BUILD_DONE ]
+	then
+	(
+		create_src_dir
+		create_build_dir
+
+		unpack_buildtools ${CUR_PACKAGE} ""
+
+		cd ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/squashfs-tools/ || exit 1
+
+		make ${MAKE_FLAGS} ${NBCORE} GZIP_SUPPORT=0 XZ_SUPPORT=0 LZO_SUPPORT=0 LZ4_SUPPORT=0 ZSTD_SUPPORT=1 COMP_DEFAULT=zstd INSTALL_PREFIX="${BUILDTOOLS_HOME}"        || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} GZIP_SUPPORT=0 XZ_SUPPORT=0 LZO_SUPPORT=0 LZ4_SUPPORT=0 ZSTD_SUPPORT=1 COMP_DEFAULT=zstd INSTALL_PREFIX="${BUILDTOOLS_HOME}" install || exit 1
+
+		make clean
+
+		delete_build_dir
+		delete_src_dir
+
+		echo "" > ${BUILDTOOLS_BUILD}/${CUR_PACKAGE}_BUILD_DONE
+
+	) || exit 1
+	fi
 ) || exit 1
 fi
 

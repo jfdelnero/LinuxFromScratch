@@ -112,6 +112,84 @@ then
 fi
 
 ####################################################################
+# Lib Trace Event (Linux kernel function trace utility)
+####################################################################
+
+CUR_PACKAGE=${SRC_PACKAGE_LIBTRACEEVENT:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
+	then
+	(
+		create_src_dir
+		create_build_dir
+
+		unpack ${CUR_PACKAGE} ""
+
+		cd ${TMP_BUILD_FOLDER} || exit 1
+		mkdir -pv libtraceevent || exit 1
+		cd libtraceevent || exit 1
+
+		create_meson_crossfile meson_cross.txt
+
+		meson setup ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER} --prefix=${TARGET_ROOTFS} --buildtype=release -Ddoc=false --cross-file meson_cross.txt \
+		|| exit 1
+
+		ninja || exit 1
+		ninja install || exit 1
+
+		delete_build_dir
+		delete_src_dir
+
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
+
+	) || exit 1
+	fi
+) || exit 1
+fi
+
+####################################################################
+# Lib Trace FS (Linux kernel function trace utility)
+####################################################################
+
+CUR_PACKAGE=${SRC_PACKAGE_LIBTRACEFS:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
+	then
+	(
+		create_src_dir
+		create_build_dir
+
+		unpack ${CUR_PACKAGE} ""
+
+		cd ${TMP_BUILD_FOLDER} || exit 1
+		mkdir -pv libtracefs || exit 1
+		cd libtracefs || exit 1
+
+		create_meson_crossfile meson_cross.txt
+
+		meson setup ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER} --prefix=${TARGET_ROOTFS} --buildtype=release -Ddoc=false --cross-file meson_cross.txt \
+		|| exit 1
+
+		ninja || exit 1
+		ninja install || exit 1
+
+		delete_build_dir
+		delete_src_dir
+
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
+
+	) || exit 1
+	fi
+) || exit 1
+fi
+
+####################################################################
 # FTRACE (Linux kernel function trace utility)
 ####################################################################
 
@@ -128,14 +206,17 @@ then
 
 		unpack ${CUR_PACKAGE} ""
 
-		cd ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER} || exit 1
+		cd ${TMP_BUILD_FOLDER} || exit 1
+		mkdir -pv ftrace || exit 1
+		cd ftrace || exit 1
 
-		export CROSS_COMPILE=${TGT_MACH}-
-		export DESTDIR=${TARGET_ROOTFS}
-		export prefix=/usr
+		create_meson_crossfile meson_cross.txt
 
-		make ${MAKE_FLAGS} ${NBCORE} trace-cmd || exit 1
-		make ${MAKE_FLAGS} ${NBCORE} install   || exit 1
+		meson setup ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER} --prefix=${TARGET_ROOTFS} --buildtype=release -Ddoc=false --cross-file meson_cross.txt \
+		|| exit 1
+
+		ninja || exit 1
+		ninja install || exit 1
 
 		delete_build_dir
 		delete_src_dir

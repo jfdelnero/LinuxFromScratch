@@ -81,18 +81,24 @@ then
 
 		create_src_dir
 		create_build_dir
-		unpack ${CUR_PACKAGE} ""
 
-		cd ${TMP_SRC_FOLDER} || exit 1
-		mv ${TMP_ARCHIVE_FOLDER} linux-kernel  || exit 1
-		cd linux-kernel                        || exit 1
-
-		if [ -f ${TARGET_CONFIG}/kernel_pre_process.sh ]
+		if [ ! -d ${TMP_SRC_FOLDER}/linux-kernel ]
 		then
 		(
-			echo Pre process script available... executing it...
-			#To apply patches or anything else
-			source ${TARGET_CONFIG}/kernel_pre_process.sh || exit 1
+    			unpack ${CUR_PACKAGE} ""
+
+			cd ${TMP_SRC_FOLDER} || exit 1
+			mv ${TMP_ARCHIVE_FOLDER} linux-kernel  || exit 1
+			cd linux-kernel                        || exit 1
+
+			if [ -f ${TARGET_CONFIG}/kernel_pre_process.sh ]
+			then
+			(
+				echo Pre process script available... executing it...
+				#To apply patches or anything else
+				source ${TARGET_CONFIG}/kernel_pre_process.sh || exit 1
+			)
+			fi
 		)
 		fi
 
@@ -976,20 +982,31 @@ then
 	then
 	(
 
+		echo "******************"
+		echo "*   Kernel ...   *"
+		echo "******************"
+
 		create_src_dir
 		create_build_dir
-		unpack ${CUR_PACKAGE} ""
 
-		cd ${TMP_SRC_FOLDER} || exit 1
-		mv ${TMP_ARCHIVE_FOLDER} linux-kernel  || exit 1
-		cd linux-kernel                        || exit 1
 
-		if [ -f ${TARGET_CONFIG}/kernel_pre_process.sh ]
+		if [ ! -d ${TMP_SRC_FOLDER}/linux-kernel ]
 		then
 		(
-			echo Pre process script available... executing it...
-			#To apply patches or anything else
-			source ${TARGET_CONFIG}/kernel_pre_process.sh || exit 1
+			unpack ${CUR_PACKAGE} ""
+
+			cd ${TMP_SRC_FOLDER} || exit 1
+			mv ${TMP_ARCHIVE_FOLDER} linux-kernel  || exit 1
+			cd linux-kernel                        || exit 1
+
+			if [ -f ${TARGET_CONFIG}/kernel_pre_process.sh ]
+			then
+			(
+				echo Pre process script available... executing it...
+				#To apply patches or anything else
+				source ${TARGET_CONFIG}/kernel_pre_process.sh || exit 1
+			)
+			fi
 		)
 		fi
 

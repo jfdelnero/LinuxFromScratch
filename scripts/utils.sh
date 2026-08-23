@@ -136,3 +136,5 @@ function create_cmake_crossfile {
 	echo "set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)"   >> $1
 	echo "set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)"   >> $1
 }
+
+
