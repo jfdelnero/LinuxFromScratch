@@ -628,7 +628,7 @@ CUR_PACKAGE="${CUR_PACKAGE##*/}"
 if [ "$CUR_PACKAGE" != "UNDEF" ]
 then
 (
-	if [ ! -f ${BUILDTOOLS_BUILD}/${CUR_PACKAGE}_DONE ]
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
 	then
 	(
 		create_src_dir
@@ -651,7 +651,7 @@ then
 		delete_build_dir
 		delete_src_dir
 
-		echo "" > ${BUILDTOOLS_BUILD}/${CUR_PACKAGE}_DONE
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
 
 	) || exit 1
 	fi
