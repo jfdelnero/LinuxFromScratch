@@ -146,6 +146,44 @@ then
 fi
 
 ####################################################################
+# net-tools
+####################################################################
+
+CUR_PACKAGE=${SRC_PACKAGE_NETTOOLS:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
+	then
+	(
+		create_src_dir
+		create_build_dir
+
+		unpack ${CUR_PACKAGE} ""
+
+		cd ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER} || exit 1
+
+		export CROSS=${TGT_MACH}
+		export CC=${TGT_MACH}-gcc
+		export LD=${TGT_MACH}-ld
+		export AS=${TGT_MACH}-as
+		export AR=${TGT_MACH}-ar
+
+		yes "" | make ${MAKE_FLAGS} -j1                         || exit 1
+		make ${MAKE_FLAGS} DESTDIR=${TARGET_ROOTFS} -j1 install || exit 1
+
+		delete_build_dir
+		delete_src_dir
+
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
+
+	) || exit 1
+	fi
+) || exit 1
+fi
+
+####################################################################
 # ntp client
 ####################################################################
 
@@ -165,6 +203,14 @@ then
 		cd ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER} || exit 1
 
 		apply_patches ${COMMON_PATCHES}/ntp
+
+		cd ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER} || exit 1
+
+		autoreconf --install
+
+		cd ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/sntp/libevent || exit 1
+
+		autoreconf --install
 
 		cd ${TMP_BUILD_FOLDER} || exit 1
 		mkdir ntp
@@ -220,7 +266,7 @@ then
 		cd ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER} || exit 1
 
 		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
-				--prefix="${TARGET_ROOTFS}" || exit 1
+				--prefix="/usr" || exit 1
 
 		make ${MAKE_FLAGS} ${NBCORE}         || exit 1
 		make ${MAKE_FLAGS} ${NBCORE} install DESTDIR=${TARGET_ROOTFS} || exit 1
@@ -799,11 +845,9 @@ then
 		export LD=${TGT_MACH}-ld
 		export AS=${TGT_MACH}-as
 		export AR=${TGT_MACH}-ar
-		export TARGET_DIR=${TARGET_ROOTFS}
-		export PREFIX=${TARGET_ROOTFS}
 
 		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
-				--prefix="${TARGET_ROOTFS}" \
+				--prefix="/" \
 				--host=$TGT_MACH \
 				|| exit 1
 
