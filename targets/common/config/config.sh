@@ -121,6 +121,14 @@ SRC_PACKAGE_GLIBC="@COMMON@""${GNU_MIRROR}/gnu/glibc/glibc-2.44.tar.xz"
 #SRC_PACKAGE_UCLIBC="@COMMON@""https://downloads.uclibc-ng.org/releases/1.0.50/uClibc-ng-1.0.50.tar.xz"
 #SRC_PACKAGE_NEWLIB="@COMMON@""https://sources.buildroot.net/newlib-bare-metal/newlib-4.4.0.20231231.tar.gz"
 
+#SRC_PACKAGE_COREUTILS="@COMMON@""https://ftp.gnu.org/gnu/coreutils/coreutils-9.12.tar.xz"
+#SRC_PACKAGE_BASH="@COMMON@""https://ftp.gnu.org/gnu/bash/bash-5.3.tar.gz"
+#SRC_PACKAGE_GAWK="@COMMON@""https://ftp.gnu.org/gnu/gawk/gawk-5.4.1.tar.xz"
+#SRC_PACKAGE_SED="@COMMON@""https://ftp.gnu.org/gnu/sed/sed-4.10.tar.xz"
+#SRC_PACKAGE_GREP="@COMMON@""https://ftp.gnu.org/gnu/grep/grep-3.12.tar.xz"
+#SRC_PACKAGE_DIFFUTILS="@COMMON@""https://ftp.gnu.org/gnu/diffutils/diffutils-3.12.tar.xz"
+#SRC_PACKAGE_FINDUTILS="@COMMON@""https://ftp.gnu.org/gnu/findutils/findutils-4.11.0.tar.xz"
+
 SRC_PACKAGE_BUSYBOX="@COMMON@""https://busybox.net/downloads/busybox-1.38.0.tar.bz2"
 SRC_PACKAGE_UTILLINUX="@COMMON@""https://www.kernel.org/pub/linux/utils/util-linux/v2.42/util-linux-2.42.tar.xz"
 
@@ -185,6 +193,7 @@ SRC_PACKAGE_TCPDUMP="@COMMON@""https://www.tcpdump.org/release/tcpdump-4.99.1.ta
 SRC_PACKAGE_TCPSLICE="@COMMON@""https://www.tcpdump.org/release/tcpslice-1.6.tar.gz"
 SRC_PACKAGE_IPROUTE2="@COMMON@""https://mirrors.edge.kernel.org/pub/linux/utils/net/iproute2/iproute2-6.0.0.tar.gz"
 SRC_PACKAGE_NMAP="@COMMON@""https://nmap.org/dist/nmap-7.93.tar.bz2"
+SRC_PACKAGE_NETTOOLS="@COMMON@""https://downloads.sourceforge.net/project/net-tools/net-tools-2.10.tar.xz"
 fi
 
 #
@@ -218,7 +227,7 @@ SRC_PACKAGE_CHRONY="@COMMON@""https://chrony-project.org/releases/chrony-4.8.tar
 SRC_PACKAGE_LIGHTTPD="@COMMON@""https://download.lighttpd.net/lighttpd/releases-1.4.x/lighttpd-1.4.82.tar.xz"
 #SRC_PACKAGE_CVS=cvs-1.11.23.tar.gz
 SRC_PACKAGE_PXESERVER="@COMMON@""https://github.com/jfdelnero/pxe-server/releases/download/PXE_1_4_2/pxe-1.4.2.tar.gz"
-SRC_PACKAGE_TFTPD="@COMMON@""https://www.kernel.org/pub/software/network/tftp/tftp-hpa/tftp-hpa-5.4.tar.xz"
+SRC_PACKAGE_TFTPD="@COMMON@""https://www.kernel.org/pub/software/network/tftp/tftp-hpa-5.4.tar.xz"
 SRC_PACKAGE_UMTPRD="@COMMON@""https://github.com/viveris/uMTP-Responder/archive/refs/tags/umtprd-1.8.1.tar.gz"
 
 SRC_PACKAGE_LIBGMP="@COMMON@""https://gmplib.org/download/gmp/gmp-6.3.0.tar.xz"
@@ -336,6 +345,8 @@ fi
 SRC_PACKAGE_READLINE="@COMMON@""${GNU_MIRROR}/gnu/readline/readline-8.3.tar.gz"
 SRC_PACKAGE_XZ="@COMMON@""https://github.com/tukaani-project/xz/releases/download/v5.6.3/xz-5.6.3.tar.xz"
 SRC_PACKAGE_BZIP2="@COMMON@""https://sourceware.org/pub/bzip2/bzip2-1.0.8.tar.gz"
+SRC_PACKAGE_GZIP="@COMMON@""https://ftp.gnu.org/gnu/gzip/gzip-1.15.tar.xz"
+SRC_PACKAGE_TAR="@COMMON@""https://ftp.gnu.org/gnu/tar/tar-1.35.tar.xz"
 SRC_PACKAGE_LIBGDM="@COMMON@""${GNU_MIRROR}/gnu/gdbm/gdbm-1.26.tar.gz"
 SRC_PACKAGE_PYTHON="@COMMON@""https://www.python.org/ftp/python/3.14.5/Python-3.14.5.tar.xz"
 
