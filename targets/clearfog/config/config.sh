@@ -35,9 +35,9 @@ export CROSS_TGT_CPU=cortex-m3
 export CROSS_TGT_CPUMODE=thumb
 
 
-SRC_PACKAGE_TARGET_CROSS_BINUTILS="https://ftpmirror.gnu.org/gnu/binutils/binutils-2.46.0.tar.xz"
+SRC_PACKAGE_TARGET_CROSS_BINUTILS="https://ftpmirror.gnu.org/gnu/binutils/binutils-2.47.tar.xz"
 
-SRC_PACKAGE_TARGET_CROSS_GCC="https://ftpmirror.gnu.org/gnu/gcc/gcc-16.1.0/gcc-16.1.0.tar.xz"
+SRC_PACKAGE_TARGET_CROSS_GCC="https://ftpmirror.gnu.org/gnu/gcc/gcc-16.2.0/gcc-16.2.0.tar.xz"
 SRC_PACKAGE_TARGET_CROSS_GCC_MPFR="https://ftpmirror.gnu.org/gnu/mpfr/mpfr-4.2.2.tar.xz"
 SRC_PACKAGE_TARGET_CROSS_GCC_GMP="https://gmplib.org/download/gmp/gmp-6.3.0.tar.xz"
 SRC_PACKAGE_TARGET_CROSS_GCC_MPC="https://ftpmirror.gnu.org/gnu/mpc/mpc-1.4.1.tar.xz"
