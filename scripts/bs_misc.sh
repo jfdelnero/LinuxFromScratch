@@ -485,6 +485,43 @@ then
 fi
 
 ####################################################################
+# TAR
+####################################################################
+
+CUR_PACKAGE=${SRC_PACKAGE_TAR:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
+	then
+	(
+		create_src_dir
+		create_build_dir
+
+		unpack ${CUR_PACKAGE} ""
+
+		cd ${TMP_SRC_FOLDER} || exit 1
+		cd ${TMP_ARCHIVE_FOLDER} || exit 1
+
+		./configure \
+						--prefix="${TARGET_ROOTFS}" \
+						--host=$TGT_MACH \
+						|| exit 1
+
+		make ${MAKE_FLAGS} ${NBCORE}         || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
+
+		delete_build_dir
+		delete_src_dir
+
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
+
+	) || exit 1
+	fi
+) || exit 1
+fi
+####################################################################
 # PYTHON
 ####################################################################
 
