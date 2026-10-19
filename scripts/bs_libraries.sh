@@ -230,8 +230,9 @@ then
 		cd ncurses || exit 1
 
 		# wide version
-		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
+		cross_compiling=yes ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
 				CFLAGS="-std=gnu17" \
+				--build="${BUILDMACH}" \
 				--prefix="${TARGET_ROOTFS}" \
 				--host=$TGT_MACH CC=${TGT_MACH}-gcc \
 				--disable-stripping STRIPPROG=${TGT_MACH}-strip \
@@ -248,6 +249,7 @@ then
 				--without-terminfo \
 				--with-versioned-syms \
 				--with-tic-path=${BUILDTOOLS_HOME}/bin/tic \
+				TIC_PATH=${BUILDTOOLS_HOME}/bin/tic \
 				--with-pkg-config-libdir=${TARGET_ROOTFS}/lib/pkgconfig || exit 1
 
 		make ${MAKE_FLAGS} ${NBCORE} all     || exit 1
