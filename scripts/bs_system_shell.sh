@@ -266,7 +266,9 @@ then
 		cd ${TMP_ARCHIVE_FOLDER} || exit 1
 
 		./configure \
+						--build="${BUILDMACH}" \
 						--prefix="${TARGET_ROOTFS}" \
+						--disable-doc \
 						--host=$TGT_MACH \
 						|| exit 1
 
