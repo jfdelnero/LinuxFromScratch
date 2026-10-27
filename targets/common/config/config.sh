@@ -77,6 +77,7 @@ SRC_PACKAGE_BUILD_ZSTD="@COMMON@""https://github.com/facebook/zstd/archive/refs/
 SRC_PACKAGE_BUILD_NETTLE="@COMMON@""${GNU_MIRROR}/gnu/nettle/nettle-3.10.tar.gz"
 SRC_PACKAGE_BUILD_P11KIT="@COMMON@""https://github.com/p11-glue/p11-kit/releases/download/0.26.5/p11-kit-0.26.5.tar.xz"
 SRC_PACKAGE_BUILD_GNUTLS="@COMMON@""https://www.gnupg.org/ftp/gcrypt/gnutls/v3.8/gnutls-3.8.13.tar.xz"
+SRC_PACKAGE_LIBPAM="@COMMON@""https://github.com/linux-pam/linux-pam/archive/refs/tags/v1.7.3.tar.gz"
 
 SRC_PACKAGE_BUILD_DTC="@COMMON@""https://github.com/dgibson/dtc/archive/refs/tags/v1.8.1.tar.gz"
 #SRC_PACKAGE_BUILD_F2FSTOOLS="@COMMON@""https://hxc2001.com/vrac/f2fs-tools.tar.gz"
@@ -121,16 +122,20 @@ SRC_PACKAGE_GLIBC="@COMMON@""${GNU_MIRROR}/gnu/glibc/glibc-2.44.tar.xz"
 #SRC_PACKAGE_UCLIBC="@COMMON@""https://downloads.uclibc-ng.org/releases/1.0.50/uClibc-ng-1.0.50.tar.xz"
 #SRC_PACKAGE_NEWLIB="@COMMON@""https://sources.buildroot.net/newlib-bare-metal/newlib-4.4.0.20231231.tar.gz"
 
-#SRC_PACKAGE_COREUTILS="@COMMON@""https://ftp.gnu.org/gnu/coreutils/coreutils-9.12.tar.xz"
-#SRC_PACKAGE_BASH="@COMMON@""https://ftp.gnu.org/gnu/bash/bash-5.3.tar.gz"
-#SRC_PACKAGE_GAWK="@COMMON@""https://ftp.gnu.org/gnu/gawk/gawk-5.4.1.tar.xz"
-#SRC_PACKAGE_SED="@COMMON@""https://ftp.gnu.org/gnu/sed/sed-4.10.tar.xz"
-#SRC_PACKAGE_GREP="@COMMON@""https://ftp.gnu.org/gnu/grep/grep-3.12.tar.xz"
-#SRC_PACKAGE_DIFFUTILS="@COMMON@""https://ftp.gnu.org/gnu/diffutils/diffutils-3.12.tar.xz"
-#SRC_PACKAGE_FINDUTILS="@COMMON@""https://ftp.gnu.org/gnu/findutils/findutils-4.11.0.tar.xz"
+SRC_PACKAGE_COREUTILS="@COMMON@""https://ftp.gnu.org/gnu/coreutils/coreutils-9.12.tar.xz"
+SRC_PACKAGE_BASH="@COMMON@""https://ftp.gnu.org/gnu/bash/bash-5.3.tar.gz"
+SRC_PACKAGE_GAWK="@COMMON@""https://ftp.gnu.org/gnu/gawk/gawk-5.4.1.tar.xz"
+SRC_PACKAGE_SED="@COMMON@""https://ftp.gnu.org/gnu/sed/sed-4.10.tar.xz"
+SRC_PACKAGE_GREP="@COMMON@""https://ftp.gnu.org/gnu/grep/grep-3.12.tar.xz"
+SRC_PACKAGE_DIFFUTILS="@COMMON@""https://ftp.gnu.org/gnu/diffutils/diffutils-3.12.tar.xz"
+SRC_PACKAGE_FINDUTILS="@COMMON@""https://ftp.gnu.org/gnu/findutils/findutils-4.11.0.tar.xz"
 
-SRC_PACKAGE_BUSYBOX="@COMMON@""https://busybox.net/downloads/busybox-1.38.0.tar.bz2"
+#SRC_PACKAGE_BUSYBOX="@COMMON@""https://busybox.net/downloads/busybox-1.38.0.tar.bz2"
+SRC_PACKAGE_OPENRC="@COMMON@""https://github.com/OpenRC/openrc/archive/refs/tags/0.64.1.tar.gz"
 SRC_PACKAGE_UTILLINUX="@COMMON@""https://www.kernel.org/pub/linux/utils/util-linux/v2.42/util-linux-2.42.tar.xz"
+SRC_PACKAGE_PROCPS="@COMMON@""https://github.com/warmchang/procps/archive/refs/tags/v4.0.7.tar.gz"
+
+SRC_PACKAGE_KBD="@COMMON@""https://www.kernel.org/pub/linux/utils/kbd/kbd-2.10.0.tar.xz"
 
 #SRC_PACKAGE_LIBELF="@COMMON@""https://fossies.org/linux/misc/old/libelf-0.8.13.tar.gz"
 SRC_PACKAGE_ELFUTILS="@COMMON@""https://gcc.gnu.org/pub/elfutils/0.195/elfutils-0.195.tar.bz2"
@@ -142,6 +147,10 @@ SRC_PACKAGE_LIBYAML="@COMMON@""https://github.com/yaml/libyaml/releases/download
 SRC_PACKAGE_ZLIB="@COMMON@""https://zlib.net/current/zlib.tar.gz"
 SRC_PACKAGE_LZ4="@COMMON@""https://github.com/lz4/lz4/archive/refs/tags/v1.9.4.tar.gz"
 SRC_PACKAGE_ZSTD="@COMMON@""https://github.com/facebook/zstd/archive/refs/tags/v1.5.7-kernel.tar.gz"
+
+SRC_PACKAGE_KMOD="@COMMON@""https://github.com/kmod-project/kmod/archive/refs/tags/v34.2.tar.gz"
+
+SRC_PACKAGE_EUDEV="@COMMON@""https://github.com/eudev-project/eudev/releases/download/v3.2.15/eudev-3.2.15.tar.gz"
 
 SRC_PACKAGE_LIBEVENT="@COMMON@""https://github.com/libevent/libevent/releases/download/release-2.1.12-stable/libevent-2.1.12-stable.tar.gz"
 
@@ -194,6 +203,10 @@ SRC_PACKAGE_TCPSLICE="@COMMON@""https://www.tcpdump.org/release/tcpslice-1.6.tar
 SRC_PACKAGE_IPROUTE2="@COMMON@""https://mirrors.edge.kernel.org/pub/linux/utils/net/iproute2/iproute2-6.0.0.tar.gz"
 SRC_PACKAGE_NMAP="@COMMON@""https://nmap.org/dist/nmap-7.93.tar.bz2"
 SRC_PACKAGE_NETTOOLS="@COMMON@""https://downloads.sourceforge.net/project/net-tools/net-tools-2.10.tar.xz"
+
+SRC_PACKAGE_WGET="@COMMON@""https://ftp.gnu.org/gnu/wget/wget2-latest.tar.gz"
+SRC_PACKAGE_FTP="@COMMON@""https://ftp.netbsd.org/pub/NetBSD/misc/tnftp/tnftp-20260211.tar.gz"
+
 fi
 
 #
@@ -239,7 +252,7 @@ SRC_PACKAGE_NETTLE="@COMMON@""${GNU_MIRROR}/gnu/nettle/nettle-3.10.tar.gz"
 SRC_PACKAGE_P11KIT="@COMMON@""https://github.com/p11-glue/p11-kit/releases/download/0.26.5/p11-kit-0.26.5.tar.xz"
 SRC_PACKAGE_GNUTLS="@COMMON@""https://www.gnupg.org/ftp/gcrypt/gnutls/v3.8/gnutls-3.8.13.tar.xz"
 SRC_PACKAGE_MSMTP="@COMMON@""https://marlam.de/msmtp/releases/msmtp-1.8.32.tar.xz"
-SRC_PACKAGE_SAMBA="@COMMON@""https://download.samba.org/pub/samba/stable/samba-4.24.1.tar.gz" 
+SRC_PACKAGE_SAMBA="@COMMON@""https://download.samba.org/pub/samba/stable/samba-4.24.1.tar.gz"
 
 #
 # Graphic Stack
@@ -312,15 +325,12 @@ SRC_PACKAGE_MTDEV="@COMMON@""https://bitmath.org/code/mtdev/mtdev-1.1.6.tar.bz2"
 SRC_PACKAGE_LIBEVDEV="@COMMON@""https://www.freedesktop.org/software/libevdev/libevdev-1.11.0.tar.xz"
 
 SRC_PACKAGE_ATTR="@COMMON@""https://download-mirror.savannah.gnu.org/releases/attr/attr-2.5.1.tar.xz"
-SRC_PACKAGE_UTILLINUX="@COMMON@""https://www.kernel.org/pub/linux/utils/util-linux/v2.42/util-linux-2.42.tar.xz"
 #SRC_PACKAGE_SYSTEMD="@COMMON@""https://github.com/systemd/systemd-stable/archive/refs/tags/v255.tar.gz"
 
-SRC_PACKAGE_EUDEV="@COMMON@""https://dev.gentoo.org/~blueness/eudev/eudev-3.2.9.tar.gz"
 SRC_PACKAGE_LIBINPUT="@COMMON@""https://www.freedesktop.org/software/libinput/libinput-1.19.4.tar.xz"
 #SRC_PACKAGE_LIBXKBCOMMON="@COMMON@""https://xkbcommon.org/download/libxkbcommon-1.7.0.tar.xz"
 SRC_PACKAGE_PIXMAN="@COMMON@""https://cairographics.org/releases/pixman-0.40.0.tar.gz"
 SRC_PACKAGE_CAIRO="@COMMON@""https://www.cairographics.org/releases/cairo-1.16.0.tar.xz"
-SRC_PACKAGE_LIBPAM="@COMMON@""https://github.com/linux-pam/linux-pam/archive/refs/tags/v1.7.0.tar.gz"
 SRC_PACKAGE_DBUS="@COMMON@""https://dbus.freedesktop.org/releases/dbus/dbus-1.13.18.tar.xz"
 
 #SRC_PACKAGE_WAYLAND="@COMMON@""https://gitlab.freedesktop.org/wayland/wayland/-/releases/1.23.0/downloads/wayland-1.23.0.tar.xz"
@@ -339,6 +349,10 @@ then
 
 SRC_PACKAGE_SDPARM="@COMMON@""https://fossies.org/linux/misc/sdparm-1.12.tgz"
 SRC_PACKAGE_HDIDLE="@COMMON@""https://freefr.dl.sourceforge.net/project/hd-idle/hd-idle-1.05.tgz"
+SRC_PACKAGE_NVME="@COMMON@""https://github.com/linux-nvme/nvme-cli/archive/refs/tags/v3.1.tar.gz"
+SRC_PACKAGE_SMARTTOOLS="@COMMON@""https://altushost-net.dl.sourceforge.net/project/smartmontools/smartmontools/7.5/smartmontools-7.5.tar.gz"
+SRC_PACKAGE_DDRESCUE="@COMMON@""https://mirror.ibcp.fr/pub/gnu//ddrescue/ddrescue-1.30.tar.lz"
+SRC_PACKAGE_HDPARM="@COMMON@""https://downloads.sourceforge.net/hdparm/hdparm-9.65.tar.gz"
 
 fi
 
@@ -410,6 +424,7 @@ SRC_PACKAGE_ROTT="@COMMON@""https://icculus.org/rott/releases/rott-1.1.2.tar.gz"
 
 fi
 
+SRC_PACKAGE_USBUTILS="@COMMON@""https://kernel.org/pub/linux/utils/usb/usbutils/usbutils-020.tar.xz"
 #SRC_PACKAGE_PCIUTILS="@COMMON@""https://github.com/pciutils/pciutils/archive/v3.8.0.tar.gz"
 #SRC_PACKAGE_FLASHROM="@COMMON@""https://download.flashrom.org/releases/flashrom-1.2.tar.bz2"
 #SRC_PACKAGE_FSWEBCAM="@COMMON@""https://www.sanslogic.co.uk/fswebcam/files/fswebcam-20200725.tar.xz"

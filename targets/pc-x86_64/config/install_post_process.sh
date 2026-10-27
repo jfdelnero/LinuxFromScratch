@@ -111,6 +111,8 @@ sudo ln -rs  ${TARGET_HOME}/output_objects/tmp_mount_point/lib/ld-linux-x86-64.s
 
 #sudo strace ${TARGET_ROOTFS_MIRROR}/sbin/extlinux --install  ${TARGET_HOME}/output_objects/tmp_mount_point/boot
 
+sudo ldconfig -r ${TARGET_HOME}/output_objects/tmp_mount_point/
+
 sudo mount /dev/loop0p2 ${TARGET_HOME}/output_objects/tmp_mount_point2
 
 CUR_PACKAGE=${SRC_PACKAGE_GRUB_EFI:-"UNDEF"}
