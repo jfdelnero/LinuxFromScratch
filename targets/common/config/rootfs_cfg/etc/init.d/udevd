@@ -1,0 +1,22 @@
+#!/sbin/openrc-run
+# Starts the udevd daemon.
+# Authors: Zeckma - zeckma@linuxfromscratch.com
+# Version: LFS #d68c7
+
+description="starts the udevd daemon"
+
+command=/sbin/udevd
+command_background=yes
+pidfile="/run/${RC_SVCNAME}.pid"
+
+depend() {
+  after localnet
+  after modules
+}
+
+stop() {
+  ebegin "Stopping ${RC_SVCNAME}"
+  /bin/udevadm control --exit
+  eend $?
+}
+

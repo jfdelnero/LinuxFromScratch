@@ -1,0 +1,28 @@
+#!/sbin/openrc-run
+# Coldplugs devices and settles the udevd daemon.
+# Authors: Zeckma - zeckma@linuxfromscratch.com
+# Version: LFS #d68c7
+
+description="coldplugs devices"
+
+depend() {
+  after udevd
+  provides dev
+  keyword -shutdown
+}
+
+start() {
+  ebegin "Coldplugging devices"
+
+  /bin/udevadm trigger --action=add    --type=subsystems
+  /bin/udevadm trigger --action=add    --type=devices
+  /bin/udevadm trigger --action=change --type=devices
+
+# Wait for udevd to process the uevents we triggered
+  /bin/udevadm settle --timeout=5
+
+# If any LVM based partitions are on the system, ensure they
+# are activated so they can be used.
+  if [ -x /sbin/vgchange ]; then /sbin/vgchange -a y >/dev/null; fi
+}
+

@@ -1,0 +1,26 @@
+#!/sbin/openrc-run
+
+description="OpenSSH Daemon"
+
+# S'assurer que le réseau est démarré avant de lancer SSH
+depend() {
+    need net
+    use logger dns
+    after firewall
+}
+
+# Emplacements par défaut des fichiers de configuration et des binaires
+command="/sbin/sshd"
+pidfile="/run/sshd.pid"
+command_args="-D" # Force sshd à ne pas se détacher (géré par OpenRC)
+
+# Vérifications préalables (comme la génération des clés d'hôte)
+start_pre() {
+    # Créer le répertoire de privilèges séparés si nécessaire
+    checkpath -d -m 0755 -o root:root /var/lib/sshd
+
+    # Générer les clés d'hôte manquantes si le binaire ssh-keygen est présent
+    if [ -x /usr/bin/ssh-keygen ]; then
+        /usr/bin/ssh-keygen -A
+    fi
+}
