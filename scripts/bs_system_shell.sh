@@ -42,6 +42,8 @@ then
 		make ${MAKE_FLAGS} ${NBCORE}         || exit 1
 		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
 
+		ln -rsv ${TARGET_ROOTFS}/bin/bash ${TARGET_ROOTFS}/bin/sh
+
 		delete_build_dir
 		delete_src_dir
 
@@ -266,11 +268,11 @@ then
 		cd ${TMP_ARCHIVE_FOLDER} || exit 1
 
 		./configure \
-						--build="${BUILDMACH}" \
-						--prefix="${TARGET_ROOTFS}" \
-						--disable-doc \
-						--host=$TGT_MACH \
-						|| exit 1
+			--build="${BUILDMACH}" \
+			--prefix="${TARGET_ROOTFS}" \
+			--disable-doc \
+			--host=$TGT_MACH \
+			|| exit 1
 
 		make ${MAKE_FLAGS} ${NBCORE}         || exit 1
 		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
@@ -329,10 +331,10 @@ then
 fi
 
 ####################################################################
-# Util Linux
+# OpenRC
 ####################################################################
 
-CUR_PACKAGE=${SRC_PACKAGE_UTILLINUX:-"UNDEF"}
+CUR_PACKAGE=${SRC_PACKAGE_OPENRC:-"UNDEF"}
 CUR_PACKAGE="${CUR_PACKAGE##*/}"
 if [ "$CUR_PACKAGE" != "UNDEF" ]
 then
@@ -346,24 +348,17 @@ then
 		unpack ${CUR_PACKAGE} ""
 
 		cd ${TMP_BUILD_FOLDER} || exit 1
-		mkdir util-linux
-		cd util-linux || exit 1
+		mkdir -pv openrc || exit 1
+		cd openrc || exit 1
 
-		${TARGET_SOURCES}/${TMP_ARCHIVE_FOLDER}/configure \
-						--prefix="${TARGET_ROOTFS}" \
-						--host=$TGT_MACH \
-						--disable-all-programs \
-						--enable-mount \
-						--enable-libmount \
-						--enable-libblkid \
-						--disable-liblastlog2 \
-						--with-bashcompletiondir=${TARGET_ROOTFS}/usr/share/bash-completion/completions/ \
-						--disable-makeinstall-chown \
-						--disable-makeinstall-setuid \
-						|| exit 1
+		create_meson_crossfile meson_cross.txt
+		meson setup ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER} --buildtype=release --cross-file meson_cross.txt || exit 1
 
-		make ${MAKE_FLAGS} ${NBCORE}         || exit 1
-		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
+		ninja || exit 1
+		DESTDIR=${TARGET_ROOTFS} ninja install || exit 1
+
+		cd ${TARGET_ROOTFS}/sbin || exit 1
+		ln -s -r ${TARGET_ROOTFS}/sbin/openrc-init ${TARGET_ROOTFS}/sbin/init
 
 		delete_build_dir
 		delete_src_dir
@@ -374,3 +369,4 @@ then
 	fi
 ) || exit 1
 fi
+
