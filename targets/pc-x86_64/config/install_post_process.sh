@@ -96,7 +96,13 @@ sudo chmod ugo-rwx ${TARGET_HOME}/output_objects/tmp_mount_point/etc/passwd
 sudo chmod u+rw    ${TARGET_HOME}/output_objects/tmp_mount_point/etc/passwd
 sudo chmod go+r    ${TARGET_HOME}/output_objects/tmp_mount_point/etc/passwd
 
+sudo chmod +x ${TARGET_HOME}/output_objects/tmp_mount_point/etc/init.d/*
+sudo ln -rs ${TARGET_HOME}/output_objects/tmp_mount_point/etc/init.d/sshd         ${TARGET_HOME}/output_objects/tmp_mount_point/etc/runlevels/default/sshd
+sudo ln -rs ${TARGET_HOME}/output_objects/tmp_mount_point/etc/init.d/rcS          ${TARGET_HOME}/output_objects/tmp_mount_point/etc/runlevels/default/rcS
+sudo ln -rs ${TARGET_HOME}/output_objects/tmp_mount_point/etc/init.d/udevd        ${TARGET_HOME}/output_objects/tmp_mount_point/etc/runlevels/default/udevd
+sudo ln -rs ${TARGET_HOME}/output_objects/tmp_mount_point/etc/init.d/udev-trigger ${TARGET_HOME}/output_objects/tmp_mount_point/etc/runlevels/default/udev-trigger
 
+sudo ln -rs  ${TARGET_HOME}/output_objects/tmp_mount_point/lib/ld-linux-x86-64.so.2 ${TARGET_HOME}/output_objects/tmp_mount_point/lib64/ld-linux-x86-64.so.2
 #sudo mkdir ${TARGET_HOME}/output_objects/tmp_mount_point/boot/extlinux
 #sudo cp  ${TARGET_HOME}/config/extlinux.conf ${TARGET_HOME}/output_objects/tmp_mount_point/boot/extlinux/extlinux.conf
 
@@ -267,6 +273,9 @@ fi
 # owner / group / right accesses fix
 
 cd ${TARGET_HOME}/output_objects/tmp_mount_point/ || exit 1
+
+sudo chmod +x ${TARGET_HOME}/output_objects/tmp_mount_point/etc/local.d/*
+sudo chmod +x ${TARGET_HOME}/output_objects/tmp_mount_point/etc/init.d/*
 
 ${SCRIPTS_HOME}/fix_fs_perm.sh
 
