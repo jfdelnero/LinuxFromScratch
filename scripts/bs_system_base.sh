@@ -1448,54 +1448,14 @@ then
 		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
 				--prefix="${TARGET_ROOTFS}" \
 				--host=${TGT_MACH}   \
-				--without-systemdsystemunitdir \
-				--disable-makeinstall-chown \
-				--disable-makeinstall-setuid \
-				--enable-nologin     \
-				--without-python     \
-				--disable-login      \
-				--disable-su         \
-				--disable-schedutils \
-				--without-ncurses    \
-				--without-selinux    \
-				--without-tinfo      \
-				--disable-nls        \
-				--enable-libuuid     \
-				--enable-libblkid    \
-				--enable-libmount    \
-				--disable-mount      \
-				--disable-losetup    \
-				--enable-fsck        \
-				--disable-partx      \
-				--enable-uuidd       \
-				--disable-mountpoint \
-				--disable-fallocate  \
-				--disable-unshare    \
-				--disable-arch       \
-				--disable-ddate      \
-				--disable-agetty     \
-				--disable-cramfs     \
-				--disable-switch_root\
-				--disable-pivot_root \
-				--disable-elvtune    \
-				--disable-kill       \
-				--disable-last       \
-				--disable-line       \
-				--disable-mesg       \
-				--disable-raw        \
-				--disable-rename     \
-				--disable-reset      \
-				--disable-login-utils\
-				--disable-schedutils \
-				--disable-wall       \
-				--disable-write      \
-				--disable-chsh-only-listed \
-				--disable-eject      \
-				--disable-liblastlog2 \
-				--with-bashcompletiondir=${TARGET_ROOTFS}/usr/share/bash-completion/completions/  || exit 1
+				 || exit 1
 
-		make ${MAKE_FLAGS} ${NBCORE}  || exit 1
-		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
+		sed "s/install-exec-hook-mount:/install-exec-hook-mount:\ninstall-exec-hook-mount_:/g" -i Makefile
+		sed "s/install-exec-hook-wall::/install-exec-hook-wall::\ninstall-exec-hook-wall_::/g" -i Makefile
+		sed "s/install-exec-hook:/install-exec-hook:\ninstall-exec-hook_:/g" -i Makefile
+
+		make ${MAKE_FLAGS} ${NBCORE} LIBS="-lncursesw -ltinfo" || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install-exec-hook-mount= install-exec-hook-wall= install || exit 1
 
 		delete_build_dir
 		delete_src_dir
@@ -1575,12 +1535,10 @@ then
 
 		create_meson_crossfile meson_cross.txt
 
-		meson setup ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER} --prefix=${TARGET_ROOTFS}/usr --buildtype=release --cross-file meson_cross.txt \
-		-D docs=disabled \
-		|| exit 1
+		meson setup ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}  --prefix=/ --sysconfdir=/etc --localstatedir=/var --buildtype=release --cross-file meson_cross.txt || exit 1
 
 		ninja || exit 1
-		ninja install || exit 1
+		DESTDIR=${TARGET_ROOTFS} ninja install || exit 1
 
 		cp -a ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/libpam/include/ ${TARGET_ROOTFS} || exit 1
 		cp -a ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/libpamc/include/ ${TARGET_ROOTFS} || exit 1
@@ -1765,6 +1723,148 @@ then
 
 		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
 				CFLAGS="-std=gnu17 -O3" \
+				--prefix="${TARGET_ROOTFS}" \
+				--host=$TGT_MACH || exit 1
+
+		make ${MAKE_FLAGS} ${NBCORE}  || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
+
+		delete_build_dir
+		delete_src_dir
+
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
+
+	) || exit 1
+	fi
+
+) || exit 1
+fi
+
+####################################################################
+# BZIP2
+####################################################################
+CUR_PACKAGE=${SRC_PACKAGE_BZIP2:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
+	then
+	(
+		create_src_dir
+		create_build_dir
+
+		unpack ${CUR_PACKAGE} ""
+
+		cd ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER} || exit
+
+		make clean
+
+		export CC=${TGT_MACH}-gcc
+		export LD=${TGT_MACH}-ld
+		export AS=${TGT_MACH}-as
+		export AR=${TGT_MACH}-ar
+
+		sed -i -e 's/CC=gcc/CC\ ?=\ gcc/g' Makefile
+		sed -i -e 's/AR=ar/AR\ ?=\ ar/g' Makefile
+		sed -i -e 's/RANLIB=ranlib/RANLIB\ ?=\ ranlib/g' Makefile
+		sed -i -e 's/CFLAGS=/CFLAGS\ ?=/g' Makefile
+		sed -i -e 's/LDFLAGS=/LDFLAGS\ ?=/g' Makefile
+		sed -i -e 's/PREFIX=/PREFIX\ ?=/g' Makefile
+
+		sed -i -e 's/CC=gcc/CC\ ?=\ gcc/g' Makefile-libbz2_so
+		sed -i -e 's/CFLAGS=/CFLAGS\ ?=/g' Makefile-libbz2_so
+
+		make ${MAKE_FLAGS} -f Makefile-libbz2_so      || exit 1
+		make ${MAKE_FLAGS} libbz2.a bzip2 bzip2recover || exit 1
+
+		make ${MAKE_FLAGS} -n install PREFIX="${TARGET_ROOTFS}" || exit 1
+		cp -v bzip2-shared ${TARGET_ROOTFS}/bin/bzip2
+        cp -v bzlib.h ${TARGET_ROOTFS}/include
+		cp -av libbz2.so* ${TARGET_ROOTFS}/lib
+		ln -sv libbz2.so.1.0 ${TARGET_ROOTFS}/lib/libbz2.so
+
+		delete_build_dir
+		delete_src_dir
+
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
+
+	) || exit 1
+	fi
+) || exit 1
+fi
+
+####################################################################
+# kbd
+####################################################################
+CUR_PACKAGE=${SRC_PACKAGE_KBD:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
+	then
+	(
+		echo "*********"
+		echo "*  kbd  *"
+		echo "*********"
+
+		create_src_dir
+		create_build_dir
+		unpack ${CUR_PACKAGE} ""
+
+		cd ${TMP_BUILD_FOLDER} || exit 1
+		mkdir -pv kbd || exit 1
+		cd kbd || exit 1
+
+		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
+				CFLAGS="-std=gnu17 -O3" \
+				--prefix="${TARGET_ROOTFS}" \
+				--host=$TGT_MACH || exit 1
+
+		make ${MAKE_FLAGS} ${NBCORE}  || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
+
+		delete_build_dir
+		delete_src_dir
+
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
+
+	) || exit 1
+	fi
+
+) || exit 1
+fi
+
+####################################################################
+# PROCPS
+####################################################################
+CUR_PACKAGE=${SRC_PACKAGE_PROCPS:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
+	then
+	(
+		echo "************"
+		echo "*  procps  *"
+		echo "************"
+
+		create_src_dir
+		create_build_dir
+		unpack ${CUR_PACKAGE} ""
+
+		cd ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}   || exit 1
+
+		#autoupdate
+		./autogen.sh
+
+		cd ${TMP_BUILD_FOLDER} || exit 1
+		mkdir -pv procps || exit 1
+		cd procps || exit 1
+
+		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
 				--prefix="${TARGET_ROOTFS}" \
 				--host=$TGT_MACH || exit 1
 
