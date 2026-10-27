@@ -97,6 +97,129 @@ then
 fi
 
 ####################################################################
+# HDPARM
+####################################################################
+
+CUR_PACKAGE=${SRC_PACKAGE_HDPARM:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
+	then
+	(
+		create_src_dir
+		create_build_dir
+
+		unpack ${CUR_PACKAGE} ""
+
+		cd ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER} || exit 1
+
+		export CROSS=${TGT_MACH}
+		export CC=${TGT_MACH}-gcc
+		export LD=${TGT_MACH}-ld
+		export AS=${TGT_MACH}-as
+		export AR=${TGT_MACH}-ar
+		export TARGET_DIR=${TARGET_ROOTFS}
+
+		make ${MAKE_FLAGS} ${NBCORE}          || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install  DESTDIR=${TARGET_ROOTFS} || exit 1
+
+		delete_build_dir
+		delete_src_dir
+
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
+
+	) || exit 1
+	fi
+) || exit 1
+fi
+
+####################################################################
+# Smart Tools
+####################################################################
+
+CUR_PACKAGE=${SRC_PACKAGE_SMARTTOOLS:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
+	then
+	(
+		create_src_dir
+		create_build_dir
+
+		unpack ${CUR_PACKAGE} ""
+
+		cd ${TMP_BUILD_FOLDER} || exit 1
+		mkdir smarttools
+		cd smarttools || exit 1
+
+		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
+				--prefix="${TARGET_ROOTFS}" \
+				--build=$MACHTYPE \
+				--host=$TGT_MACH \
+				--target=$TGT_MACH \
+				|| exit 1
+
+		make ${MAKE_FLAGS} ${NBCORE}         || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
+
+		delete_build_dir
+		delete_src_dir
+
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
+
+	) || exit 1
+	fi
+) || exit 1
+fi
+
+####################################################################
+# NVME cli
+####################################################################
+
+CUR_PACKAGE=${SRC_PACKAGE_NVME:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
+	then
+	(
+		echo "************"
+		echo "* NVME cli *"
+		echo "************"
+
+		create_src_dir
+		create_build_dir
+		unpack ${CUR_PACKAGE} ""
+
+		cd ${TMP_BUILD_FOLDER} || exit 1
+		mkdir -pv nvmecli || exit 1
+		cd nvmecli || exit 1
+
+		create_meson_crossfile meson_cross.txt
+
+		meson setup ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER} --prefix=${TARGET_ROOTFS}/ --buildtype=release --cross-file meson_cross.txt \
+		|| exit 1
+
+		ninja || exit 1
+		ninja install || exit 1
+
+		delete_build_dir
+		delete_src_dir
+
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
+
+	) || exit 1
+	fi
+
+) || exit 1
+fi
+
+####################################################################
 # GRUB
 ####################################################################
 
@@ -420,59 +543,6 @@ then
 
 		make ${MAKE_FLAGS} ${NBCORE}         || exit 1
 		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
-
-		delete_build_dir
-		delete_src_dir
-
-		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
-
-	) || exit 1
-	fi
-) || exit 1
-fi
-
-####################################################################
-# BZIP2
-####################################################################
-CUR_PACKAGE=${SRC_PACKAGE_BZIP2:-"UNDEF"}
-CUR_PACKAGE="${CUR_PACKAGE##*/}"
-if [ "$CUR_PACKAGE" != "UNDEF" ]
-then
-(
-	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
-	then
-	(
-		create_src_dir
-		create_build_dir
-
-		unpack ${CUR_PACKAGE} ""
-
-		cd ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER} || exit
-
-		make clean
-
-		export CC=${TGT_MACH}-gcc
-		export LD=${TGT_MACH}-ld
-		export AS=${TGT_MACH}-as
-		export AR=${TGT_MACH}-ar
-
-		sed -i -e 's/CC=gcc/CC\ ?=\ gcc/g' Makefile
-		sed -i -e 's/AR=ar/AR\ ?=\ ar/g' Makefile
-		sed -i -e 's/RANLIB=ranlib/RANLIB\ ?=\ ranlib/g' Makefile
-		sed -i -e 's/CFLAGS=/CFLAGS\ ?=/g' Makefile
-		sed -i -e 's/LDFLAGS=/LDFLAGS\ ?=/g' Makefile
-		sed -i -e 's/PREFIX=/PREFIX\ ?=/g' Makefile
-
-		sed -i -e 's/CC=gcc/CC\ ?=\ gcc/g' Makefile-libbz2_so
-		sed -i -e 's/CFLAGS=/CFLAGS\ ?=/g' Makefile-libbz2_so
-
-		make ${MAKE_FLAGS} -f Makefile-libbz2_so      || exit 1
-		make ${MAKE_FLAGS} libbz2.a bzip2 bzip2recover || exit 1
-
-		make ${MAKE_FLAGS} -n install PREFIX="${TARGET_ROOTFS}" || exit 1
-		cp -v bzip2-shared ${TARGET_ROOTFS}/bin/bzip2
-		cp -av libbz2.so* ${TARGET_ROOTFS}/lib
-		ln -sv libbz2.so.1.0 ${TARGET_ROOTFS}/lib/libbz2.so
 
 		delete_build_dir
 		delete_src_dir
@@ -1174,6 +1244,49 @@ then
 fi
 
 ####################################################################
+# USB Utils
+####################################################################
+
+CUR_PACKAGE=${SRC_PACKAGE_USBUTILS:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
+	then
+	(
+		echo "*************"
+		echo "* usb utils *"
+		echo "*************"
+
+		create_src_dir
+		create_build_dir
+		unpack ${CUR_PACKAGE} ""
+
+		cd ${TMP_BUILD_FOLDER} || exit 1
+		mkdir -pv usbutils || exit 1
+		cd usbutils || exit 1
+
+		create_meson_crossfile meson_cross.txt
+
+		meson setup ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER} --prefix=${TARGET_ROOTFS}/ --buildtype=release --cross-file meson_cross.txt \
+		|| exit 1
+
+		ninja || exit 1
+		ninja install || exit 1
+
+		delete_build_dir
+		delete_src_dir
+
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
+
+	) || exit 1
+	fi
+
+) || exit 1
+fi
+
+####################################################################
 # lib fftw
 ####################################################################
 
@@ -1339,3 +1452,46 @@ then
 	fi
 ) || exit 1
 fi
+
+####################################################################
+# kmod
+####################################################################
+CUR_PACKAGE=${SRC_PACKAGE_KMOD:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
+	then
+	(
+		echo "********"
+		echo "* kmod *"
+		echo "********"
+
+		create_src_dir
+		create_build_dir
+		unpack ${CUR_PACKAGE} ""
+
+		cd ${TMP_BUILD_FOLDER} || exit 1
+		mkdir -pv kmod || exit 1
+		cd kmod || exit 1
+
+		create_meson_crossfile meson_cross.txt
+
+		meson setup ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER} --prefix=${TARGET_ROOTFS}/ --buildtype=release --cross-file meson_cross.txt -Ddocs=false -Dmanpages=false \
+		|| exit 1
+
+		ninja || exit 1
+		ninja install || exit 1
+
+		delete_build_dir
+		delete_src_dir
+
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
+
+	) || exit 1
+	fi
+
+) || exit 1
+fi
+
