@@ -1304,7 +1304,7 @@ then
 				--disable-liblastlog2 \
 				--with-bashcompletiondir=${BUILDTOOLS_HOME}/usr/share/bash-completion/completions/  || exit 1
 
-		make ${MAKE_FLAGS} ${NBCORE}  || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} || exit 1
 		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
 
 		delete_build_dir
