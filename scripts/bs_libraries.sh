@@ -726,8 +726,8 @@ then
 		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/Configure \
 				${SSL_ARCH} shared --prefix="${TARGET_ROOTFS}" || exit 1
 
-		make ${MAKE_FLAGS} || exit 1
-		make ${MAKE_FLAGS} install_sw || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install_sw || exit 1
 
 		delete_src_dir
 
