@@ -101,6 +101,8 @@ sudo ln -rs ${TARGET_HOME}/output_objects/tmp_mount_point/etc/init.d/sshd       
 sudo ln -rs ${TARGET_HOME}/output_objects/tmp_mount_point/etc/init.d/rcS          ${TARGET_HOME}/output_objects/tmp_mount_point/etc/runlevels/default/rcS
 sudo ln -rs ${TARGET_HOME}/output_objects/tmp_mount_point/etc/init.d/udevd        ${TARGET_HOME}/output_objects/tmp_mount_point/etc/runlevels/default/udevd
 sudo ln -rs ${TARGET_HOME}/output_objects/tmp_mount_point/etc/init.d/udev-trigger ${TARGET_HOME}/output_objects/tmp_mount_point/etc/runlevels/default/udev-trigger
+sudo ln -rs ${TARGET_HOME}/output_objects/tmp_mount_point/etc/init.d/agetty       ${TARGET_HOME}/output_objects/tmp_mount_point/etc/runlevels/default/agetty.tty1
+sudo ln -rs ${TARGET_HOME}/output_objects/tmp_mount_point/etc/init.d/agetty       ${TARGET_HOME}/output_objects/tmp_mount_point/etc/init.d/agetty.tty1
 
 sudo ln -rs  ${TARGET_HOME}/output_objects/tmp_mount_point/lib/ld-linux-x86-64.so.2 ${TARGET_HOME}/output_objects/tmp_mount_point/lib64/ld-linux-x86-64.so.2
 #sudo mkdir ${TARGET_HOME}/output_objects/tmp_mount_point/boot/extlinux
