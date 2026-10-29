@@ -1,0 +1,17 @@
+# /etc/pam.d/login
+
+# 1 Prevent root login on non-secure terminals Optional but recommended for login
+auth required pam_securetty.so
+
+# 2 Standard password verification /etc/shadow
+auth required pam_unix.so nullok
+
+# 3 Account validity verification (e.g., account expiration)
+account required pam_unix.so
+
+# 4 Allow changing expired password at login
+password required pam_unix.so md5 shadow
+
+# 5 Initialize the session environment system (variables and privileges)
+session required pam_unix.so
+
