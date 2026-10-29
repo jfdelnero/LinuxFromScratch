@@ -109,7 +109,7 @@ then
 		cd ${TMP_SRC_FOLDER}/linux-kernel || exit 1
 
 		export KBUILD_CFLAGS="-std=gnu17"
-		export KCFLAGS="-std=gnu17" 
+		export KCFLAGS="-std=gnu17"
 		export KCPPFLAGS="-std=gnu17"
 
 		make ${MAKE_FLAGS} ${NBCORE} ARCH=${KERNEL_ARCH}  mrproper || exit 1
@@ -671,7 +671,7 @@ then
 
 		# To force the fixed limits.h generation...
 		#echo > ${TARGET_ROOTFS}/include/limits.h
-	
+
 		make ${MAKE_FLAGS} ${NBCORE} all-gcc || exit 1
 		make ${MAKE_FLAGS} ${NBCORE} install-gcc || exit 1
 
@@ -679,8 +679,6 @@ then
 		make ${MAKE_FLAGS} ${NBCORE} install-target-libgcc || exit 1
 
 		rm ${TARGET_ROOTFS}/sys-include
-
-	
 
 		make ${MAKE_FLAGS} ${NBCORE} all   || exit 1
 		make ${MAKE_FLAGS} ${NBCORE} install   || exit 1
@@ -1017,7 +1015,7 @@ then
 		cd ${TMP_SRC_FOLDER}/linux-kernel || exit 1
 
 		export KBUILD_CFLAGS="-std=gnu17"
-		export KCFLAGS="-std=gnu17" 
+		export KCFLAGS="-std=gnu17"
 		export KCPPFLAGS="-std=gnu17"
 
 		make ${MAKE_FLAGS} ${NBCORE} ARCH=${KERNEL_ARCH}  mrproper || exit 1
@@ -1401,6 +1399,49 @@ then
 
 		make ${MAKE_FLAGS} ${NBCORE}  || exit 1
 		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
+
+		delete_build_dir
+		delete_src_dir
+
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
+
+	) || exit 1
+	fi
+
+) || exit 1
+fi
+
+####################################################################
+# kmod
+####################################################################
+
+CUR_PACKAGE=${SRC_PACKAGE_KMOD:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
+	then
+	(
+		echo "********"
+		echo "* kmod *"
+		echo "********"
+
+		create_src_dir
+		create_build_dir
+		unpack ${CUR_PACKAGE} ""
+
+		cd ${TMP_BUILD_FOLDER} || exit 1
+		mkdir -pv kmod || exit 1
+		cd kmod || exit 1
+
+		create_meson_crossfile meson_cross.txt
+
+		meson setup ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER} --prefix=${TARGET_ROOTFS}/ --buildtype=release --cross-file meson_cross.txt -Ddocs=false -Dmanpages=false \
+		|| exit 1
+
+		ninja || exit 1
+		ninja install || exit 1
 
 		delete_build_dir
 		delete_src_dir
