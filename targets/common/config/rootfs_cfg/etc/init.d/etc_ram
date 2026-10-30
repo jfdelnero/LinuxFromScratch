@@ -1,0 +1,32 @@
+#!/sbin/openrc-run
+description="etc ram"
+
+depend() {
+  before *
+  provides etc-ram
+}
+
+start() {
+  ebegin "etc ram"
+
+  /bin/mount -o remount,ro /dev/root /
+
+  ##########################
+  # clone and mount /etc
+  ##########################
+
+  /bin/mount -t tmpfs -o size=64m  tmpfs /mnt
+  /bin/cp    -paR /etc/* /mnt
+  /bin/mount --move /mnt /etc
+  /bin/chmod og-w /etc
+
+  #etc modification :
+  #mount --bind / /mnt
+  #mount -o remount,rw /mnt
+  #cd /mnt/etc
+  #... do modification ...
+  #cd /
+  #umount /mnt
+  #sync
+}
+
