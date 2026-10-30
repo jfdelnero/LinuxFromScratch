@@ -1244,49 +1244,6 @@ then
 fi
 
 ####################################################################
-# USB Utils
-####################################################################
-
-CUR_PACKAGE=${SRC_PACKAGE_USBUTILS:-"UNDEF"}
-CUR_PACKAGE="${CUR_PACKAGE##*/}"
-if [ "$CUR_PACKAGE" != "UNDEF" ]
-then
-(
-	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
-	then
-	(
-		echo "*************"
-		echo "* usb utils *"
-		echo "*************"
-
-		create_src_dir
-		create_build_dir
-		unpack ${CUR_PACKAGE} ""
-
-		cd ${TMP_BUILD_FOLDER} || exit 1
-		mkdir -pv usbutils || exit 1
-		cd usbutils || exit 1
-
-		create_meson_crossfile meson_cross.txt
-
-		meson setup ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER} --prefix=${TARGET_ROOTFS}/ --buildtype=release --cross-file meson_cross.txt \
-		|| exit 1
-
-		ninja || exit 1
-		ninja install || exit 1
-
-		delete_build_dir
-		delete_src_dir
-
-		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
-
-	) || exit 1
-	fi
-
-) || exit 1
-fi
-
-####################################################################
 # lib fftw
 ####################################################################
 
@@ -1452,3 +1409,132 @@ then
 	fi
 ) || exit 1
 fi
+
+####################################################################
+# kmod
+####################################################################
+
+CUR_PACKAGE=${SRC_PACKAGE_KMOD:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
+	then
+	(
+		echo "********"
+		echo "* kmod *"
+		echo "********"
+
+		create_src_dir
+		create_build_dir
+		unpack ${CUR_PACKAGE} ""
+
+		cd ${TMP_BUILD_FOLDER} || exit 1
+		mkdir -pv kmod || exit 1
+		cd kmod || exit 1
+
+		create_meson_crossfile meson_cross.txt
+
+		meson setup ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER} --prefix=${TARGET_ROOTFS}/ --buildtype=release --cross-file meson_cross.txt -Ddocs=false -Dmanpages=false \
+		|| exit 1
+
+		ninja || exit 1
+		ninja install || exit 1
+
+		delete_build_dir
+		delete_src_dir
+
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
+
+	) || exit 1
+	fi
+
+) || exit 1
+fi
+
+####################################################################
+# EUDEV
+####################################################################
+CUR_PACKAGE=${SRC_PACKAGE_EUDEV:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
+	then
+	(
+		echo "*************"
+		echo "*  EUDEV    *"
+		echo "*************"
+
+		create_src_dir
+		create_build_dir
+		unpack ${CUR_PACKAGE} ""
+
+		cd ${TMP_BUILD_FOLDER} || exit 1
+		mkdir -pv eudev || exit 1
+		cd eudev || exit 1
+
+		${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
+				--prefix=${TARGET_ROOTFS} \
+				--host=$TGT_MACH \
+				|| exit 1
+
+		make ${MAKE_FLAGS} ${NBCORE} || exit 1
+		make ${MAKE_FLAGS} ${NBCORE} install || exit 1
+
+		delete_build_dir
+		delete_src_dir
+
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
+
+	) || exit 1
+	fi
+
+) || exit 1
+fi
+
+####################################################################
+# USB Utils
+####################################################################
+
+CUR_PACKAGE=${SRC_PACKAGE_USBUTILS:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
+	then
+	(
+		echo "*************"
+		echo "* usb utils *"
+		echo "*************"
+
+		create_src_dir
+		create_build_dir
+		unpack ${CUR_PACKAGE} ""
+
+		cd ${TMP_BUILD_FOLDER} || exit 1
+		mkdir -pv usbutils || exit 1
+		cd usbutils || exit 1
+
+		create_meson_crossfile meson_cross.txt
+
+		meson setup ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER} --prefix=${TARGET_ROOTFS}/ --buildtype=release --cross-file meson_cross.txt \
+		|| exit 1
+
+		ninja || exit 1
+		ninja install || exit 1
+
+		delete_build_dir
+		delete_src_dir
+
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
+
+	) || exit 1
+	fi
+
+) || exit 1
+fi
+
