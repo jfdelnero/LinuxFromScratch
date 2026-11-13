@@ -29,6 +29,10 @@ STRIPPARAM=$2
 ROOTFS_STRIP=${STRIPPARAM:-"UNDEF"}
 ROOTFS_STRIP="${ROOTFS_STRIP##*/}"
 
+echo "*************************"
+echo "*    Preparing image    *"
+echo "*************************"
+
 ##########################################################################
 # Duplicate root fs
 ##########################################################################
@@ -37,21 +41,25 @@ create_tmprootfs_dir || exit 1
 
 cd ${TARGET_ROOTFS_MIRROR} || exit 1
 
-cp -av ${TARGET_ROOTFS}/* .
+echo Copying files to temporary root fs ...
+
+cp -a ${TARGET_ROOTFS}/* .
 
 ##########################################################################
 # Strip the whole root fs !
 ##########################################################################
 
-rm -R bin/ld bin/ld.bfd bin/as bin/objdump bin/strip bin/ar bin/ranlib bin/nm bin/readelf bin/omshell
-rm -R man
-rm -R ssl
-rm -R share/man
-rm -R share/doc
-rm -R share/gtk-doc
-rm -R share/locale/*
-rm -R share/info/*
-rm -R share/i18n
+echo Cleaning / striping the temporary root fs ...
+
+rm -R bin/ld bin/ld.bfd bin/as bin/objdump bin/strip bin/ar bin/ranlib bin/nm bin/readelf bin/omshell 2> /dev/null
+rm -R man 2> /dev/null
+rm -R ssl 2> /dev/null
+rm -R share/man 2> /dev/null
+rm -R share/doc 2> /dev/null
+rm -R share/gtk-doc 2> /dev/null
+rm -R share/locale/* 2> /dev/null
+rm -R share/info/* 2> /dev/null
+rm -R share/i18n 2> /dev/null
 
 CUR_PART=${TARGET_BUILD_SUPPORT:-"UNDEF"}
 if [ "$CUR_PART" == "UNDEF" ]
@@ -69,33 +77,33 @@ fi
 if [ "$ROOTFS_STRIP" != "NOSTRIP" ]
 then
 (
-	echo "*******************************"
-	echo "*    Stripping Binaries...    *"
-	echo "*******************************"
+	echo "Stripping Binaries..."
 
-	find ./ -type f -print0  -print | xargs -0 ${TGT_MACH}-strip --strip-debug --strip-unneeded
-
-	find ./bin   -type f -exec ${TGT_MACH}-strip --strip-debug --strip-unneeded {} \;
-	find ./lib   -type f -exec ${TGT_MACH}-strip --strip-debug --strip-unneeded {} \;
-	find ./lib64 -type f -exec ${TGT_MACH}-strip --strip-debug --strip-unneeded {} \;
-	find ./sbin  -type f -exec ${TGT_MACH}-strip --strip-debug --strip-unneeded {} \;
-	find ./usr   -type f -exec ${TGT_MACH}-strip --strip-debug --strip-unneeded {} \;
+	find ./ -type f -print0  -print | xargs -0 ${TGT_MACH}-strip --strip-debug --strip-unneeded 2> /dev/null
+ 
+	find ./bin   -type f -exec ${TGT_MACH}-strip --strip-debug --strip-unneeded {} \; 2> /dev/null
+	find ./lib   -type f -exec ${TGT_MACH}-strip --strip-debug --strip-unneeded {} \; 2> /dev/null
+	find ./lib64 -type f -exec ${TGT_MACH}-strip --strip-debug --strip-unneeded {} \; 2> /dev/null
+	find ./sbin  -type f -exec ${TGT_MACH}-strip --strip-debug --strip-unneeded {} \; 2> /dev/null
+	find ./usr   -type f -exec ${TGT_MACH}-strip --strip-debug --strip-unneeded {} \; 2> /dev/null
 )
 fi
 
-rm ./bin/smbd/*.old
-rm ./bin/smbclient/*.old
+rm ./bin/smbd/*.old 2> /dev/null
+rm ./bin/smbclient/*.old 2> /dev/null
 
-# Fix buggy path...
-gcc ${BASE_DIR}/scripts/fix_bin_paths.c -o ${BASE_DIR}/scripts/fix_bin_paths
+echo Fixing bad built-in paths...
 
-find ./ -type f -exec ${BASE_DIR}/scripts/fix_bin_paths {} ${TARGET_ROOTFS} \;
+# Fix bad paths...
+gcc ${BASE_DIR}/scripts/fix_bin_paths.c -o ${BASE_DIR}/scripts/fix_bin_paths 
+
+find ./ -type f -exec ${BASE_DIR}/scripts/fix_bin_paths {} ${TARGET_ROOTFS} \; > /dev/null
 
 ##########################################################################
 # Copy configs files and do some last fixes...
 ##########################################################################
 
-chmod +x "./lib/*.so"
+chmod +x "./lib/*.so" 2> /dev/null
 
 cp -R ${COMMON_CONFIG}/rootfs_cfg/* ./
 cp -R ${TARGET_CONFIG}/rootfs_cfg/* ./
@@ -179,7 +187,7 @@ then
 fi
 
 # Fix scripts carriage returns
-find ./etc/ -type f -name "*.sh" -exec dos2unix {} \;
+find ./etc/ -type f -name "*.sh" -exec dos2unix {} \; 2> /dev/null
 
 ##########################################################################
 # Post process install...

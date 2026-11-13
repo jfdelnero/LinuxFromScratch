@@ -28,10 +28,10 @@ fdisk -l ${TARGET_HOME}/output_objects/hdd.img
 sudo losetup --show --sector-size 512 -f -P ${TARGET_HOME}/output_objects/hdd.img
 
 # efi partion -> FAT
-sudo mkfs.vfat -F32 /dev/loop0p2
+sudo mkfs.vfat -F32 /dev/loop0p2 || exit 1
 
 # System partition
-sudo mkfs.ext2 /dev/loop0p3
+sudo mkfs.ext2 /dev/loop0p3 || exit 1
 
 sudo losetup -d /dev/loop0
 
@@ -63,10 +63,10 @@ sync
 echo "Copy rootfs to the file image ..."
 
 sudo losetup --show --sector-size 512 -f -P ${TARGET_HOME}/output_objects/hdd.img
-sudo mount /dev/loop0p3 ${TARGET_HOME}/output_objects/tmp_mount_point
+sudo mount /dev/loop0p3 ${TARGET_HOME}/output_objects/tmp_mount_point || exit 1
 
-sudo cp -av ${TARGET_ROOTFS_MIRROR}/* ${TARGET_HOME}/output_objects/tmp_mount_point/.
-sudo cp -av ${TARGET_HOME}/sources/linux-kernel/arch/x86/boot/bzImage ${TARGET_HOME}/output_objects/tmp_mount_point/boot
+sudo cp -a ${TARGET_ROOTFS_MIRROR}/* ${TARGET_HOME}/output_objects/tmp_mount_point/.
+sudo cp -a ${TARGET_HOME}/sources/linux-kernel/arch/x86/boot/bzImage ${TARGET_HOME}/output_objects/tmp_mount_point/boot
 # Add here the customizations
 
 # Keymaps
@@ -116,163 +116,15 @@ sudo ln -rs  ${TARGET_HOME}/output_objects/tmp_mount_point/lib/ld-linux-x86-64.s
 
 sudo ldconfig -r ${TARGET_HOME}/output_objects/tmp_mount_point/
 
-sudo mount /dev/loop0p2 ${TARGET_HOME}/output_objects/tmp_mount_point2
+sudo mount /dev/loop0p2 ${TARGET_HOME}/output_objects/tmp_mount_point2 || exit 1
 
-CUR_PACKAGE=${SRC_PACKAGE_GRUB_EFI:-"UNDEF"}
-CUR_PACKAGE="${CUR_PACKAGE##*/}"
-if [ "$CUR_PACKAGE" != "UNDEF" ]
-then
-(
-	create_src_dir
+chmod +x ${TARGET_HOME}/config/build_grub.sh
 
-	unpack ${CUR_PACKAGE} ""
+${TARGET_HOME}/config/build_grub.sh x86_64 efi || exit 1
 
-	cd ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER} || exit 1
+${TARGET_HOME}/config/build_grub.sh i386   efi || exit 1
 
-	if [ -f ${TARGET_CONFIG}/patches/grub.patch ]
-	then
-	(
-		cd conf || exit 1
-		patch -Zf < ${TARGET_CONFIG}/patches/grub.patch  || exit 1
-	) || exit 1
-	fi
-
-	cd ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER} || exit 1
-
-	unset PKG_CONFIG_LIBDIR
-
-	export GRUB_AUTORECONF=1
-	export GRUB_AUTOGEN=1
-
-	echo depends bli part_gpt > ./grub-core/extra_deps.lst || exit 1
-
-	${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
-			--prefix="${BUILDTOOLS_HOME}" \
-			--disable-werror \
-			--with-platform=efi \
-			|| exit 1
-
-	./autogen.sh ||  exit 1
-
-	make ${MAKE_FLAGS} ${NBCORE}         || exit 1
-
-	sudo ./grub-install --target=x86_64-efi --directory=grub-core --efi-directory=${TARGET_HOME}/output_objects/tmp_mount_point2 --bootloader-id=GRUB --modules="normal part_msdos part_gpt multiboot" --root-directory=${TARGET_HOME}/output_objects/tmp_mount_point --no-floppy /dev/loop0 || exit 1
-
-	sudo mkdir  ${TARGET_HOME}/output_objects/tmp_mount_point2/EFI/BOOT || exit 1
-	sudo mv     ${TARGET_HOME}/output_objects/tmp_mount_point2/EFI/GRUB/grubx64.efi ${TARGET_HOME}/output_objects/tmp_mount_point2/EFI/BOOT/BOOTX64.EFI || exit 1
-	sudo rm -rf ${TARGET_HOME}/output_objects/tmp_mount_point2/EFI/GRUB || exit 1
-	#make ${MAKE_FLAGS} ${NBCORE} install || exit 1
-
-	delete_src_dir
-
-	echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
-) || exit 1
-fi
-
-CUR_PACKAGE=${SRC_PACKAGE_GRUB_EFI:-"UNDEF"}
-CUR_PACKAGE="${CUR_PACKAGE##*/}"
-if [ "$CUR_PACKAGE" != "UNDEF" ]
-then
-(
-	create_src_dir
-
-	unpack ${CUR_PACKAGE} ""
-
-	cd ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER} || exit 1
-
-	if [ -f ${TARGET_CONFIG}/patches/grub.patch ]
-	then
-	(
-		cd conf || exit 1
-		patch -Zf < ${TARGET_CONFIG}/patches/grub.patch  || exit 1
-	) || exit 1
-	fi
-
-	cd ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER} || exit 1
-
-	unset PKG_CONFIG_LIBDIR
-
-	export GRUB_AUTORECONF=1
-	export GRUB_AUTOGEN=1
-
-	echo depends bli part_gpt > ./grub-core/extra_deps.lst || exit 1
-
-	${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
-			--prefix="${BUILDTOOLS_HOME}" \
-			--disable-werror \
-			--target=${TGT_MACH} \
-			--with-platform=efi \
-			|| exit 1
-
-	./autogen.sh ||  exit 1
-
-	make ${MAKE_FLAGS} ${NBCORE}         || exit 1
-
-	sudo ./grub-install --target=i386-efi --directory=grub-core --efi-directory=${TARGET_HOME}/output_objects/tmp_mount_point2 --bootloader-id=GRUB --modules="normal part_msdos part_gpt multiboot" --root-directory=${TARGET_HOME}/output_objects/tmp_mount_point --no-floppy /dev/loop0 || exit 1
-
-	sudo mv     ${TARGET_HOME}/output_objects/tmp_mount_point2/EFI/GRUB/grubia32.efi ${TARGET_HOME}/output_objects/tmp_mount_point2/EFI/BOOT/BOOTIA32.EFI || exit 1
-	sudo rm -rf ${TARGET_HOME}/output_objects/tmp_mount_point2/EFI/GRUB || exit 1
-
-	#sudo mkdir ${TARGET_HOME}/output_objects/tmp_mount_point2/EFI/BOOT || exit 1
-	#sudp mv   ${TARGET_HOME}/output_objects/tmp_mount_point2/EFI/GRUB/grubx64.efi ${TARGET_HOME}/output_objects/tmp_mount_point2/EFI/BOOT/BOOTX64.EFI || exit 1
-	#make ${MAKE_FLAGS} ${NBCORE} install || exit 1
-
-	delete_src_dir
-
-	echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
-) || exit 1
-fi
-
-CUR_PACKAGE=${SRC_PACKAGE_GRUB_BIOS:-"UNDEF"}
-CUR_PACKAGE="${CUR_PACKAGE##*/}"
-if [ "$CUR_PACKAGE" != "UNDEF" ]
-then
-(
-	create_src_dir
-
-	unpack ${CUR_PACKAGE} ""
-
-	cd ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER} || exit 1
-
-	if [ -f ${TARGET_CONFIG}/patches/grub.patch ]
-	then
-	(
-		cd conf || exit 1
-		patch -Zf < ${TARGET_CONFIG}/patches/grub.patch  || exit 1
-	) || exit 1
-	fi
-
-	cd ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER} || exit 1
-
-	unset PKG_CONFIG_LIBDIR
-
-	export GRUB_AUTORECONF=1
-	export GRUB_AUTOGEN=1
-
-	echo depends bli part_gpt > ./grub-core/extra_deps.lst || exit 1
-
-	${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER}/configure \
-			--prefix="${BUILDTOOLS_HOME}" \
-			--disable-werror \
-			--disable-efiemu \
-			--with-platform=pc \
-			|| exit 1
-
-	./autogen.sh ||  exit 1
-
-	make ${MAKE_FLAGS} ${NBCORE}         || exit 1
-
-	#sudo chmod ou+w -R ${TARGET_HOME}/output_objects/tmp_mount_point/boot
-	sudo ./grub-install --target=i386-pc --directory=grub-core --root-directory=${TARGET_HOME}/output_objects/tmp_mount_point --modules="normal part_msdos part_gpt multiboot" --no-floppy /dev/loop0 || exit 1
-
-	#make ${MAKE_FLAGS} ${NBCORE} install || exit 1
-
-	delete_src_dir
-
-	echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
-) || exit 1
-fi
-
+${TARGET_HOME}/config/build_grub.sh i386   pc  || exit 1
 
 ###############################################################################
 # owner / group / right accesses fix
