@@ -12,7 +12,7 @@ depend() {
 # Emplacements par défaut des fichiers de configuration et des binaires
 command="/sbin/sshd"
 pidfile="/run/sshd.pid"
-command_args="-D" # Force sshd à ne pas se détacher (géré par OpenRC)
+command_args=""
 
 # Vérifications préalables (comme la génération des clés d'hôte)
 start_pre() {
@@ -20,7 +20,7 @@ start_pre() {
     checkpath -d -m 0755 -o root:root /var/lib/sshd
 
     # Générer les clés d'hôte manquantes si le binaire ssh-keygen est présent
-    if [ -x /usr/bin/ssh-keygen ]; then
-        /usr/bin/ssh-keygen -A
+    if [ -x /bin/ssh-keygen ]; then
+        /bin/ssh-keygen -A
     fi
 }

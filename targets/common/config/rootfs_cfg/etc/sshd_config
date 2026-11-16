@@ -21,10 +21,6 @@ ListenAddress ::
 HostKey /etc/ssh/ssh_host_rsa_key
 #HostKey /etc/ssh/ssh_host_dsa_key
 
-# Lifetime and size of ephemeral version 1 server key
-KeyRegenerationInterval 1h
-ServerKeyBits 768
-
 # Logging
 #obsoletes QuietMode and FascistLogging
 #SyslogFacility AUTH
@@ -36,12 +32,9 @@ LoginGraceTime 2m
 PermitRootLogin yes
 StrictModes yes
 
-RSAAuthentication yes
 PubkeyAuthentication yes
 AuthorizedKeysFile	.ssh/authorized_keys
 
-# For this to work you will also need host keys in /usr/local/etc/ssh_known_hosts
-RhostsRSAAuthentication no
 # similar for protocol version 2
 HostbasedAuthentication no
 # Change to yes if you don't trust ~/.ssh/known_hosts for
@@ -82,7 +75,6 @@ ChallengeResponseAuthentication yes
 #PrintLastLog yes
 #TCPKeepAlive yes
 #UseLogin no
-UsePrivilegeSeparation no	 
 #PermitUserEnvironment no
 #Compression yes
 #ClientAliveInterval 0

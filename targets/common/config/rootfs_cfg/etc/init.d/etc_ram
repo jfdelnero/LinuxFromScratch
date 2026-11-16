@@ -20,6 +20,27 @@ start() {
   /bin/mount --move /mnt /etc
   /bin/chmod og-w /etc
 
+  /bin/mount -t tmpfs -o size=64m  tmpfs /mnt
+  /bin/cp    -paR /var/* /mnt
+  /bin/mount --move /mnt /var
+  /bin/chmod -R og-w /var
+  /bin/chmod -R ugo+rx  /var
+
+  /bin/mount -t tmpfs -o size=64m  tmpfs /mnt
+  /bin/cp    -paR /run/* /mnt
+  /bin/mount --move /mnt /run
+  /bin/chmod -R og-w /run
+  /bin/chmod -R ugo+rx  /run
+
+  /bin/mount -t tmpfs -o size=64m  tmpfs /mnt
+  /bin/cp    -paR /tmp/* /mnt
+  /bin/mount --move /mnt /tmp
+  /bin/chmod -R og-w    /tmp
+  /bin/chmod -R ugo+rx  /tmp
+
+  /bin/ln -sfv /run      /var/run
+  /bin/ln -sfv /run/lock /var/lock
+
   #etc modification :
   #mount --bind / /mnt
   #mount -o remount,rw /mnt
