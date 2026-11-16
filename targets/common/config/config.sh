@@ -193,9 +193,9 @@ SRC_PACKAGE_LIBNFTNL="@COMMON@""https://www.netfilter.org/projects/libnftnl/file
 SRC_PACKAGE_IPTABLES="@COMMON@""https://www.netfilter.org/projects/iptables/files/iptables-1.8.9.tar.xz"
 SRC_PACKAGE_IPUTILS="@COMMON@""https://github.com/iputils/iputils/releases/download/20250605/iputils-20250605.tar.xz"
 #SRC_PACKAGE_DHCPSERVER="@COMMON@""https://downloads.isc.org/isc/dhcp/4.4.3-P1/dhcp-4.4.3-P1.tar.gz"
-#SRC_PACKAGE_KEADHCPSERVER="@COMMON@""https://downloads.isc.org/isc/kea/3.1.4/kea-3.1.4.tar.xz"
-SRC_PACKAGE_DNSMASQ="@COMMON@""https://thekelleys.org.uk/dnsmasq/dnsmasq-2.91.tar.xz"
-
+#SRC_PACKAGE_KEADHCPSERVER="@COMMON@""https://downloads.isc.org/isc/kea/3.3.3/kea-3.3.3.tar.xz"
+SRC_PACKAGE_DNSMASQ="@COMMON@""https://thekelleys.org.uk/dnsmasq/dnsmasq-2.93.tar.xz"
+SRC_PACKAGE_DHCPCD="@COMMON@""https://github.com/NetworkConfiguration/dhcpcd/releases/download/v10.5.2/dhcpcd-10.5.2.tar.xz"
 #SRC_PACKAGE_DHCPSERVER_PATCH_001="@COMMON@""http://wiki.beyondlogic.org/patches/dhcp-4.3.0b1.bind_arm-linux-gnueabi.patch"
 #SRC_PACKAGE_DHCPSERVER_PATCH_002="@COMMON@""http://wiki.beyondlogic.org/patches/bind-9.9.5rc1.gen_crosscompile.patch"
 SRC_PACKAGE_LIBPCAP="@COMMON@""https://www.tcpdump.org/release/libpcap-1.10.1.tar.gz"
