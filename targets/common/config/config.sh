@@ -191,6 +191,7 @@ then
 SRC_PACKAGE_LIBMNL="@COMMON@""http://netfilter.org/projects/libmnl/files/libmnl-1.0.5.tar.bz2"
 SRC_PACKAGE_LIBNFTNL="@COMMON@""https://www.netfilter.org/projects/libnftnl/files/libnftnl-1.2.3.tar.bz2"
 SRC_PACKAGE_IPTABLES="@COMMON@""https://www.netfilter.org/projects/iptables/files/iptables-1.8.9.tar.xz"
+SRC_PACKAGE_IPUTILS="@COMMON@""https://github.com/iputils/iputils/releases/download/20250605/iputils-20250605.tar.xz"
 #SRC_PACKAGE_DHCPSERVER="@COMMON@""https://downloads.isc.org/isc/dhcp/4.4.3-P1/dhcp-4.4.3-P1.tar.gz"
 #SRC_PACKAGE_KEADHCPSERVER="@COMMON@""https://downloads.isc.org/isc/kea/3.1.4/kea-3.1.4.tar.xz"
 SRC_PACKAGE_DNSMASQ="@COMMON@""https://thekelleys.org.uk/dnsmasq/dnsmasq-2.91.tar.xz"

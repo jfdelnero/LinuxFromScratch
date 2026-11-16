@@ -945,3 +945,42 @@ then
 ) || exit 1
 fi
 
+####################################################################
+# iputils
+####################################################################
+CUR_PACKAGE=${SRC_PACKAGE_IPUTILS:-"UNDEF"}
+CUR_PACKAGE="${CUR_PACKAGE##*/}"
+if [ "$CUR_PACKAGE" != "UNDEF" ]
+then
+(
+	if [ ! -f ${TARGET_BUILD}/${CUR_PACKAGE}_DONE ]
+	then
+	(
+		create_src_dir
+
+		unpack ${CUR_PACKAGE} ""
+
+		cd ${TMP_BUILD_FOLDER} || exit 1
+		mkdir -pv iputils || exit 1
+		cd iputils || exit 1
+
+		create_meson_crossfile meson_cross.txt
+
+		meson setup ${TMP_SRC_FOLDER}/${TMP_ARCHIVE_FOLDER} --prefix=${TARGET_ROOTFS}/usr --buildtype=release --cross-file meson_cross.txt \
+			-D SKIP_TESTS=true \
+			-D BUILD_MANS=false \
+			-D BUILD_HTML_MANS=false \
+		|| exit 1
+
+		ninja || exit 1
+		ninja install || exit 1
+
+		delete_build_dir
+		delete_src_dir
+
+		echo "" > ${TARGET_BUILD}/${CUR_PACKAGE}_DONE
+
+	) || exit 1
+	fi
+) || exit 1
+fi
